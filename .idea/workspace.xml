@@ -6,6 +6,14 @@
   <component name="ChangeListManager">
     <list default="true" id="3b678858-2e5f-40a1-8509-89ad10ffc1ba" name="Changes" comment="">
       <changelist_data name="Zanirina" email="" automatic="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bilimge/bilimge/__init__.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bilimge/bilimge/asgi.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bilimge/bilimge/settings.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bilimge/bilimge/urls.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bilimge/bilimge/wsgi.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bilimge/db.sqlite3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bilimge/manage.py" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -83,7 +91,8 @@
       <updated>1773743666729</updated>
       <workItem from="1773743667726" duration="890000" />
       <workItem from="1773744591400" duration="291000" />
-      <workItem from="1773811551355" duration="1706000" />
+      <workItem from="1773811551355" duration="3554000" />
+      <workItem from="1773815943288" duration="396000" />
     </task>
     <servers />
   </component>
