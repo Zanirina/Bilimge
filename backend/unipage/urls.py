@@ -7,7 +7,7 @@ router = DefaultRouter()
 router.register(r'', views.UniversityViewSet, basename='university')
 
 urlpatterns = [
-    path('', views.unipage, name='main/unipage'),
+    path('', views.unipage, name='unipage_view'),
     path('api/universities/', include(router.urls)),
 
 ]

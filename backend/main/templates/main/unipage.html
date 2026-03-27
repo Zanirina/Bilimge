@@ -1,15 +1,241 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Unipage</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>bilimge - Universities in Kazakhstan</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+    <style>
+        /* ОСНОВНЫЕ СТИЛИ */
+        body { margin: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f8f9fa; color: #333; }
+        a { text-decoration: none; color: inherit; }
+
+        /* HEADER */
+        header { background: white; padding: 10px 10%; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #eee; position: fixed; width: 80%; top: 0; z-index: 1000; }
+        .logo { font-size: 24px; font-weight: bold; color: #1a237e; }
+        nav { display: flex; gap: 25px; font-size: 14px; color: #555; }
+        nav a:hover, nav a.active { color: #1a237e; font-weight: 500; text-decoration: underline; }
+        .log-in-btn { background: #e8eaf6; color: #1a237e; border: none; padding: 8px 18px; border-radius: 20px; font-size: 14px; cursor: pointer; display: flex; align-items: center; gap: 5px; }
+
+        /* HERO SECTION (фон с логотипами и заголовок) */
+        .hero {
+            margin-top: 60px; /* Чтобы не перекрывал фиксированный хедер */
+            height: 400px;
+            background-color: #f1f3f8; /* Фоновый цвет */
+            display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center;
+            position: relative; overflow: hidden;
+        }
+
+        /* Заголовок и текст */
+        .hero-text { z-index: 10; padding: 0 20px; }
+        .hero h1 { font-size: 40px; color: #333; margin: 0; }
+        .hero p { font-size: 16px; color: #555; max-width: 600px; margin: 15px 0; line-height: 1.6; }
+
+        /* Фоновая сетка из логотипов (самое сложное!) */
+        .hero-background-logos {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            display: grid; grid-template-columns: repeat(10, 1fr); gap: 20px;
+            padding: 20px;
+            opacity: 0.15; /* Делаем логотипы бледными */
+            pointer-events: none; /* Чтобы не мешали тексту */
+        }
+        .bg-logo-item { display: flex; justify-content: center; align-items: center; filter: grayscale(100%); /* Все лого серые */ }
+        .bg-logo-item img { width: 60px; height: 60px; object-fit: contain; }
+
+        /* ФИЛЬТРЫ И ПОИСК */
+        .filters-container { background: #f8f9fa; padding: 30px 10%; text-align: center; }
+        .search-row { display: flex; gap: 15px; justify-content: center; align-items: center; margin-bottom: 15px; flex-wrap: wrap; }
+
+        /* Поле поиска */
+        .search-box { position: relative; width: 300px; }
+        .search-box input { width: 100%; padding: 10px 15px 10px 35px; border-radius: 20px; border: 1px solid #ccc; font-size: 14px; background: white; }
+        .search-box i { position: absolute; left: 12px; top: 12px; color: #999; }
+
+        /* Кнопки выпадающих списков */
+        .dropdown { background: white; border: 1px solid #ccc; padding: 8px 18px; border-radius: 20px; font-size: 14px; cursor: pointer; color: #555; display: flex; align-items: center; gap: 5px; }
+        .dropdown:hover { border-color: #1a237e; color: #1a237e; }
+        .dropdown::after { content: "▼"; font-size: 10px; color: #999; margin-left: 5px; }
+
+        /* Иконка сетки */
+        .grid-icon { color: #1a237e; font-size: 20px; cursor: pointer; border: 1px solid #1a237e; padding: 5px; border-radius: 5px; background: white; }
+
+        /* Результаты */
+        .results-info { font-size: 13px; color: #777; margin-top: 10px; }
+
+        /* СПИСОК КАРТОЧЕК */
+        .university-list { padding: 0 10%; margin-bottom: 50px; display: flex; flex-direction: column; gap: 20px; }
+
+        /* КАРТОЧКА */
+        .uni-card { background: white; padding: 20px; border-radius: 12px; border: 1px solid #eee; display: flex; gap: 25px; align-items: start; box-shadow: 0 2px 5px rgba(0,0,0,0.03); transition: transform 0.2s; }
+        .uni-card:hover { transform: translateY(-3px); box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
+
+        /* Лого университета в карточке */
+        .uni-image { width: 140px; height: 100px; background-color: #f1f1f1; border-radius: 8px; overflow: hidden; display: flex; justify-content: center; align-items: center; font-size: 12px; color: #aaa; text-align: center; border: 1px solid #eee; }
+        .uni-image img { width: 100%; height: 100%; object-fit: cover; }
+
+        /* Данные в карточке */
+        .uni-content { flex: 1; }
+        .uni-content h3 { font-size: 20px; color: #333; margin: 0; }
+        .uni-details { font-size: 13px; color: #666; margin: 10px 0; }
+        .uni-details p { margin: 5px 0; }
+        .strong-label { font-weight: 600; color: #444; }
+
+        /* Кнопка */
+        .view-details-btn { background: #e8eaf6; color: #1a237e; border: 1px solid #c5cae9; padding: 7px 15px; border-radius: 5px; font-size: 13px; cursor: pointer; }
+        .view-details-btn:hover { background: #c5cae9; }
+
+        /* ПАГИНАЦИЯ */
+        .pagination { padding: 30px 10%; display: flex; justify-content: center; gap: 10px; font-size: 14px; color: #777; align-items: center; }
+        .pagination span, .pagination a { cursor: pointer; }
+        .pagination a:hover { color: #1a237e; text-decoration: underline; }
+        .pag-active { background: #1a237e; color: white; border-radius: 50%; width: 25px; height: 25px; display: flex; justify-content: center; align-items: center; font-weight: bold; }
+
+        /* ПАДВАЛ (Footer) */
+        footer { background: #1f2a44; color: #f1f3f8; padding: 50px 10%; display: flex; justify-content: space-between; gap: 30px; border-top: 5px solid #1a237e; }
+        .footer-brand { flex: 1; }
+        .footer-logo { font-size: 24px; font-weight: bold; margin-bottom: 15px; }
+        .footer-desc { font-size: 13px; color: #cdd1e2; line-height: 1.6; max-width: 300px; }
+
+        .footer-nav-col { flex: 1; display: flex; flex-direction: column; gap: 10px; font-size: 14px; color: #cdd1e2; }
+        .footer-nav-col h4 { color: white; margin: 0 0 10px 0; font-size: 16px; }
+        .footer-nav-col a { transition: color 0.2s; }
+        .footer-nav-col a:hover { color: white; text-decoration: underline; }
+
+        .social-icons { display: flex; gap: 15px; margin-top: 20px; font-size: 18px; color: #cdd1e2; }
+        .social-icons a:hover { color: white; }
+        .copyright { background: #1f2a44; color: #9ca6d3; font-size: 12px; text-align: right; padding: 10px 10% 20px; }
+
+    </style>
 </head>
 <body>
 
-<h1>Universities main page</h1>
-<p> Lorem ipsum dolor sit amet, consectetur adipisicing elit. A dicta exercitationem in minima natus nisi similique, suscipit. Alias ea hic libero nihil nulla obcaecati provident, repudiandae sapiente sit velit? Assumenda. </p>
+    <header>
+        <div class="logo">bilimge</div>
+        <nav>
+            <a href="#" class="active">Universities</a>
+            <a href="#">Majors</a>
+            <a href="#">Exams</a>
+            <a href="#">Preparation</a>
+            <a href="#">AI Assistant</a>
+            <a href="#">About</a>
+        </nav>
+        <button class="log-in-btn">
+            <i class="far fa-user-circle"></i> Log In
+        </button>
+    </header>
+
+    <div class="hero">
+        <div class="hero-background-logos">
+            {% for _ in "x"|rjust:30 %}
+            <div class="bg-logo-item">
+                <img src="https://static.onrender.com/media/image-render-sample.png" alt="University Logo">
+            </div>
+            {% endfor %}
+        </div>
+
+        <div class="hero-text">
+            <h1>Universities in Kazakhstan</h1>
+            <p>Explore universities, compare programs and admission requirements, and find the best option for your academic goals.</p>
+        </div>
+    </div>
+
+    <div class="filters-container">
+        <div class="search-row">
+            <div class="search-box">
+                <i class="fas fa-search"></i>
+                <input type="text" placeholder="Search universities or programs...">
+            </div>
+            <div class="dropdown">CITY</div>
+            <div class="dropdown">SUBJECTS</div>
+            <div class="dropdown">MAJOR</div>
+            <div class="dropdown">TUITION</div>
+            <div class="dropdown">LANGUAGE</div>
+            <i class="fas fa-th-large grid-icon"></i>
+        </div>
+        <div class="results-info">
+            Found {{ total_found }} universities
+        </div>
+    </div>
+
+    <div class="university-list">
+        {% for uni in uni_list %}
+        <div class="uni-card">
+            <div class="uni-image">
+                {% if uni.logo_url %}
+                    <img src="{{ uni.logo_url }}" alt="{{ uni.name }}">
+                {% else %}
+                    No image
+                {% endif %}
+            </div>
+
+            <div class="uni-content">
+                <h3>{{ uni.name }} ({{ uni.code }})</h3>
+                <div class="uni-details">
+                    <p><span class="strong-label">{{ uni.city }}</span></p>
+                    <p><span class="strong-label">Programs:</span> Engineering • Science • IT • Medicine </p>
+                    <p><span class="strong-label">Passing score:</span> {{ uni.passing_score }}</p>
+                </div>
+                <button class="view-details-btn">View Details</button>
+            </div>
+        </div>
+        {% empty %}
+        <div class="uni-card" style="justify-content: center; font-style: italic; color: #777;">
+            No universities found in database.
+        </div>
+        {% endfor %}
+    </div>
+
+    <div class="pagination">
+        <span>← Previous</span>
+        <span class="pag-active">1</span>
+        <a>2</a>
+        <a>3</a>
+        <span>...</span>
+        <a>9</a>
+        <a>10</a>
+        <a>Next →</a>
+    </div>
+
+    <footer>
+        <div class="footer-brand">
+            <div class="footer-logo">bilimge</div>
+            <p class="footer-desc">Helping applicants explore universities in Kazakhstan, prepare for entrance exams, and make informed admission decisions.</p>
+            <div class="social-icons">
+                <a href="#"><i class="fab fa-instagram"></i></a>
+                <a href="#"><i class="fab fa-facebook-f"></i></a>
+                <a href="#"><i class="fab fa-linkedin-in"></i></a>
+            </div>
+        </div>
+
+        <div class="footer-nav-col">
+            <h4>PLATFORM</h4>
+            <a href="#">Home</a>
+            <a href="#">Universities</a>
+            <a href="#">Majors</a>
+            <a href="#">Preparation</a>
+            <a href="#">AI Assistant</a>
+        </div>
+
+        <div class="footer-nav-col">
+            <h4>RESOURCES</h4>
+            <a href="#">Admission Guide</a>
+            <a href="#">Exam Preparation</a>
+            <a href="#">FAQ</a>
+            <a href="#">Official Updates</a>
+        </div>
+
+        <div class="footer-nav-col">
+            <h4>COMPANY</h4>
+            <a href="#">About</a>
+            <a href="#">Contact</a>
+            <a href="#">Privacy Policy</a>
+            <a href="#">Terms of Use</a>
+        </div>
+    </footer>
+    <div class="copyright">
+        © 2026 Bilimge. All rights reserved.
+    </div>
+
 </body>
 </html>
