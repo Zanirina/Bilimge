@@ -7,17 +7,19 @@ class UniversitySerializer(serializers.ModelSerializer):
         model = University
         fields = '__all__'
 
-# 2. Serializer for subject
-class SubjectSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Subject
-        fields = ['id', 'name']
+
 
 # 3. Serializer for Field of Study
 class FieldOfStudySerializer(serializers.ModelSerializer):
     class Meta:
         model = FieldOfStudy
         fields = ['code', 'name']
+
+# 2 Serializer for subject
+class SubjectSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Subject
+        fields = ['id', 'name']
 
 # 4. Serializer for NTC programs
 class NtcProgramSerializer(serializers.ModelSerializer):

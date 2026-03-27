@@ -10,4 +10,12 @@ class UniversityViewSet(viewsets.ReadOnlyModelViewSet):
 
 
 def unipage(request):
-    return render(request, 'main/unipage.html')
+    universities = University.objects.all()
+    total_found= universities.count()
+
+    context = {
+        'universities': universities,
+        'total_found': total_found}
+
+
+    return render(request, 'main/unipage.html', {'uni_list': universities})
