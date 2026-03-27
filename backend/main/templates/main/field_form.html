@@ -1,0 +1,20 @@
+<main style="max-width: 500px; margin: 50px auto; font-family: sans-serif;">
+    <div style="background: white; padding: 30px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1);">
+        <h2>{% if field %}Edit Field{% else %}Add New Field of Study{% endif %}</h2>
+        <form method="POST">
+            {% csrf_token %}
+            <label style="display:block; margin-bottom: 5px;">Code (e.g. 57)</label>
+            <input type="text" name="code" value="{{ field.code|default:'' }}" {% if field %}readonly{% endif %}
+                   style="width:100%; padding:10px; margin-bottom:20px; border:1px solid #ddd; border-radius:5px;">
+
+            <label style="display:block; margin-bottom: 5px;">Name (e.g. Information Technology)</label>
+            <input type="text" name="name" value="{{ field.name|default:'' }}" required
+                   style="width:100%; padding:10px; margin-bottom:20px; border:1px solid #ddd; border-radius:5px;">
+
+            <div style="display:flex; gap:10px;">
+                <button type="submit" style="flex:1; background:#007bff; color:white; border:none; padding:12px; border-radius:5px; cursor:pointer;">Save</button>
+                <a href="{% url 'field_list' %}" style="flex:1; text-align:center; background:#eee; padding:12px; border-radius:5px; text-decoration:none; color:black;">Cancel</a>
+            </div>
+        </form>
+    </div>
+</main>

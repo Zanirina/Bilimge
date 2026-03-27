@@ -1,0 +1,57 @@
+<main style="max-width: 600px; margin: 40px auto; font-family: 'Segoe UI', sans-serif;">
+    <div style="background: white; padding: 30px; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.08);">
+        <h2 style="margin-top: 0; color: #333;">
+            {% if program %}Edit Program: {{ program.code }}{% else %}Add New Program to {{ current_field.name }}{% endif %}
+        </h2>
+        <hr style="border: 0; border-top: 1px solid #eee; margin: 20px 0;">
+
+        <form method="POST">
+            {% csrf_token %}
+
+            <label style="display: block; margin-bottom: 8px; font-weight: 600;">Program Code</label>
+            <input type="text" name="code" value="{{ program.code|default:'' }}" {% if program %}readonly style="background:#f5f5f5;"{% endif %}
+                   required placeholder="e.g. 6B07101" style="width: 100%; padding: 10px; margin-bottom: 20px; border: 1px solid #ddd; border-radius: 6px; box-sizing: border-box;">
+
+            <label style="display: block; margin-bottom: 8px; font-weight: 600;">Program Name</label>
+            <input type="text" name="name" value="{{ program.name|default:'' }}" required
+                   placeholder="e.g. Automation and Control" style="width: 100%; padding: 10px; margin-bottom: 20px; border: 1px solid #ddd; border-radius: 6px; box-sizing: border-box;">
+
+            <label style="display: block; margin-bottom: 8px; font-weight: 600;">Field of Study</label>
+            <select name="field_of_study" style="width: 100%; padding: 10px; margin-bottom: 20px; border: 1px solid #ddd; border-radius: 6px; background: white;">
+                {% for f in fields %}
+                <option value="{{ f.code }}" {% if f.code == current_field.code or f.code == program.field_of_study.code %}selected{% endif %}>
+                    {{ f.name }} ({{ f.code }})
+                </option>
+                {% endfor %}
+            </select>
+
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                <div>
+                    <label style="display: block; margin-bottom: 8px; font-weight: 600;">Subject 1</label>
+                    <select name="subject_1" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 6px; background: white;">
+                        {% for s in subjects %}
+                        <option value="{{ s.id }}" {% if s.id == program.subject_1.id %}selected{% endif %}>{{ s.name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div>
+                    <label style="display: block; margin-bottom: 8px; font-weight: 600;">Subject 2</label>
+                    <select name="subject_2" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 6px; background: white;">
+                        {% for s in subjects %}
+                        <option value="{{ s.id }}" {% if s.id == program.subject_2.id %}selected{% endif %}>{{ s.name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+
+            <div style="margin-top: 30px; display: flex; gap: 10px;">
+                <button type="submit" style="flex: 1; background: #007bff; color: white; border: none; padding: 12px; border-radius: 6px; cursor: pointer; font-weight: bold; transition: 0.2s;" onmouseover="this.style.background='#0056b3'" onmouseout="this.style.background='#007bff'">
+                    Save Program
+                </button>
+                <a href="javascript:history.back()" style="flex: 1; text-align: center; background: #f8f9fa; color: #666; text-decoration: none; padding: 12px; border-radius: 6px; border: 1px solid #ddd; line-height: 1.2;">
+                    Cancel
+                </a>
+            </div>
+        </form>
+    </div>
+</main>

@@ -4,12 +4,15 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3b678858-2e5f-40a1-8509-89ad10ffc1ba" name="Changes" comment="first endpoint Universities">
+    <list default="true" id="3b678858-2e5f-40a1-8509-89ad10ffc1ba" name="Changes" comment="db update">
+      <change afterPath="$PROJECT_DIR$/backend/main/templates/main/field_form.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/main/templates/main/field_list.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/main/templates/main/ntc_form.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/main/templates/main/ntc_programs.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/main/templates/main/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/backend/main/templates/main/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/backend/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/backend/backend/settings.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/main/templates/main/unipage.html" beforeDir="false" afterPath="$PROJECT_DIR$/backend/main/templates/main/unipage.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/requarments.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/unipage/serializers.py" beforeDir="false" afterPath="$PROJECT_DIR$/backend/unipage/serializers.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/unipage/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/backend/unipage/urls.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/unipage/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/backend/unipage/views.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -77,7 +80,7 @@
     "RunOnceActivity.typescript.service.memoryLimit.init": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "ai.playground.ignore.import.keys.banner.in.settings": "true",
-    "git-widget-placeholder": "backend",
+    "git-widget-placeholder": "main",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -165,7 +168,31 @@
       <option name="project" value="LOCAL" />
       <updated>1774633695467</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="test-deploy">
+      <option name="closed" value="true" />
+      <created>1774640508739</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1774640508739</updated>
+    </task>
+    <task id="LOCAL-00007" summary="test-deploy">
+      <option name="closed" value="true" />
+      <created>1774642579277</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1774642579277</updated>
+    </task>
+    <task id="LOCAL-00008" summary="db update">
+      <option name="closed" value="true" />
+      <created>1774642903898</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1774642903898</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -187,7 +214,9 @@
     <MESSAGE value="apps created" />
     <MESSAGE value="connecting database" />
     <MESSAGE value="first endpoint Universities" />
-    <option name="LAST_COMMIT_MESSAGE" value="first endpoint Universities" />
+    <MESSAGE value="test-deploy" />
+    <MESSAGE value="db update" />
+    <option name="LAST_COMMIT_MESSAGE" value="db update" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/Bilimge$main.coverage" NAME="main Coverage Results" MODIFIED="1773743816355" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />

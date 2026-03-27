@@ -1,0 +1,22 @@
+<main style="padding: 40px; font-family: sans-serif;">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px;">
+        <h1>Fields of Study</h1>
+        <a href="{% url 'field_add' %}" style="background: #28a745; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px;">+ Add New Field</a>
+    </div>
+
+    <div class="field-grid">
+        {% for field in fields %}
+        <div class="field-card" style="position: relative;">
+            <a href="{% url 'programs_by_field' field.code %}" style="text-decoration: none; color: inherit;">
+                <div class="field-code">{{ field.code }}</div>
+                <div class="field-name">{{ field.name }}</div>
+            </a>
+
+            <div style="margin-top: 15px; border-top: 1px solid #eee; padding-top: 10px; display: flex; gap: 15px;">
+                <a href="{% url 'field_edit' field.code %}" style="color: #007bff; font-size: 0.8rem; text-decoration: none;">Edit</a>
+                <a href="{% url 'field_delete' field.code %}" style="color: #dc3545; font-size: 0.8rem; text-decoration: none;" onclick="return confirm('Delete this field?')">Delete</a>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</main>
