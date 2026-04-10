@@ -23,12 +23,10 @@ def unipage(request):
 
     return render(request, 'main/unipage.html', {'uni_list': universities})
 
-# Список всех направлений (Fields of Study)
 def field_list(request):
     fields = FieldOfStudy.objects.all()
     return render(request, 'main/field_list.html', {'fields': fields})
 
-# Список программ конкретного направления
 def ntc_programs_by_field(request, field_code):
     field = get_object_or_404(FieldOfStudy, code=field_code)
     programs = NtcProgram.objects.filter(field_of_study=field)
@@ -37,9 +35,7 @@ def ntc_programs_by_field(request, field_code):
         'programs': programs
     })
 
-# Редактирование или создание
 def ntc_program_edit(request, code=None, field_code=None):
-    # Исправлено: используем get_object_or_404
     program = get_object_or_404(NtcProgram, code=code) if code else None
     current_field = get_object_or_404(FieldOfStudy, code=field_code) if field_code else None
 

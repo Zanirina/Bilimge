@@ -1,0 +1,1462 @@
+[
+  {
+    "model": "unipage.ntcprogram",
+    "pk": 1110,
+    "fields": {
+      "field_of_study": 1,
+      "name": "Pedagogy and psychology",
+      "subject_1": 3,
+      "subject_2": 4
+    }
+  },
+  {
+    "model": "unipage.ntcprogram",
+    "pk": 1111,
+    "fields": {
+      "field_of_study": 1,
+      "name": "Practical psychology",
+      "subject_1": 3,
+      "subject_2": 4
+    }
+  },
+  {
+    "model": "unipage.ntcprogram",
+    "pk": 1112,
+    "fields": {
+      "field_of_study": 1,
+      "name": "Psychology and mediation",
+      "subject_1": 3,
+      "subject_2": 4
+    }
+  },
+  {
+    "model": "unipage.ntcprogram",
+    "pk": 1210,
+    "fields": {
+      "field_of_study": 2,
+      "name": "Pedagogy of preschool education and upbringing",
+      "subject_1": 3,
+      "subject_2": 4
+    }
+  },
+  {
+    "model": "unipage.ntcprogram",
+    "pk": 1310,
+    "fields": {
+      "field_of_study": 3,
+      "name": "Pedagogy and methods of primary education",
+      "subject_1": 3,
+      "subject_2": 4
+    }
+  },
+  {
+    "model": "unipage.ntcprogram",
+    "pk": 1410,
+    "fields": {
+      "field_of_study": 4,
+      "name": "Basic military training",
+      "subject_1": 13,
+      "subject_2": 13
+    }
+  },
+  {
+    "model": "unipage.ntcprogram",
+    "pk": 1440,
+    "fields": {
+      "field_of_study": 5,
+      "name": "Physical culture and sports",
+      "subject_1": 13,
+      "subject_2": 13
+    }
+  },
+  {
+    "model": "unipage.ntcprogram",
+    "pk": 1420,
+    "fields": {
+      "field_of_study": 6,
+      "name": "Music education",
+      "subject_1": 13,
+      "subject_2": 13
+    }
+  },
+  {
+    "model": "unipage.ntcprogram",
+    "pk": 1450,
+    "fields": {
+      "field_of_study": 7,
+      "name": "Vocational training",
+      "subject_1": 13,
+      "subject_2": 13
+    }
+  },
+  {
+    "model": "unipage.ntcprogram",
+    "pk": 1451,
+    "fields": {
+      "field_of_study": 7,
+      "name": "Labor technology and drawing",
+      "subject_1": 13,
+      "subject_2": 13
+    }
+  },
+  {
+    "model": "unipage.ntcprogram",
+    "pk": 1430,
+    "fields": {
+      "field_of_study": 7,
+      "name": "Fine art drawing",
+      "subject_1": 13,
+      "subject_2": 13
+    }
+  },
+  {
+    "model": "unipage.ntcprogram",
+    "pk": 1510,
+    "fields": {
+      "field_of_study": 9,
+      "name": "Mathematics",
+      "subject_1": 1,
+      "subject_2": 2
+    }
+  },
+  {
+    "model": "unipage.ntcprogram",
+    "pk": 1521,
+    "fields": {
+      "field_of_study": 9,
+      "name": "Mathematics-Physics",
+      "subject_1": 1,
+      "subject_2": 2
+    }
+  },
+  {
+    "model": "unipage.ntcprogram",
+    "pk": 1531,
+    "fields": {
+      "field_of_study": 9,
+      "name": "Mathematics-Informatics",
+      "subject_1": 1,
+      "subject_2": 2
+    }
+  },
+  {
+    "model": "unipage.ntcprogram",
+    "pk": 1520,
+    "fields": {
+      "field_of_study": 10,
+      "name": "Physics",
+      "subject_1": 2,
+      "subject_2": 1
+    }
+  },
+  {
+    "model": "unipage.ntcprogram",
+    "pk": 1522,
+    "fields": {
+      "field_of_study": 10,
+      "name": "Physics-Informatics",
+      "subject_1": 2,
+      "subject_2": 1
+    }
+  },
+  {
+    "model": "unipage.ntcprogram",
+    "pk": 1530,
+    "fields": {
+      "field_of_study": 11,
+      "name": "Informatics",
+      "subject_1": 1,
+      "subject_2": 2
+    }
+  },
+  {
+    "model": "unipage.ntcprogram",
+    "pk": 1532,
+    "fields": {
+      "field_of_study": 11,
+      "name": "Computer Science and Robotics",
+      "subject_1": 1,
+      "subject_2": 2
+    }
+  },
+  {
+    "model": "unipage.ntcprogram",
+    "pk": 1540,
+    "fields": {
+      "field_of_study": 12,
+      "name": "Chemistry",
+      "subject_1": 5,
+      "subject_2": 3
+    }
+  },
+  {
+    "model": "unipage.ntcprogram",
+    "pk": 1541,
+    "fields": {
+      "field_of_study": 12,
+      "name": "Chemistry-Biology",
+      "subject_1": 5,
+      "subject_2": 3
+    }
+  },
+  {
+    "model": "unipage.ntcprogram",
+    "pk": 1550,
+    "fields": {
+      "field_of_study": 13,
+      "name": "Biology",
+      "subject_1": 3,
+      "subject_2": 5
+    }
+  },
+  {
+    "model": "unipage.ntcprogram",
+    "pk": 1560,
+    "fields": {
+      "field_of_study": 14,
+      "name": "Geography",
+      "subject_1": 4,
+      "subject_2": 6
+    }
+  },
+  {
+    "model": "unipage.ntcprogram",
+    "pk": 1561,
+    "fields": {
+      "field_of_study": 14,
+      "name": "Geography-History",
+      "subject_1": 4,
+      "subject_2": 6
+    }
+  },
+  {
+    "model": "unipage.ntcprogram",
+    "pk": 1610,
+    "fields": {
+      "field_of_study": 15,
+      "name": "Story",
+      "subject_1": 6,
+      "subject_2": 4
+    }
+  },
+  {
+    "model": "unipage.ntcprogram",
+    "pk": 1710,
+    "fields": {
+      "field_of_study": 16,
+      "name": "Kazakh language and literature",
+      "subject_1": 8,
+      "subject_2": 9
+    }
+  },
+  {
+    "model": "unipage.ntcprogram",
+    "pk": 1720,
+    "fields": {
+      "field_of_study": 17,
+      "name": "Russian language and literature",
+      "subject_1": 10,
+      "subject_2": 11
+    }
+  },
+  {
+    "model": "unipage.ntcprogram",
+    "pk": 1730,
+    "fields": {
+      "field_of_study": 18,
+      "name": "Foreign language: two foreign languages",
+      "subject_1": 7,
+      "subject_2": 6
+    }
+  },
+  {
+    "model": "unipage.ntcprogram",
+    "pk": 1910,
+    "fields": {
+      "field_of_study": 20,
+      "name": "Defectology",
+      "subject_1": 3,
+      "subject_2": 4
+    }
+  },
+  {
+    "model": "unipage.ntcprogram",
+    "pk": 1911,
+    "fields": {
+      "field_of_study": 20,
+      "name": "Special pedagogy",
+      "subject_1": 3,
+      "subject_2": 4
+    }
+  },
+  {
+    "model": "unipage.ntcprogram",
+    "pk": 2120,
+    "fields": {
+      "field_of_study": 27,
+      "name": "Directing",
+      "subject_1": 13,
+      "subject_2": 13
+    }
+  },
+  {
+    "model": "unipage.ntcprogram",
+    "pk": 2130,
+    "fields": {
+      "field_of_study": 28,
+      "name": "Choreography",
+      "subject_1": 13,
+      "subject_2": 13
+    }
+  },
+  {
+    "model": "unipage.ntcprogram",
+    "pk": 2140,
+    "fields": {
+      "field_of_study": 30,
+      "name": "Painting",
+      "subject_1": 13,
+      "subject_2": 13
+    }
+  },
+  {
+    "model": "unipage.ntcprogram",
+    "pk": 2150,
+    "fields": {
+      "field_of_study": 30,
+      "name": "Graphics",
+      "subject_1": 13,
+      "subject_2": 13
+    }
+  },
+  {
+    "model": "unipage.ntcprogram",
+    "pk": 2170,
+    "fields": {
+      "field_of_study": 31,
+      "name": "Fashion design",
+      "subject_1": 13,
+      "subject_2": 13
+    }
+  },
+  {
+    "model": "unipage.ntcprogram",
+    "pk": 2171,
+    "fields": {
+      "field_of_study": 31,
+      "name": "Environment design",
+      "subject_1": 13,
+      "subject_2": 13
+    }
+  },
+  {
+    "model": "unipage.ntcprogram",
+    "pk": 2161,
+    "fields": {
+      "field_of_study": 31,
+      "name": "Decorative arts",
+      "subject_1": 13,
+      "subject_2": 13
+    }
+  },
+  {
+    "model": "unipage.ntcprogram",
+    "pk": 2210,
+    "fields": {
+      "field_of_study": 32,
+      "name": "Philosophy",
+      "subject_1": 6,
+      "subject_2": 4
+    }
+  },
+  {
+    "model": "unipage.ntcprogram",
+    "pk": 2211,
+    "fields": {
+      "field_of_study": 33,
+      "name": "Religion and philosophy",
+      "subject_1": 13,
+      "subject_2": 13
+    }
+  },
+  {
+    "model": "unipage.ntcprogram",
+    "pk": 2220,
+    "fields": {
+      "field_of_study": 34,
+      "name": "Story",
+      "subject_1": 6,
+      "subject_2": 4
+    }
+  },
+  {
+    "model": "unipage.ntcprogram",
+    "pk": 2230,
+    "fields": {
+      "field_of_study": 134,
+      "name": "Archeology and ethnology",
+      "subject_1": 6,
+      "subject_2": 4
+    }
+  },
+  {
+    "model": "unipage.ntcprogram",
+    "pk": 2320,
+    "fields": {
+      "field_of_study": 36,
+      "name": "Translation business",
+      "subject_1": 7,
+      "subject_2": 6
+    }
+  },
+  {
+    "model": "unipage.ntcprogram",
+    "pk": 2330,
+    "fields": {
+      "field_of_study": 36,
+      "name": "Foreign philology",
+      "subject_1": 7,
+      "subject_2": 6
+    }
+  },
+  {
+    "model": "unipage.ntcprogram",
+    "pk": 2331,
+    "fields": {
+      "field_of_study": 36,
+      "name": "Foreign philology: Uzbek language",
+      "subject_1": 7,
+      "subject_2": 6
+    }
+  },
+  {
+    "model": "unipage.ntcprogram",
+    "pk": 2310,
+    "fields": {
+      "field_of_study": 37,
+      "name": "Philology: Kazakh language",
+      "subject_1": 10,
+      "subject_2": 11
+    }
+  },
+  {
+    "model": "unipage.ntcprogram",
+    "pk": 2311,
+    "fields": {
+      "field_of_study": 37,
+      "name": "Philology: Russian language",
+      "subject_1": 10,
+      "subject_2": 11
+    }
+  },
+  {
+    "model": "unipage.ntcprogram",
+    "pk": 3120,
+    "fields": {
+      "field_of_study": 40,
+      "name": "Political science",
+      "subject_1": 6,
+      "subject_2": 7
+    }
+  },
+  {
+    "model": "unipage.ntcprogram",
+    "pk": 3110,
+    "fields": {
+      "field_of_study": 140,
+      "name": "International relations",
+      "subject_1": 6,
+      "subject_2": 7
+    }
+  },
+  {
+    "model": "unipage.ntcprogram",
+    "pk": 3130,
+    "fields": {
+      "field_of_study": 41,
+      "name": "Psychology",
+      "subject_1": 3,
+      "subject_2": 4
+    }
+  },
+  {
+    "model": "unipage.ntcprogram",
+    "pk": 3131,
+    "fields": {
+      "field_of_study": 41,
+      "name": "Training of psychologists-consultants in the social sphere",
+      "subject_1": 3,
+      "subject_2": 4
+    }
+  },
+  {
+    "model": "unipage.ntcprogram",
+    "pk": 3220,
+    "fields": {
+      "field_of_study": 42,
+      "name": "Journalism",
+      "subject_1": 13,
+      "subject_2": 13
+    }
+  },
+  {
+    "model": "unipage.ntcprogram",
+    "pk": 3210,
+    "fields": {
+      "field_of_study": 43,
+      "name": "Librarianship",
+      "subject_1": 10,
+      "subject_2": 11
+    }
+  },
+  {
+    "model": "unipage.ntcprogram",
+    "pk": 3211,
+    "fields": {
+      "field_of_study": 43,
+      "name": "Library and pedagogical activities",
+      "subject_1": 10,
+      "subject_2": 11
+    }
+  },
+  {
+    "model": "unipage.ntcprogram",
+    "pk": 4120,
+    "fields": {
+      "field_of_study": 44,
+      "name": "Management",
+      "subject_1": 1,
+      "subject_2": 4
+    }
+  },
+  {
+    "model": "unipage.ntcprogram",
+    "pk": 4150,
+    "fields": {
+      "field_of_study": 44,
+      "name": "State and local government",
+      "subject_1": 1,
+      "subject_2": 4
+    }
+  },
+  {
+    "model": "unipage.ntcprogram",
+    "pk": 4130,
+    "fields": {
+      "field_of_study": 45,
+      "name": "Accounting and audit",
+      "subject_1": 1,
+      "subject_2": 4
+    }
+  },
+  {
+    "model": "unipage.ntcprogram",
+    "pk": 4110,
+    "fields": {
+      "field_of_study": 46,
+      "name": "Economy",
+      "subject_1": 1,
+      "subject_2": 4
+    }
+  },
+  {
+    "model": "unipage.ntcprogram",
+    "pk": 4140,
+    "fields": {
+      "field_of_study": 46,
+      "name": "Finance",
+      "subject_1": 1,
+      "subject_2": 4
+    }
+  },
+  {
+    "model": "unipage.ntcprogram",
+    "pk": 4160,
+    "fields": {
+      "field_of_study": 47,
+      "name": "Marketing",
+      "subject_1": 1,
+      "subject_2": 4
+    }
+  },
+  {
+    "model": "unipage.ntcprogram",
+    "pk": 4161,
+    "fields": {
+      "field_of_study": 47,
+      "name": "IT marketing",
+      "subject_1": 1,
+      "subject_2": 4
+    }
+  },
+  {
+    "model": "unipage.ntcprogram",
+    "pk": 4210,
+    "fields": {
+      "field_of_study": 49,
+      "name": "Jurisprudence",
+      "subject_1": 6,
+      "subject_2": null
+    }
+  },
+  {
+    "model": "unipage.ntcprogram",
+    "pk": 4220,
+    "fields": {
+      "field_of_study": 49,
+      "name": "International law",
+      "subject_1": 6,
+      "subject_2": null
+    }
+  },
+  {
+    "model": "unipage.ntcprogram",
+    "pk": 4230,
+    "fields": {
+      "field_of_study": 49,
+      "name": "Customs",
+      "subject_1": 6,
+      "subject_2": null
+    }
+  },
+  {
+    "model": "unipage.ntcprogram",
+    "pk": 5110,
+    "fields": {
+      "field_of_study": 50,
+      "name": "Biology",
+      "subject_1": 3,
+      "subject_2": 5
+    }
+  },
+  {
+    "model": "unipage.ntcprogram",
+    "pk": 5120,
+    "fields": {
+      "field_of_study": 50,
+      "name": "Biotechnology",
+      "subject_1": 3,
+      "subject_2": 5
+    }
+  },
+  {
+    "model": "unipage.ntcprogram",
+    "pk": 5210,
+    "fields": {
+      "field_of_study": 51,
+      "name": "Ecology",
+      "subject_1": 3,
+      "subject_2": 4
+    }
+  },
+  {
+    "model": "unipage.ntcprogram",
+    "pk": 5220,
+    "fields": {
+      "field_of_study": 52,
+      "name": "Geography",
+      "subject_1": 1,
+      "subject_2": 4
+    }
+  },
+  {
+    "model": "unipage.ntcprogram",
+    "pk": 5320,
+    "fields": {
+      "field_of_study": 53,
+      "name": "Chemistry",
+      "subject_1": 5,
+      "subject_2": 3
+    }
+  },
+  {
+    "model": "unipage.ntcprogram",
+    "pk": 5330,
+    "fields": {
+      "field_of_study": 53,
+      "name": "Examination of substances and materials in chemical engineering",
+      "subject_1": 5,
+      "subject_2": 3
+    }
+  },
+  {
+    "model": "unipage.ntcprogram",
+    "pk": 5340,
+    "fields": {
+      "field_of_study": 53,
+      "name": "Chemical, forensic and environmental expertise",
+      "subject_1": 5,
+      "subject_2": 3
+    }
+  },
+  {
+    "model": "unipage.ntcprogram",
+    "pk": 5310,
+    "fields": {
+      "field_of_study": 54,
+      "name": "Physics",
+      "subject_1": 2,
+      "subject_2": 1
+    }
+  },
+  {
+    "model": "unipage.ntcprogram",
+    "pk": 5410,
+    "fields": {
+      "field_of_study": 55,
+      "name": "Mathematics",
+      "subject_1": 1,
+      "subject_2": 2
+    }
+  },
+  {
+    "model": "unipage.ntcprogram",
+    "pk": 6110,
+    "fields": {
+      "field_of_study": 57,
+      "name": "Informatics",
+      "subject_1": 1,
+      "subject_2": 2
+    }
+  },
+  {
+    "model": "unipage.ntcprogram",
+    "pk": 6111,
+    "fields": {
+      "field_of_study": 57,
+      "name": "Computer Science and Software Engineering",
+      "subject_1": 1,
+      "subject_2": 14
+    }
+  },
+  {
+    "model": "unipage.ntcprogram",
+    "pk": 6120,
+    "fields": {
+      "field_of_study": 57,
+      "name": "Information systems",
+      "subject_1": 1,
+      "subject_2": 14
+    }
+  },
+  {
+    "model": "unipage.ntcprogram",
+    "pk": 6121,
+    "fields": {
+      "field_of_study": 57,
+      "name": "Artificial Intelligence Technologies",
+      "subject_1": 1,
+      "subject_2": 14
+    }
+  },
+  {
+    "model": "unipage.ntcprogram",
+    "pk": 6130,
+    "fields": {
+      "field_of_study": 57,
+      "name": "Computer hardware and software",
+      "subject_1": 1,
+      "subject_2": 14
+    }
+  },
+  {
+    "model": "unipage.ntcprogram",
+    "pk": 6210,
+    "fields": {
+      "field_of_study": 59,
+      "name": "Radio engineering, electronics and telecommunications",
+      "subject_1": 1,
+      "subject_2": 2
+    }
+  },
+  {
+    "model": "unipage.ntcprogram",
+    "pk": 7160,
+    "fields": {
+      "field_of_study": 60,
+      "name": "Chemical technology of inorganic substances",
+      "subject_1": 5,
+      "subject_2": 2
+    }
+  },
+  {
+    "model": "unipage.ntcprogram",
+    "pk": 7170,
+    "fields": {
+      "field_of_study": 60,
+      "name": "Chemical technology of organic substances",
+      "subject_1": 5,
+      "subject_2": 2
+    }
+  },
+  {
+    "model": "unipage.ntcprogram",
+    "pk": 7172,
+    "fields": {
+      "field_of_study": 60,
+      "name": "Oil and gas processing technology",
+      "subject_1": 5,
+      "subject_2": 2
+    }
+  },
+  {
+    "model": "unipage.ntcprogram",
+    "pk": 7190,
+    "fields": {
+      "field_of_study": 60,
+      "name": "Chemical technology of refractory non-metallic and silicate materials",
+      "subject_1": 5,
+      "subject_2": 2
+    }
+  },
+  {
+    "model": "unipage.ntcprogram",
+    "pk": 7101,
+    "fields": {
+      "field_of_study": 61,
+      "name": "Materials Science and",
+      "subject_1": 1,
+      "subject_2": 2
+    }
+  },
+  {
+    "model": "unipage.ntcprogram",
+    "pk": 7088,
+    "fields": {
+      "field_of_study": 61,
+      "name": "Digital technologies in",
+      "subject_1": 1,
+      "subject_2": 2
+    }
+  },
+  {
+    "model": "unipage.ntcprogram",
+    "pk": 7140,
+    "fields": {
+      "field_of_study": 62,
+      "name": "Thermal power engineering",
+      "subject_1": 1,
+      "subject_2": 2
+    }
+  },
+  {
+    "model": "unipage.ntcprogram",
+    "pk": 7150,
+    "fields": {
+      "field_of_study": 62,
+      "name": "Electric power industry",
+      "subject_1": 1,
+      "subject_2": 2
+    }
+  },
+  {
+    "model": "unipage.ntcprogram",
+    "pk": 7151,
+    "fields": {
+      "field_of_study": 62,
+      "name": "Electricity supply",
+      "subject_1": 1,
+      "subject_2": 2
+    }
+  },
+  {
+    "model": "unipage.ntcprogram",
+    "pk": 7152,
+    "fields": {
+      "field_of_study": 62,
+      "name": "Electrical Power Systems Engineering",
+      "subject_1": 1,
+      "subject_2": 2
+    }
+  },
+  {
+    "model": "unipage.ntcprogram",
+    "pk": 7110,
+    "fields": {
+      "field_of_study": 63,
+      "name": "Automation and control",
+      "subject_1": 1,
+      "subject_2": 2
+    }
+  },
+  {
+    "model": "unipage.ntcprogram",
+    "pk": 7120,
+    "fields": {
+      "field_of_study": 64,
+      "name": "Mechanical engineering",
+      "subject_1": 1,
+      "subject_2": 2
+    }
+  },
+  {
+    "model": "unipage.ntcprogram",
+    "pk": 7121,
+    "fields": {
+      "field_of_study": 64,
+      "name": "Mechanical Engineering Technology",
+      "subject_1": 1,
+      "subject_2": 2
+    }
+  },
+  {
+    "model": "unipage.ntcprogram",
+    "pk": 7124,
+    "fields": {
+      "field_of_study": 64,
+      "name": "Electrical engineering",
+      "subject_1": 1,
+      "subject_2": 2
+    }
+  },
+  {
+    "model": "unipage.ntcprogram",
+    "pk": 7180,
+    "fields": {
+      "field_of_study": 64,
+      "name": "Technological machines and equipment",
+      "subject_1": 1,
+      "subject_2": 2
+    }
+  },
+  {
+    "model": "unipage.ntcprogram",
+    "pk": 7181,
+    "fields": {
+      "field_of_study": 64,
+      "name": "Machinery and equipment for the oil and gas industry",
+      "subject_1": 1,
+      "subject_2": 2
+    }
+  },
+  {
+    "model": "unipage.ntcprogram",
+    "pk": 7182,
+    "fields": {
+      "field_of_study": 64,
+      "name": "Machines and apparatus",
+      "subject_1": 1,
+      "subject_2": 2
+    }
+  },
+  {
+    "model": "unipage.ntcprogram",
+    "pk": 7130,
+    "fields": {
+      "field_of_study": 65,
+      "name": "Transport, transport equipment and technologies",
+      "subject_1": 1,
+      "subject_2": 2
+    }
+  },
+  {
+    "model": "unipage.ntcprogram",
+    "pk": 7131,
+    "fields": {
+      "field_of_study": 65,
+      "name": "Car service and branded",
+      "subject_1": 1,
+      "subject_2": 2
+    }
+  },
+  {
+    "model": "unipage.ntcprogram",
+    "pk": 7241,
+    "fields": {
+      "field_of_study": 68,
+      "name": "Technology of fats and vegetable oils",
+      "subject_1": 3,
+      "subject_2": 5
+    }
+  },
+  {
+    "model": "unipage.ntcprogram",
+    "pk": 7242,
+    "fields": {
+      "field_of_study": 68,
+      "name": "Technology of milk and dairy products",
+      "subject_1": 3,
+      "subject_2": 5
+    }
+  },
+  {
+    "model": "unipage.ntcprogram",
+    "pk": 7244,
+    "fields": {
+      "field_of_study": 68,
+      "name": "Food technologies and catering in small and medium-sized businesses",
+      "subject_1": 3,
+      "subject_2": 5
+    }
+  },
+  {
+    "model": "unipage.ntcprogram",
+    "pk": 7245,
+    "fields": {
+      "field_of_study": 68,
+      "name": "Technologies of meat and meat products",
+      "subject_1": 3,
+      "subject_2": 5
+    }
+  },
+  {
+    "model": "unipage.ntcprogram",
+    "pk": 7250,
+    "fields": {
+      "field_of_study": 68,
+      "name": "Processing technology (by industry)",
+      "subject_1": 3,
+      "subject_2": 5
+    }
+  },
+  {
+    "model": "unipage.ntcprogram",
+    "pk": 7252,
+    "fields": {
+      "field_of_study": 68,
+      "name": "Sugar technology",
+      "subject_1": 3,
+      "subject_2": 5
+    }
+  },
+  {
+    "model": "unipage.ntcprogram",
+    "pk": 7280,
+    "fields": {
+      "field_of_study": 69,
+      "name": "Polymer production and processing technology",
+      "subject_1": 1,
+      "subject_2": 2
+    }
+  },
+  {
+    "model": "unipage.ntcprogram",
+    "pk": 7230,
+    "fields": {
+      "field_of_study": 70,
+      "name": "Technology and design of light industry products (by area of ​​application)",
+      "subject_1": 1,
+      "subject_2": 2
+    }
+  },
+  {
+    "model": "unipage.ntcprogram",
+    "pk": 7231,
+    "fields": {
+      "field_of_study": 70,
+      "name": "Fashion industry and distribution of light industry products",
+      "subject_1": 1,
+      "subject_2": 2
+    }
+  },
+  {
+    "model": "unipage.ntcprogram",
+    "pk": 7260,
+    "fields": {
+      "field_of_study": 70,
+      "name": "Technology and design of textile materials",
+      "subject_1": 1,
+      "subject_2": 2
+    }
+  },
+  {
+    "model": "unipage.ntcprogram",
+    "pk": 7261,
+    "fields": {
+      "field_of_study": 70,
+      "name": "Innovative textiles, design and decor",
+      "subject_1": 1,
+      "subject_2": 2
+    }
+  },
+  {
+    "model": "unipage.ntcprogram",
+    "pk": 7210,
+    "fields": {
+      "field_of_study": 71,
+      "name": "Oil and gas business",
+      "subject_1": 1,
+      "subject_2": 2
+    }
+  },
+  {
+    "model": "unipage.ntcprogram",
+    "pk": 7215,
+    "fields": {
+      "field_of_study": 71,
+      "name": "Operation and",
+      "subject_1": 1,
+      "subject_2": 2
+    }
+  },
+  {
+    "model": "unipage.ntcprogram",
+    "pk": 7216,
+    "fields": {
+      "field_of_study": 71,
+      "name": "Exploitation of gas and oil",
+      "subject_1": 1,
+      "subject_2": 2
+    }
+  },
+  {
+    "model": "unipage.ntcprogram",
+    "pk": 7220,
+    "fields": {
+      "field_of_study": 71,
+      "name": "Metallurgy",
+      "subject_1": 1,
+      "subject_2": 2
+    }
+  },
+  {
+    "model": "unipage.ntcprogram",
+    "pk": 7211,
+    "fields": {
+      "field_of_study": 271,
+      "name": "Oil and gas business",
+      "subject_1": null,
+      "subject_2": null
+    }
+  },
+  {
+    "model": "unipage.ntcprogram",
+    "pk": 7270,
+    "fields": {
+      "field_of_study": 72,
+      "name": "Pharmaceutical production technology",
+      "subject_1": 3,
+      "subject_2": 5
+    }
+  },
+  {
+    "model": "unipage.ntcprogram",
+    "pk": 7310,
+    "fields": {
+      "field_of_study": 73,
+      "name": "Architecture",
+      "subject_1": 13,
+      "subject_2": 13
+    }
+  },
+  {
+    "model": "unipage.ntcprogram",
+    "pk": 7311,
+    "fields": {
+      "field_of_study": 73,
+      "name": "Urban planning",
+      "subject_1": 13,
+      "subject_2": 13
+    }
+  },
+  {
+    "model": "unipage.ntcprogram",
+    "pk": 7320,
+    "fields": {
+      "field_of_study": 74,
+      "name": "Construction",
+      "subject_1": 1,
+      "subject_2": 2
+    }
+  },
+  {
+    "model": "unipage.ntcprogram",
+    "pk": 7321,
+    "fields": {
+      "field_of_study": 74,
+      "name": "Technology",
+      "subject_1": 1,
+      "subject_2": 2
+    }
+  },
+  {
+    "model": "unipage.ntcprogram",
+    "pk": 7322,
+    "fields": {
+      "field_of_study": 74,
+      "name": "Construction",
+      "subject_1": 1,
+      "subject_2": 2
+    }
+  },
+  {
+    "model": "unipage.ntcprogram",
+    "pk": 7330,
+    "fields": {
+      "field_of_study": 74,
+      "name": "Water supply,",
+      "subject_1": 1,
+      "subject_2": 2
+    }
+  },
+  {
+    "model": "unipage.ntcprogram",
+    "pk": 7340,
+    "fields": {
+      "field_of_study": 74,
+      "name": "Production of building materials, products and structures",
+      "subject_1": 1,
+      "subject_2": 2
+    }
+  },
+  {
+    "model": "unipage.ntcprogram",
+    "pk": 7088,
+    "fields": {
+      "field_of_study": 74,
+      "name": "Expertise and technical supervision in construction",
+      "subject_1": 1,
+      "subject_2": 2
+    }
+  },
+  {
+    "model": "unipage.ntcprogram",
+    "pk": 7350,
+    "fields": {
+      "field_of_study": 75,
+      "name": "Land management",
+      "subject_1": 1,
+      "subject_2": 4
+    }
+  },
+  {
+    "model": "unipage.ntcprogram",
+    "pk": 7360,
+    "fields": {
+      "field_of_study": 75,
+      "name": "Cadastre",
+      "subject_1": 1,
+      "subject_2": 4
+    }
+  },
+  {
+    "model": "unipage.ntcprogram",
+    "pk": 7510,
+    "fields": {
+      "field_of_study": 76,
+      "name": "Standardization, certification and metrology",
+      "subject_1": 1,
+      "subject_2": 2
+    }
+  },
+  {
+    "model": "unipage.ntcprogram",
+    "pk": 7513,
+    "fields": {
+      "field_of_study": 76,
+      "name": "Metrology",
+      "subject_1": 1,
+      "subject_2": 2
+    }
+  },
+  {
+    "model": "unipage.ntcprogram",
+    "pk": 8110,
+    "fields": {
+      "field_of_study": 77,
+      "name": "Agronomy",
+      "subject_1": 3,
+      "subject_2": 5
+    }
+  },
+  {
+    "model": "unipage.ntcprogram",
+    "pk": 8120,
+    "fields": {
+      "field_of_study": 77,
+      "name": "Soil science and agrochemistry",
+      "subject_1": 3,
+      "subject_2": 5
+    }
+  },
+  {
+    "model": "unipage.ntcprogram",
+    "pk": 8130,
+    "fields": {
+      "field_of_study": 77,
+      "name": "Plant protection and quarantine",
+      "subject_1": 3,
+      "subject_2": 5
+    }
+  },
+  {
+    "model": "unipage.ntcprogram",
+    "pk": 8210,
+    "fields": {
+      "field_of_study": 78,
+      "name": "Technology of production of livestock products",
+      "subject_1": 3,
+      "subject_2": 5
+    }
+  },
+  {
+    "model": "unipage.ntcprogram",
+    "pk": 8710,
+    "fields": {
+      "field_of_study": 183,
+      "name": "Agricultural machinery and technology",
+      "subject_1": 1,
+      "subject_2": 2
+    }
+  },
+  {
+    "model": "unipage.ntcprogram",
+    "pk": 8610,
+    "fields": {
+      "field_of_study": 82,
+      "name": "Water resources and water use",
+      "subject_1": 1,
+      "subject_2": 2
+    }
+  },
+  {
+    "model": "unipage.ntcprogram",
+    "pk": 9111,
+    "fields": {
+      "field_of_study": 83,
+      "name": "Veterinary medicine",
+      "subject_1": 3,
+      "subject_2": 5
+    }
+  },
+  {
+    "model": "unipage.ntcprogram",
+    "pk": 11410,
+    "fields": {
+      "field_of_study": 90,
+      "name": "Social work",
+      "subject_1": 3,
+      "subject_2": 4
+    }
+  },
+  {
+    "model": "unipage.ntcprogram",
+    "pk": 11110,
+    "fields": {
+      "field_of_study": 91,
+      "name": "Tourism",
+      "subject_1": 4,
+      "subject_2": 7
+    }
+  },
+  {
+    "model": "unipage.ntcprogram",
+    "pk": 11120,
+    "fields": {
+      "field_of_study": 92,
+      "name": "Cultural and leisure work",
+      "subject_1": 13,
+      "subject_2": 13
+    }
+  },
+  {
+    "model": "unipage.ntcprogram",
+    "pk": 11121,
+    "fields": {
+      "field_of_study": 92,
+      "name": "Producer and technology",
+      "subject_1": 13,
+      "subject_2": 13
+    }
+  },
+  {
+    "model": "unipage.ntcprogram",
+    "pk": 11124,
+    "fields": {
+      "field_of_study": 92,
+      "name": "Cultural and leisure activities and pop singing",
+      "subject_1": 13,
+      "subject_2": 13
+    }
+  },
+  {
+    "model": "unipage.ntcprogram",
+    "pk": 11130,
+    "fields": {
+      "field_of_study": 92,
+      "name": "Management of vocal and choral activities",
+      "subject_1": 13,
+      "subject_2": 13
+    }
+  },
+  {
+    "model": "unipage.ntcprogram",
+    "pk": 11150,
+    "fields": {
+      "field_of_study": 92,
+      "name": "Sports management, leisure and coaching",
+      "subject_1": 13,
+      "subject_2": 13
+    }
+  },
+  {
+    "model": "unipage.ntcprogram",
+    "pk": 11141,
+    "fields": {
+      "field_of_study": 92,
+      "name": "Sports management, swimming and coaching",
+      "subject_1": 13,
+      "subject_2": 13
+    }
+  },
+  {
+    "model": "unipage.ntcprogram",
+    "pk": 11111,
+    "fields": {
+      "field_of_study": 93,
+      "name": "Restaurant business and",
+      "subject_1": 4,
+      "subject_2": 7
+    }
+  },
+  {
+    "model": "unipage.ntcprogram",
+    "pk": 11210,
+    "fields": {
+      "field_of_study": 94,
+      "name": "Safety",
+      "subject_1": 1,
+      "subject_2": 2
+    }
+  },
+  {
+    "model": "unipage.ntcprogram",
+    "pk": 11088,
+    "fields": {
+      "field_of_study": 94,
+      "name": "Management security",
+      "subject_1": 1,
+      "subject_2": 2
+    }
+  },
+  {
+    "model": "unipage.ntcprogram",
+    "pk": 11310,
+    "fields": {
+      "field_of_study": 95,
+      "name": "Organization of transportation, movement and operation of transport",
+      "subject_1": 1,
+      "subject_2": 4
+    }
+  },
+  {
+    "model": "unipage.ntcprogram",
+    "pk": 11311,
+    "fields": {
+      "field_of_study": 95,
+      "name": "Organization of transportation to",
+      "subject_1": 1,
+      "subject_2": 4
+    }
+  },
+  {
+    "model": "unipage.ntcprogram",
+    "pk": 11312,
+    "fields": {
+      "field_of_study": 95,
+      "name": "Transport logistics",
+      "subject_1": 1,
+      "subject_2": 4
+    }
+  }
+]

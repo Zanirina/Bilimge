@@ -1,0 +1,513 @@
+[
+  {
+    "model": "unipage.fieldofstudy",
+    "pk": 1,
+    "fields": {
+      "name": "Pedagogy and psychology"
+    }
+  },
+  {
+    "model": "unipage.fieldofstudy",
+    "pk": 2,
+    "fields": {
+      "name": "Preschool education and upbringing"
+    }
+  },
+  {
+    "model": "unipage.fieldofstudy",
+    "pk": 3,
+    "fields": {
+      "name": "Pedagogy and methods of primary education"
+    }
+  },
+  {
+    "model": "unipage.fieldofstudy",
+    "pk": 4,
+    "fields": {
+      "name": "Primary military training teacher training"
+    }
+  },
+  {
+    "model": "unipage.fieldofstudy",
+    "pk": 5,
+    "fields": {
+      "name": "Training of physical education teachers"
+    }
+  },
+  {
+    "model": "unipage.fieldofstudy",
+    "pk": 6,
+    "fields": {
+      "name": "Music teacher training"
+    }
+  },
+  {
+    "model": "unipage.fieldofstudy",
+    "pk": 7,
+    "fields": {
+      "name": "Training of art and drawing teachers"
+    }
+  },
+  {
+    "model": "unipage.fieldofstudy",
+    "pk": 9,
+    "fields": {
+      "name": "Mathematics teacher training"
+    }
+  },
+  {
+    "model": "unipage.fieldofstudy",
+    "pk": 10,
+    "fields": {
+      "name": "Physics teacher training"
+    }
+  },
+  {
+    "model": "unipage.fieldofstudy",
+    "pk": 11,
+    "fields": {
+      "name": "Training of computer science teachers"
+    }
+  },
+  {
+    "model": "unipage.fieldofstudy",
+    "pk": 12,
+    "fields": {
+      "name": "Chemistry teacher training"
+    }
+  },
+  {
+    "model": "unipage.fieldofstudy",
+    "pk": 13,
+    "fields": {
+      "name": "Biology teacher training"
+    }
+  },
+  {
+    "model": "unipage.fieldofstudy",
+    "pk": 14,
+    "fields": {
+      "name": "Geography teacher training"
+    }
+  },
+  {
+    "model": "unipage.fieldofstudy",
+    "pk": 15,
+    "fields": {
+      "name": "Teacher training in humanities subjects"
+    }
+  },
+  {
+    "model": "unipage.fieldofstudy",
+    "pk": 16,
+    "fields": {
+      "name": "Training of teachers of Kazakh language and literature"
+    }
+  },
+  {
+    "model": "unipage.fieldofstudy",
+    "pk": 17,
+    "fields": {
+      "name": "Training of teachers of Russian language and literature"
+    }
+  },
+  {
+    "model": "unipage.fieldofstudy",
+    "pk": 18,
+    "fields": {
+      "name": "Foreign language teacher training"
+    }
+  },
+  {
+    "model": "unipage.fieldofstudy",
+    "pk": 20,
+    "fields": {
+      "name": "Special pedagogy"
+    }
+  },
+  {
+    "model": "unipage.fieldofstudy",
+    "pk": 27,
+    "fields": {
+      "name": "Theater arts"
+    }
+  },
+  {
+    "model": "unipage.fieldofstudy",
+    "pk": 28,
+    "fields": {
+      "name": "Choreography"
+    }
+  },
+  {
+    "model": "unipage.fieldofstudy",
+    "pk": 30,
+    "fields": {
+      "name": "fine arts"
+    }
+  },
+  {
+    "model": "unipage.fieldofstudy",
+    "pk": 31,
+    "fields": {
+      "name": "Fashion, design"
+    }
+  },
+  {
+    "model": "unipage.fieldofstudy",
+    "pk": 32,
+    "fields": {
+      "name": "Philosophy and ethics"
+    }
+  },
+  {
+    "model": "unipage.fieldofstudy",
+    "pk": 33,
+    "fields": {
+      "name": "Religion and theology"
+    }
+  },
+  {
+    "model": "unipage.fieldofstudy",
+    "pk": 34,
+    "fields": {
+      "name": "Story"
+    }
+  },
+  {
+    "model": "unipage.fieldofstudy",
+    "pk": 134,
+    "fields": {
+      "name": "Archeology and ethnology"
+    }
+  },
+  {
+    "model": "unipage.fieldofstudy",
+    "pk": 36,
+    "fields": {
+      "name": "Translation business"
+    }
+  },
+  {
+    "model": "unipage.fieldofstudy",
+    "pk": 37,
+    "fields": {
+      "name": "Philology"
+    }
+  },
+  {
+    "model": "unipage.fieldofstudy",
+    "pk": 40,
+    "fields": {
+      "name": "Political science"
+    }
+  },
+  {
+    "model": "unipage.fieldofstudy",
+    "pk": 140,
+    "fields": {
+      "name": "International"
+    }
+  },
+  {
+    "model": "unipage.fieldofstudy",
+    "pk": 41,
+    "fields": {
+      "name": "Psychology"
+    }
+  },
+  {
+    "model": "unipage.fieldofstudy",
+    "pk": 42,
+    "fields": {
+      "name": "Journalism and reporting"
+    }
+  },
+  {
+    "model": "unipage.fieldofstudy",
+    "pk": 43,
+    "fields": {
+      "name": "Librarianship, information processing and archival science"
+    }
+  },
+  {
+    "model": "unipage.fieldofstudy",
+    "pk": 44,
+    "fields": {
+      "name": "Management and management"
+    }
+  },
+  {
+    "model": "unipage.fieldofstudy",
+    "pk": 45,
+    "fields": {
+      "name": "Audit and taxation"
+    }
+  },
+  {
+    "model": "unipage.fieldofstudy",
+    "pk": 46,
+    "fields": {
+      "name": "Finance, economics, banking and insurance"
+    }
+  },
+  {
+    "model": "unipage.fieldofstudy",
+    "pk": 47,
+    "fields": {
+      "name": "Marketing and advertising"
+    }
+  },
+  {
+    "model": "unipage.fieldofstudy",
+    "pk": 49,
+    "fields": {
+      "name": "Right"
+    }
+  },
+  {
+    "model": "unipage.fieldofstudy",
+    "pk": 50,
+    "fields": {
+      "name": "Biological and related sciences"
+    }
+  },
+  {
+    "model": "unipage.fieldofstudy",
+    "pk": 51,
+    "fields": {
+      "name": "Environment"
+    }
+  },
+  {
+    "model": "unipage.fieldofstudy",
+    "pk": 52,
+    "fields": {
+      "name": "Geoscience"
+    }
+  },
+  {
+    "model": "unipage.fieldofstudy",
+    "pk": 53,
+    "fields": {
+      "name": "Chemistry"
+    }
+  },
+  {
+    "model": "unipage.fieldofstudy",
+    "pk": 54,
+    "fields": {
+      "name": "Physics"
+    }
+  },
+  {
+    "model": "unipage.fieldofstudy",
+    "pk": 55,
+    "fields": {
+      "name": "Mathematics and Statistics"
+    }
+  },
+  {
+    "model": "unipage.fieldofstudy",
+    "pk": 57,
+    "fields": {
+      "name": "Information Technology"
+    }
+  },
+  {
+    "model": "unipage.fieldofstudy",
+    "pk": 59,
+    "fields": {
+      "name": "Communications and communication technologies"
+    }
+  },
+  {
+    "model": "unipage.fieldofstudy",
+    "pk": 60,
+    "fields": {
+      "name": "Chemical Engineering and Processes"
+    }
+  },
+  {
+    "model": "unipage.fieldofstudy",
+    "pk": 61,
+    "fields": {
+      "name": "Materials Science and Technology"
+    }
+  },
+  {
+    "model": "unipage.fieldofstudy",
+    "pk": 62,
+    "fields": {
+      "name": "Electrical engineering and energy"
+    }
+  },
+  {
+    "model": "unipage.fieldofstudy",
+    "pk": 63,
+    "fields": {
+      "name": "Electrical engineering and automation"
+    }
+  },
+  {
+    "model": "unipage.fieldofstudy",
+    "pk": 64,
+    "fields": {
+      "name": "Mechanics and metalworking"
+    }
+  },
+  {
+    "model": "unipage.fieldofstudy",
+    "pk": 65,
+    "fields": {
+      "name": "Motor vehicles"
+    }
+  },
+  {
+    "model": "unipage.fieldofstudy",
+    "pk": 68,
+    "fields": {
+      "name": "Food production"
+    }
+  },
+  {
+    "model": "unipage.fieldofstudy",
+    "pk": 69,
+    "fields": {
+      "name": "Production of materials (glass, paper, plastic, wood)"
+    }
+  },
+  {
+    "model": "unipage.fieldofstudy",
+    "pk": 70,
+    "fields": {
+      "name": "Textiles: clothing, footwear and leather goods"
+    }
+  },
+  {
+    "model": "unipage.fieldofstudy",
+    "pk": 71,
+    "fields": {
+      "name": "Mining and Mining"
+    }
+  },
+  {
+    "model": "unipage.fieldofstudy",
+    "pk": 271,
+    "fields": {
+      "name": "Oil and gas business"
+    }
+  },
+  {
+    "model": "unipage.fieldofstudy",
+    "pk": 72,
+    "fields": {
+      "name": "Pharmaceutical production technology"
+    }
+  },
+  {
+    "model": "unipage.fieldofstudy",
+    "pk": 73,
+    "fields": {
+      "name": "Architecture"
+    }
+  },
+  {
+    "model": "unipage.fieldofstudy",
+    "pk": 74,
+    "fields": {
+      "name": "Town planning, civil works and civil engineering"
+    }
+  },
+  {
+    "model": "unipage.fieldofstudy",
+    "pk": 75,
+    "fields": {
+      "name": "Cadastre and land management"
+    }
+  },
+  {
+    "model": "unipage.fieldofstudy",
+    "pk": 76,
+    "fields": {
+      "name": "Standardization, certification and metrology (by industry)"
+    }
+  },
+  {
+    "model": "unipage.fieldofstudy",
+    "pk": 77,
+    "fields": {
+      "name": "Crop production"
+    }
+  },
+  {
+    "model": "unipage.fieldofstudy",
+    "pk": 78,
+    "fields": {
+      "name": "Livestock"
+    }
+  },
+  {
+    "model": "unipage.fieldofstudy",
+    "pk": 183,
+    "fields": {
+      "name": "Agricultural engineering"
+    }
+  },
+  {
+    "model": "unipage.fieldofstudy",
+    "pk": 82,
+    "fields": {
+      "name": "Water resources and water use"
+    }
+  },
+  {
+    "model": "unipage.fieldofstudy",
+    "pk": 83,
+    "fields": {
+      "name": "Veterinary"
+    }
+  },
+  {
+    "model": "unipage.fieldofstudy",
+    "pk": 90,
+    "fields": {
+      "name": "Social work"
+    }
+  },
+  {
+    "model": "unipage.fieldofstudy",
+    "pk": 91,
+    "fields": {
+      "name": "Tourism"
+    }
+  },
+  {
+    "model": "unipage.fieldofstudy",
+    "pk": 92,
+    "fields": {
+      "name": "Leisure"
+    }
+  },
+  {
+    "model": "unipage.fieldofstudy",
+    "pk": 93,
+    "fields": {
+      "name": "Restaurant business and"
+    }
+  },
+  {
+    "model": "unipage.fieldofstudy",
+    "pk": 94,
+    "fields": {
+      "name": "Sanitary and preventive measures"
+    }
+  },
+  {
+    "model": "unipage.fieldofstudy",
+    "pk": 95,
+    "fields": {
+      "name": "Transport services"
+    }
+  }
+]

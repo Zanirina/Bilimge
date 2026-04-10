@@ -1,0 +1,107 @@
+[
+  {
+    "model": "unipage.subject",
+    "pk": 3,
+    "fields": {
+      "name": "Biology"
+    }
+  },
+  {
+    "model": "unipage.subject",
+    "pk": 4,
+    "fields": {
+      "name": "Geography"
+    }
+  },
+  {
+    "model": "unipage.subject",
+    "pk": 1,
+    "fields": {
+      "name": "Mathematics"
+    }
+  },
+  {
+    "model": "unipage.subject",
+    "pk": 2,
+    "fields": {
+      "name": "Physics"
+    }
+  },
+  {
+    "model": "unipage.subject",
+    "pk": 5,
+    "fields": {
+      "name": "Chemistry"
+    }
+  },
+  {
+    "model": "unipage.subject",
+    "pk": 6,
+    "fields": {
+      "name": "World History"
+    }
+  },
+  {
+    "model": "unipage.subject",
+    "pk": 7,
+    "fields": {
+      "name": "Foreign Language"
+    }
+  },
+  {
+    "model": "unipage.subject",
+    "pk": 8,
+    "fields": {
+      "name": "Kazakh Language"
+    }
+  },
+  {
+    "model": "unipage.subject",
+    "pk": 9,
+    "fields": {
+      "name": "Kazakh Literature"
+    }
+  },
+  {
+    "model": "unipage.subject",
+    "pk": 10,
+    "fields": {
+      "name": "Russian Language"
+    }
+  },
+  {
+    "model": "unipage.subject",
+    "pk": 11,
+    "fields": {
+      "name": "Russian Literature"
+    }
+  },
+  {
+    "model": "unipage.subject",
+    "pk": 12,
+    "fields": {
+      "name": "Man. Society. Law"
+    }
+  },
+  {
+    "model": "unipage.subject",
+    "pk": 13,
+    "fields": {
+      "name": "Creative Exam"
+    }
+  },
+  {
+    "model": "unipage.subject",
+    "pk": 14,
+    "fields": {
+      "name": "Informatics"
+    }
+  },
+  {
+    "model": "unipage.subject",
+    "pk": 15,
+    "fields": {
+      "name": "History of Kazakhstan"
+    }
+  }
+]
