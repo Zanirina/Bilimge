@@ -13,31 +13,23 @@ class UniversitySerializer(serializers.ModelSerializer):
 class FieldOfStudySerializer(serializers.ModelSerializer):
     class Meta:
         model = FieldOfStudy
-        fields = ['code', 'name']
+        fields = '__all__'
 
 # 2 Serializer for subject
 class SubjectSerializer(serializers.ModelSerializer):
     class Meta:
         model = Subject
-        fields = ['id', 'name']
+        fields = '__all__'
 
 # 4. Serializer for NTC programs
 class NtcProgramSerializer(serializers.ModelSerializer):
-    # Показываем детали группы и предметов вместо их ID
-    field_of_study = FieldOfStudySerializer(read_only=True)
-    subject_1 = SubjectSerializer(read_only=True)
-    subject_2 = SubjectSerializer(read_only=True)
-
     class Meta:
         model = NtcProgram
-        fields = ['code', 'name', 'field_of_study', 'subject_1', 'subject_2']
+        fields = '__all__'
 
 # 5. Serializer for uni program
 class UniversityProgramSerializer(serializers.ModelSerializer):
-    # Вкладываем данные об университете и базовой программе NTC
-    university = UniversitySerializer(read_only=True)
-    ntc_program = NtcProgramSerializer(read_only=True)
 
     class Meta:
         model = UniversityProgram
-        fields = ['code', 'local_name', 'cost', 'language', 'university', 'ntc_program']
+        fields = '__all__'

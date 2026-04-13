@@ -1,15 +1,35 @@
 from django.shortcuts import render
 from rest_framework import viewsets
 from .models import University
-from .serializers import UniversitySerializer
+from .serializers import (
+    UniversitySerializer,
+    FieldOfStudySerializer,
+    NtcProgramSerializer,
+    SubjectSerializer
+)
+
 from .models import NtcProgram, FieldOfStudy, Subject
 from django.shortcuts import render, get_object_or_404, redirect
 
 
 
-class UniversityViewSet(viewsets.ReadOnlyModelViewSet):
+class UniversityViewSet(viewsets.ModelViewSet):
     queryset = University.objects.all()
     serializer_class = UniversitySerializer
+
+class FieldOfStudyViewSet(viewsets.ModelViewSet):
+    queryset = FieldOfStudy.objects.all()
+    serializer_class = FieldOfStudySerializer
+
+class NtcProgramViewSet(viewsets.ModelViewSet):
+    queryset = NtcProgram.objects.all()
+    serializer_class = NtcProgramSerializer
+
+class SubjectViewSet(viewsets.ModelViewSet):
+    queryset = Subject.objects.all()
+    serializer_class = SubjectSerializer
+
+
 
 
 def unipage(request):

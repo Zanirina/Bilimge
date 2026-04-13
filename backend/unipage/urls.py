@@ -4,11 +4,13 @@ from rest_framework.routers import DefaultRouter
 from .views import UniversityViewSet
 
 router = DefaultRouter()
-router.register(r'', views.UniversityViewSet, basename='university')
+router.register(r'universities', views.UniversityViewSet, basename='university')
+router.register(r'fields', views.FieldOfStudyViewSet, basename='field-api')
+router.register(r'programs', views.NtcProgramViewSet, basename='program-api')
+router.register(r'subjects', views.SubjectViewSet, basename='subject-api')
 
 urlpatterns = [
     path('', views.unipage, name='unipage_view'),
-    path('api/universities/', include(router.urls)),
 
     path('fields/', views.field_list, name='field_list'),
     path('fields/<str:field_code>/programs/', views.ntc_programs_by_field, name='programs_by_field'),
@@ -19,4 +21,10 @@ urlpatterns = [
     path('fields/add/', views.field_edit, name='field_add'),
     path('fields/edit/<str:code>/', views.field_edit, name='field_edit'),
     path('fields/delete/<str:code>/', views.field_delete, name='field_delete'),
+
+    # API
+
+    path('api/', include(router.urls))
+
+
 ]
