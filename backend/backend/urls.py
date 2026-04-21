@@ -22,4 +22,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('main.urls')),
     path('unipage/', include('unipage.urls')),
+    path('api/auth/', include('userpage.urls')),
 ]
