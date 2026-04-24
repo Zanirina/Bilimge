@@ -3,21 +3,32 @@ from django.contrib.auth.admin import UserAdmin
 from .models import User, Applicant, UniversityStaff
 
 
+class UniversityStaffInline(admin.StackedInline):
+    model = UniversityStaff
+    extra = 0
+    can_delete = False
+
+
 @admin.register(User)
 class CustomUserAdmin(UserAdmin):
     list_display = ('username', 'email', 'role', 'is_active')
     list_filter = ('role',)
     fieldsets = UserAdmin.fieldsets + (
-        ('Роль и контакты', {'fields': ('role', 'phone')}),
+        ('Role and contacts', {'fields': ('role', 'phone')}),
     )
+    inlines = [UniversityStaffInline]
 
     def get_queryset(self, request):
-        qs = super().get_queryset(request)
-        if request.user.role == 'SUPER_ADMIN':
-            return qs
-        # NTC и Uni Admin не видят других пользователей в админке
-        return qs.filter(id=request.user.id)
+        return User.objects.all()
+
+    def get_inline_instances(self, request, obj=None):
+        if obj and obj.role == User.Role.UNI_ADMIN:
+            return [UniversityStaffInline(self.model, self.admin_site)]
+        return []
 
     def has_delete_permission(self, request, obj=None):
-        # Только Super Admin может удалять пользователей
         return request.user.role == 'SUPER_ADMIN'
+
+
+admin.site.register(Applicant)
+admin.site.register(UniversityStaff)

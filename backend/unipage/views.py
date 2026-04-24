@@ -1,51 +1,153 @@
-from django.shortcuts import render
-from rest_framework import viewsets
-from .models import University
+from django.shortcuts import render, get_object_or_404, redirect
+from rest_framework.views import APIView
+from rest_framework import status, viewsets
+from rest_framework.response import Response
+from rest_framework.permissions import AllowAny
+from userpage.permissions import IsNtcAdmin, IsUniAdminOfThisUniversity, IsUniAdmin
+from .models import University, UniversityProgram, NtcProgram, FieldOfStudy, Subject
 from .serializers import (
     UniversitySerializer,
     FieldOfStudySerializer,
     NtcProgramSerializer,
-    SubjectSerializer
+    SubjectSerializer,
+    UniversityProgramSerializer,
+    UniversityProgramWriteSerializer,
 )
 
-from .models import NtcProgram, FieldOfStudy, Subject
-from django.shortcuts import render, get_object_or_404, redirect
+
+# --- My University (Uni Admin) ---
+
+class MyUniversityView(APIView):
+    permission_classes = [IsUniAdmin]
+
+    def get(self, request):
+        try:
+            university = request.user.staff_profile.university
+            serializer = UniversitySerializer(university)
+            return Response(serializer.data)
+        except Exception:
+            return Response({"error": "Employee profile not found"}, status=404)
 
 
+class MyUniversityProgramView(APIView):
+    permission_classes = [IsUniAdmin]
+
+    def get(self, request):
+        university = request.user.staff_profile.university
+        programs = UniversityProgram.objects.filter(
+            university=university
+        ).select_related('ntc_program', 'language')
+        serializer = UniversityProgramSerializer(programs, many=True)
+        return Response(serializer.data)
+
+    def post(self, request):
+        university = request.user.staff_profile.university
+        serializer = UniversityProgramWriteSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save(university=university)
+            return Response(serializer.data, status=201)
+        return Response(serializer.errors, status=400)
+
+
+class MyUniversityProgramDetailView(APIView):
+    permission_classes = [IsUniAdmin]
+
+    def get_program(self, request, code):
+        university = request.user.staff_profile.university
+        try:
+            return UniversityProgram.objects.get(code=code, university=university)
+        except UniversityProgram.DoesNotExist:
+            return None
+
+    def patch(self, request, code):
+        program = self.get_program(request, code)
+        if not program:
+            return Response({"error": "Not found"}, status=404)
+        serializer = UniversityProgramWriteSerializer(program, data=request.data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=400)
+
+    def delete(self, request, code):
+        program = self.get_program(request, code)
+        if not program:
+            return Response({"error": "Not found"}, status=404)
+        program.delete()
+        return Response({"status": "deleted"}, status=204)
+
+
+# --- ViewSets ---
 
 class UniversityViewSet(viewsets.ModelViewSet):
     queryset = University.objects.all()
     serializer_class = UniversitySerializer
 
+    def get_permissions(self):
+        if self.action in ['list', 'retrieve']:
+            return [AllowAny()]
+        return [IsUniAdminOfThisUniversity()]
+
+
 class FieldOfStudyViewSet(viewsets.ModelViewSet):
     queryset = FieldOfStudy.objects.all()
     serializer_class = FieldOfStudySerializer
+
+    def get_permissions(self):
+        if self.action in ['list', 'retrieve']:
+            return [AllowAny()]
+        return [IsNtcAdmin()]
+
+
+class UniversityProgramViewSet(viewsets.ModelViewSet):
+    serializer_class = UniversityProgramSerializer
+
+    def get_permissions(self):
+        if self.action in ['list', 'retrieve']:
+            return [AllowAny()]
+        return [IsUniAdminOfThisUniversity()]
+
+    def get_queryset(self):
+        queryset = UniversityProgram.objects.select_related(
+            'university', 'ntc_program', 'language'
+        )
+        university = self.request.query_params.get('university')
+        if university:
+            queryset = queryset.filter(university=university)
+        return queryset
+
 
 class NtcProgramViewSet(viewsets.ModelViewSet):
     queryset = NtcProgram.objects.all()
     serializer_class = NtcProgramSerializer
 
+    def get_permissions(self):
+        if self.action in ['list', 'retrieve']:
+            return [AllowAny()]
+        return [IsNtcAdmin()]
+
+
 class SubjectViewSet(viewsets.ModelViewSet):
     queryset = Subject.objects.all()
     serializer_class = SubjectSerializer
 
+    def get_permissions(self):
+        if self.action in ['list', 'retrieve']:
+            return [AllowAny()]
+        return [IsNtcAdmin()]
 
 
+# --- Template views ---
 
 def unipage(request):
     universities = University.objects.all()
-    total_found= universities.count()
-
-    context = {
-        'universities': universities,
-        'total_found': total_found}
-
-
     return render(request, 'main/unipage.html', {'uni_list': universities})
+
 
 def field_list(request):
     fields = FieldOfStudy.objects.all()
     return render(request, 'main/field_list.html', {'fields': fields})
+
 
 def ntc_programs_by_field(request, field_code):
     field = get_object_or_404(FieldOfStudy, code=field_code)
@@ -54,6 +156,7 @@ def ntc_programs_by_field(request, field_code):
         'field': field,
         'programs': programs
     })
+
 
 def ntc_program_edit(request, code=None, field_code=None):
     program = get_object_or_404(NtcProgram, code=code) if code else None
@@ -88,6 +191,7 @@ def ntc_program_edit(request, code=None, field_code=None):
         'subjects': Subject.objects.all()
     })
 
+
 def ntc_program_delete(request, code):
     program = get_object_or_404(NtcProgram, code=code)
     field_code = program.field_of_study_id
@@ -95,7 +199,6 @@ def ntc_program_delete(request, code):
     return redirect('programs_by_field', field_code=field_code)
 
 
-# Создание или редактирование направления
 def field_edit(request, code=None):
     field = get_object_or_404(FieldOfStudy, code=code) if code else None
 
@@ -103,10 +206,10 @@ def field_edit(request, code=None):
         new_code = request.POST.get('code')
         name = request.POST.get('name')
 
-        if field:  # Редактирование
+        if field:
             field.name = name
             field.save()
-        else:  # Создание
+        else:
             FieldOfStudy.objects.create(code=new_code, name=name)
         return redirect('field_list')
 
@@ -117,6 +220,6 @@ def field_delete(request, code):
     field = get_object_or_404(FieldOfStudy, code=code)
     try:
         field.delete()
-    except Exception as e:
+    except Exception:
         pass
     return redirect('field_list')

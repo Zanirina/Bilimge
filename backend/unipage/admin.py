@@ -1,13 +1,28 @@
 from django.contrib import admin
 
 
-from .models import University, UniversityProgram,FieldOfStudy, NtcProgram, Subject
+from .models import University, UniversityProgram, FieldOfStudy, NtcProgram, Subject
 
 class UniversityAdmin(admin.ModelAdmin):
     list_display = ('code','name','city', 'address', 'year_established', 'email', 'phone', 'passing_score')
 
+
 class UniversityProgramAdmin(admin.ModelAdmin):
-    list_display = ('code', 'university_id', 'ntc_program_id', 'local_name', 'cost', 'language')
+    list_display = ('code', 'university_id', 'ntc_program_id', 'local_name', 'cost','language')
+    readonly_fields = ('get_subject_1', 'get_subject_2')
+
+    def get_subject_1(self, obj):
+        return obj.ntc_program.subject_1.name if obj.ntc_program else '-'
+
+    get_subject_1.short_description = 'Subject 1'
+
+    def get_subject_2(self, obj):
+        return obj.ntc_program.subject_2.name if obj.ntc_program else '-'
+
+    get_subject_2.short_description = 'Subject 2'
+
+    def has_delete_permission(self, request, obj=None):
+        return False
 
 class FieldOfStudyAdmin(admin.ModelAdmin):
     list_display = ('code','name')
@@ -24,3 +39,4 @@ admin.site.register(UniversityProgram, UniversityProgramAdmin)
 admin.site.register(FieldOfStudy, FieldOfStudyAdmin)
 admin.site.register(NtcProgram, NtcProgramAdmin)
 admin.site.register(Subject, SubjectAdmin)
+

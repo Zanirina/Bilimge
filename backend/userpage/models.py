@@ -34,13 +34,41 @@ class Applicant(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='applicant_profile')
     birth_date = models.DateField(null=True, blank=True)
     unt_score = models.IntegerField(default=0)
-    target_speciality = models.CharField(max_length=255, blank=True)
+    target_speciality = models.ForeignKey(
+        'unipage.NtcProgram',
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name='applicants',
+        to_field='code',
+        db_column='target_speciality_id',
+        db_constraint=False  # отключаем FK constraint
+    )
 
     class Meta:
         db_table = 'applicant'
 
     def __str__(self):
         return f"Profile: {self.user.username}"
+
+class Favorite(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='favorites')
+    program = models.ForeignKey(
+        'unipage.UniversityProgram',
+        on_delete=models.CASCADE,
+        to_field='code',
+        db_column='program_id',
+        db_constraint=False
+    )
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        db_table = 'favorites'
+        unique_together = ['user', 'program']  # нельзя добавить одну программу дважды
+
+    def __str__(self):
+        return f"{self.user.username} → {self.program_id}"
+
 
 
 class UniversityStaff(models.Model):

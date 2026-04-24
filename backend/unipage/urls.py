@@ -1,13 +1,19 @@
 from django.urls import path, include
 from . import views
 from rest_framework.routers import DefaultRouter
-from .views import UniversityViewSet
-
+from .views import (
+    UniversityViewSet,
+    MyUniversityView,
+    MyUniversityProgramView,
+    MyUniversityProgramDetailView
+)
 router = DefaultRouter()
 router.register(r'universities', views.UniversityViewSet, basename='university')
 router.register(r'fields', views.FieldOfStudyViewSet, basename='field-api')
 router.register(r'programs', views.NtcProgramViewSet, basename='program-api')
 router.register(r'subjects', views.SubjectViewSet, basename='subject-api')
+router.register(r'university-programs', views.UniversityProgramViewSet, basename='university-program')
+
 
 urlpatterns = [
     path('', views.unipage, name='unipage_view'),
@@ -23,8 +29,8 @@ urlpatterns = [
     path('fields/delete/<str:code>/', views.field_delete, name='field_delete'),
 
     # API
-
-    path('api/', include(router.urls))
-
-
+    path('api/', include(router.urls)),
+    path('api/my-university/', views.MyUniversityView.as_view(), name='my-university'),
+    path('api/my-university/programs/', views.MyUniversityProgramView.as_view(), name='my-university-programs'),
+    path('api/my-university/programs/<str:code>/', views.MyUniversityProgramDetailView.as_view(), name='my-university-program-detail'),
 ]

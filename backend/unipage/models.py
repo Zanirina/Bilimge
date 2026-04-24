@@ -25,6 +25,19 @@ class University(models.Model):
     def __str__(self):
         return f"{self.code} - {self.name}"
 
+
+class Language(models.Model):
+    class Meta:
+        db_table = 'languages'
+        managed = False
+
+    name = models.CharField(max_length=50)
+
+    def __str__(self):
+        return self.name
+
+
+
 class Subject(models.Model):
     """Subject Model"""
     class Meta:
@@ -134,12 +147,12 @@ class UniversityProgram(models.Model):
     cost = models.IntegerField(
         verbose_name='Cost of University Program')
 
-    language = models.CharField(
-        max_length=255,
+    language = models.ForeignKey(
+        Language,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True
     )
 
     def __str__(self):
         return f"{self.code} - {self.local_name}"
-
-
-

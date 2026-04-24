@@ -1,35 +1,58 @@
 from rest_framework import serializers
-from .models import University, Subject, FieldOfStudy, NtcProgram, UniversityProgram
+from .models import University, Subject, FieldOfStudy, NtcProgram, UniversityProgram, Language
 
-# 1. Serializer for uni
+
 class UniversitySerializer(serializers.ModelSerializer):
     class Meta:
         model = University
         fields = '__all__'
 
 
-
-# 3. Serializer for Field of Study
 class FieldOfStudySerializer(serializers.ModelSerializer):
     class Meta:
         model = FieldOfStudy
         fields = '__all__'
 
-# 2 Serializer for subject
+
 class SubjectSerializer(serializers.ModelSerializer):
     class Meta:
         model = Subject
         fields = '__all__'
 
-# 4. Serializer for NTC programs
+
 class NtcProgramSerializer(serializers.ModelSerializer):
     class Meta:
         model = NtcProgram
         fields = '__all__'
 
-# 5. Serializer for uni program
+
+class LanguageSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Language
+        fields = '__all__'
+
+
 class UniversityProgramSerializer(serializers.ModelSerializer):
+    university_name = serializers.CharField(source='university.name', read_only=True)
+    ntc_program_name = serializers.CharField(source='ntc_program.name', read_only=True)
+    language_name = serializers.CharField(source='language.name', read_only=True)
+    subject_1_name = serializers.CharField(source='ntc_program.subject_1.name', read_only=True)
+    subject_2_name = serializers.CharField(source='ntc_program.subject_2.name', read_only=True)
 
     class Meta:
         model = UniversityProgram
-        fields = '__all__'
+        fields = [
+            'code', 'university', 'university_name',
+            'ntc_program', 'ntc_program_name',
+            'subject_1_name', 'subject_2_name',
+            'local_name', 'cost',
+            'language', 'language_name'
+        ]
+
+
+# Для Uni Admin — создание/редактирование программы своего вуза
+class UniversityProgramWriteSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = UniversityProgram
+        fields = ['code', 'ntc_program', 'local_name', 'cost', 'language']
+        # university не включаем — берём автоматически из профиля Uni Admin
