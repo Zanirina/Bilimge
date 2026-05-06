@@ -18,10 +18,10 @@ class CustomUserAdmin(UserAdmin):
     # полностью переопределяем fieldsets без username
     fieldsets = (
         (None, {'fields': ('email', 'password')}),
-        ('Personal information', {'fields': ('first_name', 'last_name')}),
+        ('Персональная информация', {'fields': ('first_name', 'last_name')}),
         ('Role and contacts', {'fields': ('role', 'phone')}),
-        ('Access rights', {'fields': ('is_active', 'is_staff', 'is_superuser', 'groups', 'user_permissions')}),
-        ('Important dates', {'fields': ('last_login', 'created_at')}),
+        ('Права доступа', {'fields': ('is_active', 'is_staff', 'is_superuser', 'groups', 'user_permissions')}),
+        ('Важные даты', {'fields': ('last_login', 'created_at')}),
     )
 
     add_fieldsets = (
