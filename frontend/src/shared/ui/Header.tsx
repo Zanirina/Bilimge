@@ -38,11 +38,11 @@ export default function Header() {
 
         {/* Auth Buttons */}
         <div className="flex items-center gap-4">
-          <Link to="/login" className="text-[#111928] font-medium text-sm">
+          <Link to="/auth/login" className="text-[#111928] font-medium text-sm">
             Log In
           </Link>
           <Link
-            to="/register"
+            to="/auth/register"
             className="rounded-md bg-[#3356AA] px-5 py-2 text-white font-medium text-sm hover:bg-[#2a386b] transition"
           >
             Sign Up
