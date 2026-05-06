@@ -7,6 +7,7 @@
     <list default="true" id="3b678858-2e5f-40a1-8509-89ad10ffc1ba" name="Changes" comment="chatbot implemented">
       <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/backend/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/backend/backend/settings.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -143,7 +144,7 @@
       <workItem from="1777296966997" duration="223000" />
       <workItem from="1777297212571" duration="539000" />
       <workItem from="1777802572066" duration="1028000" />
-      <workItem from="1778049563678" duration="7557000" />
+      <workItem from="1778049563678" duration="9746000" />
     </task>
     <task id="LOCAL-00001" summary="add frontend dir">
       <option name="closed" value="true" />
