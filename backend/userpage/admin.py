@@ -11,11 +11,27 @@ class UniversityStaffInline(admin.StackedInline):
 
 @admin.register(User)
 class CustomUserAdmin(UserAdmin):
-    list_display = ('username', 'email', 'role', 'is_active')
+    list_display = ('email', 'role', 'is_active')
     list_filter = ('role',)
-    fieldsets = UserAdmin.fieldsets + (
+    ordering = ('email',)
+
+    # полностью переопределяем fieldsets без username
+    fieldsets = (
+        (None, {'fields': ('email', 'password')}),
+        ('Personal information', {'fields': ('first_name', 'last_name')}),
         ('Role and contacts', {'fields': ('role', 'phone')}),
+        ('Access rights', {'fields': ('is_active', 'is_staff', 'is_superuser', 'groups', 'user_permissions')}),
+        ('Important dates', {'fields': ('last_login', 'created_at')}),
     )
+
+    add_fieldsets = (
+        (None, {
+            'classes': ('wide',),
+            'fields': ('email', 'password1', 'password2', 'role', 'phone'),
+        }),
+    )
+
+    readonly_fields = ('created_at',)
     inlines = [UniversityStaffInline]
 
     def get_queryset(self, request):

@@ -1,25 +1,49 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
-from django.db.models.signals import post_save
-from django.dispatch import receiver
+from django.contrib.auth.base_user import BaseUserManager
+
+
+class UserManager(BaseUserManager):
+    def create_user(self, email, password=None, **extra_fields):
+        if not email:
+            raise ValueError('Email обязателен')
+        email = self.normalize_email(email)
+        user = self.model(email=email, **extra_fields)
+        user.set_password(password)
+        user.save()
+        return user
+
+    def create_superuser(self, email, password=None, **extra_fields):
+        extra_fields.setdefault('is_staff', True)
+        extra_fields.setdefault('is_superuser', True)
+        extra_fields.setdefault('role', 'SUPER_ADMIN')
+        return self.create_user(email, password, **extra_fields)
 
 
 class User(AbstractUser):
+    username = None  # убираем username
+
     class Role(models.TextChoices):
         APPLICANT = 'APPLICANT', 'Applicant'
         UNI_ADMIN = 'UNI_ADMIN', 'University Admin'
         NTC_ADMIN = 'NTC_ADMIN', 'NTC Admin'
         SUPER_ADMIN = 'SUPER_ADMIN', 'Super Admin'
 
+    email = models.EmailField(unique=True)  # email становится логином
     role = models.CharField(max_length=20, choices=Role.choices, default=Role.APPLICANT)
     phone = models.CharField(max_length=15, blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
+    USERNAME_FIELD = 'email'        # логинимся по email
+    REQUIRED_FIELDS = []            # createsuperuser не спрашивает лишнего
+
+    objects = UserManager()
+
     class Meta:
-        db_table = 'users'  # имя таблицы в БД
+        db_table = 'users'
 
     def __str__(self):
-        return f"{self.username} ({self.role})"
+        return f"{self.email} ({self.role})"
 
     @property
     def is_applicant(self):
@@ -42,14 +66,15 @@ class Applicant(models.Model):
         related_name='applicants',
         to_field='code',
         db_column='target_speciality_id',
-        db_constraint=False  # отключаем FK constraint
+        db_constraint=False
     )
 
     class Meta:
         db_table = 'applicant'
 
     def __str__(self):
-        return f"Profile: {self.user.username}"
+        return f"Profile: {self.user.email}"
+
 
 class Favorite(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='favorites')
@@ -64,11 +89,10 @@ class Favorite(models.Model):
 
     class Meta:
         db_table = 'favorites'
-        unique_together = ['user', 'program']  # нельзя добавить одну программу дважды
+        unique_together = ['user', 'program']
 
     def __str__(self):
-        return f"{self.user.username} → {self.program_id}"
-
+        return f"{self.user.email} → {self.program_id}"
 
 
 class UniversityStaff(models.Model):

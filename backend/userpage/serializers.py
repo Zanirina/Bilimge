@@ -1,5 +1,4 @@
 from rest_framework import serializers
-
 from .models import User, Applicant, Favorite
 from unipage.models import NtcProgram, UniversityProgram
 
@@ -9,11 +8,10 @@ class RegisterSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ['username', 'email', 'password', 'phone']
+        fields = ['email', 'password', 'phone']  # убрали username
 
     def create(self, validated_data):
         user = User.objects.create_user(
-            username=validated_data['username'],
             email=validated_data['email'],
             password=validated_data['password'],
             phone=validated_data.get('phone', ''),
@@ -25,14 +23,14 @@ class RegisterSerializer(serializers.ModelSerializer):
 class UserMeSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ['id', 'username', 'email', 'phone', 'role', 'created_at']
+        fields = ['id', 'email', 'phone', 'role', 'created_at']  # убрали username
+
 
 class ApplicantProfileSerializer(serializers.ModelSerializer):
-    username = serializers.CharField(source='user.username', read_only=True)
     email = serializers.CharField(source='user.email', read_only=True)
-    first_name = serializers.CharField(source='user.first_name', required=False)  # убрали read_only
-    last_name = serializers.CharField(source='user.last_name', required=False)    # убрали read_only
-    phone = serializers.CharField(source='user.phone', required=False)            # убрали read_only
+    first_name = serializers.CharField(source='user.first_name', required=False)
+    last_name = serializers.CharField(source='user.last_name', required=False)
+    phone = serializers.CharField(source='user.phone', required=False)
 
     target_speciality_name = serializers.CharField(
         source='target_speciality.name',
@@ -48,7 +46,7 @@ class ApplicantProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = Applicant
         fields = [
-            'username', 'email', 'first_name', 'last_name', 'phone',
+            'email', 'first_name', 'last_name', 'phone',  # убрали username
             'birth_date', 'unt_score',
             'target_speciality',
             'target_speciality_name',
@@ -83,6 +81,6 @@ class FavoriteSerializer(serializers.ModelSerializer):
     class Meta:
         model = Favorite
         fields = [
-            'id', 'program', 'program_code', 'program_name',  # добавили program_code
+            'id', 'program', 'program_code', 'program_name',
             'university_name', 'university_code', 'created_at'
         ]

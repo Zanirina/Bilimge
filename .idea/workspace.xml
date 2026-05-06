@@ -4,19 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3b678858-2e5f-40a1-8509-89ad10ffc1ba" name="Changes" comment="RBAC implemented">
+    <list default="true" id="3b678858-2e5f-40a1-8509-89ad10ffc1ba" name="Changes" comment="REQ">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/backend/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/backend/backend/settings.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/unipage/admin.py" beforeDir="false" afterPath="$PROJECT_DIR$/backend/unipage/admin.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/unipage/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/backend/unipage/models.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/unipage/serializers.py" beforeDir="false" afterPath="$PROJECT_DIR$/backend/unipage/serializers.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/unipage/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/backend/unipage/urls.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/unipage/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/backend/unipage/views.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/db.sqlite3" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/userpage/admin.py" beforeDir="false" afterPath="$PROJECT_DIR$/backend/userpage/admin.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/userpage/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/backend/userpage/models.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/userpage/serializers.py" beforeDir="false" afterPath="$PROJECT_DIR$/backend/userpage/serializers.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/userpage/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/backend/userpage/urls.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/userpage/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/backend/userpage/views.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -149,7 +142,11 @@
       <workItem from="1776693244515" duration="664000" />
       <workItem from="1776752476491" duration="9980000" />
       <workItem from="1776836044320" duration="881000" />
-      <workItem from="1776837879637" duration="6953000" />
+      <workItem from="1776837879637" duration="9055000" />
+      <workItem from="1777296966997" duration="223000" />
+      <workItem from="1777297212571" duration="539000" />
+      <workItem from="1777802572066" duration="1028000" />
+      <workItem from="1778049563678" duration="705000" />
     </task>
     <task id="LOCAL-00001" summary="add frontend dir">
       <option name="closed" value="true" />
@@ -247,7 +244,23 @@
       <option name="project" value="LOCAL" />
       <updated>1776753388183</updated>
     </task>
-    <option name="localTasksCounter" value="13" />
+    <task id="LOCAL-00013" summary="RBAC implemented">
+      <option name="closed" value="true" />
+      <created>1777010838906</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1777010838906</updated>
+    </task>
+    <task id="LOCAL-00014" summary="REQ">
+      <option name="closed" value="true" />
+      <created>1777297255013</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1777297255013</updated>
+    </task>
+    <option name="localTasksCounter" value="15" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -275,7 +288,8 @@
     <MESSAGE value="bd filling" />
     <MESSAGE value="4 endpoints were added" />
     <MESSAGE value="RBAC implemented" />
-    <option name="LAST_COMMIT_MESSAGE" value="RBAC implemented" />
+    <MESSAGE value="REQ" />
+    <option name="LAST_COMMIT_MESSAGE" value="REQ" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/Bilimge$main.coverage" NAME="main Coverage Results" MODIFIED="1773743816355" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
