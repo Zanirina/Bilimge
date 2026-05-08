@@ -1,31 +1,25 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { CiUser } from "react-icons/ci";
 import { IoEyeOutline, IoEyeOffOutline, IoWarningOutline } from "react-icons/io5";
+import { useAuthStore } from "../model/authStore";
 
 interface SignInFormData {
   email: string;
   password: string;
 }
 
-interface SignInProps {
-  onSignIn?: (data: SignInFormData) => Promise<void>;
-}
-
 const EyeIcon = ({ open }: { open: boolean }) =>
-  open ? (
-    <IoEyeOffOutline />
-  ) : (
-    <IoEyeOutline />
-  );
+  open ? <IoEyeOffOutline /> : <IoEyeOutline />;
 
-export default function SignInPage({
-  onSignIn,
-}: SignInProps) {
+export default function SignInPage() {
   const [form, setForm] = useState<SignInFormData>({ email: "", password: "" });
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+
+  const login = useAuthStore((s) => s.login);
+  const navigate = useNavigate();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
@@ -41,7 +35,10 @@ export default function SignInPage({
     setLoading(true);
     setError(null);
     try {
-      await onSignIn?.(form);
+      const user = await login(form.email, form.password);
+      if (user) {
+        navigate(getDefaultRoute(user.role));
+      }
     } catch (err: unknown) {
       const msg = err instanceof Error ? err.message : "";
       if (msg.includes("not exist") || msg.includes("not found")) {
@@ -49,8 +46,7 @@ export default function SignInPage({
       } else {
         setError("Invalid email or password.");
       }
-    }
-    finally {
+    } finally {
       setLoading(false);
     }
   };
@@ -122,7 +118,6 @@ export default function SignInPage({
                   <IoWarningOutline className="text-sm text-red-500" />
                   <p className="text-sm text-red-500">{error}</p>
                 </div>
-
               )}
 
               {/* Submit */}
@@ -138,27 +133,20 @@ export default function SignInPage({
 
           {/* Footer links */}
           <div className="flex items-center gap-6 text-md text-gray-500">
-            <button
-              type="button"
-              className="hover:text-gray-800 transition"
-            >
-              <Link to="/auth/password">Forget Password?</Link>
-            </button>
+            <Link to="/auth/password" className="hover:text-gray-800 transition">
+              Forget Password?
+            </Link>
             <span>
               Don&apos;t have an account?{" "}
-              <button
-                type="button"
-                className="text-[#3356AA] font-medium hover:text-blue-700 transition"
-              >
-                <Link to="/auth/register">Sign Up</Link>
-              </button>
+              <Link to="/auth/register" className="text-[#3356AA] font-medium hover:text-blue-700 transition">
+                Sign Up
+              </Link>
             </span>
           </div>
         </div>
 
         {/* Right: Decorative panel */}
         <div className="flex relative bg-[#3356AA] overflow-hidden items-end p-15 w-[585px]">
-          {/* Decorative circles */}
           <div className="absolute -top-35 -left-24 w-[495px] h-[495px] rounded-full" style={{ background: "linear-gradient(180deg, rgba(255,255,255,0.16) 18%, rgba(255,255,255,0) 100%)" }} />
           <div className="absolute top-0 -left-40 w-[354px] h-[354px] rounded-full" style={{ background: "linear-gradient(180deg, rgba(255,255,255,0.2) 18%, rgba(255,255,255,0) 100%)" }} />
           <div className="absolute bottom-12 right-14 w-[85px] h-[85px] rounded-full" style={{ background: "linear-gradient(180deg, rgba(255,255,255,0.16) 18%, rgba(255,255,255,0) 100%)" }} />
@@ -166,8 +154,16 @@ export default function SignInPage({
             Hey,<br />welcome back to Bilimge!
           </p>
         </div>
-
       </div>
     </div>
   );
+}
+
+function getDefaultRoute(role: string): string {
+  switch (role) {
+    case "UNI_ADMIN": return "/university";
+    case "NTC_ADMIN": return "/ntc";
+    case "SUPER_ADMIN": return "/admin";
+    default: return "/";  // APPLICANT
+  }
 }
