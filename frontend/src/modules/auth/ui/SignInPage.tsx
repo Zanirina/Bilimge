@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { CiUser } from "react-icons/ci";
 import { IoEyeOutline, IoEyeOffOutline, IoWarningOutline } from "react-icons/io5";
 import { useAuthStore } from "../model/authStore";
+import { useTranslation } from "react-i18next";
 
 interface SignInFormData {
   email: string;
@@ -20,7 +21,7 @@ export default function SignInPage() {
 
   const login = useAuthStore((s) => s.login);
   const navigate = useNavigate();
-
+  const { t } = useTranslation();
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
     if (error) setError(null);
@@ -57,16 +58,16 @@ export default function SignInPage() {
         {/* Left: Form */}
         <div
           className="flex flex-col justify-center gap-10"
-          style={{ width: 585, flexShrink: 0, padding: "0 90px" }}
+          style={{ width: 585, flexShrink: 0, padding: "0 85px" }}
         >
           <div className="flex flex-col gap-10">
-            <h1 className="text-3xl font-bold text-gray-900">Sign In</h1>
+            <h1 className="text-3xl font-bold text-gray-900">{t("auth.signIn")}</h1>
 
             <form onSubmit={handleSubmit} className="flex flex-col gap-5">
               {/* Email */}
               <div className="flex flex-col gap-1.5">
                 <label htmlFor="email" className="text-md font-medium text-[#111928]">
-                  Email Address
+                  {t("auth.email")}
                 </label>
                 <div className="relative">
                   <input
@@ -74,7 +75,7 @@ export default function SignInPage() {
                     name="email"
                     type="email"
                     autoComplete="email"
-                    placeholder="you@example.com"
+                    placeholder={t("placeholders.email")}
                     value={form.email}
                     onChange={handleChange}
                     className="w-full px-4 py-3 pr-11 border border-[#9CA3AF] rounded-lg text-md text-[#111928] placeholder:text-[#9CA3AF] focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition"
@@ -88,7 +89,7 @@ export default function SignInPage() {
               {/* Password */}
               <div className="flex flex-col gap-1.5">
                 <label htmlFor="password" className="text-md font-medium text-[#111928]">
-                  Your Password
+                  {t("auth.password")}
                 </label>
                 <div className="relative">
                   <input
@@ -96,7 +97,7 @@ export default function SignInPage() {
                     name="password"
                     type={showPassword ? "text" : "password"}
                     autoComplete="current-password"
-                    placeholder="Your password"
+                    placeholder={t("placeholders.password")}
                     value={form.password}
                     onChange={handleChange}
                     className="w-full px-4 py-3 pr-11 border border-[#9CA3AF] rounded-lg text-md text-[#111928] placeholder:text-[#9CA3AF] focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition"
@@ -105,7 +106,7 @@ export default function SignInPage() {
                     type="button"
                     onClick={() => setShowPassword((v) => !v)}
                     className="absolute right-3.5 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 transition"
-                    aria-label={showPassword ? "Hide password" : "Show password"}
+                    aria-label={showPassword ? t("auth.hidePassword") : t("auth.showPassword")}
                   >
                     <EyeIcon open={showPassword} />
                   </button>
@@ -126,20 +127,20 @@ export default function SignInPage() {
                 disabled={loading}
                 className="mt-1 w-full py-3 px-7 rounded-lg bg-[#3356AA] hover:bg-blue-700 active:bg-blue-800 text-white font-medium text-md transition disabled:opacity-60 disabled:cursor-not-allowed"
               >
-                {loading ? "Signing in…" : "Sign In"}
+                {loading ? t("auth.signingIn") : t("auth.signIn")}
               </button>
             </form>
           </div>
 
           {/* Footer links */}
-          <div className="flex items-center gap-6 text-md text-gray-500">
+          <div className="flex items-center gap-6 text-sm text-gray-500">
             <Link to="/auth/password" className="hover:text-gray-800 transition">
-              Forget Password?
+              {t("auth.forgotPassword")}
             </Link>
             <span>
-              Don&apos;t have an account?{" "}
+              {t("auth.noAccount")}{" "}
               <Link to="/auth/register" className="text-[#3356AA] font-medium hover:text-blue-700 transition">
-                Sign Up
+                {t("auth.signUp")}
               </Link>
             </span>
           </div>
@@ -151,7 +152,7 @@ export default function SignInPage() {
           <div className="absolute top-0 -left-40 w-[354px] h-[354px] rounded-full" style={{ background: "linear-gradient(180deg, rgba(255,255,255,0.2) 18%, rgba(255,255,255,0) 100%)" }} />
           <div className="absolute bottom-12 right-14 w-[85px] h-[85px] rounded-full" style={{ background: "linear-gradient(180deg, rgba(255,255,255,0.16) 18%, rgba(255,255,255,0) 100%)" }} />
           <p className="relative z-10 text-white text-[28px] font-bold leading-snug">
-            Hey,<br />welcome back to Bilimge!
+            {t("auth.welcomeBack")}
           </p>
         </div>
       </div>

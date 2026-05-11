@@ -1,19 +1,19 @@
 import { NavLink, Link } from "react-router-dom";
 import { useAuthStore } from "../../modules/auth/model/authStore";
 import { IoIosLogOut } from "react-icons/io";
+import { useTranslation } from "react-i18next";
+import LanguageSwitcher from "./LanguageSwitcher";
 
 const navItems = [
-  { label: "Universities", path: "/universities" },
-  { label: "Majors", path: "/majors" },
-  { label: "Exams", path: "/exams" },
-  { label: "Preparation", path: "/preparation" },
-  { label: "AI Assistant", path: "/chatbot" },
+  { labelKey: "nav.universities", path: "/universities" },
+  { labelKey: "nav.majors", path: "/majors" },
+  { labelKey: "nav.exams", path: "/exams" },
+  { labelKey: "nav.aiAssistant", path: "/chatbot" },
 ];
 
 function Avatar({ email, name }: { email: string; name: string }) {
   const safeName = name?.trim() ?? "";
   const safeEmail = email?.trim() ?? "";
-
   const initials = safeName
     ? safeName.split(" ").filter(Boolean).map((n) => n[0] ?? "").join("").toUpperCase().slice(0, 2)
     : safeEmail ? safeEmail[0].toUpperCase() : "?";
@@ -32,6 +32,7 @@ function Avatar({ email, name }: { email: string; name: string }) {
 }
 
 export default function Header() {
+  const { t } = useTranslation();
   const user = useAuthStore((s) => s.user);
   const isAuth = useAuthStore((s) => s.isAuth);
   const isLoading = useAuthStore((s) => s.isLoading);
@@ -60,22 +61,23 @@ export default function Header() {
                 }`
               }
             >
-              {item.label}
+              {t(item.labelKey)}
             </NavLink>
           ))}
         </nav>
 
-        {/* Auth section */}
+        {/* Right section */}
         <div className="flex items-center gap-4">
+          {/* Auth */}
           {isLoading ? (
-            // Prevent flicker while checking auth
             <div className="w-24 h-8 bg-gray-100 rounded animate-pulse" />
           ) : isAuth && user ? (
             <>
               <Avatar email={user.email ?? ""} name={fullName} />
               <button
                 onClick={logout}
-                className="text-sm font-medium text-gray-500 transition"
+                className="text-gray-500 hover:text-red-500 transition"
+                title={t("auth.logout")}
               >
                 <IoIosLogOut size={20} />
               </button>
@@ -83,16 +85,17 @@ export default function Header() {
           ) : (
             <>
               <Link to="/auth/login" className="text-[#111928] font-medium text-sm">
-                Log In
+                {t("auth.signIn")}
               </Link>
               <Link
                 to="/auth/register"
                 className="rounded-md bg-[#3356AA] px-5 py-2 text-white font-medium text-sm hover:bg-[#2a386b] transition"
               >
-                Sign Up
+                {t("auth.signUp")}
               </Link>
             </>
           )}
+          <LanguageSwitcher />
         </div>
       </div>
     </header>

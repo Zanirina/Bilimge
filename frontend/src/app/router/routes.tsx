@@ -10,7 +10,7 @@ import ResetPasswordPage from "../../modules/auth/ui/ResetPasswordPage";
 import HomePage from "../../pages/HomePage";
 import UniversitiesPage from "../../modules/universities/ui/UniversitiesPage";
 import MajorsPage from "../../modules/majors/ui/MajorsPage";
-import ExamsPage from "../../modules/exams/ui/ExamsPage";
+import ExamsPrepPage from "../../modules/exams/ui/ExamsPrepPage";
 import AIAssistantPage from "../../modules/chatbot/ui/AIAssistantPage";
 import ApplicantDashboardPage from "../../modules/applicant/ui/ApplicantDasboardPage";
 import ApplicantProfilePage from "../../modules/applicant/ui/ApplicantProfilePage";
@@ -45,7 +45,7 @@ export const routes: AppRoute[] = [
             { index: true, element: <HomePage /> },
             { path: "universities", element: <UniversitiesPage /> },
             { path: "majors", element: <MajorsPage /> },
-            { path: "exams", element: <ExamsPage /> },
+            { path: "exams", element: <ExamsPrepPage /> },
             { path: "chatbot", element: <AIAssistantPage /> },
             { path: "about", element: <AboutPage /> },
         ],
@@ -69,7 +69,7 @@ export const routes: AppRoute[] = [
                     { path: "announcements", element: <AnnouncementsPage /> },
                     { path: "universities", element: <UniversitiesPage /> },
                     { path: "majors", element: <MajorsPage /> },
-                    { path: "exams", element: <ExamsPage /> },
+                    { path: "exams", element: <ExamsPrepPage /> },
                     { path: "chatbot", element: <AIAssistantPage /> },
                     { path: "profile", element: <ApplicantProfilePage /> }
                 ],

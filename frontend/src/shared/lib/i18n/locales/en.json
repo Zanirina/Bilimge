@@ -1,0 +1,104 @@
+{
+    "nav": {
+        "home": "Home",
+        "universities": "Universities",
+        "majors": "Majors",
+        "exams": "Exams",
+        "aiAssistant": "AI Assistant",
+        "admissionGuide": "Admission Guide",
+        "examPreparation": "Exam Preparation",
+        "officialUpdates": "Official Updates",
+        "faq": "FAQ",
+        "about": "About",
+        "contacts": "Contacts",
+        "privacyPolicy": "Privacy Policy",
+        "termsOfUse": "Terms of Use"
+    },
+    "auth": {
+        "signIn": "Sign In",
+        "signingIn": "Signing in...",
+        "email": "Email Address",
+        "password": "Your Password",
+        "forgotPassword": "Forgot Password?",
+        "noAccount": "Don't have an account?",
+        "signUp": "Sign Up",
+        "showPassword": "Show password",
+        "hidePassword": "Hide password",
+        "welcomeBack": "Hey,\nwelcome back to Bilimge!"
+    },
+    "errors": {
+        "fillFields": "Please fill in all fields.",
+        "accountNotExist": "Account does not exist.",
+        "invalidCredentials": "Invalid email or password."
+    },
+    "placeholders": {
+        "email": "you@example.com",
+        "password": "Your password"
+    },
+    "home": {
+        "hero": {
+            "title": "Prepare Smarter.\nChoose Better.\nEnter Your University.",
+            "description": "Explore universities in Kazakhstan, prepare for entrance exams, and receive personalized recommendations powered by artificial intelligence to help you choose the right academic path.",
+            "getStarted": "Get Started",
+            "learnMore": "Learn More"
+        },
+        "features": {
+            "subtitle": "Our Features",
+            "title": "How the Platform Works",
+            "description": "Make smarter decisions about your future with powerful, easy-to-use tools designed to guide you toward success at every step of your academic journey.",
+            "explore": {
+                "title": "Explore Universities",
+                "description": "Search and compare universities and ask the AI Assistant for guidance."
+            },
+            "plan": {
+                "title": "Plan Your Admission",
+                "description": "Track deadlines and estimate your admission chances with the Chance Calculator."
+            },
+            "prepare": {
+                "title": "Prepare for Exams",
+                "description": "Use preparation tools and AI recommendations to improve your results."
+            }
+        },
+        "why": {
+            "title": "Why This Platform Matters",
+            "description": "Applicants often struggle to find reliable information about universities, admission requirements, and important deadlines. Our platform simplifies this process by collecting verified data from official sources and providing tools that help students plan their admission journey with confidence.",
+            "cta": "Start Now"
+        },
+        "services": {
+            "subtitle": "Our Services",
+            "title": "Tools to Support Your Admission Journey",
+            "description": "Everything you need to navigate your admission journey with confidence, clarity, and the right support at every step.",
+            "comparison": {
+                "title": "Program Comparison",
+                "description": "Quickly find universities across Kazakhstan. Compare universities and programs side-by-side."
+            },
+            "ai": {
+                "title": "AI Assistant",
+                "description": "Ask questions and receive guidance about universities, programs, and admission requirements."
+            },
+            "calculator": {
+                "title": "Chance Calculator",
+                "description": "Estimate your chances of admission based on exam scores and selected programs."
+            },
+            "calendar": {
+                "title": "Admission Calendar",
+                "description": "Create a personalized calendar and track admission deadlines and important testing dates in one place."
+            },
+            "courses": {
+                "title": "Exam Preparation Courses",
+                "description": "Access structured preparation courses and learning materials designed to help applicants."
+            },
+            "updates": {
+                "title": "Official Admission Updates",
+                "description": "Receive the latest updates from the National Testing Center (NTC) and official university sources."
+            }
+        }
+    },
+    "footer": {
+        "description": "Helping applicants explore universities in Kazakhstan, prepare for entrance exams, and make informed admission decisions.",
+        "platform": "Platform",
+        "resources": "Resources",
+        "company": "Company",
+        "followUs": "Follow Us On"
+    }
+}
