@@ -70,7 +70,6 @@ class NtcAnnouncementView(APIView):
 
 
 class UniAnnouncementView(APIView):
-    """POST /api/announcements/university/ — Uni Admin публикует объявление"""
     permission_classes = [IsUniAdmin]
 
     def post(self, request):
@@ -79,8 +78,9 @@ class UniAnnouncementView(APIView):
         if serializer.is_valid():
             ann = serializer.save(
                 author_type='university',
-                university=university,
-                created_by=request.user
+                university_id=university.code,
+                university_name=university.name,
+                created_by=request.user,
             )
             notify_users(ann)
             return Response(AnnouncementSerializer(ann).data, status=201)

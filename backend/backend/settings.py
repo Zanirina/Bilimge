@@ -24,6 +24,7 @@ INSTALLED_APPS = [
     'userpage',
     'main',
     'chatbot',
+    'announcements',
 ]
 
 GROQ_API_KEY = os.getenv('GROQ_API_KEY')  # берём из .env

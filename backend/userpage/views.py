@@ -30,7 +30,13 @@ class MeView(APIView):
     permission_classes = [IsAuthenticated]
 
     def get(self, request):
-        return Response(UserMeSerializer(request.user).data)
+        user = User.objects.select_related(
+            'applicant_profile',
+            'applicant_profile__target_speciality'
+        ).prefetch_related('favorites').get(pk=request.user.pk)
+
+        serializer = UserMeSerializer(user)
+        return Response(serializer.data)
 
 class ApplicantProfileView(APIView):
     permission_classes = [IsAuthenticated]

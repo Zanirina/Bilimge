@@ -21,10 +21,48 @@ class RegisterSerializer(serializers.ModelSerializer):
 
 
 class UserMeSerializer(serializers.ModelSerializer):
+    # Поля из Applicant профиля (если есть)
+    birth_date = serializers.SerializerMethodField()
+    unt_score = serializers.SerializerMethodField()
+    target_speciality = serializers.SerializerMethodField()
+    target_speciality_name = serializers.SerializerMethodField()
+    favorites_count = serializers.SerializerMethodField()
+
     class Meta:
         model = User
-        fields = ['id', 'email', 'phone', 'role', 'created_at', 'first_name', 'last_name']
+        fields = [
+            'id', 'email', 'phone', 'role', 'created_at',
+            'first_name', 'last_name',
+            # applicant-only поля (null для других ролей)
+            'birth_date', 'unt_score',
+            'target_speciality', 'target_speciality_name',
+            'favorites_count',
+        ]
 
+    def _get_applicant(self, obj):
+        try:
+            return obj.applicant_profile
+        except Exception:
+            return None
+
+    def get_birth_date(self, obj):
+        a = self._get_applicant(obj)
+        return a.birth_date if a else None
+
+    def get_unt_score(self, obj):
+        a = self._get_applicant(obj)
+        return a.unt_score if a else None
+
+    def get_target_speciality(self, obj):
+        a = self._get_applicant(obj)
+        return a.target_speciality.code if a and a.target_speciality else None
+
+    def get_target_speciality_name(self, obj):
+        a = self._get_applicant(obj)
+        return a.target_speciality.name if a and a.target_speciality else None
+
+    def get_favorites_count(self, obj):
+        return obj.favorites.count()
 
 class ApplicantProfileSerializer(serializers.ModelSerializer):
     email = serializers.CharField(source='user.email', read_only=True)
