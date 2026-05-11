@@ -5,121 +5,55 @@ import SearchFilterMajors from "../../../shared/ui/SearchFilterMajors";
 import { Card } from "../../../shared/ui/Card";
 import { MdSchool } from "react-icons/md";
 import majorsBanner from "../../../assets/why-matters.jpg";
-
-interface Major {
-  id: string;
-  name: string;
-  subjects: string[];
-  minScore: string;
-  universities: number;
-}
-
-const MAJORS_DATA: Major[] = [
-  {
-    id: "1",
-    name: "Information Technologies",
-    subjects: ["Mathematics", "Informatics"],
-    minScore: "50+",
-    universities: 30,
-  },
-  {
-    id: "2",
-    name: "Business Administration",
-    subjects: ["Mathematics", "Geography"],
-    minScore: "85+",
-    universities: 12,
-  },
-  {
-    id: "3",
-    name: "Finance",
-    subjects: ["Mathematics", "Geography"],
-    minScore: "90+",
-    universities: 10,
-  },
-  {
-    id: "4",
-    name: "Architecture",
-    subjects: ["Creative Exam"],
-    minScore: "85+",
-    universities: 6,
-  },
-  {
-    id: "5",
-    name: "Law",
-    subjects: ["KZ History", "World History"],
-    minScore: "88+",
-    universities: 13,
-  },
-  {
-    id: "6",
-    name: "Primary Education",
-    subjects: ["Biology", "Geography"],
-    minScore: "75+",
-    universities: 14,
-  },
-  {
-    id: "7",
-    name: "International Relations",
-    subjects: ["World History", "English"],
-    minScore: "90+",
-    universities: 9,
-  },
-  {
-    id: "8",
-    name: "Civil Engineering",
-    subjects: ["Mathematics", "Physics"],
-    minScore: "88+",
-    universities: 11,
-  },
-  {
-    id: "9",
-    name: "Mathematics Teacher",
-    subjects: ["Mathematics", "Physics"],
-    minScore: "88+",
-    universities: 11,
-  },
-];
+import { useUniversityStore } from "../../universities/model/universityStore";
 
 export default function MajorsPage() {
+  const { ntcPrograms, fields, subjects, fetchNtcPrograms, fetchSubjects, fetchFields } = useUniversityStore();
+
+  const getField = (id: number) => fields.find((f) => f.code === String(id));
+  const getSubject = (id: number) => subjects.find((s) => s.id === id);
+
+  const dataReady = ntcPrograms.length > 0 && fields.length > 0 && subjects.length > 0;
   const [currentPage, setCurrentPage] = useState(1);
-
   const [searchQuery, setSearchQuery] = useState("");
-  const [selectedSubject, setSelectedSubject] = useState("");
+  const [selectedSubjects, setSelectedSubjects] = useState<string[]>([]);
+  const [selectedFields, setSelectedFields] = useState<string[]>([]);
 
-  const itemsPerPage = 6;
+  const itemsPerPage = 9;
 
-  // 🔎 Filtering
-  const filteredMajors = useMemo(() => {
-    return MAJORS_DATA.filter((major) => {
-      const matchesSearch =
-        major.name.toLowerCase().includes(searchQuery.toLowerCase());
+  useEffect(() => {
+    fetchNtcPrograms();
+    fetchSubjects();
+    fetchFields();
+  }, []);
 
-      const matchesSubject =
-        !selectedSubject ||
-        major.subjects.some((s) =>
-          s.toLowerCase().includes(selectedSubject.toLowerCase())
-        );
+  const filteredPrograms = useMemo(() => {
+  return ntcPrograms.filter((program) => {
+    const matchesSearch =
+      program.name?.toLowerCase().includes(searchQuery.toLowerCase());
 
-      return matchesSearch && matchesSubject;
-    });
-  }, [searchQuery, selectedSubject]);
+    const matchesField =
+      selectedFields.length === 0 ||
+      selectedFields.includes(String(program.field_of_study)); 
 
-  // ✅ reset page when filters change
+    const matchesSubject =
+      selectedSubjects.length === 0 ||
+      selectedSubjects.includes(String(program.subject_1)) || 
+      selectedSubjects.includes(String(program.subject_2));
+
+    return matchesSearch && matchesField && matchesSubject;
+  });
+}, [ntcPrograms, searchQuery, selectedFields, selectedSubjects]);
+
   useEffect(() => {
     setCurrentPage(1);
-  }, [searchQuery, selectedSubject]);
+  }, [searchQuery, selectedSubjects, selectedFields]);
 
-  const totalPages = Math.ceil(filteredMajors.length / itemsPerPage);
-
-  const paginatedMajors = filteredMajors.slice(
+  const totalPages = Math.ceil(filteredPrograms.length / itemsPerPage);
+  const paginatedPrograms = filteredPrograms.slice(
     (currentPage - 1) * itemsPerPage,
     currentPage * itemsPerPage
   );
-
-  const handlePageChange = (page: number) => {
-    setCurrentPage(page);
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  };
 
   return (
     <div>
@@ -134,42 +68,57 @@ export default function MajorsPage() {
         <div className="max-w-7xl mx-auto px-10">
           <SearchFilterMajors
             onSearch={setSearchQuery}
-            onSubjectChange={setSelectedSubject}
+            onSubjectChange={setSelectedSubjects}
+            onFieldChange={setSelectedFields}
+            selectedSubjects={selectedSubjects}
+            selectedFields={selectedFields}
           />
 
           <div className="mb-6 text-[#4B5563] font-medium text-center">
-            Found {filteredMajors.length} majors
+            Found {filteredPrograms.length} majors
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
-            {paginatedMajors.map((major) => (
-              <Card
-                key={major.id}
-                icon={<MdSchool className="text-white w-6 h-6" />}
-                title={major.name}
-                description={
-                  <div className="text-sm text-gray-500 mt-2 space-y-1">
-                    <p>
-                      <span className="font-medium">Subjects:</span>{" "}
-                      {major.subjects.join(" + ")}
-                    </p>
-                    <p>
-                      <span className="font-medium">
-                        Minimum Passing Score:
-                      </span>{" "}
-                      {major.minScore}
-                    </p>
-                    <p>
-                      <span className="font-medium">Universities:</span>{" "}
-                      {major.universities}
-                    </p>
-                  </div>
-                }
-              />
-            ))}
-          </div>
+          {!dataReady ? (
+            <div className="text-center py-12">
+              <p className="text-gray-400">Loading...</p>
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+              {paginatedPrograms.map((program) => {
+                const field = getField(program.field_of_study);
+                const subject1 = getSubject(program.subject_1 as number);
+                const subject2 = getSubject(program.subject_2 as number);
 
-          {paginatedMajors.length === 0 && (
+                console.log("field lookup:", program.field_of_study, "→", field); // ← temp debug
+
+                return (
+                  <Card
+                    key={program.code}
+                    icon={<MdSchool className="text-white w-6 h-6" />}
+                    title={program.name}
+                    description={
+                      <div className="text-sm text-gray-500 mt-2 space-y-1">
+                        <p>
+                          <span className="font-medium text-gray-600">Field:</span>{" "}
+                          {field?.name ?? `(${program.field_of_study})`}
+                        </p>
+                        <p>
+                          <span className="font-medium text-gray-600">Subjects:</span>{" "}
+                          {[subject1?.name, subject2?.name].filter(Boolean).join(" + ") || "—"}
+                        </p>
+                        <p>
+                          <span className="font-medium text-gray-600">Code:</span>{" "}
+                          {program.code}
+                        </p>
+                      </div>
+                    }
+                  />
+                );
+              })}
+            </div>
+          )}
+
+          {paginatedPrograms.length === 0 && (
             <div className="text-center py-12">
               <p className="text-secondary_text text-lg">
                 No majors found. Try adjusting your filters.
@@ -181,7 +130,10 @@ export default function MajorsPage() {
             <Pagination
               currentPage={currentPage}
               totalPages={totalPages}
-              onPageChange={handlePageChange}
+              onPageChange={(page) => {
+                setCurrentPage(page);
+                window.scrollTo({ top: 0, behavior: "smooth" });
+              }}
             />
           )}
         </div>

@@ -24,12 +24,13 @@ export type FieldOfStudy = {
   name: string;
 };
 
+// types.ts
 export type NtcProgram = {
   code: string;
   name: string;
-  field_of_study: FieldOfStudy;
-  subject_1: Subject;
-  subject_2: Subject;
+  field_of_study: number;
+  subject_1: number; 
+  subject_2: number; 
 };
 
 export type UniversityProgram = {

@@ -1,6 +1,6 @@
 import { http } from "../../../shared/api/http";
 import { endpoints } from "../../../shared/api/endpoints";
-import type { University, UniversityProgram, FieldOfStudy, Subject } from "../model/types";
+import type { University, UniversityProgram, FieldOfStudy, Subject, NtcProgram } from "../model/types";
 
 export const universityService = {
   getUniversities: () =>
@@ -17,6 +17,9 @@ export const universityService = {
 
   getUniversityPrograms: () =>
     http.get<UniversityProgram[]>(endpoints.universityPrograms.list),
+
+  getNtcPrograms: () =>
+  http.get<NtcProgram[]>(endpoints.programs.list),
 
   getUniversityProgramsByUniversity: (universityCode: string) =>
     http.get<UniversityProgram[]>(endpoints.universityPrograms.list, {

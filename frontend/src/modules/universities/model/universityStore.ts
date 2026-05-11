@@ -1,6 +1,6 @@
 import { create } from "zustand";
 import { universityService } from "../api/universityService";
-import type { University, UniversityProgram, FieldOfStudy, Subject } from "./types";
+import type { University, UniversityProgram, FieldOfStudy, Subject, NtcProgram } from "./types";
 
 type UniversityState = {
   universities: University[];
@@ -10,6 +10,7 @@ type UniversityState = {
   isLoading: boolean;
   error: string | null;
   myUniversity: University | null;
+  ntcPrograms: NtcProgram[];
 
   fetchMyUniversity: () => Promise<void>;
   fetchUniversities: () => Promise<void>;
@@ -17,6 +18,7 @@ type UniversityState = {
   fetchProgramsByUniversity: (code: string) => Promise<void>;
   fetchFields: () => Promise<void>;
   fetchSubjects: () => Promise<void>;
+  fetchNtcPrograms: () => Promise<void>;
 };
 
 export const useUniversityStore = create<UniversityState>((set) => ({
@@ -27,6 +29,7 @@ export const useUniversityStore = create<UniversityState>((set) => ({
   isLoading: false,
   error: null,
   myUniversity: null as University | null,
+  ntcPrograms: [],
 
   fetchUniversities: async () => {
     set({ isLoading: true, error: null });
@@ -96,4 +99,16 @@ export const useUniversityStore = create<UniversityState>((set) => ({
       set({ error: "Failed to load university" });
     }
   },
+  
+  fetchNtcPrograms: async () => {
+  set({ isLoading: true, error: null });
+  try {
+    const res = await universityService.getNtcPrograms();
+    set({ ntcPrograms: res.data });
+  } catch {
+    set({ error: "Failed to load programs" });
+  } finally {
+    set({ isLoading: false });
+  }
+},
 }));
