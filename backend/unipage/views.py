@@ -3,6 +3,8 @@ from rest_framework.views import APIView
 from rest_framework import status, viewsets
 from rest_framework.response import Response
 from rest_framework.permissions import AllowAny
+from announcements.models import Announcement
+from announcements.views import notify_users
 from userpage.permissions import IsNtcAdmin, IsUniAdminOfThisUniversity, IsUniAdmin
 from .models import University, UniversityProgram, NtcProgram, FieldOfStudy, Subject
 from .serializers import (
@@ -12,10 +14,9 @@ from .serializers import (
     SubjectSerializer,
     UniversityProgramSerializer,
     UniversityProgramWriteSerializer,
+    UniversityBasicUpdateSerializer
 )
 
-
-# --- My University (Uni Admin) ---
 
 class MyUniversityView(APIView):
     permission_classes = [IsUniAdmin]
@@ -66,6 +67,14 @@ class MyUniversityProgramDetailView(APIView):
         serializer = UniversityProgramWriteSerializer(program, data=request.data, partial=True)
         if serializer.is_valid():
             serializer.save()
+            ann = Announcement.objects.create(
+                title=f'Обновление программы {program.local_name}',
+                body=f'Университет {program.university.name} обновил информацию по программе «{program.local_name}».',
+                author_type='university',
+                university=program.university,
+                created_by=request.user,
+            )
+            notify_users(ann)
             return Response(serializer.data)
         return Response(serializer.errors, status=400)
 
@@ -223,3 +232,247 @@ def field_delete(request, code):
     except Exception:
         pass
     return redirect('field_list')
+
+from .models import (
+    University, UniversityProgram, NtcProgram, FieldOfStudy, Subject,
+    EntranceRequirement, EntranceExam, AcademicMobility, UniversityLanguage
+)
+from .serializers import (
+    UniversitySerializer, UniversityUpdateSerializer,
+    UniversityPageSerializer,
+    UniversityProgramDetailSerializer,
+    FieldOfStudySerializer, NtcProgramSerializer, SubjectSerializer,
+    UniversityProgramSerializer, UniversityProgramWriteSerializer,
+    EntranceRequirementWriteSerializer, EntranceExamWriteSerializer,
+    AcademicMobilityWriteSerializer,
+)
+
+
+# --- Публичные страницы ---
+
+class UniversityPageView(APIView):
+    """GET /unipage/api/universities/<code>/"""
+    permission_classes = [AllowAny]
+
+    def get(self, request, code):
+        university = get_object_or_404(University, code=code)
+        serializer = UniversityPageSerializer(university)
+        return Response(serializer.data)
+
+
+class UniversityProgramPageView(APIView):
+    """GET /unipage/api/university-programs/<code>/"""
+    permission_classes = [AllowAny]
+
+    def get(self, request, code):
+        program = get_object_or_404(
+            UniversityProgram.objects.select_related(
+                'university', 'ntc_program__field_of_study',
+                'ntc_program__subject_1', 'ntc_program__subject_2',
+                'language'
+            ),
+            code=code
+        )
+        serializer = UniversityProgramDetailSerializer(program)
+        return Response(serializer.data)
+
+
+# --- Uni Admin: редактирование университета ---
+
+class MyUniversityUpdateView(APIView):
+    """PATCH /unipage/api/my-university/info/ — редактирование основной инфы"""
+    permission_classes = [IsUniAdmin]
+
+    def patch(self, request):
+        university = request.user.staff_profile.university
+        serializer = UniversityUpdateSerializer(university, data=request.data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=400)
+
+
+class MyUniversityLanguagesView(APIView):
+    """
+    GET  /unipage/api/my-university/languages/  — список языков обучения
+    POST /unipage/api/my-university/languages/  — добавить язык ({"language_id": 2})
+    """
+    permission_classes = [IsUniAdmin]
+
+    def get(self, request):
+        university = request.user.staff_profile.university
+        langs = UniversityLanguage.objects.filter(university=university).select_related('language')
+        return Response([{'id': ul.language.id, 'name': ul.language.name} for ul in langs])
+
+    def post(self, request):
+        university = request.user.staff_profile.university
+        lang_id = request.data.get('language_id')
+        if not lang_id:
+            return Response({'error': 'language_id required'}, status=400)
+        obj, created = UniversityLanguage.objects.get_or_create(
+            university=university, language_id=lang_id
+        )
+        return Response({'status': 'created' if created else 'already exists'}, status=201 if created else 200)
+
+
+class MyUniversityLanguageDeleteView(APIView):
+    """DELETE /unipage/api/my-university/languages/<lang_id>/"""
+    permission_classes = [IsUniAdmin]
+
+    def delete(self, request, lang_id):
+        university = request.user.staff_profile.university
+        deleted, _ = UniversityLanguage.objects.filter(
+            university=university, language_id=lang_id
+        ).delete()
+        if deleted:
+            return Response({'status': 'deleted'}, status=204)
+        return Response({'error': 'Not found'}, status=404)
+
+
+class MyUniversityRequirementsView(APIView):
+    """
+    GET  /unipage/api/my-university/requirements/
+    POST /unipage/api/my-university/requirements/
+    """
+    permission_classes = [IsUniAdmin]
+
+    def get(self, request):
+        university = request.user.staff_profile.university
+        qs = EntranceRequirement.objects.filter(university=university)
+        return Response(EntranceRequirementWriteSerializer(qs, many=True).data)
+
+    def post(self, request):
+        university = request.user.staff_profile.university
+        serializer = EntranceRequirementWriteSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save(university=university)
+            return Response(serializer.data, status=201)
+        return Response(serializer.errors, status=400)
+
+
+class MyUniversityRequirementDetailView(APIView):
+    """
+    PATCH  /unipage/api/my-university/requirements/<pk>/
+    DELETE /unipage/api/my-university/requirements/<pk>/
+    """
+    permission_classes = [IsUniAdmin]
+
+    def get_object(self, request, pk):
+        university = request.user.staff_profile.university
+        return get_object_or_404(EntranceRequirement, pk=pk, university=university)
+
+    def patch(self, request, pk):
+        obj = self.get_object(request, pk)
+        serializer = EntranceRequirementWriteSerializer(obj, data=request.data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=400)
+
+    def delete(self, request, pk):
+        self.get_object(request, pk).delete()
+        return Response({'status': 'deleted'}, status=204)
+
+
+class MyUniversityExamsView(APIView):
+    """
+    GET  /unipage/api/my-university/exams/
+    POST /unipage/api/my-university/exams/
+    """
+    permission_classes = [IsUniAdmin]
+
+    def get(self, request):
+        university = request.user.staff_profile.university
+        qs = EntranceExam.objects.filter(university=university)
+        return Response(EntranceExamWriteSerializer(qs, many=True).data)
+
+    def post(self, request):
+        university = request.user.staff_profile.university
+        serializer = EntranceExamWriteSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save(university=university)
+            return Response(serializer.data, status=201)
+        return Response(serializer.errors, status=400)
+
+
+class MyUniversityExamDetailView(APIView):
+    """
+    PATCH  /unipage/api/my-university/exams/<pk>/
+    DELETE /unipage/api/my-university/exams/<pk>/
+    """
+    permission_classes = [IsUniAdmin]
+
+    def get_object(self, request, pk):
+        university = request.user.staff_profile.university
+        return get_object_or_404(EntranceExam, pk=pk, university=university)
+
+    def patch(self, request, pk):
+        obj = self.get_object(request, pk)
+        serializer = EntranceExamWriteSerializer(obj, data=request.data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=400)
+
+    def delete(self, request, pk):
+        self.get_object(request, pk).delete()
+        return Response({'status': 'deleted'}, status=204)
+
+
+class MyUniversityMobilityView(APIView):
+    """
+    GET  /unipage/api/my-university/mobility/
+    POST /unipage/api/my-university/mobility/
+    """
+    permission_classes = [IsUniAdmin]
+
+    def get(self, request):
+        university = request.user.staff_profile.university
+        qs = AcademicMobility.objects.filter(university=university)
+        return Response(AcademicMobilityWriteSerializer(qs, many=True).data)
+
+    def post(self, request):
+        university = request.user.staff_profile.university
+        serializer = AcademicMobilityWriteSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save(university=university)
+            return Response(serializer.data, status=201)
+        return Response(serializer.errors, status=400)
+
+
+class MyUniversityMobilityDetailView(APIView):
+    """
+    PATCH  /unipage/api/my-university/mobility/<pk>/
+    DELETE /unipage/api/my-university/mobility/<pk>/
+    """
+    permission_classes = [IsUniAdmin]
+
+    def get_object(self, request, pk):
+        university = request.user.staff_profile.university
+        return get_object_or_404(AcademicMobility, pk=pk, university=university)
+
+    def patch(self, request, pk):
+        obj = self.get_object(request, pk)
+        serializer = AcademicMobilityWriteSerializer(obj, data=request.data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=400)
+
+    def delete(self, request, pk):
+        self.get_object(request, pk).delete()
+        return Response({'status': 'deleted'}, status=204)
+
+class NtcUniversityUpdateView(APIView):
+    """PATCH /unipage/api/universities/<code>/edit/ — только для NTC"""
+    permission_classes = [IsNtcAdmin]
+
+    def patch(self, request, code):
+            university = get_object_or_404(University, code=code)
+            serializer = UniversityBasicUpdateSerializer(university, data=request.data, partial=True)
+            if serializer.is_valid():
+                serializer.save()
+                return Response(serializer.data)
+            return Response(serializer.errors, status=400)
+
+

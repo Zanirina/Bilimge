@@ -9,4 +9,5 @@ urlpatterns = [
     path('unipage/', include('unipage.urls')),
     path('api/auth/', include('userpage.urls')),
     path('api/chat/', include('chatbot.urls')),
+    path('api/announcements/', include('announcements.urls')),
 ]

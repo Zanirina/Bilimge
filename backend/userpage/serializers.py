@@ -23,7 +23,7 @@ class RegisterSerializer(serializers.ModelSerializer):
 class UserMeSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ['id', 'email', 'phone', 'role', 'created_at']  # убрали username
+        fields = ['id', 'email', 'phone', 'role', 'created_at', 'first_name', 'last_name']
 
 
 class ApplicantProfileSerializer(serializers.ModelSerializer):
@@ -46,7 +46,7 @@ class ApplicantProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = Applicant
         fields = [
-            'email', 'first_name', 'last_name', 'phone',  # убрали username
+            'email', 'first_name', 'last_name', 'phone',
             'birth_date', 'unt_score',
             'target_speciality',
             'target_speciality_name',

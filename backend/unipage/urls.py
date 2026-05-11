@@ -5,7 +5,8 @@ from .views import (
     UniversityViewSet,
     MyUniversityView,
     MyUniversityProgramView,
-    MyUniversityProgramDetailView
+    MyUniversityProgramDetailView,
+    NtcUniversityUpdateView
 )
 router = DefaultRouter()
 router.register(r'universities', views.UniversityViewSet, basename='university')
@@ -33,4 +34,7 @@ urlpatterns = [
     path('api/my-university/', views.MyUniversityView.as_view(), name='my-university'),
     path('api/my-university/programs/', views.MyUniversityProgramView.as_view(), name='my-university-programs'),
     path('api/my-university/programs/<str:code>/', views.MyUniversityProgramDetailView.as_view(), name='my-university-program-detail'),
+    path('api/universities/<str:code>/edit/', NtcUniversityUpdateView.as_view(), name='university-edit'),
+
+
 ]

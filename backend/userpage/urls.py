@@ -1,6 +1,8 @@
 from django.urls import path
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 from .views import RegisterView, MeView, ApplicantProfileView, FavoriteView, FavoriteDeleteView
+from .reset_views import PasswordResetRequestView, PasswordResetConfirmView
+
 
 urlpatterns = [
     path('register/', RegisterView.as_view(), name='register'),
@@ -11,4 +13,7 @@ urlpatterns = [
     path('favorites/', FavoriteView.as_view(), name='favorites'),
     path('favorites/<int:pk>/', FavoriteDeleteView.as_view(), name='favorite-delete'),
 
+
+    path('api/auth/reset-password/', PasswordResetRequestView.as_view()),
+    path('api/auth/reset-password/confirm/', PasswordResetConfirmView.as_view()),
 ]
