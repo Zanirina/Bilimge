@@ -2,21 +2,25 @@ import { Outlet } from "react-router-dom";
 import { useAuthStore } from "../../modules/auth/model/authStore";
 import { IoIosLogOut } from "react-icons/io";
 import { IoNotificationsOutline } from "react-icons/io5";
-import { MdOutlineDashboard, MdOutlineSettings, MdOutlineSchool } from "react-icons/md";
-import { TbLayoutList, TbSpeakerphone } from "react-icons/tb";
+import { MdOutlineDashboard, MdOutlineSchool, MdOutlineMenuBook } from "react-icons/md";
+import { TbRobot, TbSpeakerphone } from "react-icons/tb";
+import { LuBrain } from "react-icons/lu";
 import Sidebar from "../../shared/ui/Sidebar";
 import type { SidebarItem } from "../../shared/ui/Sidebar";
 
 const sidebarItems: SidebarItem[] = [
-  { label: "Dashboard",            path: "/ntc/dashboard",    icon: MdOutlineDashboard },
-  { label: "Post Announcements",   path: "/ntc/announcements", icon: TbSpeakerphone },
-  { label: "Manage Programs",      path: "/ntc/programs",     icon: TbLayoutList },
-  { label: "Manage Universities",  path: "/ntc/universities", icon: MdOutlineSchool },
-  { label: "Settings",             path: "/ntc/settings",     icon: MdOutlineSettings },
+  { label: "My Overview",          path: "/applicant/dashboard",     icon: MdOutlineDashboard },
+  { label: "Announcements",        path: "/applicant/announcements", icon: TbSpeakerphone },
+  { label: "Explore Universities", path: "/applicant/universities",  icon: MdOutlineSchool },
+  { label: "Programs & Majors",    path: "/applicant/majors",        icon: MdOutlineMenuBook },
+  { label: "Exam Preparation",     path: "/applicant/exams",         icon: LuBrain },
+  { label: "AI Assistant",         path: "/applicant/chatbot",       icon: TbRobot },
 ];
 
-export default function NtcAdminLayout() {
+export default function ApplicantLayout() {
+  const user = useAuthStore((s) => s.user);
   const logout = useAuthStore((s) => s.logout);
+  const fullName = `${user?.first_name ?? "Name"} ${user?.last_name ?? "Surname"}`.trim();
 
   return (
     <div className="flex h-screen bg-[#F3F4F6] overflow-hidden">

@@ -46,7 +46,7 @@ export default function SignUpPage() {
         first_name: form.firstName,
         last_name: form.lastName,
       });
-      navigate("/");
+      navigate("/applicant");
     } catch (err: unknown) {
       const msg = err instanceof Error ? err.message : "";
       if (msg.includes("exists") || msg.includes("already")) {

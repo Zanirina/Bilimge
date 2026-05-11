@@ -161,9 +161,9 @@ export default function SignInPage() {
 
 function getDefaultRoute(role: string): string {
   switch (role) {
-    case "UNI_ADMIN": return "/university";
-    case "NTC_ADMIN": return "/ntc";
+    case "UNI_ADMIN": return "/uni/dashboard";
+    case "NTC_ADMIN": return "/ntc/dashboard";
     case "SUPER_ADMIN": return "/admin";
-    default: return "/";  // APPLICANT
+    default: return "/applicant/dashboard";
   }
 }
