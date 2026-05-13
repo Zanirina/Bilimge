@@ -1,8 +1,7 @@
 import uuid
+from django.conf import settings
 from django.core.mail import send_mail
 from django.contrib.auth import get_user_model
-from django.utils import timezone
-from datetime import timedelta
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.permissions import AllowAny
@@ -30,14 +29,20 @@ class PasswordResetRequestView(APIView):
         # Сохраняем токен в кэше на 30 минут
         cache.set(f'reset:{token}', user.pk, timeout=60 * 30)
 
-        reset_link = f"https://bilimge.kz/reset-password?token={token}"
+        frontend_url = getattr(settings, 'FRONTEND_URL', 'http://localhost:5173')
+        reset_link = f"{frontend_url}/auth/reset-password?token={token}"
 
-        send_mail(
-            subject='Сброс пароля — Bilimge',
-            message=f'Для сброса пароля перейдите по ссылке:\n{reset_link}\n\nСсылка действительна 30 минут.',
-            from_email=None,  # берёт DEFAULT_FROM_EMAIL
-            recipient_list=[email],
-        )
+        try:
+            send_mail(
+                subject='Сброс пароля — Bilimge',
+                message=f'Для сброса пароля перейдите по ссылке:\n{reset_link}\n\nСсылка действительна 30 минут.',
+                from_email=None,
+                recipient_list=[email],
+            )
+        except Exception:
+            if settings.DEBUG:
+                return Response({'message': 'If this email exists, a reset link was sent.', 'debug_link': reset_link})
+            return Response({'error': 'Failed to send email. Please try again later.'}, status=500)
 
         return Response({'message': 'If this email exists, a reset link was sent.'})
 

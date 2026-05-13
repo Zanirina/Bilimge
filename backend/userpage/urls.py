@@ -14,6 +14,6 @@ urlpatterns = [
     path('favorites/<int:pk>/', FavoriteDeleteView.as_view(), name='favorite-delete'),
 
 
-    path('api/auth/reset-password/', PasswordResetRequestView.as_view()),
-    path('api/auth/reset-password/confirm/', PasswordResetConfirmView.as_view()),
+    path('reset-password/', PasswordResetRequestView.as_view()),
+    path('reset-password/confirm/', PasswordResetConfirmView.as_view()),
 ]

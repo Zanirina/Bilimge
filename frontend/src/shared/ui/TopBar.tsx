@@ -70,9 +70,7 @@ export default function TopBar({
           </div>
           <div className="flex flex-col items-start leading-tight">
             <span className="text-sm font-semibold text-[#111928]">{displayName}</span>
-            {userSubtitle && (
-              <span className="text-xs text-gray-400">{userSubtitle}</span>
-            )}
+            <span className="text-xs text-gray-400">{userSubtitle ?? user?.email}</span>
           </div>
           {open ? (
             <MdKeyboardArrowUp size={18} className="text-gray-400" />

@@ -7,6 +7,7 @@ import UniversityAdminLayout from "../layouts/UniversityAdminLayout";
 import SignInPage from "../../modules/auth/ui/SignInPage";
 import SignUpPage from "../../modules/auth/ui/SignUpPage";
 import ResetPasswordPage from "../../modules/auth/ui/ResetPasswordPage";
+import ResetPasswordConfirmPage from "../../modules/auth/ui/ResetPasswordConfirmPage";
 import HomePage from "../../pages/HomePage";
 import UniversitiesPage from "../../modules/universities/ui/UniversitiesPage";
 import MajorsPage from "../../modules/majors/ui/MajorsPage";
@@ -56,6 +57,7 @@ export const routes: AppRoute[] = [
             { path: "login", element: <SignInPage /> },
             { path: "register", element: <SignUpPage /> },
             { path: "password", element: <ResetPasswordPage /> },
+            { path: "reset-password", element: <ResetPasswordConfirmPage /> },
         ],
     },
     {
