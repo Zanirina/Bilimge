@@ -11,10 +11,21 @@ export const http = axios.create({
 http.interceptors.request.use((config) => {
   const token = storage.getAccessToken();
   if (token) {
-    config.headers.Authorization = `Bearer ${token}`; // ← JWT uses Bearer
+    config.headers.Authorization = `Bearer ${token}`;
   }
   return config;
 });
+
+let isRefreshing = false;
+let failedQueue: Array<{ resolve: (token: string) => void; reject: (err: unknown) => void }> = [];
+
+const processQueue = (error: unknown, token: string | null) => {
+  failedQueue.forEach(({ resolve, reject }) => {
+    if (error) reject(error);
+    else resolve(token!);
+  });
+  failedQueue = [];
+};
 
 http.interceptors.response.use(
   (r) => r,
@@ -23,17 +34,59 @@ http.interceptors.response.use(
     if (!error.response) return Promise.reject(error);
 
     const status = error.response.status;
+    if (status !== 401) return Promise.reject(error);
+
     const url = String(original?.url ?? "");
 
-    const isLogin = url.includes(endpoints.auth.login);
-    const isRegister = url.includes(endpoints.auth.register);
-    const isMe = url.includes(endpoints.auth.me);
+    // Never attempt refresh for auth endpoints themselves
+    const isAuthEndpoint =
+      url.includes(endpoints.auth.login) ||
+      url.includes(endpoints.auth.register) ||
+      url.includes(endpoints.auth.refresh) ||
+      url.includes(endpoints.auth.me);
 
-    if (status === 401 && !isLogin && !isRegister && !isMe) {
+    if (isAuthEndpoint) return Promise.reject(error);
+
+    // No refresh token → just propagate 401; the calling code decides what to do
+    const refreshToken = storage.getRefreshToken();
+    if (!refreshToken) return Promise.reject(error);
+
+    // Already retried once → session is dead, go to login
+    if (original._retry) {
       storage.clearTokens();
       window.location.href = "/login";
+      return Promise.reject(error);
     }
 
-    return Promise.reject(error);
+    if (isRefreshing) {
+      return new Promise<string>((resolve, reject) => {
+        failedQueue.push({ resolve, reject });
+      }).then((token) => {
+        original.headers.Authorization = `Bearer ${token}`;
+        return http(original);
+      });
+    }
+
+    original._retry = true;
+    isRefreshing = true;
+
+    try {
+      const { data } = await axios.post(
+        `${env.API_URL}${endpoints.auth.refresh}`,
+        { refresh: refreshToken }
+      );
+      storage.setTokens(data.access, refreshToken);
+      http.defaults.headers.common.Authorization = `Bearer ${data.access}`;
+      processQueue(null, data.access);
+      original.headers.Authorization = `Bearer ${data.access}`;
+      return http(original);
+    } catch (refreshError) {
+      processQueue(refreshError, null);
+      storage.clearTokens();
+      window.location.href = "/login";
+      return Promise.reject(refreshError);
+    } finally {
+      isRefreshing = false;
+    }
   }
 );

@@ -4,10 +4,11 @@ from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework import status
 from rest_framework_simplejwt.tokens import RefreshToken
 
-from .models import User, Applicant, Favorite
-from .serializers import RegisterSerializer, UserMeSerializer, ApplicantProfileSerializer, FavoriteSerializer
-from .models import User, Applicant
-from .serializers import RegisterSerializer, UserMeSerializer, ApplicantProfileSerializer
+from .models import User, Applicant, Favorite, UniversityStaff
+from .serializers import (
+    RegisterSerializer, UserMeSerializer,
+    ApplicantProfileSerializer, FavoriteSerializer,
+)
 
 
 class RegisterView(APIView):
@@ -19,7 +20,6 @@ class RegisterView(APIView):
             user = serializer.save()
             refresh = RefreshToken.for_user(user)
             return Response({
-                "user": UserMeSerializer(user).data,
                 "access": str(refresh.access_token),
                 "refresh": str(refresh),
             }, status=status.HTTP_201_CREATED)
@@ -30,9 +30,13 @@ class MeView(APIView):
     permission_classes = [IsAuthenticated]
 
     def get(self, request):
+        # select_related for applicant_profile only — joining through
+        # target_speciality causes varchar/integer type mismatch in PostgreSQL
+        # (applicant.target_speciality_id is varchar, ntc_programs.code is int).
+        # The lazy load of target_speciality works via simple WHERE, so we skip
+        # the deep join here.
         user = User.objects.select_related(
             'applicant_profile',
-            'applicant_profile__target_speciality'
         ).prefetch_related('favorites').get(pk=request.user.pk)
 
         serializer = UserMeSerializer(user)

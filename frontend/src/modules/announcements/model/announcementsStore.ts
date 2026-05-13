@@ -1,0 +1,72 @@
+import { create } from "zustand";
+import { announcementsService } from "../api/announcementsService";
+import type { Announcement, AnnouncementAuthorType, CreateAnnouncementRequest } from "./types";
+
+type AnnouncementsState = {
+  announcements: Announcement[];
+  current: Announcement | null;
+  isLoading: boolean;
+  error: string | null;
+
+  fetchList: (authorType?: AnnouncementAuthorType) => Promise<void>;
+  fetchById: (id: number) => Promise<void>;
+  createNtc: (data: CreateAnnouncementRequest) => Promise<void>;
+  createUniversity: (data: CreateAnnouncementRequest) => Promise<void>;
+};
+
+export const useAnnouncementsStore = create<AnnouncementsState>((set) => ({
+  announcements: [],
+  current: null,
+  isLoading: false,
+  error: null,
+
+  fetchList: async (authorType) => {
+    set({ isLoading: true, error: null });
+    try {
+      const res = await announcementsService.getList(authorType);
+      set({ announcements: res.data });
+    } catch {
+      set({ error: "Failed to load announcements" });
+    } finally {
+      set({ isLoading: false });
+    }
+  },
+
+  fetchById: async (id) => {
+    set({ isLoading: true, error: null });
+    try {
+      const res = await announcementsService.getById(id);
+      set({ current: res.data });
+    } catch {
+      set({ error: "Failed to load announcement" });
+    } finally {
+      set({ isLoading: false });
+    }
+  },
+
+  createNtc: async (data) => {
+    set({ isLoading: true, error: null });
+    try {
+      const res = await announcementsService.createNtc(data);
+      set((s) => ({ announcements: [res.data, ...s.announcements] }));
+    } catch {
+      set({ error: "Failed to create announcement" });
+      throw new Error("Failed to create announcement");
+    } finally {
+      set({ isLoading: false });
+    }
+  },
+
+  createUniversity: async (data) => {
+    set({ isLoading: true, error: null });
+    try {
+      const res = await announcementsService.createUniversity(data);
+      set((s) => ({ announcements: [res.data, ...s.announcements] }));
+    } catch {
+      set({ error: "Failed to create announcement" });
+      throw new Error("Failed to create announcement");
+    } finally {
+      set({ isLoading: false });
+    }
+  },
+}));
