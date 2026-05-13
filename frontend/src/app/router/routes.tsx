@@ -27,6 +27,7 @@ import NtcAnnouncementsPage from "../../modules/announcements/ui/NtcAnnouncement
 import NtcUniversitiesPage from "../../modules/universities/ui/NtcUniversitiesPage";
 import NtcSettingsPage from "../../modules/ntc/ui/NtcSettingsPage";
 import NtcProgramsPage from "../../modules/universities/ui/admin/UniProgramsPage";
+import ComparisonPage from "../../modules/comparison/ui/ComparisonPage";
 import AboutPage from "../../pages/AboutPage";
 import NotFoundPage from "../../pages/NotFoundPage";
 
@@ -73,7 +74,8 @@ export const routes: AppRoute[] = [
                     { path: "majors", element: <MajorsPage /> },
                     { path: "exams", element: <ExamsPrepPage /> },
                     { path: "chatbot", element: <AIAssistantPage /> },
-                    { path: "profile", element: <ApplicantProfilePage /> }
+                    { path: "profile", element: <ApplicantProfilePage /> },
+                    { path: "comparison", element: <ComparisonPage /> }
                 ],
             },
         ],

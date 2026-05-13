@@ -34,7 +34,7 @@ class AnnouncementListView(APIView):
     permission_classes = [AllowAny]
 
     def get(self, request):
-        qs = Announcement.objects.select_related('university').all()
+        qs = Announcement.objects.select_related('created_by').all()
         # Фильтр по типу: ?author_type=ntc или ?author_type=university
         author_type = request.query_params.get('author_type')
         if author_type:
