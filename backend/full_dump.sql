@@ -2,7 +2,7 @@
 -- PostgreSQL database dump
 --
 
-\restrict z0qFr0EKRzVmeExjZ3N6QaBDLS1rW9yW8EYbJ2aqtfxgxMvDhByo6keVuA40UhM
+\restrict uSqGzWiRUVTRWwc4thV9DwgYKLxIPHvrNjkKlnDJVlcQ5a9B5z4h0r5w0JYg2gg
 
 -- Dumped from database version 18.3
 -- Dumped by pg_dump version 18.3
@@ -765,7 +765,9 @@ CREATE TABLE public.universities (
     website character varying(255) DEFAULT ''::character varying NOT NULL,
     has_dormitory boolean DEFAULT false NOT NULL,
     has_military_department boolean DEFAULT false NOT NULL,
-    photo_url character varying(500) DEFAULT ''::character varying NOT NULL
+    photo_url character varying(500) DEFAULT ''::character varying NOT NULL,
+    logo_url character varying(500) DEFAULT ''::character varying NOT NULL,
+    cover_url character varying(500) DEFAULT ''::character varying NOT NULL
 );
 
 
@@ -44617,121 +44619,121 @@ COPY public.subject (id, name) FROM stdin;
 -- Data for Name: universities; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.universities (code, name, city, address, year_established, email, phone, passing_score, history, website, has_dormitory, has_military_department, photo_url) FROM stdin;
-421	Kazakh-British Technical University (KBTU)	Almaty	59 Tole Bi str.	2001	info@kbtu.kz	+77273574242	85			f	f	
-1	Astana Medical University 	Astana	49/a Beybitshilik str.	1964	info@amu.kz	+77172539424	70			f	f	
-2	S. Seifullin Kazakh Agrotechnical University 	Astana	62 Zhenis Ave.	1957	katu_mail@kazatu.kz	+77172317547	60			f	f	
-3	Sh. Yessenov Caspian University of Technology and Engineering 	Aktau	34 microdistrict, building 1	1976	office@yu.edu.kz	+77292425515	50			f	f	
-4	Marat Ospanov West Kazakhstan Medical University 	Aktobe	68 Maresyev str.	1957	zkgmu@zkgmu.kz	+77132567210	70			f	f	
-5	K. Zhubanov Aktobe Regional University 	Aktobe	34 A. Moldagulova Ave.	1935	kense@zhubanov.edu.kz	+77132541244	60			f	f	
-6	Kurmangazy Kazakh National Conservatory 	Almaty	86 Abylai Khan Ave.	1944	info@conservatoire.kz	+77272729045	50			f	f	
-7	Abai Kazakh National Pedagogical University 	Almaty	13 Dostyk Ave.	1928	rector@abaiuniversity.edu.kz	+77272913366	75			f	f	
-8	I. Altynsarin Arkalyk Pedagogical Institute 	Arkalyk	17 Auelbekov str.	1972	api@api.edu.kz	+77143071318	50			f	f	
-9	S. Utebayev Atyrau University of Oil and Gas 	Atyrau	1 Baitursynov str.	1980	info@aiau.edu.kz	+77122362548	55			f	f	
-10	Kh. Dosmukhamedov Atyrau University 	Atyrau	212 Studentskaya str.	1950	kense@asu.edu.kz	+77122276300	50			f	f	
-11	S. Amanzholov East Kazakhstan University 	Oskemen	30 Kazakhstan str.	1952	kense@vku.edu.kz	+77232241458	65			f	f	
-12	D. Serikbayev East Kazakhstan Technical University 	Oskemen	69 Protozanov str.	1958	kense@ektu.kz	+77232267409	65			f	f	
-13	L.N. Gumilyov Eurasian National University 	Astana	2 Satpayev str.	1996	enu@enu.kz	+77172709500	85			f	f	
-14	O.A. Baikonurov Zhezkazgan University 	Zhezkazgan	7 Gurba str.	1996	zhez_un@mail.ru	+77102737633	50			f	f	
-15	I. Zhansugurov Zhetysu University 	Taldykorgan	187a I. Zhansugurov str.	1972	kense@zhetysu.edu.kz	+77282222123	55			f	f	
-16	M. Utemisov West Kazakhstan University 	Uralsk	162 Dostyk-Druzhba Ave.	1932	info@wku.edu.kz	+77112512632	55			f	f	
-17	T. Zhurgenov Kazakh National Academy of Arts 	Almaty	127 Panfilov str.	1978	info@kaznai.kz	+77272724398	50			f	f	
-18	Kazakh National University of Arts 	Astana	33 Tauelsizdik Ave.	1998	kaznua@mail.ru	+77172705499	50			f	f	
-19	M. Tynyshpayev Kazakh Academy of Transport and Communications 	Almaty	97 Shevchenko str.	1931	info@alt.edu.kz	+77272922115	60			f	f	
-20	Kazakh Academy of Sport and Tourism 	Almaty	105 Abai Ave.	1944	info@kazast.kz	+77272920215	50			f	f	
-21	Narxoz University	Almaty	55 Zhandosov str.	1963	info@narxoz.kz	+77273771111	75			f	f	
-22	International Education Corporation (IEC)	Almaty	28 Ryskulbekov str.	1980	info@mok.kz	+77272208081	65			f	f	
-23	Ablai Khan Kazakh University of International Relations and World Languages	Almaty	200 Muratbaev str.	1941	kazumo@ablaikhan.kz	+77272920384	80			f	f	
-24	Kazakh National Agrarian Research University	Almaty	8 Abay Ave.	1930	info@kaznaru.edu.kz	+77272642409	65			f	f	
-25	Kazakh National Women's Teacher Training University	Almaty	99 Aiteke Bi str.	1944	qyzpu@qyzpu.edu.kz	+77272331852	75			f	f	
-26	Asfendiyarov Kazakh National Medical University	Almaty	94 Tole Bi str.	1930	info@kaznmu.kz	+77273387090	85			f	f	
-27	Al-Farabi Kazakh National University	Almaty	71 Al-Farabi Ave.	1934	info@kaznu.kz	+77273773333	95			f	f	
-29	Satbayev University	Almaty	22 Satpaev str.	1934	info@satbayev.university	+77272926022	85			f	f	
-30	Karaganda Medical University	Karaganda	40 Gogol str.	1950	info@qmu.kz	+77212503930	75			f	f	
-31	Karaganda Buketov University	Karaganda	28 Universitetskaya str.	1938	office@buketov.edu.kz	+77212351039	65			f	f	
-32	Karaganda Technical University	Karaganda	56 Nursultan Nazarbayev Ave.	1953	kense@kstu.kz	+77212560328	70			f	f	
-33	Karaganda Industrial University	Temirtau	30 Republic Ave.	1963	kense@tttu.edu.kz	+77213915046	55			f	f	
-34	Korkyt Ata Kyzylorda University	Kyzylorda	29A Ayteke Bi str.	1937	kense@korkyt.kz	+77242262241	60			f	f	
-35	Sh. Ualikhanov Kokshetau University	Kokshetau	76 Abay str.	1962	kense@shokan.edu.kz	+77162255583	60			f	f	
-36	A. Baitursynov Kostanay Regional University	Kostanay	47 Baytursynov str.	1939	info@ksu.edu.kz	+77142511195	60			f	f	
-37	Khoja Akhmet Yassawi International Kazakh-Turkish University	Turkistan	290 B. Sattarkhanov Ave.	1991	info@ayu.edu.kz	+77253363636	75			f	f	
-38	Toraighyrov University	Pavlodar	64 Lomov str.	1960	info@tou.edu.kz	+77182673673	65			f	f	
-39	Rudny Industrial Institute	Rudny	38 50 Let Oktyabrya str.	1959	rii@rii.kz	+77143150723	50			f	f	
-40	Kozybayev University	Petropavlovsk	86 Pushkin str.	1937	mail@ku.edu.kz	+77152493233	60			f	f	
-41	Semey Medical University	Semey	103 Abay str.	1953	info@smu.edu.kz	+77222522054	70			f	f	
-42	Shakarim University of Semey	Semey	20A Glinka str.	1934	info@shakarim.kz	+77222313143	60			f	f	
-43	M.Kh. Dulaty Taraz Regional University	Taraz	7 Suleimenov str.	1958	info@tarsu.kz	+77262453663	60			f	f	
-44	South Kazakhstan Medical Academy	Shymkent	1 Al-Farabi square	1979	skma@skma.kz	+77252408222	70			f	f	
-45	M. Auezov South Kazakhstan University	Shymkent	5 Tauke Khan Ave.	1943	rector@auezov.edu.kz	+77252210141	65			f	f	
-47	Eurasian Humanities Institute	Astana	4 M. Zhumabayev Ave.	1995	eagi@list.ru	+77172562200	50			f	f	
-48	Kazakh Academy of Labor and Social Relations	Almaty	9 Nauryzbai Batyr str.	1994	info@kazatiso.kz	+77272792015	50			f	f	
-49	Kazakhstan Engineering and Technology University	Almaty	93A Al-Farabi Ave.	2001	info@kazetu.kz	+77273000777	50			f	f	
-50	Kazakh Medical University of Continuing Education	Almaty	126 Abay Ave.	1963	info@kazmuno.kz	+77273378018	65			f	f	
-53	Almaty Technological University	Almaty	100 Tole Bi str.	1957	rector@atu.kz	+77272935292	60			f	f	
-57	G. Daukeyev Almaty University of Power Engineering and Telecommunications	Almaty	126/1 Baitursynov str.	1975	aues@aues.kz	+77272925614	75			f	f	
-522	Astana IT University	Astana	EXPO-2017, C1 Pavilion	2019	info@astanait.edu.kz	+77172645710	90			f	f	
-69	University of International Business (UIB)	Almaty	8A Abay Ave.	1992	uib@uib.kz	+77272597000	70			f	f	
-78	L.B. Goncharov Kazakh Automobile and Road Academy	Almaty	54 Shagabutdinov str.	1991	kazdorakad@mail.ru	+77272922501	55			f	f	
-79	Caspian University	Almaty	521 Seifullin Ave.	1992	info@cu.edu.kz	+77272506930	65			f	f	
-80	Kazakh-Russian Medical University	Almaty	122 Torekulov str.	1992	krmu@krmu.kz	+77272508104	65			f	f	
-82	Kazakh-German University (DKU)	Almaty	173 Nazarbayev Ave.	1999	info@dku.kz	+77273550551	80			f	f	
-83	Almaty Management University (AlmaU)	Almaty	227 Rozybakiev str.	1988	info@almau.edu.kz	+77273133040	80			f	f	
-89	Kainar Academy	Almaty	7A Satpayev str.	1991	priem@kainar-u.kz	+77272558356	50			f	f	
-90	O.A. Dzholdasbekov Academy of Economics and Law	Taldykorgan	1 mkr., bld. 26	1997	ael_tdk@mail.ru	+77282242858	50			f	f	
-93	Turan University	Almaty	108 Satpayev str.	1992	turan@turan-edu.kz	+77272604000	70			f	f	
-103	Kazakh-Russian International University	Aktobe	52 Aiteke Bi str.	1994	kriu@kriu.kz	+77132511471	50			f	f	
-116	Bolashaq Academy	Karaganda	17 Abay Ave.	1995	info@kubolashak.kz	+77212420428	50			f	f	
-122	Karaganda University of Kazpotrebsoyuz	Karaganda	9 Akademicheskaya str.	1966	mail@keu.kz	+77212441624	60			f	f	
-133	Miras University	Shymkent	17 Sapabaev str.	1997	info@miras.edu.kz	+77252212356	50			f	f	
-140	M. Dulatov Kostanay Engineering and Economic University	Kostanay	31 Chernyshevsky str.	1996	kineu@mail.ru	+77142280248	50			f	f	
-141	Alikhan Bokeikhan University (ex. KazGJIU)	Semey	11 Mangilik El str.	1998	info@abu.edu.kz	+77222524855	55			f	f	
-146	Innovative University of Eurasia	Pavlodar	45 Lomov str.	1991	info@ineu.edu.kz	+77182314242	55			f	f	
-147	K. Satpayev Ekibastuz Engineering and Technical Institute	Ekibastuz	54 Energetikov str.	1994	eiti_ekibastuz@mail.ru	+77187340056	50			f	f	
-153	Kazakh-American Free University	Ust-Kamenogorsk	76 M. Gorkiy str.	1994	kafu@kafu.kz	+77232248500	65			f	f	
-154	Almaty Academy of Economics and Statistics	Almaty	25 Zhandosov str.	1998	info@aess.kz	+77273771340	50			f	f	
-157	Civil Aviation Academy	Almaty	44 Zakarpatskaya str.	1995	info@agakaz.kz	+77273308333	65			f	f	
-158	Abay Myrzakhmetov Kokshetau University	Kokshetau	189a Gorky str.	2000	info@kuam.kz	+77162254259	50			f	f	
-160	Eurasian Technological University	Almaty	109 Tole Bi str.	2013	info@etu.edu.kz	+77273315555	55			f	f	
-161	Almaty University	Almaty	24/1 Mamyr-1 dist.	1998	info@ualmaty.kz	+77273111306	50			f	f	
-162	Kazakh University of Ways of Communications	Almaty	82 Shevchenko str.	2000	info@kups.kz	+77272922115	50			f	f	
-173	Esil University (ex. KazUEFIT)	Astana	7 Zhubanov str.	2006	info@esiluniversity.edu.kz	+77172703058	60			f	f	
-174	M. Narikbayev KAZGUU University	Astana	8 Korgalzhyn Highway	1994	info@kazguu.kz	+77172703030	85			f	f	
-182	Kazakh University of Technology and Business	Astana	31 Saryarka Ave.	2003	info@kaztub.kz	+77172270101	55			f	f	
-184	Turan-Astana University	Astana	1 Yessenberlin str.	1998	tau_astana@mail.ru	+77172398118	60			f	f	
-185	Astana International University	Astana	8 Kabanbay Batyr Ave.	2018	info@aiu.edu.kz	+77172476677	70			f	f	
-186	Silkway International University	Shymkent	32 Tokayev str.	1992	info@swu.edu.kz	+77252951111	50			f	f	
-190	International IT University (IITU)	Almaty	34/1 Manas str.	2009	info@iitu.edu.kz	+77272445101	85			f	f	
-191	Financial Academy	Astana	25 Esenberlin str.	1965	info@finacad.kz	+77172312601	60			f	f	
-194	Astana University	Astana	11/1 Abay Ave.	1998	un_astana@mail.ru	+77172278030	50			f	f	
-195	Kazakhstan Maritime University	Aktau	1st district, bld 1/2	1996	info@kmu.edu.kz	+77292503943	50			f	f	
-196	South Kazakhstan State Pedagogical University	Shymkent	13 Baitursynov str.	1937	info@okgpu.edu.kz	+77252210512	70			f	f	
-197	Central Kazakhstan Academy	Karaganda	11 Saryarka str.	1993	info@c-k-a.kz	+77212423714	50			f	f	
-198	West Kazakhstan Innovative-Technological University	Uralsk	12 Ikhsanov str.	2000	info@wkitu.kz	+77112503935	50			f	f	
-199	Kazakhstan University of Innovative and Telecommunication Systems	Uralsk	67a K. Batyr str.	1998	kuits@list.ru	+77112513511	50			f	f	
-200	D. Kunayev Eurasian Law Academy	Almaty	107 Kurmangazy str.	1992	info@kunaev.kz	+77272610731	60			f	f	
-202	A. Kuatbekov Peoples' Friendship University	Shymkent	13 Tokayev str.	1992	info@unat.edu.kz	+77252537152	50			f	f	
-205	Kazakh National Academy of Choreography	Astana	9 Akmeshit str.	2016	info@balletacademy.kz	+77172790858	60			f	f	
-223	Taraz Innovative-Humanities University	Taraz	45 Zheltoksan str.	2008	info@tigu.kz	+77262512140	55			f	f	
-302	Suleyman Demirel University (SDU)	Kaskelen	1/1 Abylai Khan str.	1996	info@sdu.edu.kz	+77273079560	80			f	f	
-305	Bolashak Kyzylorda University	Kyzylorda	46 Abay Ave.	1998	info@bolashak-u.kz	+77242234510	50			f	f	
-318	Atyrau Engineering and Humanities Institute	Atyrau	212 Studentskaya str.	2001	aigi_2001@mail.ru	+77122271454	50			f	f	
-350	Military Institute of Land Forces	Almaty	123 Abay Ave.	1970	visv@mod.gov.kz	+77272558066	50			f	f	
-351	T. Bigeldinov Military Institute of Air Defense Forces	Aktobe	39 Moldagulova Ave.	1974	visvo@mod.gov.kz	+77132517511	50			f	f	
-353	Academy of Civil Protection (ex. Kokshetau Technical Institute)	Kokshetau	138 Auezov str.	1997	kti@emer.kz	+77162255249	50			f	f	
-354	M. Esbulatov Almaty Academy of the Ministry of Internal Affairs	Almaty	29 Ak-Kayik mkr.	1956	info@almacademy.kz	+77273378393	50			f	f	
-355	B. Beisenov Karaganda Academy of the Ministry of Internal Affairs	Karaganda	7 Ermekov str.	1969	kense@kacadem.kz	+77212303402	50			f	f	
-356	Sh. Kabylbayev Kostanay Academy of the Ministry of Internal Affairs	Kostanay	11 Abay Ave.	1971	kense_kost@mvd.gov.kz	+77142254422	50			f	f	
-357	Military Institute of the National Guard of the Republic of Kazakhstan	Petropavlovsk	290 Zhambyl str.	1997	viny@mvd.gov.kz	+77152474077	50			f	f	
-359	Military Engineering Institute of Radio Electronics and Communications	Almaty	126/1 Dzhandosov str.	2001	viireis@mod.gov.kz	+77273036814	50			f	f	
-413	Mardan Saparbayev Institute	Shymkent	34 Momyshuly Ave.	1994	msi_shymkent@mail.ru	+77252536737	50			f	f	
-414	Shymkent University	Shymkent	80 mkr. Sever	2001	shymkent_univer@mail.ru	+77252371101	50			f	f	
-416	Baishev University	Aktobe	40 Zhubanov str.	1996	info@bu.edu.kz	+77132512145	55			f	f	
-419	University of Foreign Languages and Professional Career	Almaty	17 Kazybek Bi str.	2004	info@inyaz-career.kz	+77272912555	50			f	f	
-501	Zhangir Khan West Kazakhstan Agricultural-Technical University	Uralsk	51 Zhangir Khan str.	1963	wkau@wkau.kz	+77112506041	60			f	f	
-503	Nur-Mubarak Egyptian University of Islamic Culture	Almaty	73 Al-Farabi Ave.	2001	info@nmu.kz	+77273020930	50			f	f	
-517	Pavlodar Pedagogical University	Pavlodar	60 Mira str.	1962	ppu@ppu.edu.kz	+77182554722	75			f	f	
-518	Academy of the Border Service of the NSC RK	Almaty	103 Dostyk Ave.	1931	pogranacademy@knb.gov.kz	+77272635601	50			f	f	
-979	KIMEP University	Almaty	2 Abay Ave.	1992	info@kimep.kz	+77272704213	90			f	f	
+COPY public.universities (code, name, city, address, year_established, email, phone, passing_score, history, website, has_dormitory, has_military_department, photo_url, logo_url, cover_url) FROM stdin;
+421	Kazakh-British Technical University (KBTU)	Almaty	59 Tole Bi str.	2001	info@kbtu.kz	+77273574242	85			f	f			
+1	Astana Medical University 	Astana	49/a Beybitshilik str.	1964	info@amu.kz	+77172539424	70			f	f			
+2	S. Seifullin Kazakh Agrotechnical University 	Astana	62 Zhenis Ave.	1957	katu_mail@kazatu.kz	+77172317547	60			f	f			
+3	Sh. Yessenov Caspian University of Technology and Engineering 	Aktau	34 microdistrict, building 1	1976	office@yu.edu.kz	+77292425515	50			f	f			
+4	Marat Ospanov West Kazakhstan Medical University 	Aktobe	68 Maresyev str.	1957	zkgmu@zkgmu.kz	+77132567210	70			f	f			
+5	K. Zhubanov Aktobe Regional University 	Aktobe	34 A. Moldagulova Ave.	1935	kense@zhubanov.edu.kz	+77132541244	60			f	f			
+6	Kurmangazy Kazakh National Conservatory 	Almaty	86 Abylai Khan Ave.	1944	info@conservatoire.kz	+77272729045	50			f	f			
+7	Abai Kazakh National Pedagogical University 	Almaty	13 Dostyk Ave.	1928	rector@abaiuniversity.edu.kz	+77272913366	75			f	f			
+8	I. Altynsarin Arkalyk Pedagogical Institute 	Arkalyk	17 Auelbekov str.	1972	api@api.edu.kz	+77143071318	50			f	f			
+9	S. Utebayev Atyrau University of Oil and Gas 	Atyrau	1 Baitursynov str.	1980	info@aiau.edu.kz	+77122362548	55			f	f			
+10	Kh. Dosmukhamedov Atyrau University 	Atyrau	212 Studentskaya str.	1950	kense@asu.edu.kz	+77122276300	50			f	f			
+11	S. Amanzholov East Kazakhstan University 	Oskemen	30 Kazakhstan str.	1952	kense@vku.edu.kz	+77232241458	65			f	f			
+12	D. Serikbayev East Kazakhstan Technical University 	Oskemen	69 Protozanov str.	1958	kense@ektu.kz	+77232267409	65			f	f			
+13	L.N. Gumilyov Eurasian National University 	Astana	2 Satpayev str.	1996	enu@enu.kz	+77172709500	85			f	f			
+14	O.A. Baikonurov Zhezkazgan University 	Zhezkazgan	7 Gurba str.	1996	zhez_un@mail.ru	+77102737633	50			f	f			
+15	I. Zhansugurov Zhetysu University 	Taldykorgan	187a I. Zhansugurov str.	1972	kense@zhetysu.edu.kz	+77282222123	55			f	f			
+16	M. Utemisov West Kazakhstan University 	Uralsk	162 Dostyk-Druzhba Ave.	1932	info@wku.edu.kz	+77112512632	55			f	f			
+17	T. Zhurgenov Kazakh National Academy of Arts 	Almaty	127 Panfilov str.	1978	info@kaznai.kz	+77272724398	50			f	f			
+18	Kazakh National University of Arts 	Astana	33 Tauelsizdik Ave.	1998	kaznua@mail.ru	+77172705499	50			f	f			
+19	M. Tynyshpayev Kazakh Academy of Transport and Communications 	Almaty	97 Shevchenko str.	1931	info@alt.edu.kz	+77272922115	60			f	f			
+20	Kazakh Academy of Sport and Tourism 	Almaty	105 Abai Ave.	1944	info@kazast.kz	+77272920215	50			f	f			
+21	Narxoz University	Almaty	55 Zhandosov str.	1963	info@narxoz.kz	+77273771111	75			f	f			
+22	International Education Corporation (IEC)	Almaty	28 Ryskulbekov str.	1980	info@mok.kz	+77272208081	65			f	f			
+23	Ablai Khan Kazakh University of International Relations and World Languages	Almaty	200 Muratbaev str.	1941	kazumo@ablaikhan.kz	+77272920384	80			f	f			
+24	Kazakh National Agrarian Research University	Almaty	8 Abay Ave.	1930	info@kaznaru.edu.kz	+77272642409	65			f	f			
+25	Kazakh National Women's Teacher Training University	Almaty	99 Aiteke Bi str.	1944	qyzpu@qyzpu.edu.kz	+77272331852	75			f	f			
+26	Asfendiyarov Kazakh National Medical University	Almaty	94 Tole Bi str.	1930	info@kaznmu.kz	+77273387090	85			f	f			
+27	Al-Farabi Kazakh National University	Almaty	71 Al-Farabi Ave.	1934	info@kaznu.kz	+77273773333	95			f	f			
+29	Satbayev University	Almaty	22 Satpaev str.	1934	info@satbayev.university	+77272926022	85			f	f			
+30	Karaganda Medical University	Karaganda	40 Gogol str.	1950	info@qmu.kz	+77212503930	75			f	f			
+31	Karaganda Buketov University	Karaganda	28 Universitetskaya str.	1938	office@buketov.edu.kz	+77212351039	65			f	f			
+32	Karaganda Technical University	Karaganda	56 Nursultan Nazarbayev Ave.	1953	kense@kstu.kz	+77212560328	70			f	f			
+33	Karaganda Industrial University	Temirtau	30 Republic Ave.	1963	kense@tttu.edu.kz	+77213915046	55			f	f			
+34	Korkyt Ata Kyzylorda University	Kyzylorda	29A Ayteke Bi str.	1937	kense@korkyt.kz	+77242262241	60			f	f			
+35	Sh. Ualikhanov Kokshetau University	Kokshetau	76 Abay str.	1962	kense@shokan.edu.kz	+77162255583	60			f	f			
+36	A. Baitursynov Kostanay Regional University	Kostanay	47 Baytursynov str.	1939	info@ksu.edu.kz	+77142511195	60			f	f			
+37	Khoja Akhmet Yassawi International Kazakh-Turkish University	Turkistan	290 B. Sattarkhanov Ave.	1991	info@ayu.edu.kz	+77253363636	75			f	f			
+38	Toraighyrov University	Pavlodar	64 Lomov str.	1960	info@tou.edu.kz	+77182673673	65			f	f			
+39	Rudny Industrial Institute	Rudny	38 50 Let Oktyabrya str.	1959	rii@rii.kz	+77143150723	50			f	f			
+40	Kozybayev University	Petropavlovsk	86 Pushkin str.	1937	mail@ku.edu.kz	+77152493233	60			f	f			
+41	Semey Medical University	Semey	103 Abay str.	1953	info@smu.edu.kz	+77222522054	70			f	f			
+42	Shakarim University of Semey	Semey	20A Glinka str.	1934	info@shakarim.kz	+77222313143	60			f	f			
+43	M.Kh. Dulaty Taraz Regional University	Taraz	7 Suleimenov str.	1958	info@tarsu.kz	+77262453663	60			f	f			
+44	South Kazakhstan Medical Academy	Shymkent	1 Al-Farabi square	1979	skma@skma.kz	+77252408222	70			f	f			
+45	M. Auezov South Kazakhstan University	Shymkent	5 Tauke Khan Ave.	1943	rector@auezov.edu.kz	+77252210141	65			f	f			
+47	Eurasian Humanities Institute	Astana	4 M. Zhumabayev Ave.	1995	eagi@list.ru	+77172562200	50			f	f			
+48	Kazakh Academy of Labor and Social Relations	Almaty	9 Nauryzbai Batyr str.	1994	info@kazatiso.kz	+77272792015	50			f	f			
+49	Kazakhstan Engineering and Technology University	Almaty	93A Al-Farabi Ave.	2001	info@kazetu.kz	+77273000777	50			f	f			
+50	Kazakh Medical University of Continuing Education	Almaty	126 Abay Ave.	1963	info@kazmuno.kz	+77273378018	65			f	f			
+53	Almaty Technological University	Almaty	100 Tole Bi str.	1957	rector@atu.kz	+77272935292	60			f	f			
+57	G. Daukeyev Almaty University of Power Engineering and Telecommunications	Almaty	126/1 Baitursynov str.	1975	aues@aues.kz	+77272925614	75			f	f			
+522	Astana IT University	Astana	EXPO-2017, C1 Pavilion	2019	info@astanait.edu.kz	+77172645710	90			f	f			
+69	University of International Business (UIB)	Almaty	8A Abay Ave.	1992	uib@uib.kz	+77272597000	70			f	f			
+78	L.B. Goncharov Kazakh Automobile and Road Academy	Almaty	54 Shagabutdinov str.	1991	kazdorakad@mail.ru	+77272922501	55			f	f			
+79	Caspian University	Almaty	521 Seifullin Ave.	1992	info@cu.edu.kz	+77272506930	65			f	f			
+80	Kazakh-Russian Medical University	Almaty	122 Torekulov str.	1992	krmu@krmu.kz	+77272508104	65			f	f			
+82	Kazakh-German University (DKU)	Almaty	173 Nazarbayev Ave.	1999	info@dku.kz	+77273550551	80			f	f			
+83	Almaty Management University (AlmaU)	Almaty	227 Rozybakiev str.	1988	info@almau.edu.kz	+77273133040	80			f	f			
+89	Kainar Academy	Almaty	7A Satpayev str.	1991	priem@kainar-u.kz	+77272558356	50			f	f			
+90	O.A. Dzholdasbekov Academy of Economics and Law	Taldykorgan	1 mkr., bld. 26	1997	ael_tdk@mail.ru	+77282242858	50			f	f			
+93	Turan University	Almaty	108 Satpayev str.	1992	turan@turan-edu.kz	+77272604000	70			f	f			
+103	Kazakh-Russian International University	Aktobe	52 Aiteke Bi str.	1994	kriu@kriu.kz	+77132511471	50			f	f			
+116	Bolashaq Academy	Karaganda	17 Abay Ave.	1995	info@kubolashak.kz	+77212420428	50			f	f			
+122	Karaganda University of Kazpotrebsoyuz	Karaganda	9 Akademicheskaya str.	1966	mail@keu.kz	+77212441624	60			f	f			
+133	Miras University	Shymkent	17 Sapabaev str.	1997	info@miras.edu.kz	+77252212356	50			f	f			
+140	M. Dulatov Kostanay Engineering and Economic University	Kostanay	31 Chernyshevsky str.	1996	kineu@mail.ru	+77142280248	50			f	f			
+141	Alikhan Bokeikhan University (ex. KazGJIU)	Semey	11 Mangilik El str.	1998	info@abu.edu.kz	+77222524855	55			f	f			
+146	Innovative University of Eurasia	Pavlodar	45 Lomov str.	1991	info@ineu.edu.kz	+77182314242	55			f	f			
+147	K. Satpayev Ekibastuz Engineering and Technical Institute	Ekibastuz	54 Energetikov str.	1994	eiti_ekibastuz@mail.ru	+77187340056	50			f	f			
+153	Kazakh-American Free University	Ust-Kamenogorsk	76 M. Gorkiy str.	1994	kafu@kafu.kz	+77232248500	65			f	f			
+154	Almaty Academy of Economics and Statistics	Almaty	25 Zhandosov str.	1998	info@aess.kz	+77273771340	50			f	f			
+157	Civil Aviation Academy	Almaty	44 Zakarpatskaya str.	1995	info@agakaz.kz	+77273308333	65			f	f			
+158	Abay Myrzakhmetov Kokshetau University	Kokshetau	189a Gorky str.	2000	info@kuam.kz	+77162254259	50			f	f			
+160	Eurasian Technological University	Almaty	109 Tole Bi str.	2013	info@etu.edu.kz	+77273315555	55			f	f			
+161	Almaty University	Almaty	24/1 Mamyr-1 dist.	1998	info@ualmaty.kz	+77273111306	50			f	f			
+162	Kazakh University of Ways of Communications	Almaty	82 Shevchenko str.	2000	info@kups.kz	+77272922115	50			f	f			
+173	Esil University (ex. KazUEFIT)	Astana	7 Zhubanov str.	2006	info@esiluniversity.edu.kz	+77172703058	60			f	f			
+174	M. Narikbayev KAZGUU University	Astana	8 Korgalzhyn Highway	1994	info@kazguu.kz	+77172703030	85			f	f			
+182	Kazakh University of Technology and Business	Astana	31 Saryarka Ave.	2003	info@kaztub.kz	+77172270101	55			f	f			
+184	Turan-Astana University	Astana	1 Yessenberlin str.	1998	tau_astana@mail.ru	+77172398118	60			f	f			
+185	Astana International University	Astana	8 Kabanbay Batyr Ave.	2018	info@aiu.edu.kz	+77172476677	70			f	f			
+186	Silkway International University	Shymkent	32 Tokayev str.	1992	info@swu.edu.kz	+77252951111	50			f	f			
+190	International IT University (IITU)	Almaty	34/1 Manas str.	2009	info@iitu.edu.kz	+77272445101	85			f	f			
+191	Financial Academy	Astana	25 Esenberlin str.	1965	info@finacad.kz	+77172312601	60			f	f			
+194	Astana University	Astana	11/1 Abay Ave.	1998	un_astana@mail.ru	+77172278030	50			f	f			
+195	Kazakhstan Maritime University	Aktau	1st district, bld 1/2	1996	info@kmu.edu.kz	+77292503943	50			f	f			
+196	South Kazakhstan State Pedagogical University	Shymkent	13 Baitursynov str.	1937	info@okgpu.edu.kz	+77252210512	70			f	f			
+197	Central Kazakhstan Academy	Karaganda	11 Saryarka str.	1993	info@c-k-a.kz	+77212423714	50			f	f			
+198	West Kazakhstan Innovative-Technological University	Uralsk	12 Ikhsanov str.	2000	info@wkitu.kz	+77112503935	50			f	f			
+199	Kazakhstan University of Innovative and Telecommunication Systems	Uralsk	67a K. Batyr str.	1998	kuits@list.ru	+77112513511	50			f	f			
+200	D. Kunayev Eurasian Law Academy	Almaty	107 Kurmangazy str.	1992	info@kunaev.kz	+77272610731	60			f	f			
+202	A. Kuatbekov Peoples' Friendship University	Shymkent	13 Tokayev str.	1992	info@unat.edu.kz	+77252537152	50			f	f			
+205	Kazakh National Academy of Choreography	Astana	9 Akmeshit str.	2016	info@balletacademy.kz	+77172790858	60			f	f			
+223	Taraz Innovative-Humanities University	Taraz	45 Zheltoksan str.	2008	info@tigu.kz	+77262512140	55			f	f			
+302	Suleyman Demirel University (SDU)	Kaskelen	1/1 Abylai Khan str.	1996	info@sdu.edu.kz	+77273079560	80			f	f			
+305	Bolashak Kyzylorda University	Kyzylorda	46 Abay Ave.	1998	info@bolashak-u.kz	+77242234510	50			f	f			
+318	Atyrau Engineering and Humanities Institute	Atyrau	212 Studentskaya str.	2001	aigi_2001@mail.ru	+77122271454	50			f	f			
+350	Military Institute of Land Forces	Almaty	123 Abay Ave.	1970	visv@mod.gov.kz	+77272558066	50			f	f			
+351	T. Bigeldinov Military Institute of Air Defense Forces	Aktobe	39 Moldagulova Ave.	1974	visvo@mod.gov.kz	+77132517511	50			f	f			
+353	Academy of Civil Protection (ex. Kokshetau Technical Institute)	Kokshetau	138 Auezov str.	1997	kti@emer.kz	+77162255249	50			f	f			
+354	M. Esbulatov Almaty Academy of the Ministry of Internal Affairs	Almaty	29 Ak-Kayik mkr.	1956	info@almacademy.kz	+77273378393	50			f	f			
+355	B. Beisenov Karaganda Academy of the Ministry of Internal Affairs	Karaganda	7 Ermekov str.	1969	kense@kacadem.kz	+77212303402	50			f	f			
+356	Sh. Kabylbayev Kostanay Academy of the Ministry of Internal Affairs	Kostanay	11 Abay Ave.	1971	kense_kost@mvd.gov.kz	+77142254422	50			f	f			
+357	Military Institute of the National Guard of the Republic of Kazakhstan	Petropavlovsk	290 Zhambyl str.	1997	viny@mvd.gov.kz	+77152474077	50			f	f			
+359	Military Engineering Institute of Radio Electronics and Communications	Almaty	126/1 Dzhandosov str.	2001	viireis@mod.gov.kz	+77273036814	50			f	f			
+413	Mardan Saparbayev Institute	Shymkent	34 Momyshuly Ave.	1994	msi_shymkent@mail.ru	+77252536737	50			f	f			
+414	Shymkent University	Shymkent	80 mkr. Sever	2001	shymkent_univer@mail.ru	+77252371101	50			f	f			
+416	Baishev University	Aktobe	40 Zhubanov str.	1996	info@bu.edu.kz	+77132512145	55			f	f			
+419	University of Foreign Languages and Professional Career	Almaty	17 Kazybek Bi str.	2004	info@inyaz-career.kz	+77272912555	50			f	f			
+501	Zhangir Khan West Kazakhstan Agricultural-Technical University	Uralsk	51 Zhangir Khan str.	1963	wkau@wkau.kz	+77112506041	60			f	f			
+503	Nur-Mubarak Egyptian University of Islamic Culture	Almaty	73 Al-Farabi Ave.	2001	info@nmu.kz	+77273020930	50			f	f			
+517	Pavlodar Pedagogical University	Pavlodar	60 Mira str.	1962	ppu@ppu.edu.kz	+77182554722	75			f	f			
+518	Academy of the Border Service of the NSC RK	Almaty	103 Dostyk Ave.	1931	pogranacademy@knb.gov.kz	+77272635601	50			f	f			
+979	KIMEP University	Almaty	2 Abay Ave.	1992	info@kimep.kz	+77272704213	90			f	f			
 \.
 
 
@@ -45716,5 +45718,5 @@ ALTER TABLE ONLY public.users_user_permissions
 -- PostgreSQL database dump complete
 --
 
-\unrestrict z0qFr0EKRzVmeExjZ3N6QaBDLS1rW9yW8EYbJ2aqtfxgxMvDhByo6keVuA40UhM
+\unrestrict uSqGzWiRUVTRWwc4thV9DwgYKLxIPHvrNjkKlnDJVlcQ5a9B5z4h0r5w0JYg2gg
 
