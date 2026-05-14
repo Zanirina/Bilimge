@@ -17,7 +17,7 @@ from .views import (
     MyUniversityMobilityDetailView,
     NtcUniversityUpdateView,
     MyUniversityApplicantsView,
-    LanguageListView,
+    LanguageListView, MyUniversityAccreditationsView, MyUniversityAccreditationDetailView,
 )
 from .upload_views import UniversityLogoUploadView, UniversityCoverUploadView
 
@@ -61,6 +61,7 @@ urlpatterns = [
     path('api/universities/<str:code>/edit/', NtcUniversityUpdateView.as_view(), name='university-edit'),
 
     path('api/my-university/upload-logo/', UniversityLogoUploadView.as_view()),
-    path('api/my-university/upload-cover/', UniversityCoverUploadView.as_view())
-
+    path('api/my-university/upload-cover/', UniversityCoverUploadView.as_view()),
+    path('api/my-university/accreditations/', MyUniversityAccreditationsView.as_view()),
+    path('api/my-university/accreditations/<int:pk>/', MyUniversityAccreditationDetailView.as_view()),
 ]

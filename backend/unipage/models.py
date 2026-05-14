@@ -22,6 +22,10 @@ class University(models.Model):
     has_dormitory = models.BooleanField(default=False, verbose_name='Has Dormitory')
     has_military_department = models.BooleanField(default=False, verbose_name='Has Military Department')
 
+    telegram_url = models.URLField(max_length=500, blank=True, default='', verbose_name='Telegram')
+    instagram_url = models.URLField(max_length=500, blank=True, default='', verbose_name='Instagram')
+    tuition_cost = models.IntegerField(null=True, blank=True, verbose_name='Tuition Cost')
+
     def __str__(self):
         return f"{self.code} - {self.name}"
 
@@ -97,7 +101,6 @@ class UniversityProgram(models.Model):
     university = models.ForeignKey(University, on_delete=models.RESTRICT, related_name='programs')
     ntc_program = models.ForeignKey(NtcProgram, on_delete=models.RESTRICT, related_name='programs')
     local_name = models.CharField(max_length=255, verbose_name='Name of University Program')
-    cost = models.IntegerField(verbose_name='Cost of University Program')
     language = models.ForeignKey(Language, on_delete=models.SET_NULL, null=True, blank=True)
 
     degree = models.CharField(
@@ -176,3 +179,17 @@ class AcademicMobility(models.Model):
 
     def __str__(self):
         return f"{self.university_id} → {self.partner_university_name} ({self.country})"
+
+class Accreditation(models.Model):
+    class Meta:
+        db_table = 'accreditations'
+        managed = False
+
+    id = models.AutoField(primary_key=True)
+    university = models.ForeignKey(University, on_delete=models.CASCADE, related_name='accreditations')
+    name = models.CharField(max_length=255, verbose_name='Accreditation Name')
+    issued_by = models.CharField(max_length=255, blank=True, default='', verbose_name='Issued By')
+    valid_until = models.DateField(null=True, blank=True, verbose_name='Valid Until')
+
+    def __str__(self):
+        return f"{self.university_id}: {self.name}"
