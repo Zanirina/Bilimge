@@ -11,6 +11,7 @@ class Announcement(models.Model):
         db_table = 'announcements'
         ordering = ['-created_at']
 
+    image_url = models.URLField(max_length=500, blank=True, default='', verbose_name='Image URL')
     title = models.CharField(max_length=255)
     body = models.TextField()
     author_type = models.CharField(max_length=20, choices=AuthorType.choices)

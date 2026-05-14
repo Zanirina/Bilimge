@@ -32,7 +32,7 @@ class UserMeSerializer(serializers.ModelSerializer):
         model = User
         fields = [
             'id', 'email', 'phone', 'role', 'created_at',
-            'first_name', 'last_name',
+            'first_name', 'last_name','avatar_url',
             # applicant-only поля (null для других ролей)
             'birth_date', 'unt_score',
             'target_speciality', 'target_speciality_name',

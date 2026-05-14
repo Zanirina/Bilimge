@@ -33,6 +33,7 @@ class User(AbstractUser):
     role = models.CharField(max_length=20, choices=Role.choices, default=Role.APPLICANT)
     phone = models.CharField(max_length=15, blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
+    avatar_url = models.URLField(max_length=500, blank=True, default='', verbose_name='Avatar URL')
 
     USERNAME_FIELD = 'email'        # логинимся по email
     REQUIRED_FIELDS = []            # createsuperuser не спрашивает лишнего

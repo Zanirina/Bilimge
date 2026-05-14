@@ -2,6 +2,7 @@ from django.urls import path
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 from .views import RegisterView, MeView, ApplicantProfileView, FavoriteView, FavoriteDeleteView
 from .reset_views import PasswordResetRequestView, PasswordResetConfirmView
+from .upload_views import AvatarUploadView
 
 
 urlpatterns = [
@@ -16,4 +17,6 @@ urlpatterns = [
 
     path('reset-password/', PasswordResetRequestView.as_view()),
     path('reset-password/confirm/', PasswordResetConfirmView.as_view()),
+    path('upload-avatar/', AvatarUploadView.as_view()),
+
 ]

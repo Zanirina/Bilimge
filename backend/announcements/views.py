@@ -85,3 +85,4 @@ class UniAnnouncementView(APIView):
             notify_users(ann)
             return Response(AnnouncementSerializer(ann).data, status=201)
         return Response(serializer.errors, status=400)
+
