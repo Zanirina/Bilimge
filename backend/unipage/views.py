@@ -312,7 +312,7 @@ class MyUniversityLanguagesView(APIView):
         obj, created = UniversityLanguage.objects.get_or_create(
             university=university, language_id=lang_id
         )
-        return Response({'status': 'created' if created else 'already exists'}, status=201 if created else 200)
+        return Response({'id': obj.language.id, 'name': obj.language.name}, status=201 if created else 200)
 
 
 class MyUniversityLanguageDeleteView(APIView):
@@ -474,5 +474,68 @@ class NtcUniversityUpdateView(APIView):
                 serializer.save()
                 return Response(serializer.data)
             return Response(serializer.errors, status=400)
+
+
+class LanguageListView(APIView):
+    """GET /unipage/api/languages/ — all available languages"""
+    permission_classes = [AllowAny]
+
+    def get(self, request):
+        from .serializers import LanguageSerializer
+        languages = Language.objects.all().order_by('name')
+        return Response(LanguageSerializer(languages, many=True).data)
+
+
+class MyUniversityApplicantsView(APIView):
+    """GET /unipage/api/my-university/applicants/ — applicants who favourited this university"""
+    permission_classes = [IsUniAdmin]
+
+    def get(self, request):
+        from userpage.models import Favorite
+        university = request.user.staff_profile.university
+
+        # Fetch program codes as strings — avoids the varchar=integer JOIN error
+        # (favorites.program_id is varchar, university_programs.code is integer in DB)
+        program_codes_int = list(
+            UniversityProgram.objects.filter(university=university).values_list('code', flat=True)
+        )
+        if not program_codes_int:
+            return Response([])
+
+        program_name_by_code = {
+            str(code): name
+            for code, name in UniversityProgram.objects
+            .filter(university=university)
+            .values_list('code', 'local_name')
+        }
+
+        favorites = (
+            Favorite.objects
+            .filter(program_id__in=[str(c) for c in program_codes_int])
+            .select_related('user', 'user__applicant_profile')
+            .order_by('-created_at')
+        )
+
+        applicants = {}
+        for fav in favorites:
+            user = fav.user
+            if user.id not in applicants:
+                profile = getattr(user, 'applicant_profile', None)
+                applicants[user.id] = {
+                    "id": user.id,
+                    "email": user.email,
+                    "first_name": user.first_name,
+                    "last_name": user.last_name,
+                    "unt_score": profile.unt_score if profile else None,
+                    "favorited_programs": [],
+                    "first_favorited_at": fav.created_at.isoformat(),
+                }
+            applicants[user.id]["favorited_programs"].append({
+                "code": fav.program_id,
+                "local_name": program_name_by_code.get(str(fav.program_id), fav.program_id),
+                "favorited_at": fav.created_at.isoformat(),
+            })
+
+        return Response(list(applicants.values()))
 
 

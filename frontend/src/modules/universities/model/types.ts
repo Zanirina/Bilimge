@@ -125,6 +125,12 @@ export type CreateProgramRequest = {
 };
 
 export type UpdateMyUniversityInfoRequest = {
+  name?: string;
+  city?: string;
+  address?: string;
+  year_established?: number;
+  email?: string;
+  phone?: string;
   history?: string;
   website?: string;
   has_dormitory?: boolean;
@@ -139,4 +145,20 @@ export type NtcEditUniversityRequest = {
   phone?: string;
   email?: string;
   website?: string;
+};
+
+export type ApplicantFavoritedProgram = {
+  code: string;
+  local_name: string;
+  favorited_at: string;
+};
+
+export type UniApplicant = {
+  id: number;
+  email: string;
+  first_name: string;
+  last_name: string;
+  unt_score: number | null;
+  favorited_programs: ApplicantFavoritedProgram[];
+  first_favorited_at: string;
 };

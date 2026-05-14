@@ -10,6 +10,9 @@ export const endpoints = {
     favorites: "/api/auth/favorites/",
     favoriteById: (id: number | string) => `/api/auth/favorites/${id}/`,
   },
+  languages: {
+    list: "/unipage/api/languages/",
+  },
   universities: {
     list: "/unipage/api/universities/",
     byCode: (code: string) => `/unipage/api/universities/${code}/`,
@@ -52,6 +55,7 @@ export const endpoints = {
     examById: (id: number | string) => `/unipage/api/my-university/exams/${id}/`,
     mobility: "/unipage/api/my-university/mobility/",
     mobilityById: (id: number | string) => `/unipage/api/my-university/mobility/${id}/`,
+    applicants: "/unipage/api/my-university/applicants/",
   },
   announcements: {
     list: "/api/announcements/",

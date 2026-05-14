@@ -6,7 +6,18 @@ from .views import (
     MyUniversityView,
     MyUniversityProgramView,
     MyUniversityProgramDetailView,
-    NtcUniversityUpdateView
+    MyUniversityUpdateView,
+    MyUniversityLanguagesView,
+    MyUniversityLanguageDeleteView,
+    MyUniversityRequirementsView,
+    MyUniversityRequirementDetailView,
+    MyUniversityExamsView,
+    MyUniversityExamDetailView,
+    MyUniversityMobilityView,
+    MyUniversityMobilityDetailView,
+    NtcUniversityUpdateView,
+    MyUniversityApplicantsView,
+    LanguageListView,
 )
 router = DefaultRouter()
 router.register(r'universities', views.UniversityViewSet, basename='university')
@@ -31,10 +42,19 @@ urlpatterns = [
 
     # API
     path('api/', include(router.urls)),
-    path('api/my-university/', views.MyUniversityView.as_view(), name='my-university'),
-    path('api/my-university/programs/', views.MyUniversityProgramView.as_view(), name='my-university-programs'),
-    path('api/my-university/programs/<str:code>/', views.MyUniversityProgramDetailView.as_view(), name='my-university-program-detail'),
+    path('api/languages/', LanguageListView.as_view(), name='languages-list'),
+    path('api/my-university/', MyUniversityView.as_view(), name='my-university'),
+    path('api/my-university/info/', MyUniversityUpdateView.as_view(), name='my-university-info'),
+    path('api/my-university/programs/', MyUniversityProgramView.as_view(), name='my-university-programs'),
+    path('api/my-university/programs/<str:code>/', MyUniversityProgramDetailView.as_view(), name='my-university-program-detail'),
+    path('api/my-university/languages/', MyUniversityLanguagesView.as_view(), name='my-university-languages'),
+    path('api/my-university/languages/<int:lang_id>/', MyUniversityLanguageDeleteView.as_view(), name='my-university-language-delete'),
+    path('api/my-university/requirements/', MyUniversityRequirementsView.as_view(), name='my-university-requirements'),
+    path('api/my-university/requirements/<int:pk>/', MyUniversityRequirementDetailView.as_view(), name='my-university-requirement-detail'),
+    path('api/my-university/exams/', MyUniversityExamsView.as_view(), name='my-university-exams'),
+    path('api/my-university/exams/<int:pk>/', MyUniversityExamDetailView.as_view(), name='my-university-exam-detail'),
+    path('api/my-university/mobility/', MyUniversityMobilityView.as_view(), name='my-university-mobility'),
+    path('api/my-university/mobility/<int:pk>/', MyUniversityMobilityDetailView.as_view(), name='my-university-mobility-detail'),
+    path('api/my-university/applicants/', MyUniversityApplicantsView.as_view(), name='my-university-applicants'),
     path('api/universities/<str:code>/edit/', NtcUniversityUpdateView.as_view(), name='university-edit'),
-
-
 ]

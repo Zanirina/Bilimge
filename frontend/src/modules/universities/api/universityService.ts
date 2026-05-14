@@ -15,10 +15,14 @@ import type {
   CreateProgramRequest,
   UpdateMyUniversityInfoRequest,
   NtcEditUniversityRequest,
+  UniApplicant,
 } from "../model/types";
 
 export const universityService = {
   // ── Public ──────────────────────────────────────────────────────────────
+
+  getLanguages: () =>
+    http.get<Language[]>(endpoints.languages.list),
 
   getUniversities: () =>
     http.get<UniversityListItem[]>(endpoints.universities.list),
@@ -128,4 +132,8 @@ export const universityService = {
 
   deleteMyMobility: (id: number) =>
     http.delete(endpoints.myUniversity.mobilityById(id)),
+
+  // Applicants who favourited this university
+  getMyApplicants: () =>
+    http.get<UniApplicant[]>(endpoints.myUniversity.applicants),
 };
