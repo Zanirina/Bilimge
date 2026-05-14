@@ -6,7 +6,7 @@ from rest_framework.permissions import AllowAny
 from announcements.models import Announcement
 from announcements.views import notify_users
 from userpage.permissions import IsNtcAdmin, IsUniAdminOfThisUniversity, IsUniAdmin
-from .models import University, UniversityProgram, NtcProgram, FieldOfStudy, Subject
+from .models import University, UniversityProgram, NtcProgram, FieldOfStudy, Subject, Language
 from .serializers import (
     UniversitySerializer,
     FieldOfStudySerializer,

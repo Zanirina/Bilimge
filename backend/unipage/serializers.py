@@ -175,6 +175,7 @@ class UniversityProgramSerializer(serializers.ModelSerializer):
             'ntc_program', 'ntc_program_name',
             'subject_1_name', 'subject_2_name',
             'local_name', 'cost', 'language', 'language_name',
+            'degree', 'years_of_study', 'study_type',
             'description', 'passing_score', 'grant_score', 'future_professions',
         ]
 
@@ -184,6 +185,7 @@ class UniversityProgramWriteSerializer(serializers.ModelSerializer):
         model = UniversityProgram
         fields = [
             'code', 'ntc_program', 'local_name', 'cost', 'language',
+            'degree', 'years_of_study', 'study_type',
             'description', 'passing_score', 'grant_score', 'future_professions',
         ]
 

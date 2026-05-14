@@ -12,8 +12,15 @@ class Announcement(models.Model):
         ordering = ['-created_at']
 
     image_url = models.URLField(max_length=500, blank=True, default='', verbose_name='Image URL')
+    class Tag(models.TextChoices):
+        EVENT = 'event', 'Event'
+        SCHOLARSHIP = 'scholarship', 'Scholarship'
+        PROGRAMME = 'programme', 'Programme'
+        UPDATE = 'update', 'Update'
+
     title = models.CharField(max_length=255)
     body = models.TextField()
+    tag = models.CharField(max_length=20, choices=Tag.choices, blank=True, default='')
     author_type = models.CharField(max_length=20, choices=AuthorType.choices)
 
     university_id = models.IntegerField(null=True, blank=True)

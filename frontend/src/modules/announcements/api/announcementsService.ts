@@ -16,4 +16,7 @@ export const announcementsService = {
 
   createUniversity: (data: CreateAnnouncementRequest) =>
     http.post<Announcement>(endpoints.announcements.createUniversity, data),
+
+  deleteUniversity: (id: number) =>
+    http.delete(endpoints.announcements.deleteById(id)),
 };

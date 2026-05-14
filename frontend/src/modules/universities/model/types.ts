@@ -100,6 +100,9 @@ export type University = {
   academic_mobility: AcademicMobility[];
 };
 
+export type ProgramDegree = "college" | "bachelor" | "master" | "phd";
+export type ProgramStudyType = "full_time" | "part_time" | "distance" | "evening";
+
 // Admin program shape used in my-university programs CRUD
 export type UniversityProgram = {
   code: string;
@@ -108,6 +111,11 @@ export type UniversityProgram = {
   passing_score: number;
   grant_score: number;
   language_name: string;
+  degree: ProgramDegree;
+  years_of_study: number | null;
+  study_type: ProgramStudyType;
+  subject_1_name: string;
+  subject_2_name: string;
   description: string;
   future_professions: string;
 };
@@ -118,6 +126,9 @@ export type CreateProgramRequest = {
   local_name: string;
   cost: number;
   language: number;
+  degree: ProgramDegree;
+  years_of_study: number | null;
+  study_type: ProgramStudyType;
   description: string;
   passing_score: number;
   grant_score: number;

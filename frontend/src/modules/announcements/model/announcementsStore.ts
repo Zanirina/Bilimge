@@ -12,6 +12,7 @@ type AnnouncementsState = {
   fetchById: (id: number) => Promise<void>;
   createNtc: (data: CreateAnnouncementRequest) => Promise<void>;
   createUniversity: (data: CreateAnnouncementRequest) => Promise<void>;
+  deleteUniversity: (id: number) => Promise<void>;
 };
 
 export const useAnnouncementsStore = create<AnnouncementsState>((set) => ({
@@ -68,5 +69,10 @@ export const useAnnouncementsStore = create<AnnouncementsState>((set) => ({
     } finally {
       set({ isLoading: false });
     }
+  },
+
+  deleteUniversity: async (id) => {
+    await announcementsService.deleteUniversity(id);
+    set((s) => ({ announcements: s.announcements.filter((a) => a.id !== id) }));
   },
 }));

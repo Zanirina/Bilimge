@@ -77,6 +77,18 @@ class NtcProgram(models.Model):
 
 
 class UniversityProgram(models.Model):
+    class Degree(models.TextChoices):
+        COLLEGE = 'college', 'College'
+        BACHELOR = 'bachelor', 'Bachelor'
+        MASTER = 'master', 'Master'
+        PHD = 'phd', 'PhD'
+
+    class StudyType(models.TextChoices):
+        FULL_TIME = 'full_time', 'Full-time'
+        PART_TIME = 'part_time', 'Part-time'
+        DISTANCE = 'distance', 'Distance'
+        EVENING = 'evening', 'Evening'
+
     class Meta:
         db_table = 'university_programs'
         managed = False
@@ -87,6 +99,16 @@ class UniversityProgram(models.Model):
     local_name = models.CharField(max_length=255, verbose_name='Name of University Program')
     cost = models.IntegerField(verbose_name='Cost of University Program')
     language = models.ForeignKey(Language, on_delete=models.SET_NULL, null=True, blank=True)
+
+    degree = models.CharField(
+        max_length=20, choices=Degree.choices, default=Degree.BACHELOR, blank=True,
+        verbose_name='Degree Level'
+    )
+    years_of_study = models.PositiveIntegerField(null=True, blank=True, verbose_name='Years of Study')
+    study_type = models.CharField(
+        max_length=20, choices=StudyType.choices, default=StudyType.FULL_TIME, blank=True,
+        verbose_name='Study Type'
+    )
 
     description = models.TextField(blank=True, default='', verbose_name='Program Description')
     passing_score = models.IntegerField(null=True, blank=True, verbose_name='Passing Score for Program')

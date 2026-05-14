@@ -86,3 +86,15 @@ class UniAnnouncementView(APIView):
             return Response(AnnouncementSerializer(ann).data, status=201)
         return Response(serializer.errors, status=400)
 
+
+class UniAnnouncementDeleteView(APIView):
+    """DELETE /api/announcements/<pk>/delete/ — uni admin deletes own announcement"""
+    permission_classes = [IsUniAdmin]
+
+    def delete(self, request, pk):
+        from django.shortcuts import get_object_or_404
+        university = request.user.staff_profile.university
+        ann = get_object_or_404(Announcement, pk=pk, author_type='university',
+                                university_id=university.code)
+        ann.delete()
+        return Response(status=204)
