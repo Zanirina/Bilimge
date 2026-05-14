@@ -1,60 +1,58 @@
 import cloudinary.uploader
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework.permissions import IsAuthenticated
-from userpage.permissions import IsUniAdmin, IsNtcAdmin
-from .models import University
-from announcements.models import Announcement
+from userpage.permissions import IsUniAdmin
 
 
-class UniversityPhotoUploadView(APIView):
-    """POST /unipage/api/my-university/upload-photo/"""
+class UniversityLogoUploadView(APIView):
+    """POST /unipage/api/my-university/upload-logo/"""
     permission_classes = [IsUniAdmin]
 
     def post(self, request):
-        file = request.FILES.get('photo')
+        file = request.FILES.get('logo')
         if not file:
-            return Response({'error': 'photo required'}, status=400)
+            return Response({'error': 'logo required'}, status=400)
 
         university = request.user.staff_profile.university
 
         result = cloudinary.uploader.upload(
             file,
-            folder='universities',
-            public_id=f'uni_{university.code}',
+            folder='universities/logos',
+            public_id=f'logo_{university.code}',
             overwrite=True,
-            resource_type='image'
+            resource_type='image',
+            transformation=[
+                {'width': 400, 'height': 400, 'crop': 'fill'}  # квадрат
+            ]
         )
 
-        university.photo_url = result['secure_url']
+        university.logo_url = result['secure_url']
         university.save()
+        return Response({'logo_url': result['secure_url']})
 
-        return Response({'photo_url': result['secure_url']})
 
+class UniversityCoverUploadView(APIView):
+    """POST /unipage/api/my-university/upload-cover/"""
+    permission_classes = [IsUniAdmin]
 
-class AnnouncementImageUploadView(APIView):
-    """POST /api/announcements/{id}/upload-image/"""
-    permission_classes = [IsAuthenticated]
-
-    def post(self, request, pk):
-        file = request.FILES.get('image')
+    def post(self, request):
+        file = request.FILES.get('cover')
         if not file:
-            return Response({'error': 'image required'}, status=400)
+            return Response({'error': 'cover required'}, status=400)
 
-        try:
-            ann = Announcement.objects.get(pk=pk, created_by=request.user)
-        except Announcement.DoesNotExist:
-            return Response({'error': 'Not found'}, status=404)
+        university = request.user.staff_profile.university
 
         result = cloudinary.uploader.upload(
             file,
-            folder='announcements',
-            public_id=f'ann_{pk}',
+            folder='universities/covers',
+            public_id=f'cover_{university.code}',
             overwrite=True,
-            resource_type='image'
+            resource_type='image',
+            transformation=[
+                {'width': 1440, 'height': 810, 'crop': 'fill'}
+            ]
         )
 
-        ann.image_url = result['secure_url']
-        ann.save()
-
-        return Response({'image_url': result['secure_url']})
+        university.cover_url = result['secure_url']
+        university.save()
+        return Response({'cover_url': result['secure_url']})

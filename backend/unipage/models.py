@@ -7,7 +7,8 @@ class University(models.Model):
         managed = False
 
     code = models.IntegerField(max_length=20, primary_key=True, verbose_name='University Code')
-    photo_url = models.URLField(max_length=500, blank=True, default='', verbose_name='University Photo URL')
+    logo_url = models.URLField(max_length=500, blank=True, default='', verbose_name='Logo URL')
+    cover_url = models.URLField(max_length=500, blank=True, default='', verbose_name='Cover URL')
     name = models.CharField(max_length=255, verbose_name='University Name')
     city = models.CharField(max_length=100, verbose_name='City')
     address = models.CharField(max_length=255, verbose_name='University Address')

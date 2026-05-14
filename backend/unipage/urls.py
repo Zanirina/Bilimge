@@ -19,7 +19,7 @@ from .views import (
     MyUniversityApplicantsView,
     LanguageListView,
 )
-from .upload_views import UniversityPhotoUploadView
+from .upload_views import UniversityLogoUploadView, UniversityCoverUploadView
 
 router = DefaultRouter()
 router.register(r'universities', views.UniversityViewSet, basename='university')
@@ -60,6 +60,7 @@ urlpatterns = [
     path('api/my-university/applicants/', MyUniversityApplicantsView.as_view(), name='my-university-applicants'),
     path('api/universities/<str:code>/edit/', NtcUniversityUpdateView.as_view(), name='university-edit'),
 
-    path('api/my-university/upload-photo/', UniversityPhotoUploadView.as_view()),
+    path('api/my-university/upload-logo/', UniversityLogoUploadView.as_view()),
+    path('api/my-university/upload-cover/', UniversityCoverUploadView.as_view())
 
 ]
