@@ -36,9 +36,10 @@ INSTALLED_APPS = [
     'main',
     'chatbot',
     'announcements',
+    'calendar_app',
 ]
 
-GROQ_API_KEY = os.getenv('GROQ_API_KEY')  # берём из .env
+GROQ_API_KEY = os.getenv('GROQ_API_KEY')
 
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',

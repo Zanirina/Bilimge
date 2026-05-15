@@ -2,7 +2,7 @@
 -- PostgreSQL database dump
 --
 
-\restrict pokBSpr76UXLpm3ksbuxgu7TdC13VhDmD6o17oqpsR4YVgnLMa8MSKGfxekvn6y
+\restrict IMk7vhVs9JApW6FGBzutzD3nc0XHLgvuwIuEk9hHph7KBPPKhljG4cFxaGTt9XH
 
 -- Dumped from database version 18.3
 -- Dumped by pg_dump version 18.3
@@ -1158,13 +1158,13 @@ COPY public.accreditations (id, university_id, name, issued_by, valid_until) FRO
 -- Data for Name: announcements; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.announcements (id, title, body, author_type, university_id, university_name, created_at, updated_at, created_by_id, image_url) FROM stdin;
-1	Welcome to Bilimge! 🎉	We are thrilled to announce the official launch of Bilimge — your all-in-one platform for university admissions in Kazakhstan. Whether you are an applicant exploring your options or a university looking to connect with future students, Bilimge is here to make the process transparent, simple, and accessible for everyone.\n\nStart by exploring universities, checking grant results, and setting up your profile today!	ntc	\N		2026-05-13 19:12:47.444284+05	2026-05-13 19:12:47.44429+05	1	
-2	2025 Grant Results Are Now Available	The Ministry of Education has published the 2025 grant allocation results. Applicants can now check their grant status directly on the Bilimge platform under the Grant Check section.\n\nIf you have any questions regarding your result or the appeal process, please contact the NTC support team or visit your regional education department.	ntc	\N		2026-05-13 19:12:47.449328+05	2026-05-13 19:12:47.449331+05	1	
-3	New Feature: Favorite Programs 🔖	You can now save your favorite university programs and compare them side by side. Simply tap the bookmark icon on any program card to add it to your list.\n\nThis feature is available for all registered applicants. Saved programs can be viewed from your profile dashboard at any time.	ntc	\N		2026-05-13 19:12:47.449972+05	2026-05-13 19:12:47.449974+05	1	
-4	Astana IT University Open Day — May 25, 2025	Astana IT University invites all prospective students to our Open Day on May 25, 2025. Come visit our campus, meet the faculty, tour the labs, and learn everything you need to know about our programs in Computer Science, Data Science, Cybersecurity, and more.\n\nRegistration is free and open to everyone. Bring your transcript and UNT score for a preliminary consultation with our admissions team.	university	\N	Astana IT University	2026-05-13 19:12:47.450417+05	2026-05-13 19:12:47.450419+05	5	
-5	Scholarship Opportunities for International Students	Astana IT University is pleased to announce a new scholarship program for high-achieving applicants with UNT scores above 120. Full and partial scholarships are available for the 2025–2026 academic year across all bachelor programs.\n\nApplications must be submitted before June 10, 2025. Detailed eligibility criteria and the application form are available on our university page.	university	\N	Astana IT University	2026-05-13 19:12:47.450828+05	2026-05-13 19:12:47.45083+05	5	
-6	Important: Updated Admissions Deadlines	Please note that the submission deadline for the main admissions round has been updated to July 15, 2025. All applicants are encouraged to complete their university applications before this date to be considered for the first round of grant placement.\n\nLate applications may still be accepted in the second round but grant availability cannot be guaranteed.	ntc	\N		2026-05-13 19:12:47.451222+05	2026-05-13 19:12:47.451224+05	1	
+COPY public.announcements (id, title, body, author_type, university_id, university_name, created_at, updated_at, created_by_id, image_url, tag) FROM stdin;
+1	Welcome to Bilimge! 🎉	We are thrilled to announce the official launch of Bilimge — your all-in-one platform for university admissions in Kazakhstan. Whether you are an applicant exploring your options or a university looking to connect with future students, Bilimge is here to make the process transparent, simple, and accessible for everyone.\n\nStart by exploring universities, checking grant results, and setting up your profile today!	ntc	\N		2026-05-13 19:12:47.444284+05	2026-05-13 19:12:47.44429+05	1
+2	2025 Grant Results Are Now Available	The Ministry of Education has published the 2025 grant allocation results. Applicants can now check their grant status directly on the Bilimge platform under the Grant Check section.\n\nIf you have any questions regarding your result or the appeal process, please contact the NTC support team or visit your regional education department.	ntc	\N		2026-05-13 19:12:47.449328+05	2026-05-13 19:12:47.449331+05	1
+3	New Feature: Favorite Programs 🔖	You can now save your favorite university programs and compare them side by side. Simply tap the bookmark icon on any program card to add it to your list.\n\nThis feature is available for all registered applicants. Saved programs can be viewed from your profile dashboard at any time.	ntc	\N		2026-05-13 19:12:47.449972+05	2026-05-13 19:12:47.449974+05	1
+4	Astana IT University Open Day — May 25, 2025	Astana IT University invites all prospective students to our Open Day on May 25, 2025. Come visit our campus, meet the faculty, tour the labs, and learn everything you need to know about our programs in Computer Science, Data Science, Cybersecurity, and more.\n\nRegistration is free and open to everyone. Bring your transcript and UNT score for a preliminary consultation with our admissions team.	university	\N	Astana IT University	2026-05-13 19:12:47.450417+05	2026-05-13 19:12:47.450419+05	5
+5	Scholarship Opportunities for International Students	Astana IT University is pleased to announce a new scholarship program for high-achieving applicants with UNT scores above 120. Full and partial scholarships are available for the 2025–2026 academic year across all bachelor programs.\n\nApplications must be submitted before June 10, 2025. Detailed eligibility criteria and the application form are available on our university page.	university	\N	Astana IT University	2026-05-13 19:12:47.450828+05	2026-05-13 19:12:47.45083+05	5
+6	Important: Updated Admissions Deadlines	Please note that the submission deadline for the main admissions round has been updated to July 15, 2025. All applicants are encouraged to complete their university applications before this date to be considered for the first round of grant placement.\n\nLate applications may still be accepted in the second round but grant availability cannot be guaranteed.	ntc	\N		2026-05-13 19:12:47.451222+05	2026-05-13 19:12:47.451224+05	1
 \.
 
 
@@ -1172,9 +1172,9 @@ COPY public.announcements (id, title, body, author_type, university_id, universi
 -- Data for Name: applicant; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.applicant (id, birth_date, unt_score, target_speciality_id, user_id) FROM stdin;
-1	\N	0		3
-2	2005-03-15	120	5310	4
+COPY public.applicant (id, birth_date, unt_score, user_id, subject_1_id, subject_2_id) FROM stdin;
+1	\N	0	3	\N	\N
+2	2005-03-15	120	4	\N	\N
 \.
 
 
@@ -1299,6 +1299,22 @@ COPY public.auth_permission (id, name, content_type_id, codename) FROM stdin;
 90	Can change announcement	22	change_announcement
 91	Can delete announcement	22	delete_announcement
 92	Can view announcement	22	view_announcement
+93	Can add accreditation	24	add_accreditation
+94	Can change accreditation	24	change_accreditation
+95	Can delete accreditation	24	delete_accreditation
+96	Can view accreditation	24	view_accreditation
+97	Can add calendar event	25	add_calendarevent
+98	Can change calendar event	25	change_calendarevent
+99	Can delete calendar event	25	delete_calendarevent
+100	Can view calendar event	25	view_calendarevent
+\.
+
+
+--
+-- Data for Name: calendar_events; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.calendar_events (id, title, description, event_type, visibility, start_date, end_date, start_time, end_time, university_id, created_at, created_by_id) FROM stdin;
 \.
 
 
@@ -1431,6 +1447,10 @@ COPY public.django_migrations (id, app, name, applied) FROM stdin;
 30	unipage	0004_universityprogram_degree_years_studytype	2026-05-14 22:39:50.387781+05
 31	unipage	0005_university_logo_cover_url	2026-05-14 22:39:50.391631+05
 32	unipage	0006_accreditation	2026-05-14 22:39:50.393006+05
+33	announcements	0002_announcement_tag	2026-05-15 09:41:10.091169+05
+34	announcements	0003_announcement_image_url	2026-05-15 09:42:05.587709+05
+35	userpage	0006_remove_applicant_target_speciality_and_more	2026-05-15 09:42:11.414323+05
+36	calendar_app	0001_initial	2026-05-15 10:04:54.493313+05
 =======
 29	announcements	0002_announcement_tag	2026-05-14 21:41:58.950813+05
 30	unipage	0004_universityprogram_degree_years_studytype	2026-05-14 21:56:37.061025+05
@@ -44870,17 +44890,18 @@ COPY public.university_staff (id, university_id, user_id) FROM stdin;
 COPY public.users (id, password, last_login, is_superuser, first_name, last_name, email, is_staff, is_active, date_joined, role, phone, created_at, avatar_url) FROM stdin;
 2	pbkdf2_sha256$1200000$3Sr9JFmmRc5ivfJBzP2Nsh$qmocSDp1rUg2DYQS/TDY5WwA+sdjNLg5LotPRBIQ+Cc=	2026-04-20 11:23:26+05	f	Алина	Бигалиева	alina@bilimge.kz	f	t	2026-04-20 11:23:42+05	APPLICANT	+77007841234	2026-04-20 11:21:10.301193+05	
 3	pbkdf2_sha256$1200000$PRu2tTNvJvyJp6DvU6NJUe$dVp612SJZa2aArjhNsv42DbAFcHlAsZ56hAV9+/Oabk=	\N	f			z@mail.com	f	t	2026-04-21 11:24:58.333089+05	APPLICANT		2026-04-21 11:24:59.486795+05	
+1	pbkdf2_sha256$1200000$8NTXEVLZAeEmrs5wl4GHc0$bJwMsc8CXlOjCqJIz45FdLw0AM5by/OdMCfhTkYJfgc=	2026-04-20 11:19:20+05	t			admin@gmail.com	t	t	2026-04-20 11:17:10+05	NTC_ADMIN	\N	2026-04-20 11:17:11.446939+05	
 4	pbkdf2_sha256$1200000$yjgNgVsBuVcOtX1QnnYhq6$gGcR/ZH07U3ToeZom86wuH305ZqYyW74EzgtIMt5pgY=	\N	f	Appli	Last	a@mail.com	f	t	2026-04-21 12:36:09.770615+05	APPLICANT	87052346517	2026-04-21 12:36:11.108676+05	
 5	pbkdf2_sha256$1200000$wtr2ilp8gT43qvz9VWhVVj$N8ewdZ6dr4m03uis5Td4DiAYa0PYvFaONNKl3sPd0MM=	\N	f	Aitair	Bubilu	info@astanait.edu.kz	f	t	2026-04-24 11:00:52+05	UNI_ADMIN	+77172645716	2026-04-24 11:00:53.427973+05	
 6	pbkdf2_sha256$1200000$TAIjmjht0ESr7UjWzK0jDn$BZCNRPYigmVowZoedms/K99SXUDSrn/k9jEnIAh6+aI=	2026-05-06 12:04:19.829711+05	t			bz@gmail.com	t	t	2026-05-06 12:03:49.691459+05	SUPER_ADMIN	\N	2026-05-06 12:03:50.271757+05	
 7	pbkdf2_sha256$1200000$6u1BWWE7T5uN5BHwflV7HV$MTyhS64sZ92N+Fex1XiZhJo7bDfEr5aJc+nGuDA/dec=	\N	f	Алуа	Бекетова	alu@mail.com	f	t	2026-05-06 12:07:34.779555+05	APPLICANT	\N	2026-05-06 12:07:36.193069+05	
-8	pbkdf2_sha256$1200000$w6swmh4FJRRkVRxOeoDius$0s6aMLSjFJZEx0DMYvjwY9D/XP7m7RfpD2jAuPgIHBM=	2026-05-13 14:15:13.136171+05	t			superadm@gmail.com	t	t	2026-05-13 14:14:55.184155+05	SUPER_ADMIN	\N	2026-05-13 14:14:55.30787+05	
-5	pbkdf2_sha256$1200000$iGi0CHLSe7HTmOjThIp0ca$uHgBkJvbMnZCk9d9Nw9R91f3BNrYHhnkIarNj9DSaXA=	\N	f	Aitair	Bubilu	info@astanait.edu.kz	f	t	2026-04-24 11:00:52+05	UNI_ADMIN	+77172645716	2026-04-24 11:00:53.427973+05	
-7	pbkdf2_sha256$1200000$6u1BWWE7T5uN5BHwflV7HV$MTyhS64sZ92N+Fex1XiZhJo7bDfEr5aJc+nGuDA/dec=	\N	f	Алуа	Асеткызы	alu@mail.com	f	t	2026-05-06 12:07:34.779555+05	APPLICANT	\N	2026-05-06 12:07:36.193069+05	
-2	pbkdf2_sha256$1200000$3Sr9JFmmRc5ivfJBzP2Nsh$qmocSDp1rUg2DYQS/TDY5WwA+sdjNLg5LotPRBIQ+Cc=	2026-04-20 11:23:26+05	f	Алина	Муратова	alina@bilimge.kz	f	t	2026-04-20 11:23:42+05	APPLICANT	+77007841234	2026-04-20 11:21:10.301193+05	
-9	pbkdf2_sha256$1200000$vBT65rMXe3jiZAvqC8CzTF$7ocqjT1hpNdq9DfijPhTiwaQLqwUOuBG9TnEdrlwh2M=	\N	f	Alua	Nurlybekova	aluanrlybekova@gmail.com	f	t	2026-05-13 16:33:04.838261+05	APPLICANT	+77755200663	2026-05-13 16:33:04.935819+05	
-1	pbkdf2_sha256$1200000$4m0MFRVvwA7AlR6O1KrwkK$PUOly42LHfBtpRuRALk0Euh3zrw68C8vSXUK2oU39BQ=	2026-04-20 11:19:20+05	t			admin@gmail.com	t	t	2026-04-20 11:17:10+05	NTC_ADMIN	\N	2026-04-20 11:17:11.446939+05	
-10	pbkdf2_sha256$1200000$CkV091zOFn3Sm3Q8L6LAT5$itfdKUk/E4xm/XVZqv1/lTWPKa7Tyy5U8vhm7jgnJsU=	\N	f			kense@kbtu.kz	f	t	2026-05-15 09:41:26.977085+05	UNI_ADMIN	\N	2026-05-15 09:41:27.11624+05	
+8	pbkdf2_sha256$1200000$w6swmh4FJRRkVRxOeoDius$0s6aMLSjFJZEx0DMYvjwY9D/XP7m7RfpD2jAuPgIHBM=	2026-05-13 14:15:13.136171+05	t			superadm@gmail.com	t	t	2026-05-13 14:14:55.184155+05	SUPER_ADMIN	\N	2026-05-13 14:14:55.30787+05
+5	pbkdf2_sha256$1200000$iGi0CHLSe7HTmOjThIp0ca$uHgBkJvbMnZCk9d9Nw9R91f3BNrYHhnkIarNj9DSaXA=	\N	f	Aitair	Bubilu	info@astanait.edu.kz	f	t	2026-04-24 11:00:52+05	UNI_ADMIN	+77172645716	2026-04-24 11:00:53.427973+05
+7	pbkdf2_sha256$1200000$6u1BWWE7T5uN5BHwflV7HV$MTyhS64sZ92N+Fex1XiZhJo7bDfEr5aJc+nGuDA/dec=	\N	f	Алуа	Асеткызы	alu@mail.com	f	t	2026-05-06 12:07:34.779555+05	APPLICANT	\N	2026-05-06 12:07:36.193069+05
+2	pbkdf2_sha256$1200000$3Sr9JFmmRc5ivfJBzP2Nsh$qmocSDp1rUg2DYQS/TDY5WwA+sdjNLg5LotPRBIQ+Cc=	2026-04-20 11:23:26+05	f	Алина	Муратова	alina@bilimge.kz	f	t	2026-04-20 11:23:42+05	APPLICANT	+77007841234	2026-04-20 11:21:10.301193+05
+9	pbkdf2_sha256$1200000$vBT65rMXe3jiZAvqC8CzTF$7ocqjT1hpNdq9DfijPhTiwaQLqwUOuBG9TnEdrlwh2M=	\N	f	Alua	Nurlybekova	aluanrlybekova@gmail.com	f	t	2026-05-13 16:33:04.838261+05	APPLICANT	+77755200663	2026-05-13 16:33:04.935819+05
+1	pbkdf2_sha256$1200000$4m0MFRVvwA7AlR6O1KrwkK$PUOly42LHfBtpRuRALk0Euh3zrw68C8vSXUK2oU39BQ=	2026-04-20 11:19:20+05	t			admin@gmail.com	t	t	2026-04-20 11:17:10+05	NTC_ADMIN	\N	2026-04-20 11:17:11.446939+05
+10	pbkdf2_sha256$1200000$CkV091zOFn3Sm3Q8L6LAT5$itfdKUk/E4xm/XVZqv1/lTWPKa7Tyy5U8vhm7jgnJsU=	\N	f			kense@kbtu.kz	f	t	2026-05-15 09:41:26.977085+05	UNI_ADMIN	\N	2026-05-15 09:41:27.11624+05
 \.
 
 
@@ -45077,7 +45098,7 @@ SELECT pg_catalog.setval('public.universities_id_seq', 1, false);
 -- Name: university_languages_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.university_languages_id_seq', 2, true);
+SELECT pg_catalog.setval('public.university_languages_id_seq', 1, false);
 
 
 --
@@ -45091,7 +45112,7 @@ SELECT pg_catalog.setval('public.university_programs_id_seq', 1, false);
 -- Name: university_staff_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.university_staff_id_seq', 3, true);
+SELECT pg_catalog.setval('public.university_staff_id_seq', 2, true);
 
 
 --
@@ -45105,7 +45126,7 @@ SELECT pg_catalog.setval('public.users_groups_id_seq', 1, false);
 -- Name: users_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.users_id_seq', 10, true);
+SELECT pg_catalog.setval('public.users_id_seq', 9, true);
 
 
 --

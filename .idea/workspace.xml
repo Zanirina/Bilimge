@@ -4,10 +4,20 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3b678858-2e5f-40a1-8509-89ad10ffc1ba" name="Changes" comment="chatbot implemented">
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+    <list default="true" id="3b678858-2e5f-40a1-8509-89ad10ffc1ba" name="Changes" comment="adding calendar">
+      <change afterPath="$PROJECT_DIR$/backend/unipage/migrations/0007_accreditation.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/unipage/migrations/0008_university_social_tuition.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/unipage/migrations/0009_university_short_name.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/backend/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/backend/backend/settings.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/full_dump.sql" beforeDir="false" afterPath="$PROJECT_DIR$/backend/full_dump.sql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/unipage/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/backend/unipage/models.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/unipage/serializers.py" beforeDir="false" afterPath="$PROJECT_DIR$/backend/unipage/serializers.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/modules/universities/api/universityService.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/modules/universities/api/universityService.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/modules/universities/model/types.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/modules/universities/model/types.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/modules/universities/model/universityStore.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/modules/universities/model/universityStore.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/modules/universities/ui/NtcUniversitiesPage.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/modules/universities/ui/NtcUniversitiesPage.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/modules/universities/ui/admin/UniProfilePage.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/modules/universities/ui/admin/UniProfilePage.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/shared/api/endpoints.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/shared/api/endpoints.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -30,17 +40,32 @@
     </option>
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="main" />
+        <entry key="$PROJECT_DIR$" value="back" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="GitHubPullRequestSearchHistory">{
-  &quot;lastFilter&quot;: {
-    &quot;state&quot;: &quot;OPEN&quot;,
-    &quot;assignee&quot;: &quot;Zanirina&quot;
+  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
+  "history": [
+    {
+      "state": "OPEN"
+    }
+  ],
+  "lastFilter": {
+    "state": "OPEN"
   }
-}</component>
+}]]></component>
+  <component name="GitHubPullRequestState"><![CDATA[{
+  "prStates": [
+    {
+      "id": {
+        "id": "PR_kwDORenF6c7by7k4",
+        "number": 5
+      },
+      "lastSeen": 1778823732879
+    }
+  ]
+}]]></component>
   <component name="GithubPullRequestsUISettings">{
   &quot;selectedUrlAndAccountId&quot;: {
     &quot;url&quot;: &quot;https://github.com/Zanirina/Bilimge.git&quot;,
@@ -63,42 +88,44 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;DefaultHtmlFileTemplate&quot;: &quot;HTML File&quot;,
-    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
-    &quot;Python.main.executor&quot;: &quot;Run&quot;,
-    &quot;Python.manage.executor&quot;: &quot;Run&quot;,
-    &quot;Python.urls.executor&quot;: &quot;Run&quot;,
-    &quot;Python.views.executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.MCP Project settings loaded&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.typescript.service.memoryLimit.init&quot;: &quot;true&quot;,
-    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;ai.playground.ignore.import.keys.banner.in.settings&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/22208/PycharmProjects/Bilimge/backend/unipage/fixtures&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "DefaultHtmlFileTemplate": "HTML File",
+    "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "Python.main.executor": "Run",
+    "Python.manage.executor": "Run",
+    "Python.urls.executor": "Run",
+    "Python.views.executor": "Run",
+    "RunOnceActivity.MCP Project settings loaded": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "RunOnceActivity.typescript.service.memoryLimit.init": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "ai.playground.ignore.import.keys.banner.in.settings": "true",
+    "git-widget-placeholder": "#5 on Merging back",
+    "last_opened_file_path": "C:/Users/22208/PycharmProjects/Bilimge/backend/announcements/grants/history",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "preferences.pluginManager",
+    "vue.rearranger.settings.migration": "true"
   },
-  &quot;keyToStringList&quot;: {
-    &quot;DatabaseDriversLRU&quot;: [
-      &quot;postgresql&quot;
+  "keyToStringList": {
+    "DatabaseDriversLRU": [
+      "postgresql"
     ]
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\22208\PycharmProjects\Bilimge\backend\announcements\grants\history" />
       <recent name="C:\Users\22208\PycharmProjects\Bilimge\backend\unipage\fixtures" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\22208\PycharmProjects\Bilimge\backend\announcements" />
       <recent name="C:\Users\22208\PycharmProjects\Bilimge\backend\main" />
       <recent name="C:\Users\22208\PycharmProjects\Bilimge\frontend" />
       <recent name="C:\Users\22208\PycharmProjects\Bilimge\backend\main\templates" />
@@ -144,7 +171,11 @@
       <workItem from="1777296966997" duration="223000" />
       <workItem from="1777297212571" duration="539000" />
       <workItem from="1777802572066" duration="1028000" />
-      <workItem from="1778049563678" duration="9746000" />
+      <workItem from="1778049563678" duration="11039000" />
+      <workItem from="1778518589746" duration="10949000" />
+      <workItem from="1778641657608" duration="495000" />
+      <workItem from="1778774003553" duration="7118000" />
+      <workItem from="1778819304518" duration="4650000" />
     </task>
     <task id="LOCAL-00001" summary="add frontend dir">
       <option name="closed" value="true" />
@@ -274,7 +305,87 @@
       <option name="project" value="LOCAL" />
       <updated>1778059474274</updated>
     </task>
-    <option name="localTasksCounter" value="17" />
+    <task id="LOCAL-00017" summary="fix settings">
+      <option name="closed" value="true" />
+      <created>1778062700613</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1778062700613</updated>
+    </task>
+    <task id="LOCAL-00018" summary="reset password, updated endpoints">
+      <option name="closed" value="true" />
+      <created>1778527431438</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1778527431438</updated>
+    </task>
+    <task id="LOCAL-00019" summary="chatbot update">
+      <option name="closed" value="true" />
+      <created>1778532601839</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1778532601839</updated>
+    </task>
+    <task id="LOCAL-00020" summary="fix dump">
+      <option name="closed" value="true" />
+      <created>1778642097595</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1778642097595</updated>
+    </task>
+    <task id="LOCAL-00021" summary="adding photos">
+      <option name="closed" value="true" />
+      <created>1778777702617</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1778777702617</updated>
+    </task>
+    <task id="LOCAL-00022" summary="adding photos">
+      <option name="closed" value="true" />
+      <created>1778777757913</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1778777757913</updated>
+    </task>
+    <task id="LOCAL-00023" summary="editing photo for universities">
+      <option name="closed" value="true" />
+      <created>1778778424282</created>
+      <option name="number" value="00023" />
+      <option name="presentableId" value="LOCAL-00023" />
+      <option name="project" value="LOCAL" />
+      <updated>1778778424282</updated>
+    </task>
+    <task id="LOCAL-00024" summary="editing photo for universities">
+      <option name="closed" value="true" />
+      <created>1778778475137</created>
+      <option name="number" value="00024" />
+      <option name="presentableId" value="LOCAL-00024" />
+      <option name="project" value="LOCAL" />
+      <updated>1778778475137</updated>
+    </task>
+    <task id="LOCAL-00025" summary="insta,tg fields in uni">
+      <option name="closed" value="true" />
+      <created>1778781163536</created>
+      <option name="number" value="00025" />
+      <option name="presentableId" value="LOCAL-00025" />
+      <option name="project" value="LOCAL" />
+      <updated>1778781163536</updated>
+    </task>
+    <task id="LOCAL-00026" summary="adding calendar">
+      <option name="closed" value="true" />
+      <created>1778822261599</created>
+      <option name="number" value="00026" />
+      <option name="presentableId" value="LOCAL-00026" />
+      <option name="project" value="LOCAL" />
+      <updated>1778822261599</updated>
+    </task>
+    <option name="localTasksCounter" value="27" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -285,7 +396,19 @@
       <map>
         <entry key="MAIN">
           <value>
-            <State />
+            <State>
+              <option name="FILTERS">
+                <map>
+                  <entry key="branch">
+                    <value>
+                      <list>
+                        <option value="origin/back" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+            </State>
           </value>
         </entry>
       </map>
@@ -305,7 +428,15 @@
     <MESSAGE value="REQ" />
     <MESSAGE value="username deleted" />
     <MESSAGE value="chatbot implemented" />
-    <option name="LAST_COMMIT_MESSAGE" value="chatbot implemented" />
+    <MESSAGE value="fix settings" />
+    <MESSAGE value="reset password, updated endpoints" />
+    <MESSAGE value="chatbot update" />
+    <MESSAGE value="fix dump" />
+    <MESSAGE value="adding photos" />
+    <MESSAGE value="editing photo for universities" />
+    <MESSAGE value="insta,tg fields in uni" />
+    <MESSAGE value="adding calendar" />
+    <option name="LAST_COMMIT_MESSAGE" value="adding calendar" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/Bilimge$main.coverage" NAME="main Coverage Results" MODIFIED="1773743816355" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />

@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from .models import User, Applicant, Favorite
-from unipage.models import NtcProgram, UniversityProgram
+from unipage.models import UniversityProgram, Subject
 
 
 class RegisterSerializer(serializers.ModelSerializer):
@@ -8,7 +8,7 @@ class RegisterSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ['email', 'password', 'phone']  # убрали username
+        fields = ['email', 'password', 'phone']
 
     def create(self, validated_data):
         user = User.objects.create_user(
@@ -21,21 +21,22 @@ class RegisterSerializer(serializers.ModelSerializer):
 
 
 class UserMeSerializer(serializers.ModelSerializer):
-    # Поля из Applicant профиля (если есть)
     birth_date = serializers.SerializerMethodField()
     unt_score = serializers.SerializerMethodField()
-    target_speciality = serializers.SerializerMethodField()
-    target_speciality_name = serializers.SerializerMethodField()
+    subject_1 = serializers.SerializerMethodField()
+    subject_2 = serializers.SerializerMethodField()
+    subject_1_name = serializers.SerializerMethodField()
+    subject_2_name = serializers.SerializerMethodField()
     favorites_count = serializers.SerializerMethodField()
 
     class Meta:
         model = User
         fields = [
             'id', 'email', 'phone', 'role', 'created_at',
-            'first_name', 'last_name','avatar_url',
-            # applicant-only поля (null для других ролей)
+            'first_name', 'last_name', 'avatar_url',
             'birth_date', 'unt_score',
-            'target_speciality', 'target_speciality_name',
+            'subject_1', 'subject_1_name',
+            'subject_2', 'subject_2_name',
             'favorites_count',
         ]
 
@@ -53,16 +54,25 @@ class UserMeSerializer(serializers.ModelSerializer):
         a = self._get_applicant(obj)
         return a.unt_score if a else None
 
-    def get_target_speciality(self, obj):
+    def get_subject_1(self, obj):
         a = self._get_applicant(obj)
-        return a.target_speciality.code if a and a.target_speciality else None
+        return a.subject_1_id if a else None
 
-    def get_target_speciality_name(self, obj):
+    def get_subject_2(self, obj):
         a = self._get_applicant(obj)
-        return a.target_speciality.name if a and a.target_speciality else None
+        return a.subject_2_id if a else None
+
+    def get_subject_1_name(self, obj):
+        a = self._get_applicant(obj)
+        return a.subject_1.name if a and a.subject_1 else None
+
+    def get_subject_2_name(self, obj):
+        a = self._get_applicant(obj)
+        return a.subject_2.name if a and a.subject_2 else None
 
     def get_favorites_count(self, obj):
         return obj.favorites.count()
+
 
 class ApplicantProfileSerializer(serializers.ModelSerializer):
     email = serializers.CharField(source='user.email', read_only=True)
@@ -70,13 +80,16 @@ class ApplicantProfileSerializer(serializers.ModelSerializer):
     last_name = serializers.CharField(source='user.last_name', required=False)
     phone = serializers.CharField(source='user.phone', required=False)
 
-    target_speciality_name = serializers.CharField(
-        source='target_speciality.name',
-        read_only=True
+    subject_1_name = serializers.CharField(source='subject_1.name', read_only=True)
+    subject_2_name = serializers.CharField(source='subject_2.name', read_only=True)
+
+    subject_1 = serializers.PrimaryKeyRelatedField(
+        queryset=Subject.objects.all(),
+        allow_null=True,
+        required=False
     )
-    target_speciality = serializers.SlugRelatedField(
-        slug_field='code',
-        queryset=NtcProgram.objects.all(),
+    subject_2 = serializers.PrimaryKeyRelatedField(
+        queryset=Subject.objects.all(),
         allow_null=True,
         required=False
     )
@@ -86,13 +99,12 @@ class ApplicantProfileSerializer(serializers.ModelSerializer):
         fields = [
             'email', 'first_name', 'last_name', 'phone',
             'birth_date', 'unt_score',
-            'target_speciality',
-            'target_speciality_name',
+            'subject_1', 'subject_1_name',
+            'subject_2', 'subject_2_name',
         ]
 
     def update(self, instance, validated_data):
         user_data = validated_data.pop('user', {})
-
         user = instance.user
         for attr, value in user_data.items():
             setattr(user, attr, value)
@@ -101,7 +113,6 @@ class ApplicantProfileSerializer(serializers.ModelSerializer):
         for attr, value in validated_data.items():
             setattr(instance, attr, value)
         instance.save()
-
         return instance
 
 

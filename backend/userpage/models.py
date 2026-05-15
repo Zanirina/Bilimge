@@ -59,23 +59,26 @@ class Applicant(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='applicant_profile')
     birth_date = models.DateField(null=True, blank=True)
     unt_score = models.IntegerField(default=0)
-    target_speciality = models.ForeignKey(
-        'unipage.NtcProgram',
+
+    subject_1 = models.ForeignKey(
+        'unipage.Subject',
         on_delete=models.SET_NULL,
-        null=True,
-        blank=True,
-        related_name='applicants',
-        to_field='code',
-        db_column='target_speciality_id',
+        null=True, blank=True,
+        related_name='applicants_subject_1',
+        db_column='subject_1_id',
+        db_constraint=False
+    )
+    subject_2 = models.ForeignKey(
+        'unipage.Subject',
+        on_delete=models.SET_NULL,
+        null=True, blank=True,
+        related_name='applicants_subject_2',
+        db_column='subject_2_id',
         db_constraint=False
     )
 
     class Meta:
         db_table = 'applicant'
-
-    def __str__(self):
-        return f"Profile: {self.user.email}"
-
 
 class Favorite(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='favorites')
