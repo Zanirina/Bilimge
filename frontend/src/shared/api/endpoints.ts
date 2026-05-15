@@ -56,6 +56,10 @@ export const endpoints = {
     mobility: "/unipage/api/my-university/mobility/",
     mobilityById: (id: number | string) => `/unipage/api/my-university/mobility/${id}/`,
     applicants: "/unipage/api/my-university/applicants/",
+    accreditations: "/unipage/api/my-university/accreditations/",
+    accreditationById: (id: number | string) => `/unipage/api/my-university/accreditations/${id}/`,
+    uploadLogo: "/unipage/api/my-university/upload-logo/",
+    uploadCover: "/unipage/api/my-university/upload-cover/",
   },
   announcements: {
     list: "/api/announcements/",

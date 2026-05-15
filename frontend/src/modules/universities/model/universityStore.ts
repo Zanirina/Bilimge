@@ -12,6 +12,7 @@ import type {
   EntranceRequirement,
   EntranceExam,
   AcademicMobility,
+  Accreditation,
   CreateProgramRequest,
   UpdateMyUniversityInfoRequest,
   NtcEditUniversityRequest,
@@ -33,6 +34,7 @@ type UniversityState = {
   myRequirements: EntranceRequirement[];
   myExams: EntranceExam[];
   myMobility: AcademicMobility[];
+  myAccreditations: Accreditation[];
 
   // Actions — public
   fetchUniversities: () => Promise<void>;
@@ -73,6 +75,14 @@ type UniversityState = {
   addMyMobility: (data: Omit<AcademicMobility, "id">) => Promise<void>;
   updateMyMobility: (id: number, data: Partial<Omit<AcademicMobility, "id">>) => Promise<void>;
   deleteMyMobility: (id: number) => Promise<void>;
+
+  fetchMyAccreditations: () => Promise<void>;
+  addMyAccreditation: (data: Omit<Accreditation, "id">) => Promise<void>;
+  updateMyAccreditation: (id: number, data: Partial<Omit<Accreditation, "id">>) => Promise<void>;
+  deleteMyAccreditation: (id: number) => Promise<void>;
+
+  uploadLogo: (file: File) => Promise<void>;
+  uploadCover: (file: File) => Promise<void>;
 };
 
 const withLoading = async <T>(
@@ -104,6 +114,7 @@ export const useUniversityStore = create<UniversityState>((set) => ({
   myRequirements: [],
   myExams: [],
   myMobility: [],
+  myAccreditations: [],
 
   // ── Public ──────────────────────────────────────────────────────────────
 
@@ -289,5 +300,43 @@ export const useUniversityStore = create<UniversityState>((set) => ({
     withLoading(set, async () => {
       await universityService.deleteMyMobility(id);
       set((s) => ({ myMobility: s.myMobility.filter((m) => m.id !== id) }));
+    }),
+
+  fetchMyAccreditations: () =>
+    withLoading(set, async () => {
+      const res = await universityService.getMyAccreditations();
+      set({ myAccreditations: res.data });
+    }),
+
+  addMyAccreditation: (data) =>
+    withLoading(set, async () => {
+      const res = await universityService.addMyAccreditation(data);
+      set((s) => ({ myAccreditations: [...s.myAccreditations, res.data] }));
+    }),
+
+  updateMyAccreditation: (id, data) =>
+    withLoading(set, async () => {
+      const res = await universityService.updateMyAccreditation(id, data);
+      set((s) => ({
+        myAccreditations: s.myAccreditations.map((a) => (a.id === id ? res.data : a)),
+      }));
+    }),
+
+  deleteMyAccreditation: (id) =>
+    withLoading(set, async () => {
+      await universityService.deleteMyAccreditation(id);
+      set((s) => ({ myAccreditations: s.myAccreditations.filter((a) => a.id !== id) }));
+    }),
+
+  uploadLogo: (file) =>
+    withLoading(set, async () => {
+      const res = await universityService.uploadLogo(file);
+      set((s) => s.myUniversity ? { myUniversity: { ...s.myUniversity, logo_url: res.data.logo_url } } : {});
+    }),
+
+  uploadCover: (file) =>
+    withLoading(set, async () => {
+      const res = await universityService.uploadCover(file);
+      set((s) => s.myUniversity ? { myUniversity: { ...s.myUniversity, cover_url: res.data.cover_url } } : {});
     }),
 }));

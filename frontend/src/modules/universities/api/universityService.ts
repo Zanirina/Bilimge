@@ -13,6 +13,7 @@ import type {
   EntranceRequirement,
   EntranceExam,
   AcademicMobility,
+  Accreditation,
   CreateProgramRequest,
   UpdateMyUniversityInfoRequest,
   NtcEditUniversityRequest,
@@ -33,7 +34,7 @@ export const universityService = {
 
   /** @deprecated use getUniversityByCode */
   getUniversityById: (id: string) =>
-    http.get<University>(endpoints.universities.byId(id)),
+    http.get<University>(endpoints.universities.byCode(id)),
 
   getUniversityProgramDetail: (code: string) =>
     http.get<UniversityProgramDetail>(endpoints.universityPrograms.byCode(code)),
@@ -63,7 +64,7 @@ export const universityService = {
 
   /** @deprecated use getUniversityProgramDetail */
   getUniversityProgramById: (id: string) =>
-    http.get<UniversityProgramDetail>(endpoints.universityPrograms.byId(id)),
+    http.get<UniversityProgramDetail>(endpoints.universityPrograms.byCode(id)),
 
   // ── NTC Admin ────────────────────────────────────────────────────────────
 
@@ -143,4 +144,30 @@ export const universityService = {
   // Applicants who favourited this university
   getMyApplicants: () =>
     http.get<UniApplicant[]>(endpoints.myUniversity.applicants),
+
+  // Accreditations
+  getMyAccreditations: () =>
+    http.get<Accreditation[]>(endpoints.myUniversity.accreditations),
+
+  addMyAccreditation: (data: Omit<Accreditation, "id">) =>
+    http.post<Accreditation>(endpoints.myUniversity.accreditations, data),
+
+  updateMyAccreditation: (id: number, data: Partial<Omit<Accreditation, "id">>) =>
+    http.patch<Accreditation>(endpoints.myUniversity.accreditationById(id), data),
+
+  deleteMyAccreditation: (id: number) =>
+    http.delete(endpoints.myUniversity.accreditationById(id)),
+
+  // Logo / cover upload
+  uploadLogo: (file: File) => {
+    const form = new FormData();
+    form.append("logo", file);
+    return http.post<{ logo_url: string }>(endpoints.myUniversity.uploadLogo, form);
+  },
+
+  uploadCover: (file: File) => {
+    const form = new FormData();
+    form.append("cover", file);
+    return http.post<{ cover_url: string }>(endpoints.myUniversity.uploadCover, form);
+  },
 };
