@@ -8,7 +8,7 @@ class UniversityAdmin(admin.ModelAdmin):
 
 
 class UniversityProgramAdmin(admin.ModelAdmin):
-    list_display = ('code', 'university_id', 'ntc_program_id', 'local_name', 'cost','language')
+    list_display = ('code', 'university_id', 'ntc_program_id', 'local_name','language')
     readonly_fields = ('get_subject_1', 'get_subject_2')
 
     def get_subject_1(self, obj):

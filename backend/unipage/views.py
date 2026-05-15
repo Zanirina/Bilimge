@@ -5,6 +5,9 @@ from rest_framework.response import Response
 from rest_framework.permissions import AllowAny
 from announcements.models import Announcement
 from announcements.views import notify_users
+from .models import Accreditation
+from rest_framework import serializers
+from .serializers import AccreditationSerializer
 from userpage.permissions import IsNtcAdmin, IsUniAdminOfThisUniversity, IsUniAdmin
 from .models import University, UniversityProgram, NtcProgram, FieldOfStudy, Subject, Language
 from .serializers import (
@@ -539,3 +542,46 @@ class MyUniversityApplicantsView(APIView):
         return Response(list(applicants.values()))
 
 
+class AccreditationWriteSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Accreditation
+        fields = ['id', 'name', 'issued_by', 'valid_until']
+
+
+class MyUniversityAccreditationsView(APIView):
+    """GET/POST /unipage/api/my-university/accreditations/"""
+    permission_classes = [IsUniAdmin]
+
+    def get(self, request):
+        university = request.user.staff_profile.university
+        qs = Accreditation.objects.filter(university=university)
+        return Response(AccreditationWriteSerializer(qs, many=True).data)
+
+    def post(self, request):
+        university = request.user.staff_profile.university
+        serializer = AccreditationWriteSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save(university=university)
+            return Response(serializer.data, status=201)
+        return Response(serializer.errors, status=400)
+
+
+class MyUniversityAccreditationDetailView(APIView):
+    """PATCH/DELETE /unipage/api/my-university/accreditations/<pk>/"""
+    permission_classes = [IsUniAdmin]
+
+    def get_object(self, request, pk):
+        university = request.user.staff_profile.university
+        return get_object_or_404(Accreditation, pk=pk, university=university)
+
+    def patch(self, request, pk):
+        obj = self.get_object(request, pk)
+        serializer = AccreditationWriteSerializer(obj, data=request.data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=400)
+
+    def delete(self, request, pk):
+        self.get_object(request, pk).delete()
+        return Response({'status': 'deleted'}, status=204)

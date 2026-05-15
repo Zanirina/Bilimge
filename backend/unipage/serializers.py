@@ -1,8 +1,9 @@
 from rest_framework import serializers
 from .models import (
     University, Subject, FieldOfStudy, NtcProgram, UniversityProgram,
-    Language, UniversityLanguage, EntranceRequirement, EntranceExam, AcademicMobility
+    Language, UniversityLanguage, EntranceRequirement, EntranceExam, AcademicMobility, Accreditation
 )
+
 
 
 class LanguageSerializer(serializers.ModelSerializer):
@@ -48,7 +49,7 @@ class UniversityProgramDetailSerializer(serializers.ModelSerializer):
             'field_of_study_code', 'field_of_study_name',
             'ntc_program', 'ntc_program_name',
             'description', 'passing_score', 'grant_score',
-            'cost', 'language', 'language_name',
+             'language', 'language_name',
             'subject_1', 'subject_2',
             'future_professions',
         ]
@@ -89,6 +90,14 @@ class FieldOfStudyWithProgramsSerializer(serializers.Serializer):
     programs = UniversityProgramInFieldSerializer(many=True)
 
 
+
+class AccreditationSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Accreditation
+        fields = ['id', 'name', 'issued_by', 'valid_until']
+
+
+
 class UniversityPageSerializer(serializers.ModelSerializer):
     """GET /unipage/api/universities/<code>/ — полная страница университета"""
     teaching_languages = serializers.SerializerMethodField()
@@ -96,12 +105,15 @@ class UniversityPageSerializer(serializers.ModelSerializer):
     entrance_requirements = EntranceRequirementSerializer(many=True, read_only=True)
     entrance_exams = EntranceExamSerializer(many=True, read_only=True)
     academic_mobility = AcademicMobilitySerializer(many=True, read_only=True)
+    accreditations = AccreditationSerializer(many=True, read_only=True)
 
     class Meta:
         model = University
         fields = [
             'code', 'name', 'city', 'address', 'year_established',
             'email', 'phone', 'website',
+            'telegram_url', 'instagram_url',
+            'tuition_cost',
             'passing_score', 'history',
             'has_dormitory', 'has_military_department',
             'teaching_languages',
@@ -109,6 +121,7 @@ class UniversityPageSerializer(serializers.ModelSerializer):
             'entrance_requirements',
             'entrance_exams',
             'academic_mobility',
+            'accreditations',
         ]
 
     def get_teaching_languages(self, obj):
@@ -156,6 +169,8 @@ class UniversityUpdateSerializer(serializers.ModelSerializer):
         fields = [
             'name', 'city', 'address', 'year_established',
             'email', 'phone', 'website',
+            'telegram_url', 'instagram_url',
+            'tuition_cost',
             'passing_score', 'history',
             'has_dormitory', 'has_military_department',
         ]
@@ -213,3 +228,5 @@ class UniversityBasicUpdateSerializer(serializers.ModelSerializer):
     class Meta:
         model = University
         fields = ['name', 'city', 'address', 'phone', 'email', 'website']
+
+
