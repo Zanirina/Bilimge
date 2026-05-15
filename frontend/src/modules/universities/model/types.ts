@@ -83,10 +83,18 @@ export type AcademicMobility = {
   country: string;
 };
 
+export type Accreditation = {
+  id: number;
+  name: string;
+  issued_by: string;
+  valid_until: string | null;
+};
+
 // University list item (compact)
 export type UniversityListItem = {
   code: string;
   name: string;
+  short_name: string;
   city: string;
   passing_score: number;
 };
@@ -95,6 +103,7 @@ export type UniversityListItem = {
 export type University = {
   code: string;
   name: string;
+  short_name: string;
   city: string;
   address: string;
   website: string;
@@ -103,13 +112,19 @@ export type University = {
   phone: string;
   passing_score: number;
   history: string;
+  logo_url: string;
+  cover_url: string;
   has_dormitory: boolean;
   has_military_department: boolean;
+  telegram_url: string;
+  instagram_url: string;
+  tuition_cost: number | null;
   teaching_languages: string[];
   programs_by_field: ProgramsByField[];
   entrance_requirements: EntranceRequirement[];
   entrance_exams: EntranceExam[];
   academic_mobility: AcademicMobility[];
+  accreditations: Accreditation[];
 };
 
 export type ProgramDegree = "college" | "bachelor" | "master" | "phd";
@@ -149,6 +164,7 @@ export type CreateProgramRequest = {
 
 export type UpdateMyUniversityInfoRequest = {
   name?: string;
+  short_name?: string;
   city?: string;
   address?: string;
   year_established?: number;
@@ -156,6 +172,9 @@ export type UpdateMyUniversityInfoRequest = {
   phone?: string;
   history?: string;
   website?: string;
+  telegram_url?: string;
+  instagram_url?: string;
+  tuition_cost?: number | null;
   has_dormitory?: boolean;
   has_military_department?: boolean;
   passing_score?: number;
@@ -163,6 +182,7 @@ export type UpdateMyUniversityInfoRequest = {
 
 export type NtcEditUniversityRequest = {
   name?: string;
+  short_name?: string;
   city?: string;
   address?: string;
   phone?: string;

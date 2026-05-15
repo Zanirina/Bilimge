@@ -10,6 +10,7 @@ class University(models.Model):
     logo_url = models.URLField(max_length=500, blank=True, default='', verbose_name='Logo URL')
     cover_url = models.URLField(max_length=500, blank=True, default='', verbose_name='Cover URL')
     name = models.CharField(max_length=255, verbose_name='University Name')
+    short_name = models.CharField(max_length=100, blank=True, default='', verbose_name='Short Name')
     city = models.CharField(max_length=100, verbose_name='City')
     address = models.CharField(max_length=255, verbose_name='University Address')
     year_established = models.IntegerField(verbose_name='Year Established')

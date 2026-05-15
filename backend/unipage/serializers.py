@@ -124,7 +124,7 @@ class UniversityPageSerializer(serializers.ModelSerializer):
     class Meta:
         model = University
         fields = [
-            'code', 'name', 'city', 'address', 'year_established',
+            'code', 'name', 'short_name', 'city', 'address', 'year_established',
             'email', 'phone', 'website',
             'telegram_url', 'instagram_url',
             'tuition_cost',
@@ -181,7 +181,7 @@ class UniversityUpdateSerializer(serializers.ModelSerializer):
     class Meta:
         model = University
         fields = [
-            'name', 'city', 'address', 'year_established',
+            'name', 'short_name', 'city', 'address', 'year_established',
             'email', 'phone', 'website',
             'telegram_url', 'instagram_url',
             'tuition_cost',
@@ -241,6 +241,6 @@ class UniversityBasicUpdateSerializer(serializers.ModelSerializer):
     """NTC может менять только базовые поля"""
     class Meta:
         model = University
-        fields = ['name', 'city', 'address', 'phone', 'email', 'website']
+        fields = ['name', 'short_name', 'city', 'address', 'phone', 'email', 'website']
 
 

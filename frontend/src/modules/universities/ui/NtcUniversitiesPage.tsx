@@ -1,7 +1,7 @@
 import { useEffect, useState, useMemo } from "react";
 import { universityService } from "../api/universityService";
 import type { UniversityListItem, University, NtcEditUniversityRequest } from "../model/types";
-import { HiX, HiPlus } from "react-icons/hi";
+import { HiX } from "react-icons/hi";
 import { LuSearch, LuPencil } from "react-icons/lu";
 
 // ─── colour helpers ───────────────────────────────────────────────────────────
@@ -47,12 +47,13 @@ function EditModal({
     universityService.getUniversityByCode(String(uni.code)).then((r) => {
       setFull(r.data);
       setForm({
-        name:    r.data.name,
-        city:    r.data.city,
-        address: r.data.address,
-        phone:   r.data.phone,
-        email:   r.data.email,
-        website: r.data.website,
+        name:       r.data.name,
+        short_name: r.data.short_name,
+        city:       r.data.city,
+        address:    r.data.address,
+        phone:      r.data.phone,
+        email:      r.data.email,
+        website:    r.data.website,
       });
     });
   }, [uni.code]);
@@ -94,6 +95,11 @@ function EditModal({
                 <label className={lbl}>Full official name</label>
                 <input className={inp} value={form.name ?? ""} placeholder="University name"
                   onChange={(e) => patch({ name: e.target.value })} />
+              </div>
+              <div>
+                <label className={lbl}>Short name</label>
+                <input className={inp} value={form.short_name ?? ""} placeholder="Abbrev. / short name"
+                  onChange={(e) => patch({ short_name: e.target.value })} />
               </div>
               <div className="grid grid-cols-2 gap-3">
                 <div>
