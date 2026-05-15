@@ -73,8 +73,7 @@ class NtcCalendarView(APIView):
             event = serializer.save(
                 visibility='public',
                 created_by=request.user,
-                university_id=None,      # ← было university=None (FK)
-                university_name=''
+                university_id=None,
             )
             return Response(CalendarEventSerializer(event).data, status=201)
         return Response(serializer.errors, status=400)
@@ -105,10 +104,17 @@ class UniCalendarView(APIView):
 
     def get(self, request):
         university = request.user.staff_profile.university
-        # university_id вместо university= (т.к. не FK)
         qs = CalendarEvent.objects.filter(
             university_id=university.code
         ).order_by('start_date', 'start_time')
+
+        month = request.query_params.get('month')
+        year = request.query_params.get('year')
+        if month:
+            qs = qs.filter(start_date__month=month)
+        if year:
+            qs = qs.filter(start_date__year=year)
+
         return Response(CalendarEventSerializer(qs, many=True).data)
 
     def post(self, request):
@@ -120,7 +126,6 @@ class UniCalendarView(APIView):
                 visibility = 'university'
             event = serializer.save(
                 university_id=university.code,
-                university_name=university.name,
                 visibility=visibility,
                 created_by=request.user
             )
@@ -166,7 +171,6 @@ class PersonalCalendarView(APIView):
                 visibility='personal',
                 created_by=request.user,
                 university_id=None,
-                university_name=''
             )
             return Response(CalendarEventSerializer(event).data, status=201)
         return Response(serializer.errors, status=400)

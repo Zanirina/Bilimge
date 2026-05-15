@@ -9,7 +9,7 @@ class CalendarEventSerializer(serializers.ModelSerializer):
         fields = [
             'id', 'title', 'description', 'event_type', 'visibility',
             'start_date', 'end_date', 'start_time', 'end_time',
-            'university_id', 'university_name',
+            'university_id',
             'created_by_email', 'created_at',
         ]
 

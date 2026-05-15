@@ -22,4 +22,10 @@ export const announcementsService = {
 
   deleteNtc: (id: number) =>
     http.delete(endpoints.announcements.ntcDeleteById(id)),
+
+  updateUniversity: (id: number, data: CreateAnnouncementRequest) =>
+    http.patch<Announcement>(endpoints.announcements.updateById(id), data),
+
+  updateNtc: (id: number, data: CreateAnnouncementRequest) =>
+    http.patch<Announcement>(endpoints.announcements.ntcUpdateById(id), data),
 };

@@ -3,6 +3,7 @@ from .views import (
     AnnouncementListView, AnnouncementDetailView,
     NtcAnnouncementView, NtcAnnouncementDeleteView,
     UniAnnouncementView, UniAnnouncementDeleteView,
+    UniAnnouncementUpdateView, NtcAnnouncementUpdateView,
 )
 from .upload_views import AnnouncementImageUploadView
 
@@ -14,4 +15,6 @@ urlpatterns = [
     path('ntc/', NtcAnnouncementView.as_view()),
     path('university/', UniAnnouncementView.as_view()),
     path('<int:pk>/upload-image/', AnnouncementImageUploadView.as_view()),
+    path('<int:pk>/update/', UniAnnouncementUpdateView.as_view()),
+    path('<int:pk>/ntc-update/', NtcAnnouncementUpdateView.as_view()),
 ]

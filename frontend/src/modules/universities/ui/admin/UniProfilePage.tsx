@@ -67,11 +67,11 @@ function LogoUploader({ logoUrl, initials, onUpload }: { logoUrl: string; initia
   const [uploading, setUploading] = useState(false);
 
   return (
-    <div className="relative w-24 h-24 flex-shrink-0 group cursor-pointer" onClick={() => ref.current?.click()}>
+    <div className="relative w-20 h-20 flex-shrink-0 group cursor-pointer" onClick={() => ref.current?.click()}>
       {logoUrl ? (
-        <img src={logoUrl} alt="logo" className="w-24 h-24 rounded-2xl object-cover" />
+        <img src={logoUrl} alt="logo" className="w-20 h-20 rounded-2xl object-fit" />
       ) : (
-        <div className="w-24 h-24 rounded-2xl bg-[#FEEFEC] flex items-center justify-center">
+        <div className="w-20 h-20 rounded-2xl bg-[#FEEFEC] flex items-center justify-center">
           <span className="text-3xl font-bold text-[#E85842]">{initials}</span>
         </div>
       )}
@@ -100,7 +100,7 @@ function CoverUploader({ coverUrl, onUpload }: { coverUrl: string; onUpload: (f:
 
   return (
     <div
-      className="relative w-full h-28 rounded-2xl overflow-hidden cursor-pointer group mb-4"
+      className="relative w-full h-65 rounded-2xl overflow-hidden cursor-pointer group mb-4"
       style={{ background: coverUrl ? undefined : "#F3F4F6" }}
       onClick={() => ref.current?.click()}
     >
@@ -241,7 +241,7 @@ export default function UniProfilePage() {
       {/* ── Header ── */}
       <div className="bg-white rounded-2xl shadow-sm overflow-hidden">
         <CoverUploader coverUrl={myUniversity?.cover_url ?? ""} onUpload={uploadCover} />
-        <div className="px-6 pb-6 flex items-center gap-5 -mt-6">
+        <div className="px-6 py-6 flex items-center gap-5 -mt-6">
           <LogoUploader
             logoUrl={myUniversity?.logo_url ?? ""}
             initials={initials}
@@ -250,12 +250,10 @@ export default function UniProfilePage() {
           <div className="flex-1 min-w-0">
             <div className="flex items-center gap-2 flex-wrap">
               <h1 className="text-2xl font-bold text-gray-900">{myUniversity?.name}</h1>
+
               {myUniversity?.short_name && (
-                <span className="text-sm font-medium text-gray-400">({myUniversity.short_name})</span>
+                <span className="text-2xl font-bold text-gray-900">({myUniversity.short_name})</span>
               )}
-              <span className="flex items-center gap-1 bg-emerald-50 text-emerald-600 text-xs font-medium px-2.5 py-1 rounded-full border border-emerald-100">
-                <ICheck /> Verified
-              </span>
             </div>
             <div className="flex items-center gap-5 mt-2 text-sm text-gray-500 flex-wrap">
               {myUniversity?.city && (

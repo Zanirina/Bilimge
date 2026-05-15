@@ -1,7 +1,7 @@
 import { useEffect, useState, useMemo, useRef } from "react";
 import { useAnnouncementsStore } from "../model/announcementsStore";
 import type { Announcement, AnnouncementTag, CreateAnnouncementRequest } from "../model/types";
-import { HiOutlineChevronRight, HiOutlineShare, HiOutlineTrash, HiPlus, HiX } from "react-icons/hi";
+import { HiOutlineChevronRight, HiOutlineShare, HiOutlineTrash, HiPlus, HiX, HiOutlinePencil } from "react-icons/hi";
 import { LuCalendar, LuUpload } from "react-icons/lu";
 
 // ─── constants ───────────────────────────────────────────────────────────────
@@ -51,12 +51,15 @@ function TagBadge({ tag }: { tag: AnnouncementTag }) {
 function AnnouncementCard({
   item,
   onView,
+  onEdit,
   onDelete,
 }: {
   item: Announcement;
   onView: (a: Announcement) => void;
+  onEdit: (a: Announcement) => void;
   onDelete: (id: number) => void;
 }) {
+  const [confirming, setConfirming] = useState(false);
   const preview = item.body.length > 180 ? item.body.slice(0, 180) + "…" : item.body;
   return (
     <div className="bg-white rounded-2xl border border-gray-100 p-5 flex flex-col gap-3">
@@ -70,12 +73,36 @@ function AnnouncementCard({
             <HiOutlineShare size={16} />
           </button>
           <button
-            onClick={() => onDelete(item.id)}
-            className="w-8 h-8 flex items-center justify-center rounded-lg text-gray-400 hover:text-red-500 hover:bg-red-50 transition-colors"
-            title="Delete"
+            onClick={() => onEdit(item)}
+            className="w-8 h-8 flex items-center justify-center rounded-lg text-gray-400 hover:text-blue-600 hover:bg-blue-50 transition-colors"
+            title="Edit"
           >
-            <HiOutlineTrash size={16} />
+            <HiOutlinePencil size={16} />
           </button>
+          {confirming ? (
+            <div className="flex items-center gap-1">
+              <button
+                onClick={() => { onDelete(item.id); setConfirming(false); }}
+                className="px-2.5 py-1 rounded-lg bg-red-500 text-white text-xs font-semibold hover:bg-red-600"
+              >
+                Delete
+              </button>
+              <button
+                onClick={() => setConfirming(false)}
+                className="px-2.5 py-1 rounded-lg border border-gray-200 text-xs text-gray-500 hover:bg-gray-50"
+              >
+                Cancel
+              </button>
+            </div>
+          ) : (
+            <button
+              onClick={() => setConfirming(true)}
+              className="w-8 h-8 flex items-center justify-center rounded-lg text-gray-400 hover:text-red-500 hover:bg-red-50 transition-colors"
+              title="Delete"
+            >
+              <HiOutlineTrash size={16} />
+            </button>
+          )}
         </div>
       </div>
 
@@ -278,16 +305,135 @@ function NewAnnouncementModal({
   );
 }
 
+// ─── Edit Announcement Modal ─────────────────────────────────────────────────
+
+function EditAnnouncementModal({
+  item,
+  onClose,
+  onSubmit,
+}: {
+  item: Announcement;
+  onClose: () => void;
+  onSubmit: (data: CreateAnnouncementRequest) => Promise<void>;
+}) {
+  const [form, setForm] = useState<CreateAnnouncementRequest>({
+    title: item.title,
+    body: item.body,
+    tag: item.tag || "event",
+  });
+  const [submitting, setSubmitting] = useState(false);
+  const valid = form.title.trim() && form.body.trim();
+
+  async function handleSubmit() {
+    if (!valid || submitting) return;
+    setSubmitting(true);
+    try {
+      await onSubmit(form);
+      onClose();
+    } finally {
+      setSubmitting(false);
+    }
+  }
+
+  return (
+    <div className="fixed inset-0 bg-black/40 z-50 flex items-center justify-center p-4" onClick={onClose}>
+      <div
+        className="bg-white rounded-2xl shadow-xl w-full max-w-xl max-h-[90vh] overflow-y-auto"
+        onClick={(e) => e.stopPropagation()}
+      >
+        <div className="flex items-start justify-between px-6 pt-6 pb-4 border-b border-gray-100">
+          <div>
+            <h2 className="text-xl font-bold text-[#111928]">Edit announcement</h2>
+            <p className="text-sm text-gray-400 mt-0.5">Changes will be visible immediately.</p>
+          </div>
+          <button onClick={onClose} className="text-gray-400 hover:text-gray-600 mt-0.5">
+            <HiX size={20} />
+          </button>
+        </div>
+
+        <div className="px-6 py-5 flex flex-col gap-5">
+          {/* tag */}
+          <div>
+            <label className="block text-sm font-semibold text-[#111928] mb-2">Tag</label>
+            <div className="flex items-center gap-2 flex-wrap">
+              {TAGS.map((t) => {
+                const active = form.tag === t.key;
+                return (
+                  <button
+                    key={t.key}
+                    onClick={() => setForm((p) => ({ ...p, tag: t.key }))}
+                    className="px-4 py-1.5 rounded-full text-sm font-medium border transition-colors"
+                    style={
+                      active
+                        ? { borderColor: t.color, color: t.color, backgroundColor: t.bg }
+                        : { borderColor: "#E5E7EB", color: "#6B7280", backgroundColor: "white" }
+                    }
+                  >
+                    {t.label}
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+
+          {/* title */}
+          <div>
+            <label className="block text-sm font-semibold text-[#111928] mb-1.5">
+              Title <span className="text-[#E85842]">*</span>
+            </label>
+            <input
+              value={form.title}
+              onChange={(e) => setForm((p) => ({ ...p, title: e.target.value }))}
+              placeholder="Headline applicants will see"
+              className="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm text-gray-800 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-[#E85842]/30 focus:border-[#E85842]"
+            />
+          </div>
+
+          {/* body */}
+          <div>
+            <label className="block text-sm font-semibold text-[#111928] mb-1.5">
+              Body <span className="text-[#E85842]">*</span>
+            </label>
+            <textarea
+              value={form.body}
+              onChange={(e) => setForm((p) => ({ ...p, body: e.target.value }))}
+              rows={6}
+              className="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm text-gray-800 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-[#E85842]/30 focus:border-[#E85842] resize-none"
+            />
+          </div>
+        </div>
+
+        <div className="px-6 pb-6 flex items-center justify-end gap-3">
+          <button
+            onClick={onClose}
+            className="px-5 py-2.5 rounded-xl border border-gray-200 text-sm font-medium text-gray-600 hover:bg-gray-50"
+          >
+            Cancel
+          </button>
+          <button
+            onClick={handleSubmit}
+            disabled={!valid || submitting}
+            className="px-5 py-2.5 rounded-xl bg-[#E85842] text-white text-sm font-semibold hover:bg-[#d04535] disabled:opacity-50 transition-colors"
+          >
+            {submitting ? "Saving…" : "Save changes"}
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 // ─── main page ───────────────────────────────────────────────────────────────
 
 type FilterKey = AnnouncementTag | "all";
 
 export default function UniAnnouncementsPage() {
-  const { announcements, isLoading, fetchList, createUniversity, deleteUniversity } =
+  const { announcements, isLoading, fetchList, createUniversity, deleteUniversity, updateUniversity } =
     useAnnouncementsStore();
   const [filter, setFilter] = useState<FilterKey>("all");
   const [selected, setSelected] = useState<Announcement | null>(null);
   const [showCreate, setShowCreate] = useState(false);
+  const [editTarget, setEditTarget] = useState<Announcement | null>(null);
 
   useEffect(() => {
     fetchList("university");
@@ -309,6 +455,13 @@ export default function UniAnnouncementsPage() {
   return (
     <>
       {selected && <FullPostModal item={selected} onClose={() => setSelected(null)} />}
+      {editTarget && (
+        <EditAnnouncementModal
+          item={editTarget}
+          onClose={() => setEditTarget(null)}
+          onSubmit={(data) => updateUniversity(editTarget.id, data)}
+        />
+      )}
       {showCreate && (
         <NewAnnouncementModal
           onClose={() => setShowCreate(false)}
@@ -387,6 +540,7 @@ export default function UniAnnouncementsPage() {
                 key={item.id}
                 item={item}
                 onView={setSelected}
+                onEdit={setEditTarget}
                 onDelete={deleteUniversity}
               />
             ))

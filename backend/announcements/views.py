@@ -109,3 +109,33 @@ class NtcAnnouncementDeleteView(APIView):
         ann = get_object_or_404(Announcement, pk=pk, author_type='ntc')
         ann.delete()
         return Response(status=204)
+
+
+class UniAnnouncementUpdateView(APIView):
+    """PATCH /api/announcements/<pk>/update/ — uni admin edits own announcement"""
+    permission_classes = [IsUniAdmin]
+
+    def patch(self, request, pk):
+        from django.shortcuts import get_object_or_404
+        university = request.user.staff_profile.university
+        ann = get_object_or_404(Announcement, pk=pk, author_type='university',
+                                university_id=university.code)
+        serializer = AnnouncementWriteSerializer(ann, data=request.data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(AnnouncementSerializer(ann).data)
+        return Response(serializer.errors, status=400)
+
+
+class NtcAnnouncementUpdateView(APIView):
+    """PATCH /api/announcements/<pk>/ntc-update/ — NTC admin edits own announcement"""
+    permission_classes = [IsNtcAdmin]
+
+    def patch(self, request, pk):
+        from django.shortcuts import get_object_or_404
+        ann = get_object_or_404(Announcement, pk=pk, author_type='ntc')
+        serializer = AnnouncementWriteSerializer(ann, data=request.data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(AnnouncementSerializer(ann).data)
+        return Response(serializer.errors, status=400)
