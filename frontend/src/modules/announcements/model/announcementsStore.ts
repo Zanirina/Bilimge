@@ -14,6 +14,8 @@ type AnnouncementsState = {
   createUniversity: (data: CreateAnnouncementRequest) => Promise<void>;
   deleteNtc: (id: number) => Promise<void>;
   deleteUniversity: (id: number) => Promise<void>;
+  updateUniversity: (id: number, data: CreateAnnouncementRequest) => Promise<void>;
+  updateNtc: (id: number, data: CreateAnnouncementRequest) => Promise<void>;
 };
 
 export const useAnnouncementsStore = create<AnnouncementsState>((set) => ({
@@ -80,5 +82,19 @@ export const useAnnouncementsStore = create<AnnouncementsState>((set) => ({
   deleteUniversity: async (id) => {
     await announcementsService.deleteUniversity(id);
     set((s) => ({ announcements: s.announcements.filter((a) => a.id !== id) }));
+  },
+
+  updateUniversity: async (id, data) => {
+    const res = await announcementsService.updateUniversity(id, data);
+    set((s) => ({
+      announcements: s.announcements.map((a) => (a.id === id ? res.data : a)),
+    }));
+  },
+
+  updateNtc: async (id, data) => {
+    const res = await announcementsService.updateNtc(id, data);
+    set((s) => ({
+      announcements: s.announcements.map((a) => (a.id === id ? res.data : a)),
+    }));
   },
 }));

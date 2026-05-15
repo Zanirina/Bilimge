@@ -1208,8 +1208,12 @@ COPY public.announcements (id, title, body, author_type, university_id, universi
 4	Astana IT University Open Day — May 25, 2025	Astana IT University invites all prospective students to our Open Day on May 25, 2025. Come visit our campus, meet the faculty, tour the labs, and learn everything you need to know about our programs in Computer Science, Data Science, Cybersecurity, and more.\n\nRegistration is free and open to everyone. Bring your transcript and UNT score for a preliminary consultation with our admissions team.	university	\N	Astana IT University	2026-05-13 19:12:47.450417+05	2026-05-13 19:12:47.450419+05	5		
 5	Scholarship Opportunities for International Students	Astana IT University is pleased to announce a new scholarship program for high-achieving applicants with UNT scores above 120. Full and partial scholarships are available for the 2025–2026 academic year across all bachelor programs.\n\nApplications must be submitted before June 10, 2025. Detailed eligibility criteria and the application form are available on our university page.	university	\N	Astana IT University	2026-05-13 19:12:47.450828+05	2026-05-13 19:12:47.45083+05	5		
 6	Important: Updated Admissions Deadlines	Please note that the submission deadline for the main admissions round has been updated to July 15, 2025. All applicants are encouraged to complete their university applications before this date to be considered for the first round of grant placement.\n\nLate applications may still be accepted in the second round but grant availability cannot be guaranteed.	ntc	\N		2026-05-13 19:12:47.451222+05	2026-05-13 19:12:47.451224+05	1		
-7	Hackathon at Astana IT University	Astana IT University invites all prospective students to Hackathon...	university	522	Astana IT University	2026-05-14 21:44:03.634763+05	2026-05-14 21:44:03.634783+05	5	event	
-8	dddddddddddd	.ldv,sm vd	ntc	\N		2026-05-15 15:57:07.8522+05	2026-05-15 15:57:07.852219+05	1	event	
+7	Hackathon at Astana IT University	Astana IT University invites all prospective students to Hackathon...	university	522	Astana IT University	2026-05-14 21:44:03.634763+05	2026-05-14 21:44:03.634783+05	5	event
+8	dddddddddddd	.ldv,sm vd	ntc	\N		2026-05-15 15:57:07.8522+05	2026-05-15 15:57:07.852219+05	1	event
+7	Open Day — Join Us on June 7, 2026	We invite school graduates and their parents to our Open Day on June 7, 2026. Tour our campus, meet faculty from all schools, attend live Q&A sessions, and learn how to apply for the 2026–2027 academic year. Registration is free — sign up on our website.	university	522	Astana IT University	2026-05-15 13:33:20.01259+05	2026-05-15 13:33:20.012595+05	5	event
+8	State Grant Applications Now Open for 2026 Admissions	Applications for state-funded grants for the 2026–2027 academic year are now open. AITU offers grant-supported seats in Computer Science, Software Engineering, Information Security, and Data Science. Applicants must score 110+ on the UNT. Apply through the NTC portal by July 10, 2026.	university	522	Astana IT University	2026-05-15 13:33:20.014542+05	2026-05-15 13:33:20.014544+05	5	scholarship
+9	New Bachelor's Programme: Artificial Intelligence	Starting from the 2026–2027 academic year, AITU is launching a new Bachelor's programme in Artificial Intelligence. The programme covers machine learning, computer vision, NLP, and AI ethics. Taught in English. 40 grant-funded seats available for the first cohort.	university	522	Astana IT University	2026-05-15 13:33:20.015252+05	2026-05-15 13:33:20.015254+05	5	programme
+11	Hackathon AITU 2026 — Register by May 30	fhnigijn	university	522	Astana IT University	2026-05-15 13:33:20.016376+05	2026-05-15 15:18:40.26487+05	5	event
 \.
 
 
@@ -1363,6 +1367,7 @@ COPY public.auth_permission (id, name, content_type_id, codename) FROM stdin;
 --
 
 COPY public.calendar_events (id, title, description, event_type, visibility, start_date, end_date, start_time, end_time, university_id, created_at, created_by_id) FROM stdin;
+1	Open Day		event	university	2026-05-16	\N	10:00:00	\N	522	2026-05-15 14:47:43.968805+05	5
 \.
 
 
@@ -1422,6 +1427,7 @@ COPY public.django_admin_log (id, action_time, object_id, object_repr, action_fl
 37	2026-05-15 03:40:40.5695+05	1	admin@gmail.com (NTC_ADMIN)	2	[{"changed": {"fields": ["password"]}}]	13	8
 39	2026-05-15 09:42:04.583686+05	3	UniversityStaff object (3)	1	[{"added": {}}]	12	8
 40	2026-05-15 11:51:55.967208+05	10	kense@kbtu.kz (UNI_ADMIN)	2	[{"changed": {"fields": ["password"]}}]	13	8
+42	2026-05-15 13:41:56.432429+05	5	info@astanait.edu.kz (UNI_ADMIN)	2	[{"changed": {"fields": ["First name", "Last name"]}}]	13	8
 38	2026-05-15 09:41:27.118815+05	10	kense@kbtu.kz (UNI_ADMIN)	1	[{"added": {}}]	13	8
 41	2026-05-15 11:54:07.723771+05	522	522 - Astana IT University	2	[{"changed": {"fields": ["Short Name"]}}]	9	8
 26	2026-05-13 16:39:09.493321+05	9	aluanrlybekova@gmail.com (APPLICANT)	2	[{"changed": {"fields": ["password"]}}]	13	8
@@ -1529,7 +1535,6 @@ COPY public.django_session (session_key, session_data, expire_date) FROM stdin;
 lyauljc4rvv6whz7am3d6yfeoooziu1r	.eJxVjDEOwjAMAP_iGUVNiBvTkZ03VI4d0wJqpaadEH9HlTrAene6N_S8rUO_1bL0o0IHHk6_LLM8y7QLffB0n53M07qM2e2JO2x1t1nL63q0f4OB6wAdULYgKEnFWzRCSQ17YsXA5hEthLakqJQafyG0wBKkEW3pHJkJM3y-9xk4MA:1wEhya:dD5nsAenoOhd4qkGtfkARNJ5LFU2aLzDYqEVMOQiYL8	2026-05-04 11:19:20.391989+05
 gd6s11gkjiixmakgmzfsqh89b53pmo0j	.eJxVjLsOgzAMAP_FcxXVSYiBsTvfgBw7LrQVSDymqv9eITG0693p3tDzvg39vpalHxVaSHD5ZZnlWaZD6IOn--xknrZlzO5I3GlX181aXrez_RsMvA7QAteSQrDGRyLvEcUEiQsZBkYktMDq5WpG1MQKc4W1asosiimaJvh8AdqrN_w:1wKWIt:gHB3vghLhmOgfmLc3uzYFoQBOqIOI-aetNW75Z6rars	2026-05-20 12:04:19.836061+05
 e2q12kfqpe23j13sup6j26ercdh3c4gm	.eJxVjEEOwiAQAP_C2RDQhUWP3n0DWVhWqoYmpT0Z_25IetDrzGTeKtK21rj1ssSJ1UUFdfhlifKztCH4Qe0-6zy3dZmSHonebde3mcvrurd_g0q9jq0nNonPFsFZg0UMnMShN-QzoANOVggF2XIBT-BCEZLkQ0CxHo7q8wXhADfn:1wNmOp:wgp3HQCYp39EG4wqCqkFbiCk9-MyVx2wibac_IzDuVg	2026-05-29 11:51:55.972391+05
-kfh15bemazocxvbcwaz8aw6ezlnluj53	.eJxVjEEOwiAQAP_C2RDQhUWP3n0DWVhWqoYmpT0Z_25IetDrzGTeKtK21rj1ssSJ1UUFdfhlifKztCH4Qe0-6zy3dZmSHonebde3mcvrurd_g0q9jq0nNonPFsFZg0UMnMShN-QzoANOVggF2XIBT-BCEZLkQ0CxHo7q8wXhADfn:1wNqHE:QbNWOooSMpylcT7pUzsFcEiQFVIrlOXpkJ1bqcQ7_-g	2026-05-29 16:00:20.416627+05
 \.
 
 
@@ -44757,6 +44762,7 @@ COPY public.ntc_programs (code, field_of_study_id, name, subject_1_id, subject_2
 11312	95	Transport logistics	1	4	50
 11210	94	Safety	1	2	50
 1110	1	Pedagogy and psychology	3	4	70
+6150	57	Information and communication technologies and security	1	14	50
 \.
 
 
@@ -44852,7 +44858,8 @@ COPY public.universities (code, name, city, address, year_established, email, ph
 82	Kazakh-German University (DKU)	Almaty	173 Nazarbayev Ave.	1999	info@dku.kz	+77273550551	80			f	f					\N	
 83	Almaty Management University (AlmaU)	Almaty	227 Rozybakiev str.	1988	info@almau.edu.kz	+77273133040	80			f	f					\N	
 421	Kazakh-British Technical University (KBTU)	Almaty	59 Tole Bi str.	2001	info@kbtu.kz	+77273574242	85			f	f		https://res.cloudinary.com/dbsi2t4yq/image/upload/v1778827760/universities/covers/cover_421.jpg			\N	
-89	Kainar Academy	Almaty	7A Satpayev str.	1991	priem@kainar-u.kz	+77272558356	50			f	f					\N	
+3	Sh. Yessenov Caspian University of Technology and Engineering	Aktau	34 microdistrict, building 1	1976	office@yu.edu.kz	+77292425515	50			f	f					\N
+89	Kainar Academy	Almaty	7A Satpayev str.	1991	priem@kainar-u.kz	+77272558356	50			f	f					\N
 90	O.A. Dzholdasbekov Academy of Economics and Law	Taldykorgan	1 mkr., bld. 26	1997	ael_tdk@mail.ru	+77282242858	50			f	f					\N	
 93	Turan University	Almaty	108 Satpayev str.	1992	turan@turan-edu.kz	+77272604000	70			f	f					\N	
 103	Kazakh-Russian International University	Aktobe	52 Aiteke Bi str.	1994	kriu@kriu.kz	+77132511471	50			f	f					\N	
@@ -44908,7 +44915,8 @@ COPY public.universities (code, name, city, address, year_established, email, ph
 517	Pavlodar Pedagogical University	Pavlodar	60 Mira str.	1962	ppu@ppu.edu.kz	+77182554722	75			f	f					\N	
 518	Academy of the Border Service of the NSC RK	Almaty	103 Dostyk Ave.	1931	pogranacademy@knb.gov.kz	+77272635601	50			f	f					\N	
 979	KIMEP University	Almaty	2 Abay Ave.	1992	info@kimep.kz	+77272704213	90			f	f					\N	
-1	Astana Medical University 	Astana	49/a Beybitshilik str.	1964	info@amu.kz	+77172539424	70			f	f		https://res.cloudinary.com/test/test.jpg			\N	
+2	S. Seifullin Kazakh Agrotechnical University	Astana	62 Zhenis Ave.	1957	katu_mail@kazatu.kz	+77172317547	60			f	f					\N
+1	Astana Medical University 	Astana	49/a Beybitshilik str.	1964	info@amu.kz	+77172539424	70			f	f		https://res.cloudinary.com/test/test.jpg			\N
 522	Astana IT University	Astana	EXPO-2017, C1 Pavilion	2019	info@astanait.edu.kz	+77172645710	90	hjghbnlk	https://astanait.edu.kz	t	t	https://res.cloudinary.com/dbsi2t4yq/image/upload/v1778828113/universities/logos/logo_522.png	https://res.cloudinary.com/dbsi2t4yq/image/upload/v1778828019/universities/covers/cover_522.jpg	https://t.me/aitu2020info	https://www.instagram.com/astana_it_university/?hl=ru	\N	AITU
 \.
 
@@ -44928,6 +44936,10 @@ COPY public.university_languages (id, university_id, language_id) FROM stdin;
 
 COPY public.university_programs (code, university_id, ntc_program_id, local_name, cost, language, language_id, description, passing_score, grant_score, future_professions, degree, years_of_study, study_type) FROM stdin;
 6104	13	6111	Computer Engineering and Software	1600000	Russian, Kazakh	2		\N	\N		bachelor	\N	full_time
+6101	522	6111	Computer Science	2500000	\N	3		\N	\N		bachelor	\N	full_time
+6102	522	6150	Software Engineering	2500000	English	3		\N	\N		bachelor	\N	full_time
+6103	522	6121	Big Data Analysis	2500000	\N	3		\N	\N		bachelor	\N	full_time
+6301	522	6150	Cybersecurity	2500000	\N	3		\N	\N		bachelor	\N	full_time
 4109	421	4120	Business and Management	1700000	\N	3		\N	\N		bachelor	\N	full_time
 61025	421	6111	Computer Systems and Software	2000000	\N	3		\N	\N		bachelor	\N	full_time
 61021	421	6111	Computer Systems and Software	2000000	\N	3		\N	\N		bachelor	\N	full_time
@@ -44936,6 +44948,7 @@ COPY public.university_programs (code, university_id, ntc_program_id, local_name
 6102	522	6150	Software Engineering	2500000	English	3		70	90		bachelor	\N	full_time
 6301	522	6150	Cybersecurity	2500000	\N	3		75	80		bachelor	\N	full_time
 6103	522	6121	Big Data Analysis	2500000	\N	3		75	90		bachelor	\N	full_time
+6121	522	6121	Artificial Intelligence	1500000	\N	3		90	90		bachelor	3	full_time
 \.
 
 
@@ -44958,14 +44971,17 @@ COPY public.users (id, password, last_login, is_superuser, first_name, last_name
 3	pbkdf2_sha256$1200000$PRu2tTNvJvyJp6DvU6NJUe$dVp612SJZa2aArjhNsv42DbAFcHlAsZ56hAV9+/Oabk=	\N	f			z@mail.com	f	t	2026-04-21 11:24:58.333089+05	APPLICANT		2026-04-21 11:24:59.486795+05	
 4	pbkdf2_sha256$1200000$yjgNgVsBuVcOtX1QnnYhq6$gGcR/ZH07U3ToeZom86wuH305ZqYyW74EzgtIMt5pgY=	\N	f	Appli	Last	a@mail.com	f	t	2026-04-21 12:36:09.770615+05	APPLICANT	87052346517	2026-04-21 12:36:11.108676+05	
 6	pbkdf2_sha256$1200000$TAIjmjht0ESr7UjWzK0jDn$BZCNRPYigmVowZoedms/K99SXUDSrn/k9jEnIAh6+aI=	2026-05-06 12:04:19.829711+05	t			bz@gmail.com	t	t	2026-05-06 12:03:49.691459+05	SUPER_ADMIN	\N	2026-05-06 12:03:50.271757+05	
-5	pbkdf2_sha256$1200000$iGi0CHLSe7HTmOjThIp0ca$uHgBkJvbMnZCk9d9Nw9R91f3BNrYHhnkIarNj9DSaXA=	\N	f	Aitair	Bubilu	info@astanait.edu.kz	f	t	2026-04-24 11:00:52+05	UNI_ADMIN	+77172645716	2026-04-24 11:00:53.427973+05	
-7	pbkdf2_sha256$1200000$6u1BWWE7T5uN5BHwflV7HV$MTyhS64sZ92N+Fex1XiZhJo7bDfEr5aJc+nGuDA/dec=	\N	f	Алуа	Асеткызы	alu@mail.com	f	t	2026-05-06 12:07:34.779555+05	APPLICANT	\N	2026-05-06 12:07:36.193069+05	
+5	pbkdf2_sha256$1200000$iGi0CHLSe7HTmOjThIp0ca$uHgBkJvbMnZCk9d9Nw9R91f3BNrYHhnkIarNj9DSaXA=	\N	f	Aitair	Bubilu	info@astanait.edu.kz	f	t	2026-04-24 11:00:52+05	UNI_ADMIN	+77172645716	2026-04-24 11:00:53.427973+05
+8	pbkdf2_sha256$1200000$w6swmh4FJRRkVRxOeoDius$0s6aMLSjFJZEx0DMYvjwY9D/XP7m7RfpD2jAuPgIHBM=	2026-05-13 14:15:13.136171+05	t			superadm@gmail.com	t	t	2026-05-13 14:14:55.184155+05	SUPER_ADMIN	\N	2026-05-13 14:14:55.30787+05
+7	pbkdf2_sha256$1200000$6u1BWWE7T5uN5BHwflV7HV$MTyhS64sZ92N+Fex1XiZhJo7bDfEr5aJc+nGuDA/dec=	\N	f	Алуа	Асеткызы	alu@mail.com	f	t	2026-05-06 12:07:34.779555+05	APPLICANT	\N	2026-05-06 12:07:36.193069+05
 2	pbkdf2_sha256$1200000$3Sr9JFmmRc5ivfJBzP2Nsh$qmocSDp1rUg2DYQS/TDY5WwA+sdjNLg5LotPRBIQ+Cc=	2026-04-20 11:23:26+05	f	Алина	Муратова	alina@bilimge.kz	f	t	2026-04-20 11:23:42+05	APPLICANT	+77007841234	2026-04-20 11:21:10.301193+05	
+9	pbkdf2_sha256$1200000$vBT65rMXe3jiZAvqC8CzTF$7ocqjT1hpNdq9DfijPhTiwaQLqwUOuBG9TnEdrlwh2M=	\N	f	Alua	Nurlybekova	aluanrlybekova@gmail.com	f	t	2026-05-13 16:33:04.838261+05	APPLICANT	+77755200663	2026-05-13 16:33:04.935819+05	
 1	pbkdf2_sha256$1200000$4m0MFRVvwA7AlR6O1KrwkK$PUOly42LHfBtpRuRALk0Euh3zrw68C8vSXUK2oU39BQ=	2026-04-20 11:19:20+05	t			admin@gmail.com	t	t	2026-04-20 11:17:10+05	NTC_ADMIN	\N	2026-04-20 11:17:11.446939+05	
 10	pbkdf2_sha256$1200000$QCYrPq2KEmbDHxBmUzUVDB$E78a8xHOh6xrYKFZCzPbED+DUBxMRmfpLim8kfdgFpI=	\N	f			kense@kbtu.kz	f	t	2026-05-15 09:41:26.977085+05	UNI_ADMIN	\N	2026-05-15 09:41:27.11624+05	
-11	pbkdf2_sha256$1200000$COmOD8w2YTxYp8hTHDBeL2$DzVkQVh/W9RbiMLSM8JLorHoDPU9z57JxQULYGbI1xM=	\N	f			prostozari0.0@gmail.com	f	t	2026-05-15 15:51:20.499622+05	APPLICANT		2026-05-15 15:51:21.502712+05	
-8	pbkdf2_sha256$1200000$w6swmh4FJRRkVRxOeoDius$0s6aMLSjFJZEx0DMYvjwY9D/XP7m7RfpD2jAuPgIHBM=	2026-05-15 16:00:20.412728+05	t			superadm@gmail.com	t	t	2026-05-13 14:14:55.184155+05	SUPER_ADMIN	\N	2026-05-13 14:14:55.30787+05	
-9	pbkdf2_sha256$1200000$vBT65rMXe3jiZAvqC8CzTF$7ocqjT1hpNdq9DfijPhTiwaQLqwUOuBG9TnEdrlwh2M=	\N	f	Alua	Nurlybekova	aluanrlybekova@gmail.com	f	t	2026-05-13 16:33:04.838261+05	APPLICANT	+77755200663	2026-05-13 16:33:04.935819+05	
+11	pbkdf2_sha256$1200000$COmOD8w2YTxYp8hTHDBeL2$DzVkQVh/W9RbiMLSM8JLorHoDPU9z57JxQULYGbI1xM=	\N	f			prostozari0.0@gmail.com	f	t	2026-05-15 15:51:20.499622+05	APPLICANT		2026-05-15 15:51:21.502712+05
+8	pbkdf2_sha256$1200000$w6swmh4FJRRkVRxOeoDius$0s6aMLSjFJZEx0DMYvjwY9D/XP7m7RfpD2jAuPgIHBM=	2026-05-15 16:00:20.412728+05	t			superadm@gmail.com	t	t	2026-05-13 14:14:55.184155+05	SUPER_ADMIN	\N	2026-05-13 14:14:55.30787+05
+9	pbkdf2_sha256$1200000$vBT65rMXe3jiZAvqC8CzTF$7ocqjT1hpNdq9DfijPhTiwaQLqwUOuBG9TnEdrlwh2M=	\N	f	Alua	Nurlybekova	aluanrlybekova@gmail.com	f	t	2026-05-13 16:33:04.838261+05	APPLICANT	+77755200663	2026-05-13 16:33:04.935819+05
+5	pbkdf2_sha256$1200000$iGi0CHLSe7HTmOjThIp0ca$uHgBkJvbMnZCk9d9Nw9R91f3BNrYHhnkIarNj9DSaXA=	\N	f	Zarina	Beketova	info@astanait.edu.kz	f	t	2026-04-24 11:00:52+05	UNI_ADMIN	+77172645716	2026-04-24 11:00:53.427973+05
 \.
 
 
@@ -45005,6 +45021,7 @@ SELECT pg_catalog.setval('public.accreditations_id_seq', 1, true);
 --
 
 SELECT pg_catalog.setval('public.announcements_id_seq', 8, true);
+SELECT pg_catalog.setval('public.announcements_id_seq', 12, true);
 
 
 --
@@ -45046,14 +45063,14 @@ SELECT pg_catalog.setval('public.auth_permission_id_seq', 100, true);
 -- Name: calendar_events_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.calendar_events_id_seq', 1, false);
+SELECT pg_catalog.setval('public.calendar_events_id_seq', 1, true);
 
 
 --
 -- Name: chat_messages_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.chat_messages_id_seq', 33, true);
+SELECT pg_catalog.setval('public.chat_messages_id_seq', 35, true);
 
 
 --
@@ -45061,6 +45078,7 @@ SELECT pg_catalog.setval('public.chat_messages_id_seq', 33, true);
 --
 
 SELECT pg_catalog.setval('public.django_admin_log_id_seq', 43, true);
+SELECT pg_catalog.setval('public.django_admin_log_id_seq', 42, true);
 
 
 --
@@ -45200,7 +45218,7 @@ SELECT pg_catalog.setval('public.users_id_seq', 9, true);
 -- Name: users_user_permissions_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.users_user_permissions_id_seq', 2, true);
+SELECT pg_catalog.setval('public.users_user_permissions_id_seq', 1, true);
 
 
 --

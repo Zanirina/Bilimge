@@ -65,7 +65,9 @@ export const endpoints = {
     list: "/api/announcements/",
     byId: (id: number | string) => `/api/announcements/${id}/`,
     deleteById: (id: number | string) => `/api/announcements/${id}/delete/`,
+    updateById: (id: number | string) => `/api/announcements/${id}/update/`,
     ntcDeleteById: (id: number | string) => `/api/announcements/${id}/ntc-delete/`,
+    ntcUpdateById: (id: number | string) => `/api/announcements/${id}/ntc-update/`,
     createNtc: "/api/announcements/ntc/",
     createUniversity: "/api/announcements/university/",
   },
@@ -74,5 +76,10 @@ export const endpoints = {
   },
   chat: {
     root: "/api/chat/",
+  },
+  calendar: {
+    list: "/api/calendar/",
+    myUniversity: "/api/calendar/my-university/",
+    myUniversityById: (id: number | string) => `/api/calendar/my-university/${id}/`,
   },
 } as const;
