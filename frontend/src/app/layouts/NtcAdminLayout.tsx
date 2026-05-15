@@ -10,7 +10,6 @@ const sidebarItems: SidebarItem[] = [
   { label: "Post Announcements",   path: "/ntc/announcements", icon: TbSpeakerphone },
   { label: "Manage Programs",      path: "/ntc/programs",      icon: TbLayoutList },
   { label: "Manage Universities",  path: "/ntc/universities",  icon: MdOutlineSchool },
-  { label: "Settings",             path: "/ntc/settings",      icon: MdOutlineSettings },
 ];
 
 export default function NtcAdminLayout() {

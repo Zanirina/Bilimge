@@ -19,4 +19,7 @@ export const announcementsService = {
 
   deleteUniversity: (id: number) =>
     http.delete(endpoints.announcements.deleteById(id)),
+
+  deleteNtc: (id: number) =>
+    http.delete(endpoints.announcements.ntcDeleteById(id)),
 };

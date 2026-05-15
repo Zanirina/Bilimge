@@ -75,6 +75,7 @@ class NtcProgram(models.Model):
     name = models.CharField(max_length=255)
     subject_1 = models.ForeignKey(Subject, on_delete=models.RESTRICT, related_name='subject_1')
     subject_2 = models.ForeignKey(Subject, on_delete=models.RESTRICT, related_name='subject_2')
+    minimum_score = models.IntegerField(default=50, verbose_name='Minimum UNT Score')
 
     def __str__(self):
         return f"{self.code} - {self.name}"

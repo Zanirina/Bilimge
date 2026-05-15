@@ -1,7 +1,7 @@
 import { Outlet } from "react-router-dom";
 import { useEffect } from "react";
 import { useUniversityStore } from "../../modules/universities/model/universityStore";
-import { MdOutlineDashboard, MdOutlineSettings, MdOutlinePeople } from "react-icons/md";
+import { MdOutlineDashboard, MdOutlinePeople } from "react-icons/md";
 import { TbBuilding, TbLayoutList, TbSpeakerphone } from "react-icons/tb";
 import Sidebar from "../../shared/ui/Sidebar";
 import type { SidebarItem } from "../../shared/ui/Sidebar";
@@ -13,7 +13,6 @@ const sidebarItems: SidebarItem[] = [
   { label: "Programs",           path: "/uni/programs",   icon: TbLayoutList },
   { label: "Post Updates",       path: "/uni/updates",    icon: TbSpeakerphone },
   { label: "Applicants",         path: "/uni/applicants", icon: MdOutlinePeople },
-  { label: "Settings",           path: "/uni/settings",   icon: MdOutlineSettings },
 ];
 
 export default function UniversityAdminLayout() {

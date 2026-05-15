@@ -2,7 +2,7 @@
 -- PostgreSQL database dump
 --
 
-\restrict IMk7vhVs9JApW6FGBzutzD3nc0XHLgvuwIuEk9hHph7KBPPKhljG4cFxaGTt9XH
+\restrict pokBSpr76UXLpm3ksbuxgu7TdC13VhDmD6o17oqpsR4YVgnLMa8MSKGfxekvn6y
 
 -- Dumped from database version 18.3
 -- Dumped by pg_dump version 18.3
@@ -666,7 +666,8 @@ CREATE TABLE public.ntc_programs (
     field_of_study_id integer,
     name character varying(255),
     subject_1_id integer,
-    subject_2_id integer
+    subject_2_id integer,
+    minimum_score integer DEFAULT 50 NOT NULL
 );
 
 
@@ -1344,6 +1345,20 @@ COPY public.django_admin_log (id, action_time, object_id, object_repr, action_fl
 23	2026-04-24 11:06:37.676481+05	5	aituadmin (UNI_ADMIN)	2	[{"added": {"name": "university staff", "object": "UniversityStaff object (1)"}}]	13	1
 24	2026-05-06 12:05:23.286508+05	2	UniversityStaff object (2)	1	[{"added": {}}]	12	6
 25	2026-05-06 12:59:53.392552+05	7	alu@mail.com (APPLICANT)	2	[{"changed": {"fields": ["First name", "Last name"]}}]	13	6
+37	2026-05-15 03:40:40.5695+05	1	admin@gmail.com (NTC_ADMIN)	2	[{"changed": {"fields": ["password"]}}]	13	8
+39	2026-05-15 09:42:04.583686+05	3	UniversityStaff object (3)	1	[{"added": {}}]	12	8
+38	2026-05-15 09:41:27.118815+05	10	kense@kbtu.kz (UNI_ADMIN)	1	[{"added": {}}]	13	8
+26	2026-05-13 16:39:09.493321+05	9	aluanrlybekova@gmail.com (APPLICANT)	2	[{"changed": {"fields": ["password"]}}]	13	8
+27	2026-05-13 19:03:05.989699+05	9	aluanrlybekova@gmail.com (APPLICANT)	2	[{"changed": {"fields": ["First name", "Last name"]}}]	13	8
+28	2026-05-14 18:55:38.705241+05	5	info@astanait.edu.kz (UNI_ADMIN)	2	[{"changed": {"fields": ["password"]}}]	13	8
+29	2026-05-14 18:59:00.247034+05	9	aluanrlybekova@gmail.com (APPLICANT)	2	[{"changed": {"fields": ["Phone"]}}]	13	8
+30	2026-05-14 19:05:51.948146+05	9	aluanrlybekova@gmail.com (APPLICANT)	2	[]	13	8
+31	2026-05-14 19:07:05.841704+05	3	Profile: aluanrlybekova@gmail.com	1	[{"added": {}}]	11	8
+32	2026-05-14 19:07:07.897479+05	3	Profile: aluanrlybekova@gmail.com	2	[]	11	8
+33	2026-05-14 19:18:20.578632+05	7	alu@mail.com (APPLICANT)	2	[{"changed": {"fields": ["First name", "Last name"]}}]	13	8
+34	2026-05-14 19:19:01.721017+05	2	alina@bilimge.kz (APPLICANT)	2	[{"changed": {"fields": ["First name", "Last name"]}}]	13	8
+35	2026-05-14 20:31:07.894045+05	522	522 - Astana IT University	2	[]	9	8
+36	2026-05-14 20:59:17.030439+05	9	aluanrlybekova@gmail.com (APPLICANT)	2	[{"changed": {"fields": ["password"]}}]	13	8
 \.
 
 
@@ -1411,10 +1426,19 @@ COPY public.django_migrations (id, app, name, applied) FROM stdin;
 26	unipage	0002_language	2026-05-12 01:27:13.534306+05
 27	unipage	0003_academicmobility_entranceexam_entrancerequirement_and_more	2026-05-12 01:27:13.550146+05
 28	announcements	0001_initial	2026-05-12 01:29:12.90718+05
+<<<<<<< HEAD
 29	userpage	0005_user_avatar_url	2026-05-14 21:52:05.324647+05
 30	unipage	0004_universityprogram_degree_years_studytype	2026-05-14 22:39:50.387781+05
 31	unipage	0005_university_logo_cover_url	2026-05-14 22:39:50.391631+05
 32	unipage	0006_accreditation	2026-05-14 22:39:50.393006+05
+=======
+29	announcements	0002_announcement_tag	2026-05-14 21:41:58.950813+05
+30	unipage	0004_universityprogram_degree_years_studytype	2026-05-14 21:56:37.061025+05
+31	unipage	0005_university_logo_cover_url	2026-05-14 22:31:41.735339+05
+32	announcements	0003_announcement_image_url	2026-05-14 22:32:50.558983+05
+33	userpage	0005_user_avatar_url	2026-05-14 22:32:50.563818+05
+34	unipage	0006_ntcprogram_minimum_score	2026-05-15 03:59:17.803288+05
+>>>>>>> 2194a5d (feat: ntc admin pages implemented)
 \.
 
 
@@ -1425,6 +1449,10 @@ COPY public.django_migrations (id, app, name, applied) FROM stdin;
 COPY public.django_session (session_key, session_data, expire_date) FROM stdin;
 lyauljc4rvv6whz7am3d6yfeoooziu1r	.eJxVjDEOwjAMAP_iGUVNiBvTkZ03VI4d0wJqpaadEH9HlTrAene6N_S8rUO_1bL0o0IHHk6_LLM8y7QLffB0n53M07qM2e2JO2x1t1nL63q0f4OB6wAdULYgKEnFWzRCSQ17YsXA5hEthLakqJQafyG0wBKkEW3pHJkJM3y-9xk4MA:1wEhya:dD5nsAenoOhd4qkGtfkARNJ5LFU2aLzDYqEVMOQiYL8	2026-05-04 11:19:20.391989+05
 gd6s11gkjiixmakgmzfsqh89b53pmo0j	.eJxVjLsOgzAMAP_FcxXVSYiBsTvfgBw7LrQVSDymqv9eITG0693p3tDzvg39vpalHxVaSHD5ZZnlWaZD6IOn--xknrZlzO5I3GlX181aXrez_RsMvA7QAteSQrDGRyLvEcUEiQsZBkYktMDq5WpG1MQKc4W1asosiimaJvh8AdqrN_w:1wKWIt:gHB3vghLhmOgfmLc3uzYFoQBOqIOI-aetNW75Z6rars	2026-05-20 12:04:19.836061+05
+<<<<<<< HEAD
+=======
+1n94bv0tghcczbprlkr30nhzcaa3oahf	.eJxVjEEOwiAQAP_C2RDQhUWP3n0DWVhWqoYmpT0Z_25IetDrzGTeKtK21rj1ssSJ1UUFdfhlifKztCH4Qe0-6zy3dZmSHonebde3mcvrurd_g0q9jq0nNonPFsFZg0UMnMShN-QzoANOVggF2XIBT-BCEZLkQ0CxHo7q8wXhADfn:1wNejQ:jjgpvjFOpSLmdE6wsRuzJA7DNOtvw9ZTtt-_12POJ74	2026-05-29 03:40:40.573866+05
+>>>>>>> 2194a5d (feat: ntc admin pages implemented)
 \.
 
 
@@ -1433,6 +1461,7 @@ gd6s11gkjiixmakgmzfsqh89b53pmo0j	.eJxVjLsOgzAMAP_FcxXVSYiBsTvfgBw7LrQVSDymqv9eIT
 --
 
 COPY public.entrance_exams (id, university_id, name, description) FROM stdin;
+1	522	AITU Excellence Test (AET)	The exam consists of two modules: 1. English Language Module – an exam verifying English language proficiency. 2. Fundamentals of Computer Science and Logic Module – a test to assess the incoming knowledge level of the student.
 \.
 
 
@@ -1441,6 +1470,8 @@ COPY public.entrance_exams (id, university_id, name, description) FROM stdin;
 --
 
 COPY public.entrance_requirements (id, university_id, description) FROM stdin;
+1	522	AET - minimum 30 scores in each module
+2	522	English level - B1 and more
 \.
 
 
@@ -44491,154 +44522,154 @@ COPY public.ntc_news (id, title, content, created_by, created_at) FROM stdin;
 -- Data for Name: ntc_programs; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.ntc_programs (code, field_of_study_id, name, subject_1_id, subject_2_id) FROM stdin;
-6150	57	Information and communication technologies and security	1	14
-1110	1	Pedagogy and psychology	3	4
-1111	1	Practical psychology	3	4
-1112	1	Psychology and mediation	3	4
-1210	2	Pedagogy of preschool education and upbringing	3	4
-1310	3	Pedagogy and methods of primary education	3	4
-1410	4	Basic military training	13	13
-1440	5	Physical culture and sports	13	13
-1420	6	Music education	13	13
-1450	7	Vocational training	13	13
-1451	7	Labor technology and drawing	13	13
-1430	7	Fine art drawing	13	13
-1510	9	Mathematics	1	2
-1521	9	Mathematics-Physics	1	2
-1531	9	Mathematics-Informatics	1	2
-1520	10	Physics	2	1
-1522	10	Physics-Informatics	2	1
-1530	11	Informatics	1	2
-1532	11	Computer Science and Robotics	1	2
-1540	12	Chemistry	5	3
-1541	12	Chemistry-Biology	5	3
-1550	13	Biology	3	5
-1560	14	Geography	4	6
-1561	14	Geography-History	4	6
-6	95	Organization of transportation, movement and operation of transport	1	4
-1610	15	Story	6	4
-1710	16	Kazakh language and literature	8	9
-1720	17	Russian language and literature	10	11
-1730	18	Foreign language: two foreign languages	7	6
-1910	20	Defectology	3	4
-1911	20	Special pedagogy	3	4
-2120	27	Directing	13	13
-2130	28	Choreography	13	13
-2140	30	Painting	13	13
-2150	30	Graphics	13	13
-2170	31	Fashion design	13	13
-2171	31	Environment design	13	13
-2161	31	Decorative arts	13	13
-2210	32	Philosophy	6	4
-2211	33	Religion and philosophy	13	13
-2220	34	Story	6	4
-2230	134	Archeology and ethnology	6	4
-2320	36	Translation business	7	6
-2330	36	Foreign philology	7	6
-2331	36	Foreign philology: Uzbek language	7	6
-2310	37	Philology: Kazakh language	10	11
-2311	37	Philology: Russian language	10	11
-3120	40	Political science	6	7
-3110	140	International relations	6	7
-3130	41	Psychology	3	4
-3131	41	Training of psychologists-consultants in the social sphere	3	4
-3220	42	Journalism	13	13
-3210	43	Librarianship	10	11
-3211	43	Library and pedagogical activities	10	11
-4120	44	Management	1	4
-4150	44	State and local government	1	4
-4130	45	Accounting and audit	1	4
-4110	46	Economy	1	4
-4140	46	Finance	1	4
-4160	47	Marketing	1	4
-4161	47	IT marketing	1	4
-4210	49	Jurisprudence	6	\N
-4220	49	International law	6	\N
-4230	49	Customs	6	\N
-5110	50	Biology	3	5
-5120	50	Biotechnology	3	5
-5210	51	Ecology	3	4
-5220	52	Geography	1	4
-5320	53	Chemistry	5	3
-5330	53	Examination of substances and materials in chemical engineering	5	3
-5340	53	Chemical, forensic and environmental expertise	5	3
-5310	54	Physics	2	1
-5410	55	Mathematics	1	2
-6110	57	Informatics	1	2
-6111	57	Computer Science and Software Engineering	1	14
-6120	57	Information systems	1	14
-6121	57	Artificial Intelligence Technologies	1	14
-6130	57	Computer hardware and software	1	14
-6210	59	Radio engineering, electronics and telecommunications	1	2
-7160	60	Chemical technology of inorganic substances	5	2
-7170	60	Chemical technology of organic substances	5	2
-7172	60	Oil and gas processing technology	5	2
-7190	60	Chemical technology of refractory non-metallic and silicate materials	5	2
-7101	61	Materials Science and	1	2
-7140	62	Thermal power engineering	1	2
-7150	62	Electric power industry	1	2
-7151	62	Electricity supply	1	2
-7152	62	Electrical Power Systems Engineering	1	2
-7110	63	Automation and control	1	2
-7120	64	Mechanical engineering	1	2
-7121	64	Mechanical Engineering Technology	1	2
-7124	64	Electrical engineering	1	2
-7180	64	Technological machines and equipment	1	2
-7181	64	Machinery and equipment for the oil and gas industry	1	2
-7182	64	Machines and apparatus	1	2
-7130	65	Transport, transport equipment and technologies	1	2
-7131	65	Car service and branded	1	2
-7241	68	Technology of fats and vegetable oils	3	5
-7242	68	Technology of milk and dairy products	3	5
-7244	68	Food technologies and catering in small and medium-sized businesses	3	5
-7245	68	Technologies of meat and meat products	3	5
-7250	68	Processing technology (by industry)	3	5
-7252	68	Sugar technology	3	5
-7280	69	Polymer production and processing technology	1	2
-7230	70	Technology and design of light industry products (by area of ​​application)	1	2
-7231	70	Fashion industry and distribution of light industry products	1	2
-7260	70	Technology and design of textile materials	1	2
-7261	70	Innovative textiles, design and decor	1	2
-7210	71	Oil and gas business	1	2
-7215	71	Operation and	1	2
-7216	71	Exploitation of gas and oil	1	2
-7220	71	Metallurgy	1	2
-7211	271	Oil and gas business	\N	\N
-7270	72	Pharmaceutical production technology	3	5
-7310	73	Architecture	13	13
-7311	73	Urban planning	13	13
-7320	74	Construction	1	2
-7321	74	Technology	1	2
-7322	74	Construction	1	2
-7330	74	Water supply,	1	2
-7340	74	Production of building materials, products and structures	1	2
-7088	74	Expertise and technical supervision in construction	1	2
-7350	75	Land management	1	4
-7360	75	Cadastre	1	4
-7510	76	Standardization, certification and metrology	1	2
-7513	76	Metrology	1	2
-8110	77	Agronomy	3	5
-8120	77	Soil science and agrochemistry	3	5
-8130	77	Plant protection and quarantine	3	5
-8210	78	Technology of production of livestock products	3	5
-8710	183	Agricultural machinery and technology	1	2
-8610	82	Water resources and water use	1	2
-9111	83	Veterinary medicine	3	5
-11410	90	Social work	3	4
-11110	91	Tourism	4	7
-11120	92	Cultural and leisure work	13	13
-11121	92	Producer and technology	13	13
-11124	92	Cultural and leisure activities and pop singing	13	13
-11130	92	Management of vocal and choral activities	13	13
-11150	92	Sports management, leisure and coaching	13	13
-11141	92	Sports management, swimming and coaching	13	13
-11111	93	Restaurant business and	4	7
-11088	94	Management security	1	2
-11310	95	Organization of transportation, movement and operation of transport	1	4
-11311	95	Organization of transportation to	1	4
-11312	95	Transport logistics	1	4
-11210	94	Safety	1	2
+COPY public.ntc_programs (code, field_of_study_id, name, subject_1_id, subject_2_id, minimum_score) FROM stdin;
+6150	57	Information and communication technologies and security	1	14	50
+1112	1	Psychology and mediation	3	4	50
+1210	2	Pedagogy of preschool education and upbringing	3	4	50
+1310	3	Pedagogy and methods of primary education	3	4	50
+1410	4	Basic military training	13	13	50
+1440	5	Physical culture and sports	13	13	50
+1420	6	Music education	13	13	50
+1450	7	Vocational training	13	13	50
+1451	7	Labor technology and drawing	13	13	50
+1430	7	Fine art drawing	13	13	50
+1510	9	Mathematics	1	2	50
+1521	9	Mathematics-Physics	1	2	50
+1531	9	Mathematics-Informatics	1	2	50
+1520	10	Physics	2	1	50
+1522	10	Physics-Informatics	2	1	50
+1530	11	Informatics	1	2	50
+1532	11	Computer Science and Robotics	1	2	50
+1540	12	Chemistry	5	3	50
+1541	12	Chemistry-Biology	5	3	50
+1550	13	Biology	3	5	50
+1560	14	Geography	4	6	50
+1561	14	Geography-History	4	6	50
+6	95	Organization of transportation, movement and operation of transport	1	4	50
+1610	15	Story	6	4	50
+1710	16	Kazakh language and literature	8	9	50
+1720	17	Russian language and literature	10	11	50
+1730	18	Foreign language: two foreign languages	7	6	50
+1910	20	Defectology	3	4	50
+1911	20	Special pedagogy	3	4	50
+2120	27	Directing	13	13	50
+2130	28	Choreography	13	13	50
+2140	30	Painting	13	13	50
+2150	30	Graphics	13	13	50
+2170	31	Fashion design	13	13	50
+2171	31	Environment design	13	13	50
+2161	31	Decorative arts	13	13	50
+2210	32	Philosophy	6	4	50
+2211	33	Religion and philosophy	13	13	50
+2220	34	Story	6	4	50
+2230	134	Archeology and ethnology	6	4	50
+2320	36	Translation business	7	6	50
+2330	36	Foreign philology	7	6	50
+2331	36	Foreign philology: Uzbek language	7	6	50
+2310	37	Philology: Kazakh language	10	11	50
+2311	37	Philology: Russian language	10	11	50
+3120	40	Political science	6	7	50
+3110	140	International relations	6	7	50
+3130	41	Psychology	3	4	50
+3131	41	Training of psychologists-consultants in the social sphere	3	4	50
+3220	42	Journalism	13	13	50
+3210	43	Librarianship	10	11	50
+3211	43	Library and pedagogical activities	10	11	50
+4120	44	Management	1	4	50
+4150	44	State and local government	1	4	50
+4130	45	Accounting and audit	1	4	50
+4110	46	Economy	1	4	50
+4140	46	Finance	1	4	50
+4160	47	Marketing	1	4	50
+4161	47	IT marketing	1	4	50
+4210	49	Jurisprudence	6	\N	50
+4220	49	International law	6	\N	50
+4230	49	Customs	6	\N	50
+5110	50	Biology	3	5	50
+5120	50	Biotechnology	3	5	50
+5210	51	Ecology	3	4	50
+5220	52	Geography	1	4	50
+5320	53	Chemistry	5	3	50
+5330	53	Examination of substances and materials in chemical engineering	5	3	50
+5340	53	Chemical, forensic and environmental expertise	5	3	50
+5310	54	Physics	2	1	50
+5410	55	Mathematics	1	2	50
+6110	57	Informatics	1	2	50
+6111	57	Computer Science and Software Engineering	1	14	50
+6120	57	Information systems	1	14	50
+6121	57	Artificial Intelligence Technologies	1	14	50
+6130	57	Computer hardware and software	1	14	50
+6210	59	Radio engineering, electronics and telecommunications	1	2	50
+7160	60	Chemical technology of inorganic substances	5	2	50
+7170	60	Chemical technology of organic substances	5	2	50
+7172	60	Oil and gas processing technology	5	2	50
+7190	60	Chemical technology of refractory non-metallic and silicate materials	5	2	50
+7101	61	Materials Science and	1	2	50
+7140	62	Thermal power engineering	1	2	50
+7150	62	Electric power industry	1	2	50
+7151	62	Electricity supply	1	2	50
+7152	62	Electrical Power Systems Engineering	1	2	50
+7110	63	Automation and control	1	2	50
+7120	64	Mechanical engineering	1	2	50
+7121	64	Mechanical Engineering Technology	1	2	50
+7124	64	Electrical engineering	1	2	50
+7180	64	Technological machines and equipment	1	2	50
+7181	64	Machinery and equipment for the oil and gas industry	1	2	50
+7182	64	Machines and apparatus	1	2	50
+7130	65	Transport, transport equipment and technologies	1	2	50
+7131	65	Car service and branded	1	2	50
+7241	68	Technology of fats and vegetable oils	3	5	50
+7242	68	Technology of milk and dairy products	3	5	50
+7244	68	Food technologies and catering in small and medium-sized businesses	3	5	50
+7245	68	Technologies of meat and meat products	3	5	50
+7250	68	Processing technology (by industry)	3	5	50
+7252	68	Sugar technology	3	5	50
+7280	69	Polymer production and processing technology	1	2	50
+7230	70	Technology and design of light industry products (by area of тАЛтАЛapplication)	1	2	50
+7231	70	Fashion industry and distribution of light industry products	1	2	50
+7260	70	Technology and design of textile materials	1	2	50
+7261	70	Innovative textiles, design and decor	1	2	50
+7210	71	Oil and gas business	1	2	50
+7215	71	Operation and	1	2	50
+7216	71	Exploitation of gas and oil	1	2	50
+1111	1	Practical psychology	3	4	70
+7220	71	Metallurgy	1	2	50
+7211	271	Oil and gas business	\N	\N	50
+7270	72	Pharmaceutical production technology	3	5	50
+7310	73	Architecture	13	13	50
+7311	73	Urban planning	13	13	50
+7320	74	Construction	1	2	50
+7321	74	Technology	1	2	50
+7322	74	Construction	1	2	50
+7330	74	Water supply,	1	2	50
+7340	74	Production of building materials, products and structures	1	2	50
+7088	74	Expertise and technical supervision in construction	1	2	50
+7350	75	Land management	1	4	50
+7360	75	Cadastre	1	4	50
+7510	76	Standardization, certification and metrology	1	2	50
+7513	76	Metrology	1	2	50
+8110	77	Agronomy	3	5	50
+8120	77	Soil science and agrochemistry	3	5	50
+8130	77	Plant protection and quarantine	3	5	50
+8210	78	Technology of production of livestock products	3	5	50
+8710	183	Agricultural machinery and technology	1	2	50
+8610	82	Water resources and water use	1	2	50
+9111	83	Veterinary medicine	3	5	50
+11410	90	Social work	3	4	50
+11110	91	Tourism	4	7	50
+11120	92	Cultural and leisure work	13	13	50
+11121	92	Producer and technology	13	13	50
+11124	92	Cultural and leisure activities and pop singing	13	13	50
+11130	92	Management of vocal and choral activities	13	13	50
+11150	92	Sports management, leisure and coaching	13	13	50
+11141	92	Sports management, swimming and coaching	13	13	50
+11111	93	Restaurant business and	4	7	50
+11088	94	Management security	1	2	50
+11310	95	Organization of transportation, movement and operation of transport	1	4	50
+11311	95	Organization of transportation to	1	4	50
+11312	95	Transport logistics	1	4	50
+11210	94	Safety	1	2	50
+1110	1	Pedagogy and psychology	3	4	70
 \.
 
 
@@ -44800,6 +44831,7 @@ COPY public.universities (code, name, city, address, year_established, email, ph
 --
 
 COPY public.university_languages (id, university_id, language_id) FROM stdin;
+1	522	3
 \.
 
 
@@ -44827,6 +44859,7 @@ COPY public.university_programs (code, university_id, ntc_program_id, local_name
 COPY public.university_staff (id, university_id, user_id) FROM stdin;
 1	522	5
 2	1	2
+3	421	10
 \.
 
 
@@ -44837,11 +44870,17 @@ COPY public.university_staff (id, university_id, user_id) FROM stdin;
 COPY public.users (id, password, last_login, is_superuser, first_name, last_name, email, is_staff, is_active, date_joined, role, phone, created_at, avatar_url) FROM stdin;
 2	pbkdf2_sha256$1200000$3Sr9JFmmRc5ivfJBzP2Nsh$qmocSDp1rUg2DYQS/TDY5WwA+sdjNLg5LotPRBIQ+Cc=	2026-04-20 11:23:26+05	f	Алина	Бигалиева	alina@bilimge.kz	f	t	2026-04-20 11:23:42+05	APPLICANT	+77007841234	2026-04-20 11:21:10.301193+05	
 3	pbkdf2_sha256$1200000$PRu2tTNvJvyJp6DvU6NJUe$dVp612SJZa2aArjhNsv42DbAFcHlAsZ56hAV9+/Oabk=	\N	f			z@mail.com	f	t	2026-04-21 11:24:58.333089+05	APPLICANT		2026-04-21 11:24:59.486795+05	
-1	pbkdf2_sha256$1200000$8NTXEVLZAeEmrs5wl4GHc0$bJwMsc8CXlOjCqJIz45FdLw0AM5by/OdMCfhTkYJfgc=	2026-04-20 11:19:20+05	t			admin@gmail.com	t	t	2026-04-20 11:17:10+05	NTC_ADMIN	\N	2026-04-20 11:17:11.446939+05	
 4	pbkdf2_sha256$1200000$yjgNgVsBuVcOtX1QnnYhq6$gGcR/ZH07U3ToeZom86wuH305ZqYyW74EzgtIMt5pgY=	\N	f	Appli	Last	a@mail.com	f	t	2026-04-21 12:36:09.770615+05	APPLICANT	87052346517	2026-04-21 12:36:11.108676+05	
 5	pbkdf2_sha256$1200000$wtr2ilp8gT43qvz9VWhVVj$N8ewdZ6dr4m03uis5Td4DiAYa0PYvFaONNKl3sPd0MM=	\N	f	Aitair	Bubilu	info@astanait.edu.kz	f	t	2026-04-24 11:00:52+05	UNI_ADMIN	+77172645716	2026-04-24 11:00:53.427973+05	
 6	pbkdf2_sha256$1200000$TAIjmjht0ESr7UjWzK0jDn$BZCNRPYigmVowZoedms/K99SXUDSrn/k9jEnIAh6+aI=	2026-05-06 12:04:19.829711+05	t			bz@gmail.com	t	t	2026-05-06 12:03:49.691459+05	SUPER_ADMIN	\N	2026-05-06 12:03:50.271757+05	
 7	pbkdf2_sha256$1200000$6u1BWWE7T5uN5BHwflV7HV$MTyhS64sZ92N+Fex1XiZhJo7bDfEr5aJc+nGuDA/dec=	\N	f	Алуа	Бекетова	alu@mail.com	f	t	2026-05-06 12:07:34.779555+05	APPLICANT	\N	2026-05-06 12:07:36.193069+05	
+8	pbkdf2_sha256$1200000$w6swmh4FJRRkVRxOeoDius$0s6aMLSjFJZEx0DMYvjwY9D/XP7m7RfpD2jAuPgIHBM=	2026-05-13 14:15:13.136171+05	t			superadm@gmail.com	t	t	2026-05-13 14:14:55.184155+05	SUPER_ADMIN	\N	2026-05-13 14:14:55.30787+05	
+5	pbkdf2_sha256$1200000$iGi0CHLSe7HTmOjThIp0ca$uHgBkJvbMnZCk9d9Nw9R91f3BNrYHhnkIarNj9DSaXA=	\N	f	Aitair	Bubilu	info@astanait.edu.kz	f	t	2026-04-24 11:00:52+05	UNI_ADMIN	+77172645716	2026-04-24 11:00:53.427973+05	
+7	pbkdf2_sha256$1200000$6u1BWWE7T5uN5BHwflV7HV$MTyhS64sZ92N+Fex1XiZhJo7bDfEr5aJc+nGuDA/dec=	\N	f	Алуа	Асеткызы	alu@mail.com	f	t	2026-05-06 12:07:34.779555+05	APPLICANT	\N	2026-05-06 12:07:36.193069+05	
+2	pbkdf2_sha256$1200000$3Sr9JFmmRc5ivfJBzP2Nsh$qmocSDp1rUg2DYQS/TDY5WwA+sdjNLg5LotPRBIQ+Cc=	2026-04-20 11:23:26+05	f	Алина	Муратова	alina@bilimge.kz	f	t	2026-04-20 11:23:42+05	APPLICANT	+77007841234	2026-04-20 11:21:10.301193+05	
+9	pbkdf2_sha256$1200000$vBT65rMXe3jiZAvqC8CzTF$7ocqjT1hpNdq9DfijPhTiwaQLqwUOuBG9TnEdrlwh2M=	\N	f	Alua	Nurlybekova	aluanrlybekova@gmail.com	f	t	2026-05-13 16:33:04.838261+05	APPLICANT	+77755200663	2026-05-13 16:33:04.935819+05	
+1	pbkdf2_sha256$1200000$4m0MFRVvwA7AlR6O1KrwkK$PUOly42LHfBtpRuRALk0Euh3zrw68C8vSXUK2oU39BQ=	2026-04-20 11:19:20+05	t			admin@gmail.com	t	t	2026-04-20 11:17:10+05	NTC_ADMIN	\N	2026-04-20 11:17:11.446939+05	
+10	pbkdf2_sha256$1200000$CkV091zOFn3Sm3Q8L6LAT5$itfdKUk/E4xm/XVZqv1/lTWPKa7Tyy5U8vhm7jgnJsU=	\N	f			kense@kbtu.kz	f	t	2026-05-15 09:41:26.977085+05	UNI_ADMIN	\N	2026-05-15 09:41:27.11624+05	
 \.
 
 
@@ -44929,7 +44968,7 @@ SELECT pg_catalog.setval('public.chat_messages_id_seq', 33, true);
 -- Name: django_admin_log_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.django_admin_log_id_seq', 36, true);
+SELECT pg_catalog.setval('public.django_admin_log_id_seq', 39, true);
 
 
 --
@@ -44943,21 +44982,25 @@ SELECT pg_catalog.setval('public.django_content_type_id_seq', 23, true);
 -- Name: django_migrations_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
+<<<<<<< HEAD
 SELECT pg_catalog.setval('public.django_migrations_id_seq', 32, true);
+=======
+SELECT pg_catalog.setval('public.django_migrations_id_seq', 34, true);
+>>>>>>> 2194a5d (feat: ntc admin pages implemented)
 
 
 --
 -- Name: entrance_exams_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.entrance_exams_id_seq', 1, false);
+SELECT pg_catalog.setval('public.entrance_exams_id_seq', 1, true);
 
 
 --
 -- Name: entrance_requirements_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.entrance_requirements_id_seq', 1, false);
+SELECT pg_catalog.setval('public.entrance_requirements_id_seq', 2, true);
 
 
 --
@@ -45034,7 +45077,7 @@ SELECT pg_catalog.setval('public.universities_id_seq', 1, false);
 -- Name: university_languages_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.university_languages_id_seq', 1, false);
+SELECT pg_catalog.setval('public.university_languages_id_seq', 2, true);
 
 
 --
@@ -45048,7 +45091,7 @@ SELECT pg_catalog.setval('public.university_programs_id_seq', 1, false);
 -- Name: university_staff_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.university_staff_id_seq', 2, true);
+SELECT pg_catalog.setval('public.university_staff_id_seq', 3, true);
 
 
 --
@@ -45062,7 +45105,7 @@ SELECT pg_catalog.setval('public.users_groups_id_seq', 1, false);
 -- Name: users_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.users_id_seq', 9, true);
+SELECT pg_catalog.setval('public.users_id_seq', 10, true);
 
 
 --
@@ -45799,5 +45842,5 @@ ALTER TABLE ONLY public.users_user_permissions
 -- PostgreSQL database dump complete
 --
 
-\unrestrict IMk7vhVs9JApW6FGBzutzD3nc0XHLgvuwIuEk9hHph7KBPPKhljG4cFxaGTt9XH
+\unrestrict pokBSpr76UXLpm3ksbuxgu7TdC13VhDmD6o17oqpsR4YVgnLMa8MSKGfxekvn6y
 

@@ -8,6 +8,7 @@ import type {
   FieldOfStudy,
   Subject,
   NtcProgram,
+  UpdateNtcProgramRequest,
   Language,
   EntranceRequirement,
   EntranceExam,
@@ -45,6 +46,12 @@ export const universityService = {
 
   getNtcPrograms: () =>
     http.get<NtcProgram[]>(endpoints.programs.list),
+
+  updateNtcProgram: (code: string, data: UpdateNtcProgramRequest) =>
+    http.patch<NtcProgram>(endpoints.programs.byCode(code), data),
+
+  deleteNtcProgram: (code: string) =>
+    http.delete(endpoints.programs.byCode(code)),
 
   getUniversityPrograms: () =>
     http.get<UniversityProgram[]>(endpoints.universityPrograms.list),

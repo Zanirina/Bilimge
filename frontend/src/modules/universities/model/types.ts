@@ -13,12 +13,24 @@ export type FieldOfStudy = {
   name: string;
 };
 
+export type UpdateNtcProgramRequest = {
+  name?: string;
+  field_of_study?: string;
+  subject_1?: number;
+  subject_2?: number;
+  minimum_score?: number;
+};
+
 export type NtcProgram = {
   code: string;
   name: string;
   field_of_study: string;
+  field_of_study_name: string;
   subject_1: number;
+  subject_1_name: string;
   subject_2: number;
+  subject_2_name: string;
+  minimum_score: number;
 };
 
 // Compact representation used in university list and programs_by_field
