@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'chatbot',
     'announcements',
     'calendar_app',
+    'calculator',
 ]
 
 GROQ_API_KEY = os.getenv('GROQ_API_KEY')

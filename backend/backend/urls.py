@@ -11,4 +11,5 @@ urlpatterns = [
     path('api/chat/', include('chatbot.urls')),
     path('api/announcements/', include('announcements.urls')),
     path('api/calendar/', include('calendar_app.urls')),
+    path('api/calculator/', include('calculator.urls')),
 ]
