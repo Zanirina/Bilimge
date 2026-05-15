@@ -7,7 +7,7 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('unipage', '0006_accreditation'),
+        ('unipage', '0007_accreditation'),
         ('userpage', '0005_user_avatar_url'),
     ]
 
