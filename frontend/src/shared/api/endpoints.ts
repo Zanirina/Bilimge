@@ -76,6 +76,9 @@ export const endpoints = {
   },
   chat: {
     root: "/api/chat/",
+    conversations: "/api/chat/conversations/",
+    conversationDetail: (id: number | string) => `/api/chat/conversations/${id}/`,
+    conversationMessages: (id: number | string) => `/api/chat/conversations/${id}/messages/`,
   },
   calendar: {
     list: "/api/calendar/",

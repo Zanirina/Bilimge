@@ -13,7 +13,7 @@ const sidebarItems: SidebarItem[] = [
   { label: "Compare Universities", path: "/applicant/comparison", icon: LuGitCompare },
   { label: "Programs & Majors", path: "/applicant/majors", icon: MdOutlineMenuBook },
   { label: "Exam Preparation", path: "/applicant/exams", icon: LuBrain },
-  { label: "AI Assistant", path: "/applicant/chatbot", icon: TbRobot },
+  { label: "AI Assistant", path: "/applicant/chatbot", icon: TbRobot, type: "ai-chat" as const },
 ];
 
 export default function ApplicantLayout() {
