@@ -14,6 +14,7 @@ from .serializers import (
     UniversitySerializer,
     FieldOfStudySerializer,
     NtcProgramSerializer,
+    NtcProgramUpdateSerializer,
     SubjectSerializer,
     UniversityProgramSerializer,
     UniversityProgramWriteSerializer,
@@ -130,13 +131,18 @@ class UniversityProgramViewSet(viewsets.ModelViewSet):
 
 
 class NtcProgramViewSet(viewsets.ModelViewSet):
-    queryset = NtcProgram.objects.all()
+    queryset = NtcProgram.objects.select_related('field_of_study', 'subject_1', 'subject_2').all()
     serializer_class = NtcProgramSerializer
 
     def get_permissions(self):
         if self.action in ['list', 'retrieve']:
             return [AllowAny()]
         return [IsNtcAdmin()]
+
+    def get_serializer_class(self):
+        if self.action in ['partial_update', 'update']:
+            return NtcProgramUpdateSerializer
+        return NtcProgramSerializer
 
 
 class SubjectViewSet(viewsets.ModelViewSet):

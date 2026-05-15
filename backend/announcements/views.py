@@ -98,3 +98,14 @@ class UniAnnouncementDeleteView(APIView):
                                 university_id=university.code)
         ann.delete()
         return Response(status=204)
+
+
+class NtcAnnouncementDeleteView(APIView):
+    """DELETE /api/announcements/<pk>/ntc-delete/ — NTC admin deletes own announcement"""
+    permission_classes = [IsNtcAdmin]
+
+    def delete(self, request, pk):
+        from django.shortcuts import get_object_or_404
+        ann = get_object_or_404(Announcement, pk=pk, author_type='ntc')
+        ann.delete()
+        return Response(status=204)

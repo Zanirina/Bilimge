@@ -61,6 +61,7 @@ export const endpoints = {
     list: "/api/announcements/",
     byId: (id: number | string) => `/api/announcements/${id}/`,
     deleteById: (id: number | string) => `/api/announcements/${id}/delete/`,
+    ntcDeleteById: (id: number | string) => `/api/announcements/${id}/ntc-delete/`,
     createNtc: "/api/announcements/ntc/",
     createUniversity: "/api/announcements/university/",
   },

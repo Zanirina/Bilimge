@@ -110,8 +110,7 @@ CREATE TABLE public.announcements (
     created_at timestamp with time zone NOT NULL,
     updated_at timestamp with time zone NOT NULL,
     created_by_id bigint,
-    image_url character varying(500) DEFAULT ''::character varying NOT NULL,
-    tag character varying(20) NOT NULL
+    image_url character varying(500) DEFAULT ''::character varying NOT NULL
 );
 
 
@@ -704,7 +703,8 @@ CREATE TABLE public.ntc_programs (
     field_of_study_id integer,
     name character varying(255),
     subject_1_id integer,
-    subject_2_id integer
+    subject_2_id integer,
+    minimum_score integer DEFAULT 50 NOT NULL
 );
 
 
@@ -1196,12 +1196,12 @@ COPY public.accreditations (id, university_id, name, issued_by, valid_until) FRO
 --
 
 COPY public.announcements (id, title, body, author_type, university_id, university_name, created_at, updated_at, created_by_id, image_url, tag) FROM stdin;
-1	Welcome to Bilimge! 🎉	We are thrilled to announce the official launch of Bilimge — your all-in-one platform for university admissions in Kazakhstan. Whether you are an applicant exploring your options or a university looking to connect with future students, Bilimge is here to make the process transparent, simple, and accessible for everyone.\n\nStart by exploring universities, checking grant results, and setting up your profile today!	ntc	\N		2026-05-13 19:12:47.444284+05	2026-05-13 19:12:47.44429+05	1		
-2	2025 Grant Results Are Now Available	The Ministry of Education has published the 2025 grant allocation results. Applicants can now check their grant status directly on the Bilimge platform under the Grant Check section.\n\nIf you have any questions regarding your result or the appeal process, please contact the NTC support team or visit your regional education department.	ntc	\N		2026-05-13 19:12:47.449328+05	2026-05-13 19:12:47.449331+05	1		
-3	New Feature: Favorite Programs 🔖	You can now save your favorite university programs and compare them side by side. Simply tap the bookmark icon on any program card to add it to your list.\n\nThis feature is available for all registered applicants. Saved programs can be viewed from your profile dashboard at any time.	ntc	\N		2026-05-13 19:12:47.449972+05	2026-05-13 19:12:47.449974+05	1		
-4	Astana IT University Open Day — May 25, 2025	Astana IT University invites all prospective students to our Open Day on May 25, 2025. Come visit our campus, meet the faculty, tour the labs, and learn everything you need to know about our programs in Computer Science, Data Science, Cybersecurity, and more.\n\nRegistration is free and open to everyone. Bring your transcript and UNT score for a preliminary consultation with our admissions team.	university	\N	Astana IT University	2026-05-13 19:12:47.450417+05	2026-05-13 19:12:47.450419+05	5		
-5	Scholarship Opportunities for International Students	Astana IT University is pleased to announce a new scholarship program for high-achieving applicants with UNT scores above 120. Full and partial scholarships are available for the 2025–2026 academic year across all bachelor programs.\n\nApplications must be submitted before June 10, 2025. Detailed eligibility criteria and the application form are available on our university page.	university	\N	Astana IT University	2026-05-13 19:12:47.450828+05	2026-05-13 19:12:47.45083+05	5		
-6	Important: Updated Admissions Deadlines	Please note that the submission deadline for the main admissions round has been updated to July 15, 2025. All applicants are encouraged to complete their university applications before this date to be considered for the first round of grant placement.\n\nLate applications may still be accepted in the second round but grant availability cannot be guaranteed.	ntc	\N		2026-05-13 19:12:47.451222+05	2026-05-13 19:12:47.451224+05	1		
+1	Welcome to Bilimge! 🎉	We are thrilled to announce the official launch of Bilimge — your all-in-one platform for university admissions in Kazakhstan. Whether you are an applicant exploring your options or a university looking to connect with future students, Bilimge is here to make the process transparent, simple, and accessible for everyone.\n\nStart by exploring universities, checking grant results, and setting up your profile today!	ntc	\N		2026-05-13 19:12:47.444284+05	2026-05-13 19:12:47.44429+05	1
+2	2025 Grant Results Are Now Available	The Ministry of Education has published the 2025 grant allocation results. Applicants can now check their grant status directly on the Bilimge platform under the Grant Check section.\n\nIf you have any questions regarding your result or the appeal process, please contact the NTC support team or visit your regional education department.	ntc	\N		2026-05-13 19:12:47.449328+05	2026-05-13 19:12:47.449331+05	1
+3	New Feature: Favorite Programs 🔖	You can now save your favorite university programs and compare them side by side. Simply tap the bookmark icon on any program card to add it to your list.\n\nThis feature is available for all registered applicants. Saved programs can be viewed from your profile dashboard at any time.	ntc	\N		2026-05-13 19:12:47.449972+05	2026-05-13 19:12:47.449974+05	1
+4	Astana IT University Open Day — May 25, 2025	Astana IT University invites all prospective students to our Open Day on May 25, 2025. Come visit our campus, meet the faculty, tour the labs, and learn everything you need to know about our programs in Computer Science, Data Science, Cybersecurity, and more.\n\nRegistration is free and open to everyone. Bring your transcript and UNT score for a preliminary consultation with our admissions team.	university	\N	Astana IT University	2026-05-13 19:12:47.450417+05	2026-05-13 19:12:47.450419+05	5
+5	Scholarship Opportunities for International Students	Astana IT University is pleased to announce a new scholarship program for high-achieving applicants with UNT scores above 120. Full and partial scholarships are available for the 2025–2026 academic year across all bachelor programs.\n\nApplications must be submitted before June 10, 2025. Detailed eligibility criteria and the application form are available on our university page.	university	\N	Astana IT University	2026-05-13 19:12:47.450828+05	2026-05-13 19:12:47.45083+05	5
+6	Important: Updated Admissions Deadlines	Please note that the submission deadline for the main admissions round has been updated to July 15, 2025. All applicants are encouraged to complete their university applications before this date to be considered for the first round of grant placement.\n\nLate applications may still be accepted in the second round but grant availability cannot be guaranteed.	ntc	\N		2026-05-13 19:12:47.451222+05	2026-05-13 19:12:47.451224+05	1
 \.
 
 
@@ -1398,6 +1398,20 @@ COPY public.django_admin_log (id, action_time, object_id, object_repr, action_fl
 23	2026-04-24 11:06:37.676481+05	5	aituadmin (UNI_ADMIN)	2	[{"added": {"name": "university staff", "object": "UniversityStaff object (1)"}}]	13	1
 24	2026-05-06 12:05:23.286508+05	2	UniversityStaff object (2)	1	[{"added": {}}]	12	6
 25	2026-05-06 12:59:53.392552+05	7	alu@mail.com (APPLICANT)	2	[{"changed": {"fields": ["First name", "Last name"]}}]	13	6
+37	2026-05-15 03:40:40.5695+05	1	admin@gmail.com (NTC_ADMIN)	2	[{"changed": {"fields": ["password"]}}]	13	8
+39	2026-05-15 09:42:04.583686+05	3	UniversityStaff object (3)	1	[{"added": {}}]	12	8
+38	2026-05-15 09:41:27.118815+05	10	kense@kbtu.kz (UNI_ADMIN)	1	[{"added": {}}]	13	8
+26	2026-05-13 16:39:09.493321+05	9	aluanrlybekova@gmail.com (APPLICANT)	2	[{"changed": {"fields": ["password"]}}]	13	8
+27	2026-05-13 19:03:05.989699+05	9	aluanrlybekova@gmail.com (APPLICANT)	2	[{"changed": {"fields": ["First name", "Last name"]}}]	13	8
+28	2026-05-14 18:55:38.705241+05	5	info@astanait.edu.kz (UNI_ADMIN)	2	[{"changed": {"fields": ["password"]}}]	13	8
+29	2026-05-14 18:59:00.247034+05	9	aluanrlybekova@gmail.com (APPLICANT)	2	[{"changed": {"fields": ["Phone"]}}]	13	8
+30	2026-05-14 19:05:51.948146+05	9	aluanrlybekova@gmail.com (APPLICANT)	2	[]	13	8
+31	2026-05-14 19:07:05.841704+05	3	Profile: aluanrlybekova@gmail.com	1	[{"added": {}}]	11	8
+32	2026-05-14 19:07:07.897479+05	3	Profile: aluanrlybekova@gmail.com	2	[]	11	8
+33	2026-05-14 19:18:20.578632+05	7	alu@mail.com (APPLICANT)	2	[{"changed": {"fields": ["First name", "Last name"]}}]	13	8
+34	2026-05-14 19:19:01.721017+05	2	alina@bilimge.kz (APPLICANT)	2	[{"changed": {"fields": ["First name", "Last name"]}}]	13	8
+35	2026-05-14 20:31:07.894045+05	522	522 - Astana IT University	2	[]	9	8
+36	2026-05-14 20:59:17.030439+05	9	aluanrlybekova@gmail.com (APPLICANT)	2	[{"changed": {"fields": ["password"]}}]	13	8
 \.
 
 
@@ -1467,6 +1481,7 @@ COPY public.django_migrations (id, app, name, applied) FROM stdin;
 26	unipage	0002_language	2026-05-12 01:27:13.534306+05
 27	unipage	0003_academicmobility_entranceexam_entrancerequirement_and_more	2026-05-12 01:27:13.550146+05
 28	announcements	0001_initial	2026-05-12 01:29:12.90718+05
+<<<<<<< HEAD
 29	userpage	0005_user_avatar_url	2026-05-14 21:52:05.324647+05
 30	unipage	0004_universityprogram_degree_years_studytype	2026-05-14 22:39:50.387781+05
 31	unipage	0005_university_logo_cover_url	2026-05-14 22:39:50.391631+05
@@ -1475,6 +1490,14 @@ COPY public.django_migrations (id, app, name, applied) FROM stdin;
 34	announcements	0003_announcement_image_url	2026-05-15 09:42:05.587709+05
 35	userpage	0006_remove_applicant_target_speciality_and_more	2026-05-15 09:42:11.414323+05
 36	calendar_app	0001_initial	2026-05-15 10:04:54.493313+05
+=======
+29	announcements	0002_announcement_tag	2026-05-14 21:41:58.950813+05
+30	unipage	0004_universityprogram_degree_years_studytype	2026-05-14 21:56:37.061025+05
+31	unipage	0005_university_logo_cover_url	2026-05-14 22:31:41.735339+05
+32	announcements	0003_announcement_image_url	2026-05-14 22:32:50.558983+05
+33	userpage	0005_user_avatar_url	2026-05-14 22:32:50.563818+05
+34	unipage	0006_ntcprogram_minimum_score	2026-05-15 03:59:17.803288+05
+>>>>>>> 2194a5d (feat: ntc admin pages implemented)
 \.
 
 
@@ -1485,6 +1508,10 @@ COPY public.django_migrations (id, app, name, applied) FROM stdin;
 COPY public.django_session (session_key, session_data, expire_date) FROM stdin;
 lyauljc4rvv6whz7am3d6yfeoooziu1r	.eJxVjDEOwjAMAP_iGUVNiBvTkZ03VI4d0wJqpaadEH9HlTrAene6N_S8rUO_1bL0o0IHHk6_LLM8y7QLffB0n53M07qM2e2JO2x1t1nL63q0f4OB6wAdULYgKEnFWzRCSQ17YsXA5hEthLakqJQafyG0wBKkEW3pHJkJM3y-9xk4MA:1wEhya:dD5nsAenoOhd4qkGtfkARNJ5LFU2aLzDYqEVMOQiYL8	2026-05-04 11:19:20.391989+05
 gd6s11gkjiixmakgmzfsqh89b53pmo0j	.eJxVjLsOgzAMAP_FcxXVSYiBsTvfgBw7LrQVSDymqv9eITG0693p3tDzvg39vpalHxVaSHD5ZZnlWaZD6IOn--xknrZlzO5I3GlX181aXrez_RsMvA7QAteSQrDGRyLvEcUEiQsZBkYktMDq5WpG1MQKc4W1asosiimaJvh8AdqrN_w:1wKWIt:gHB3vghLhmOgfmLc3uzYFoQBOqIOI-aetNW75Z6rars	2026-05-20 12:04:19.836061+05
+<<<<<<< HEAD
+=======
+1n94bv0tghcczbprlkr30nhzcaa3oahf	.eJxVjEEOwiAQAP_C2RDQhUWP3n0DWVhWqoYmpT0Z_25IetDrzGTeKtK21rj1ssSJ1UUFdfhlifKztCH4Qe0-6zy3dZmSHonebde3mcvrurd_g0q9jq0nNonPFsFZg0UMnMShN-QzoANOVggF2XIBT-BCEZLkQ0CxHo7q8wXhADfn:1wNejQ:jjgpvjFOpSLmdE6wsRuzJA7DNOtvw9ZTtt-_12POJ74	2026-05-29 03:40:40.573866+05
+>>>>>>> 2194a5d (feat: ntc admin pages implemented)
 \.
 
 
@@ -1493,6 +1520,7 @@ gd6s11gkjiixmakgmzfsqh89b53pmo0j	.eJxVjLsOgzAMAP_FcxXVSYiBsTvfgBw7LrQVSDymqv9eIT
 --
 
 COPY public.entrance_exams (id, university_id, name, description) FROM stdin;
+1	522	AITU Excellence Test (AET)	The exam consists of two modules: 1. English Language Module – an exam verifying English language proficiency. 2. Fundamentals of Computer Science and Logic Module – a test to assess the incoming knowledge level of the student.
 \.
 
 
@@ -1501,6 +1529,8 @@ COPY public.entrance_exams (id, university_id, name, description) FROM stdin;
 --
 
 COPY public.entrance_requirements (id, university_id, description) FROM stdin;
+1	522	AET - minimum 30 scores in each module
+2	522	English level - B1 and more
 \.
 
 
@@ -44975,14 +45005,7 @@ SELECT pg_catalog.setval('public.auth_group_permissions_id_seq', 1, false);
 -- Name: auth_permission_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.auth_permission_id_seq', 100, true);
-
-
---
--- Name: calendar_events_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
---
-
-SELECT pg_catalog.setval('public.calendar_events_id_seq', 1, false);
+SELECT pg_catalog.setval('public.auth_permission_id_seq', 92, true);
 
 
 --
@@ -45003,14 +45026,14 @@ SELECT pg_catalog.setval('public.django_admin_log_id_seq', 36, true);
 -- Name: django_content_type_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.django_content_type_id_seq', 25, true);
+SELECT pg_catalog.setval('public.django_content_type_id_seq', 23, true);
 
 
 --
 -- Name: django_migrations_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.django_migrations_id_seq', 36, true);
+SELECT pg_catalog.setval('public.django_migrations_id_seq', 32, true);
 
 
 --
@@ -45233,14 +45256,6 @@ ALTER TABLE ONLY public.auth_permission
 
 ALTER TABLE ONLY public.auth_permission
     ADD CONSTRAINT auth_permission_pkey PRIMARY KEY (id);
-
-
---
--- Name: calendar_events calendar_events_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.calendar_events
-    ADD CONSTRAINT calendar_events_pkey PRIMARY KEY (id);
 
 
 --
@@ -45499,17 +45514,17 @@ CREATE INDEX announcements_created_by_id_191f571f ON public.announcements USING 
 
 
 --
--- Name: applicant_subject_1_id_b1bd697a; Type: INDEX; Schema: public; Owner: postgres
+-- Name: applicant_target_speciality_id_a00e6ee8; Type: INDEX; Schema: public; Owner: postgres
 --
 
-CREATE INDEX applicant_subject_1_id_b1bd697a ON public.applicant USING btree (subject_1_id);
+CREATE INDEX applicant_target_speciality_id_a00e6ee8 ON public.applicant USING btree (target_speciality_id);
 
 
 --
--- Name: applicant_subject_2_id_1f2a53f9; Type: INDEX; Schema: public; Owner: postgres
+-- Name: applicant_target_speciality_id_a00e6ee8_like; Type: INDEX; Schema: public; Owner: postgres
 --
 
-CREATE INDEX applicant_subject_2_id_1f2a53f9 ON public.applicant USING btree (subject_2_id);
+CREATE INDEX applicant_target_speciality_id_a00e6ee8_like ON public.applicant USING btree (target_speciality_id varchar_pattern_ops);
 
 
 --

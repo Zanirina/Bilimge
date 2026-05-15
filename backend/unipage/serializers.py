@@ -25,9 +25,23 @@ class FieldOfStudySerializer(serializers.ModelSerializer):
 
 
 class NtcProgramSerializer(serializers.ModelSerializer):
+    field_of_study_name = serializers.CharField(source='field_of_study.name', read_only=True)
+    subject_1_name = serializers.CharField(source='subject_1.name', read_only=True)
+    subject_2_name = serializers.CharField(source='subject_2.name', read_only=True)
+
     class Meta:
         model = NtcProgram
-        fields = '__all__'
+        fields = [
+            'code', 'name', 'field_of_study', 'field_of_study_name',
+            'subject_1', 'subject_1_name', 'subject_2', 'subject_2_name',
+            'minimum_score',
+        ]
+
+
+class NtcProgramUpdateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = NtcProgram
+        fields = ['name', 'field_of_study', 'subject_1', 'subject_2', 'minimum_score']
 
 
 # --- Для страницы программы ---
