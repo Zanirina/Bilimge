@@ -92,9 +92,12 @@ const withLoading = async <T>(
   set({ isLoading: true, error: null });
   try {
     return await fn();
-  } catch {
-    set({ error: "Request failed" });
-    throw new Error("Request failed");
+  } catch (err: unknown) {
+    const axiosErr = err as { response?: { data?: { error?: string; trace?: string } }; message?: string };
+    const msg = axiosErr?.response?.data?.error ?? axiosErr?.message ?? "Request failed";
+    if (axiosErr?.response?.data?.trace) console.error("[API 500]", axiosErr.response.data.trace);
+    set({ error: msg });
+    throw new Error(msg);
   } finally {
     set({ isLoading: false });
   }

@@ -116,6 +116,7 @@ class UniversityProgram(models.Model):
     )
 
     description = models.TextField(blank=True, default='', verbose_name='Program Description')
+    cost = models.IntegerField(null=True, blank=True, verbose_name='Tuition Cost')
     passing_score = models.IntegerField(null=True, blank=True, verbose_name='Passing Score for Program')
     grant_score = models.IntegerField(null=True, blank=True, verbose_name='Grant Passing Score')
     future_professions = models.TextField(blank=True, default='', verbose_name='Future Professions')

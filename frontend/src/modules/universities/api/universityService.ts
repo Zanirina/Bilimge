@@ -162,12 +162,16 @@ export const universityService = {
   uploadLogo: (file: File) => {
     const form = new FormData();
     form.append("logo", file);
-    return http.post<{ logo_url: string }>(endpoints.myUniversity.uploadLogo, form);
+    return http.post<{ logo_url: string }>(endpoints.myUniversity.uploadLogo, form, {
+      headers: { "Content-Type": undefined },
+    });
   },
 
   uploadCover: (file: File) => {
     const form = new FormData();
     form.append("cover", file);
-    return http.post<{ cover_url: string }>(endpoints.myUniversity.uploadCover, form);
+    return http.post<{ cover_url: string }>(endpoints.myUniversity.uploadCover, form, {
+      headers: { "Content-Type": undefined },
+    });
   },
 };

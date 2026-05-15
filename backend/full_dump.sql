@@ -2,7 +2,7 @@
 -- PostgreSQL database dump
 --
 
-\restrict XwKdu2VWexlqcmnO92hArkqwXjY5tmhsC5AeLqKWCLfZp7WoQ05VjRxBfPaeuw5
+\restrict HphcZyErj5GEkiEpCdpRubE8V15u244xSbbSO70dnkatvjXXqpbP9ZvWyzDkeHV
 
 -- Dumped from database version 18.3 (Homebrew)
 -- Dumped by pg_dump version 18.3 (Homebrew)
@@ -1184,6 +1184,7 @@ ALTER TABLE ONLY public.university_programs ALTER COLUMN code SET DEFAULT nextva
 --
 
 COPY public.academic_mobility (id, university_id, partner_university_name, country) FROM stdin;
+1	522	Lawrence Technological University	USA
 \.
 
 
@@ -1192,6 +1193,7 @@ COPY public.academic_mobility (id, university_id, partner_university_name, count
 --
 
 COPY public.accreditations (id, university_id, name, issued_by, valid_until) FROM stdin;
+1	522	ALkfjhsdhhu	Ministry of Edu	2026-05-16
 \.
 
 
@@ -1418,7 +1420,9 @@ COPY public.django_admin_log (id, action_time, object_id, object_repr, action_fl
 25	2026-05-06 12:59:53.392552+05	7	alu@mail.com (APPLICANT)	2	[{"changed": {"fields": ["First name", "Last name"]}}]	13	6
 37	2026-05-15 03:40:40.5695+05	1	admin@gmail.com (NTC_ADMIN)	2	[{"changed": {"fields": ["password"]}}]	13	8
 39	2026-05-15 09:42:04.583686+05	3	UniversityStaff object (3)	1	[{"added": {}}]	12	8
+40	2026-05-15 11:51:55.967208+05	10	kense@kbtu.kz (UNI_ADMIN)	2	[{"changed": {"fields": ["password"]}}]	13	8
 38	2026-05-15 09:41:27.118815+05	10	kense@kbtu.kz (UNI_ADMIN)	1	[{"added": {}}]	13	8
+41	2026-05-15 11:54:07.723771+05	522	522 - Astana IT University	2	[{"changed": {"fields": ["Short Name"]}}]	9	8
 26	2026-05-13 16:39:09.493321+05	9	aluanrlybekova@gmail.com (APPLICANT)	2	[{"changed": {"fields": ["password"]}}]	13	8
 27	2026-05-13 19:03:05.989699+05	9	aluanrlybekova@gmail.com (APPLICANT)	2	[{"changed": {"fields": ["First name", "Last name"]}}]	13	8
 28	2026-05-14 18:55:38.705241+05	5	info@astanait.edu.kz (UNI_ADMIN)	2	[{"changed": {"fields": ["password"]}}]	13	8
@@ -1510,6 +1514,7 @@ COPY public.django_migrations (id, app, name, applied) FROM stdin;
 37	unipage	0009_university_short_name	2026-05-15 10:14:57.081483+05
 38	calendar_app	0001_initial	2026-05-15 10:59:32.279426+05
 39	userpage	0006_remove_applicant_target_speciality_and_more	2026-05-15 11:00:01.801819+05
+40	unipage	0010_universityprogram_cost	2026-05-15 11:08:26.547861+05
 \.
 
 
@@ -1520,7 +1525,7 @@ COPY public.django_migrations (id, app, name, applied) FROM stdin;
 COPY public.django_session (session_key, session_data, expire_date) FROM stdin;
 lyauljc4rvv6whz7am3d6yfeoooziu1r	.eJxVjDEOwjAMAP_iGUVNiBvTkZ03VI4d0wJqpaadEH9HlTrAene6N_S8rUO_1bL0o0IHHk6_LLM8y7QLffB0n53M07qM2e2JO2x1t1nL63q0f4OB6wAdULYgKEnFWzRCSQ17YsXA5hEthLakqJQafyG0wBKkEW3pHJkJM3y-9xk4MA:1wEhya:dD5nsAenoOhd4qkGtfkARNJ5LFU2aLzDYqEVMOQiYL8	2026-05-04 11:19:20.391989+05
 gd6s11gkjiixmakgmzfsqh89b53pmo0j	.eJxVjLsOgzAMAP_FcxXVSYiBsTvfgBw7LrQVSDymqv9eITG0693p3tDzvg39vpalHxVaSHD5ZZnlWaZD6IOn--xknrZlzO5I3GlX181aXrez_RsMvA7QAteSQrDGRyLvEcUEiQsZBkYktMDq5WpG1MQKc4W1asosiimaJvh8AdqrN_w:1wKWIt:gHB3vghLhmOgfmLc3uzYFoQBOqIOI-aetNW75Z6rars	2026-05-20 12:04:19.836061+05
-1n94bv0tghcczbprlkr30nhzcaa3oahf	.eJxVjEEOwiAQAP_C2RDQhUWP3n0DWVhWqoYmpT0Z_25IetDrzGTeKtK21rj1ssSJ1UUFdfhlifKztCH4Qe0-6zy3dZmSHonebde3mcvrurd_g0q9jq0nNonPFsFZg0UMnMShN-QzoANOVggF2XIBT-BCEZLkQ0CxHo7q8wXhADfn:1wNejQ:jjgpvjFOpSLmdE6wsRuzJA7DNOtvw9ZTtt-_12POJ74	2026-05-29 03:40:40.573866+05
+e2q12kfqpe23j13sup6j26ercdh3c4gm	.eJxVjEEOwiAQAP_C2RDQhUWP3n0DWVhWqoYmpT0Z_25IetDrzGTeKtK21rj1ssSJ1UUFdfhlifKztCH4Qe0-6zy3dZmSHonebde3mcvrurd_g0q9jq0nNonPFsFZg0UMnMShN-QzoANOVggF2XIBT-BCEZLkQ0CxHo7q8wXhADfn:1wNmOp:wgp3HQCYp39EG4wqCqkFbiCk9-MyVx2wibac_IzDuVg	2026-05-29 11:51:55.972391+05
 \.
 
 
@@ -44787,8 +44792,6 @@ COPY public.subject (id, name) FROM stdin;
 --
 
 COPY public.universities (code, name, city, address, year_established, email, phone, passing_score, history, website, has_dormitory, has_military_department, logo_url, cover_url, telegram_url, instagram_url, tuition_cost, short_name) FROM stdin;
-421	Kazakh-British Technical University (KBTU)	Almaty	59 Tole Bi str.	2001	info@kbtu.kz	+77273574242	85			f	f					\N	
-1	Astana Medical University 	Astana	49/a Beybitshilik str.	1964	info@amu.kz	+77172539424	70			f	f					\N	
 2	S. Seifullin Kazakh Agrotechnical University 	Astana	62 Zhenis Ave.	1957	katu_mail@kazatu.kz	+77172317547	60			f	f					\N	
 3	Sh. Yessenov Caspian University of Technology and Engineering 	Aktau	34 microdistrict, building 1	1976	office@yu.edu.kz	+77292425515	50			f	f					\N	
 4	Marat Ospanov West Kazakhstan Medical University 	Aktobe	68 Maresyev str.	1957	zkgmu@zkgmu.kz	+77132567210	70			f	f					\N	
@@ -44844,6 +44847,7 @@ COPY public.universities (code, name, city, address, year_established, email, ph
 80	Kazakh-Russian Medical University	Almaty	122 Torekulov str.	1992	krmu@krmu.kz	+77272508104	65			f	f					\N	
 82	Kazakh-German University (DKU)	Almaty	173 Nazarbayev Ave.	1999	info@dku.kz	+77273550551	80			f	f					\N	
 83	Almaty Management University (AlmaU)	Almaty	227 Rozybakiev str.	1988	info@almau.edu.kz	+77273133040	80			f	f					\N	
+421	Kazakh-British Technical University (KBTU)	Almaty	59 Tole Bi str.	2001	info@kbtu.kz	+77273574242	85			f	f		https://res.cloudinary.com/dbsi2t4yq/image/upload/v1778827760/universities/covers/cover_421.jpg			\N	
 89	Kainar Academy	Almaty	7A Satpayev str.	1991	priem@kainar-u.kz	+77272558356	50			f	f					\N	
 90	O.A. Dzholdasbekov Academy of Economics and Law	Taldykorgan	1 mkr., bld. 26	1997	ael_tdk@mail.ru	+77282242858	50			f	f					\N	
 93	Turan University	Almaty	108 Satpayev str.	1992	turan@turan-edu.kz	+77272604000	70			f	f					\N	
@@ -44900,7 +44904,8 @@ COPY public.universities (code, name, city, address, year_established, email, ph
 517	Pavlodar Pedagogical University	Pavlodar	60 Mira str.	1962	ppu@ppu.edu.kz	+77182554722	75			f	f					\N	
 518	Academy of the Border Service of the NSC RK	Almaty	103 Dostyk Ave.	1931	pogranacademy@knb.gov.kz	+77272635601	50			f	f					\N	
 979	KIMEP University	Almaty	2 Abay Ave.	1992	info@kimep.kz	+77272704213	90			f	f					\N	
-522	Astana IT University	Astana	EXPO-2017, C1 Pavilion	2019	info@astanait.edu.kz	+77172645710	90	hjghbnlk	https://astanait.edu.kz	t	t					\N	
+1	Astana Medical University 	Astana	49/a Beybitshilik str.	1964	info@amu.kz	+77172539424	70			f	f		https://res.cloudinary.com/test/test.jpg			\N	
+522	Astana IT University	Astana	EXPO-2017, C1 Pavilion	2019	info@astanait.edu.kz	+77172645710	90	hjghbnlk	https://astanait.edu.kz	t	t	https://res.cloudinary.com/dbsi2t4yq/image/upload/v1778828113/universities/logos/logo_522.png	https://res.cloudinary.com/dbsi2t4yq/image/upload/v1778828019/universities/covers/cover_522.jpg	https://t.me/aitu2020info	https://www.instagram.com/astana_it_university/?hl=ru	\N	AITU
 \.
 
 
@@ -44955,7 +44960,7 @@ COPY public.users (id, password, last_login, is_superuser, first_name, last_name
 2	pbkdf2_sha256$1200000$3Sr9JFmmRc5ivfJBzP2Nsh$qmocSDp1rUg2DYQS/TDY5WwA+sdjNLg5LotPRBIQ+Cc=	2026-04-20 11:23:26+05	f	Алина	Муратова	alina@bilimge.kz	f	t	2026-04-20 11:23:42+05	APPLICANT	+77007841234	2026-04-20 11:21:10.301193+05	
 9	pbkdf2_sha256$1200000$vBT65rMXe3jiZAvqC8CzTF$7ocqjT1hpNdq9DfijPhTiwaQLqwUOuBG9TnEdrlwh2M=	\N	f	Alua	Nurlybekova	aluanrlybekova@gmail.com	f	t	2026-05-13 16:33:04.838261+05	APPLICANT	+77755200663	2026-05-13 16:33:04.935819+05	
 1	pbkdf2_sha256$1200000$4m0MFRVvwA7AlR6O1KrwkK$PUOly42LHfBtpRuRALk0Euh3zrw68C8vSXUK2oU39BQ=	2026-04-20 11:19:20+05	t			admin@gmail.com	t	t	2026-04-20 11:17:10+05	NTC_ADMIN	\N	2026-04-20 11:17:11.446939+05	
-10	pbkdf2_sha256$1200000$CkV091zOFn3Sm3Q8L6LAT5$itfdKUk/E4xm/XVZqv1/lTWPKa7Tyy5U8vhm7jgnJsU=	\N	f			kense@kbtu.kz	f	t	2026-05-15 09:41:26.977085+05	UNI_ADMIN	\N	2026-05-15 09:41:27.11624+05	
+10	pbkdf2_sha256$1200000$QCYrPq2KEmbDHxBmUzUVDB$E78a8xHOh6xrYKFZCzPbED+DUBxMRmfpLim8kfdgFpI=	\N	f			kense@kbtu.kz	f	t	2026-05-15 09:41:26.977085+05	UNI_ADMIN	\N	2026-05-15 09:41:27.11624+05	
 \.
 
 
@@ -44980,14 +44985,14 @@ COPY public.users_user_permissions (id, user_id, permission_id) FROM stdin;
 -- Name: academic_mobility_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.academic_mobility_id_seq', 1, false);
+SELECT pg_catalog.setval('public.academic_mobility_id_seq', 1, true);
 
 
 --
 -- Name: accreditations_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.accreditations_id_seq', 1, false);
+SELECT pg_catalog.setval('public.accreditations_id_seq', 1, true);
 
 
 --
@@ -45050,7 +45055,7 @@ SELECT pg_catalog.setval('public.chat_messages_id_seq', 33, true);
 -- Name: django_admin_log_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.django_admin_log_id_seq', 39, true);
+SELECT pg_catalog.setval('public.django_admin_log_id_seq', 41, true);
 
 
 --
@@ -45064,7 +45069,7 @@ SELECT pg_catalog.setval('public.django_content_type_id_seq', 25, true);
 -- Name: django_migrations_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.django_migrations_id_seq', 39, true);
+SELECT pg_catalog.setval('public.django_migrations_id_seq', 40, true);
 
 
 --
@@ -45943,5 +45948,5 @@ ALTER TABLE ONLY public.users_user_permissions
 -- PostgreSQL database dump complete
 --
 
-\unrestrict XwKdu2VWexlqcmnO92hArkqwXjY5tmhsC5AeLqKWCLfZp7WoQ05VjRxBfPaeuw5
+\unrestrict HphcZyErj5GEkiEpCdpRubE8V15u244xSbbSO70dnkatvjXXqpbP9ZvWyzDkeHV
 
