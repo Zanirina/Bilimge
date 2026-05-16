@@ -11,6 +11,8 @@ export const endpoints = {
     uploadAvatar: "/api/auth/upload-avatar/",
     favorites: "/api/auth/favorites/",
     favoriteById: (id: number | string) => `/api/auth/favorites/${id}/`,
+    favoriteUniversities: "/api/auth/favorite-universities/",
+    favoriteUniversityById: (id: number | string) => `/api/auth/favorite-universities/${id}/`,
   },
   languages: {
     list: "/unipage/api/languages/",
@@ -86,5 +88,11 @@ export const endpoints = {
     list: "/api/calendar/",
     myUniversity: "/api/calendar/my-university/",
     myUniversityById: (id: number | string) => `/api/calendar/my-university/${id}/`,
+    personal: "/api/calendar/personal/",
+    personalById: (id: number | string) => `/api/calendar/personal/${id}/`,
+  },
+  calculator: {
+    chances: "/api/calculator/chances/",
+    programs: "/api/calculator/programs/",
   },
 } as const;

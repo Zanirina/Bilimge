@@ -6,6 +6,29 @@ from django.db.models import Q
 from .models import CalendarEvent
 from .serializers import CalendarEventSerializer, CalendarEventWriteSerializer, CalendarEventUpdateSerializer
 from userpage.permissions import IsNtcAdmin, IsUniAdmin
+from unipage.models import UniversityProgram
+
+
+def _favorite_university_ids_for(user):
+    """Собирает id вузов, в которые подписан пользователь (через избранные программы
+    и через избранные вузы напрямую). Не используем select_related: favorites.program_id
+    в унаследованной схеме — integer, а university_programs.code — varchar, поэтому ORM-JOIN
+    падает. Резолвим программы вручную через приведение ключей к строкам.
+    """
+    from userpage.models import FavoriteUniversity  # импорт здесь, чтобы избежать циклов
+
+    program_ids = list(
+        user.favorites.values_list('program_id', flat=True).distinct()
+    )
+    uni_ids = set()
+    if program_ids:
+        program_keys = {str(pid) for pid in program_ids}
+        for p in UniversityProgram.objects.filter(code__in=list(program_keys)).only('university_id'):
+            uni_ids.add(p.university_id)
+
+    direct = FavoriteUniversity.objects.filter(user=user).values_list('university_id', flat=True)
+    uni_ids.update(direct)
+    return list(uni_ids)
 
 
 class CalendarEventListView(APIView):
@@ -15,12 +38,7 @@ class CalendarEventListView(APIView):
         qs = CalendarEvent.objects.filter(visibility='public')
 
         if request.user.is_authenticated:
-            favorite_uni_ids = list(
-                request.user.favorites
-                .select_related('program__university')
-                .values_list('program__university_id', flat=True)
-                .distinct()
-            )
+            favorite_uni_ids = _favorite_university_ids_for(request.user)
             qs = CalendarEvent.objects.filter(
                 Q(visibility='public') |
                 Q(visibility='university', university_id__in=favorite_uni_ids) |

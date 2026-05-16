@@ -87,39 +87,45 @@ def check_minimum_scores(scores: dict, field_type: str) -> tuple[bool, str]:
     return True, 'OK'
 
 
-def get_grant_stats_from_winners(field_code_int) -> dict:
-    """Берёт реальную статистику из базы грантников 2025"""
+def get_grant_stats_from_winners(field_code_int, university_code=None) -> dict:
+    """Берёт реальную статистику из базы грантников 2025.
+
+    Если передан university_code — статистика по конкретному вузу в этом поле.
+    """
     grant_code = field_code_int_to_grant_code(field_code_int)
-    stats = GrantWinner.objects.filter(
-        field_code=grant_code, year=2025
-    ).aggregate(
+    qs = GrantWinner.objects.filter(field_code=grant_code, year=2025)
+    if university_code is not None:
+        qs = qs.filter(university_code=str(university_code))
+    stats = qs.aggregate(
         min_score=Min('score'),
         max_score=Max('score'),
         avg_score=Avg('score'),
-        total=Count('id')
+        total=Count('id'),
     )
     return stats
 
 
 def calculate_grant_chance(total_score: int, grant_score: int, quotas: list) -> float:
-    """Шанс на грант по конкретному grant_score из БД"""
+    """Шанс на грант по конкретному grant_score (порогу) из БД"""
     if grant_score is None or grant_score == 0:
         return 0.0
 
     diff = total_score - grant_score
 
     if diff >= 20:
-        base_chance = 95.0
+        base_chance = 97.0
     elif diff >= 10:
-        base_chance = 80.0
+        base_chance = 92.0
     elif diff >= 5:
-        base_chance = 65.0
+        base_chance = 85.0
     elif diff >= 0:
-        base_chance = 45.0
+        base_chance = 72.0
     elif diff >= -5:
-        base_chance = 25.0
+        base_chance = 45.0
     elif diff >= -10:
-        base_chance = 10.0
+        base_chance = 22.0
+    elif diff >= -20:
+        base_chance = 8.0
     else:
         base_chance = 2.0
 
@@ -127,28 +133,45 @@ def calculate_grant_chance(total_score: int, grant_score: int, quotas: list) -> 
     return round(min(98.0, base_chance + quota_bonus), 1)
 
 
-def calculate_grant_chance_by_winners(total_score: int, field_code_int, quotas: list) -> float:
-    """Шанс на грант по статистике реальных грантников 2025"""
-    stats = get_grant_stats_from_winners(field_code_int)
+def calculate_grant_chance_by_winners(
+    total_score: int,
+    field_code_int,
+    quotas: list,
+    university_code=None,
+) -> tuple[float, str]:
+    """Шанс на грант на основе перцентиля среди грантников 2025.
 
-    if not stats['total']:
-        return 0.0
+    Считаем, какая доля прошлогодних грантников набрала меньше абитуриента —
+    это его перцентиль. Чем выше перцентиль, тем выше шанс. Если у конкретного
+    вуза в этом поле не было грантников, откатываемся на статистику по полю.
+    Возвращаем (шанс, источник).
+    """
+    grant_code = field_code_int_to_grant_code(field_code_int)
+    source = 'grant_winners_2025'
 
-    min_score = stats['min_score']
-    max_score = stats['max_score']
-    avg_score = stats['avg_score']
+    qs = GrantWinner.objects.filter(field_code=grant_code, year=2025)
+    if university_code is not None:
+        per_uni = qs.filter(university_code=str(university_code))
+        if per_uni.exists():
+            qs = per_uni
+            source = 'grant_winners_2025_university'
 
-    if total_score >= max_score:
-        base_chance = 95.0
-    elif total_score >= avg_score:
-        base_chance = 50.0 + 45.0 * (total_score - avg_score) / (max_score - avg_score)
-    elif total_score >= min_score:
-        base_chance = 10.0 + 40.0 * (total_score - min_score) / (avg_score - min_score)
-    else:
-        base_chance = max(2.0, 10.0 * total_score / min_score)
+    total = qs.count()
+    if total == 0:
+        return 0.0, source
+
+    below = qs.filter(score__lt=total_score).count()
+    at_or_below = qs.filter(score__lte=total_score).count()
+    # midpoint percentile — справедливо обрабатывает ничьи
+    percentile = ((below + at_or_below) / 2) / total * 100
+
+    # выпуклая кривая: щедрая сверху, крутая снизу
+    # перцентиль 100 → ~98, 75 → ~94, 50 → ~78, 25 → ~49, 0 → 10
+    pct = percentile / 100.0
+    base_chance = 10.0 + 88.0 * (1 - (1 - pct) ** 2)
 
     quota_bonus = sum(QUOTA_BONUS.get(q, 0) for q in quotas) * 100
-    return round(min(98.0, base_chance + quota_bonus), 1)
+    return round(min(98.0, base_chance + quota_bonus), 1), source
 
 
 def get_programs_for_subjects(subject_1_id: int, subject_2_id: int):
@@ -238,8 +261,9 @@ def calculate_chances(data: dict) -> dict:
             grant_chance = calculate_grant_chance(total_score, up.grant_score, quotas)
             data_source = 'grant_score'
         else:
-            grant_chance = calculate_grant_chance_by_winners(total_score, field_code_int, quotas)
-            data_source = 'grant_winners_2025'
+            grant_chance, data_source = calculate_grant_chance_by_winners(
+                total_score, field_code_int, quotas, university_code=up.university.code,
+            )
 
         if up.passing_score:
             admission_chance = calculate_grant_chance(total_score, up.passing_score, quotas)

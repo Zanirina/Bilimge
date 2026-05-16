@@ -99,6 +99,25 @@ class Favorite(models.Model):
         return f"{self.user.email} → {self.program_id}"
 
 
+class FavoriteUniversity(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='favorite_universities')
+    university = models.ForeignKey(
+        'unipage.University',
+        on_delete=models.CASCADE,
+        to_field='code',
+        db_column='university_id',
+        db_constraint=False,
+    )
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        db_table = 'favorite_universities'
+        unique_together = ['user', 'university']
+
+    def __str__(self):
+        return f"{self.user.email} → uni {self.university_id}"
+
+
 class UniversityStaff(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='staff_profile')
     university = models.ForeignKey(

@@ -18,6 +18,10 @@ export type User = {
   unt_score: number | null;
   target_speciality: string | null;
   target_speciality_name: string | null;
+  subject_1: number | null;
+  subject_2: number | null;
+  subject_1_name?: string | null;
+  subject_2_name?: string | null;
   favorites_count: number;
   university_name?: string | null;
   university_code?: string | null;
@@ -52,6 +56,8 @@ export type UpdateProfileRequest = {
   birth_date?: string;
   unt_score?: number;
   target_speciality?: string;
+  subject_1?: number | null;
+  subject_2?: number | null;
 };
 
 export type UpdateMeRequest = {
@@ -84,6 +90,22 @@ export type FavoriteItem = {
   created_at: string;
 };
 
+export type FavoriteGroup = {
+  university_code: number | string;
+  university_name: string;
+  programs: { id: number; program_code: string; program_name: string }[];
+};
+
 export type AddFavoriteRequest = {
   program: string;
+};
+
+export type FavoriteUniversity = {
+  id: number;
+  university_code: number | string;
+  university_name: string;
+  short_name?: string | null;
+  city?: string | null;
+  logo_url?: string | null;
+  cover_url?: string | null;
 };

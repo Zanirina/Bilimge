@@ -13,6 +13,8 @@ import type {
   ResetPasswordConfirmRequest,
   User,
   FavoriteItem,
+  FavoriteGroup,
+  FavoriteUniversity,
   AddFavoriteRequest,
 } from "../model/types";
 
@@ -57,11 +59,22 @@ export const authService = {
     http.post<{ message: string }>(endpoints.auth.resetPasswordConfirm, data),
 
   getFavorites: () =>
-    http.get<FavoriteItem[]>(endpoints.auth.favorites),
+    http.get<FavoriteGroup[]>(endpoints.auth.favorites),
 
   addFavorite: (data: AddFavoriteRequest) =>
     http.post<FavoriteItem>(endpoints.auth.favorites, data),
 
   deleteFavorite: (id: number) =>
     http.delete(endpoints.auth.favoriteById(id)),
+
+  getFavoriteUniversities: () =>
+    http.get<FavoriteUniversity[]>(endpoints.auth.favoriteUniversities),
+
+  addFavoriteUniversity: (universityCode: number | string) =>
+    http.post<FavoriteUniversity>(endpoints.auth.favoriteUniversities, {
+      university: universityCode,
+    }),
+
+  deleteFavoriteUniversity: (id: number) =>
+    http.delete(endpoints.auth.favoriteUniversityById(id)),
 };

@@ -4,7 +4,8 @@ from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework import status
 from rest_framework_simplejwt.tokens import RefreshToken
 
-from .models import User, Applicant, Favorite, UniversityStaff
+from .models import User, Applicant, Favorite, FavoriteUniversity, UniversityStaff
+from unipage.models import UniversityProgram, University
 from .serializers import (
     RegisterSerializer, UserMeSerializer,
     ApplicantProfileSerializer, FavoriteSerializer,
@@ -103,23 +104,39 @@ class FavoriteView(APIView):
 
     def get(self, request):
         """Все избранные программы"""
-        favorites = Favorite.objects.filter(user=request.user).select_related(
-            'program', 'program__university'
-        )
-        # группируем по университетам
+        favorites = list(Favorite.objects.filter(user=request.user).only('id', 'program_id'))
+        if not favorites:
+            return Response([])
+
+        # Не используем select_related — favorites.program_id хранится как integer
+        # в унаследованной схеме, а university_programs.code — varchar, поэтому
+        # ORM-JOIN падает на несовместимости типов. Резолвим программы вручную,
+        # приводя ключи к строкам, чтобы стыковались оба представления.
+        program_keys = {str(f.program_id) for f in favorites}
+        programs = UniversityProgram.objects.filter(
+            code__in=list(program_keys)
+        ).select_related('university')
+        program_map = {str(p.code): p for p in programs}
+
         grouped = {}
         for fav in favorites:
-            uni_name = fav.program.university.name
+            program = program_map.get(str(fav.program_id))
+            if program is None:
+                continue
+            university = program.university
+            if university is None:
+                continue
+            uni_name = university.name
             if uni_name not in grouped:
                 grouped[uni_name] = {
-                    "university_code": fav.program.university.code,
+                    "university_code": university.code,
                     "university_name": uni_name,
-                    "programs": []
+                    "programs": [],
                 }
             grouped[uni_name]["programs"].append({
                 "id": fav.id,
-                "program_code": fav.program.code,
-                "program_name": fav.program.local_name,
+                "program_code": program.code,
+                "program_name": program.local_name,
             })
         return Response(list(grouped.values()))
 
@@ -146,4 +163,67 @@ class FavoriteDeleteView(APIView):
             fav.delete()
             return Response({"status": "удалено"}, status=204)
         except Favorite.DoesNotExist:
+            return Response({"error": "Не найдено"}, status=404)
+
+
+class FavoriteUniversityView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        """Список избранных вузов"""
+        rows = list(
+            FavoriteUniversity.objects.filter(user=request.user).only('id', 'university_id', 'created_at')
+        )
+        if not rows:
+            return Response([])
+
+        codes = {str(r.university_id) for r in rows}
+        universities = University.objects.filter(code__in=list(codes))
+        uni_map = {str(u.code): u for u in universities}
+
+        result = []
+        for row in rows:
+            uni = uni_map.get(str(row.university_id))
+            if uni is None:
+                continue
+            result.append({
+                "id": row.id,
+                "university_code": uni.code,
+                "university_name": uni.name,
+                "short_name": uni.short_name,
+                "city": uni.city,
+                "logo_url": uni.logo_url,
+                "cover_url": uni.cover_url,
+            })
+        return Response(result)
+
+    def post(self, request):
+        """Добавить вуз в избранное"""
+        code = request.data.get('university')
+        if not code:
+            return Response({"error": "university обязателен"}, status=400)
+        try:
+            university = University.objects.get(code=code)
+        except University.DoesNotExist:
+            return Response({"error": "Вуз не найден"}, status=404)
+
+        obj, created = FavoriteUniversity.objects.get_or_create(
+            user=request.user, university=university,
+        )
+        return Response({
+            "id": obj.id,
+            "university_code": university.code,
+            "university_name": university.name,
+        }, status=201 if created else 200)
+
+
+class FavoriteUniversityDeleteView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def delete(self, request, pk):
+        try:
+            fav = FavoriteUniversity.objects.get(pk=pk, user=request.user)
+            fav.delete()
+            return Response({"status": "удалено"}, status=204)
+        except FavoriteUniversity.DoesNotExist:
             return Response({"error": "Не найдено"}, status=404)

@@ -33,6 +33,7 @@ import ComparisonPage from "../../modules/comparison/ui/ComparisonPage";
 import AccountProfilePage from "../../modules/auth/ui/ProfilePage";
 import AccountSettingsPage from "../../modules/auth/ui/SettingsPage";
 import AboutPage from "../../pages/AboutPage";
+import CalculatorPage from "../../modules/calculator/ui/CalculatorPage";
 import NotFoundPage from "../../pages/NotFoundPage";
 
 
@@ -55,6 +56,7 @@ export const routes: AppRoute[] = [
             { path: "majors", element: <MajorsPage /> },
             { path: "exams", element: <ExamsPrepPage /> },
             { path: "chatbot", element: <AIAssistantPage /> },
+            
             { path: "about", element: <AboutPage /> },
             { path: "contacts", element: <ContactsPage /> },
         ],
@@ -85,7 +87,8 @@ export const routes: AppRoute[] = [
                     { path: "chatbot", element: <AIAssistantPage /> },
                     { path: "profile", element: <AccountProfilePage /> },
                     { path: "settings", element: <AccountSettingsPage /> },
-                    { path: "comparison", element: <ComparisonPage /> }
+                    { path: "comparison", element: <ComparisonPage /> },
+                    { path: "calculator", element: <CalculatorPage /> },
                 ],
             },
         ],

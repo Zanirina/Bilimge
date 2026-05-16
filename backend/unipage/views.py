@@ -12,6 +12,7 @@ from userpage.permissions import IsNtcAdmin, IsUniAdminOfThisUniversity, IsUniAd
 from .models import University, UniversityProgram, NtcProgram, FieldOfStudy, Subject, Language
 from .serializers import (
     UniversitySerializer,
+    UniversityPageSerializer,
     FieldOfStudySerializer,
     NtcProgramSerializer,
     NtcProgramUpdateSerializer,
@@ -100,6 +101,14 @@ class UniversityViewSet(viewsets.ModelViewSet):
         if self.action in ['list', 'retrieve']:
             return [AllowAny()]
         return [IsUniAdminOfThisUniversity()]
+
+    def get_serializer_class(self):
+        # Полная страница вуза (программы по полям, экзамены, аккредитации,
+        # требования) нужна именно для retrieve — фронт ходит за ней по
+        # /unipage/api/universities/<code>/.
+        if self.action == 'retrieve':
+            return UniversityPageSerializer
+        return UniversitySerializer
 
 
 class FieldOfStudyViewSet(viewsets.ModelViewSet):

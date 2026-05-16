@@ -5,7 +5,7 @@ import {
   MdOutlineMenuBook,
 } from "react-icons/md";
 import { TbRobot, TbSpeakerphone } from "react-icons/tb";
-import { LuBrain, LuGitCompare } from "react-icons/lu";
+import { LuBrain, LuGitCompare, LuCalculator } from "react-icons/lu";
 import Sidebar from "../../shared/ui/Sidebar";
 import type { SidebarItem } from "../../shared/ui/Sidebar";
 import TopBar from "../../shared/ui/TopBar";
@@ -17,6 +17,7 @@ const sidebarItems: SidebarItem[] = [
   { label: "Compare Universities", path: "/applicant/comparison", icon: LuGitCompare },
   { label: "Programs & Majors", path: "/applicant/majors", icon: MdOutlineMenuBook },
   { label: "Exam Preparation", path: "/applicant/exams", icon: LuBrain },
+  { label: "Chance Calculator", path: "/applicant/calculator", icon: LuCalculator },
   { label: "AI Assistant", path: "/applicant/chatbot", icon: TbRobot, type: "ai-chat" as const },
 ];
 

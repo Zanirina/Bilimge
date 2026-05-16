@@ -7,6 +7,7 @@ import type {
   UpdateMeRequest,
   ChangePasswordRequest,
   FavoriteItem,
+  FavoriteUniversity,
 } from "./types";
 
 type AuthState = {
@@ -14,6 +15,7 @@ type AuthState = {
   isAuth: boolean;
   isLoading: boolean;
   favorites: FavoriteItem[];
+  favoriteUniversities: FavoriteUniversity[];
 
   register: (data: { email: string; password: string; first_name?: string; last_name?: string; phone?: string }) => Promise<void>;
   login: (email: string, password: string) => Promise<User | null>;
@@ -26,6 +28,9 @@ type AuthState = {
   fetchFavorites: () => Promise<void>;
   addFavorite: (programCode: string) => Promise<void>;
   removeFavorite: (id: number) => Promise<void>;
+  fetchFavoriteUniversities: () => Promise<void>;
+  addFavoriteUniversity: (universityCode: number | string) => Promise<void>;
+  removeFavoriteUniversity: (id: number) => Promise<void>;
 };
 
 export const useAuthStore = create<AuthState>((set, get) => {
@@ -50,6 +55,7 @@ export const useAuthStore = create<AuthState>((set, get) => {
     isAuth: false,
     isLoading: true,
     favorites: [],
+    favoriteUniversities: [],
 
     register: async (data) => {
       await authService.register(data);
@@ -75,7 +81,7 @@ export const useAuthStore = create<AuthState>((set, get) => {
     logout: () => {
       authService.logout();
       storage.clearTokens();
-      set({ isAuth: false, user: null, isLoading: false, favorites: [] });
+      set({ isAuth: false, user: null, isLoading: false, favorites: [], favoriteUniversities: [] });
     },
 
     checkAuth: async () => {
@@ -112,7 +118,18 @@ export const useAuthStore = create<AuthState>((set, get) => {
 
     fetchFavorites: async () => {
       const res = await authService.getFavorites();
-      set({ favorites: res.data });
+      const groups = Array.isArray(res.data) ? res.data : [];
+      const flat: FavoriteItem[] = groups.flatMap((g) =>
+        g.programs.map((p) => ({
+          id: p.id,
+          program: p.program_code,
+          program_name: p.program_name,
+          university_name: g.university_name,
+          university_code: String(g.university_code),
+          created_at: "",
+        }))
+      );
+      set({ favorites: flat });
     },
 
     addFavorite: async (programCode) => {
@@ -127,6 +144,30 @@ export const useAuthStore = create<AuthState>((set, get) => {
       set((state) => ({ favorites: state.favorites.filter((f) => f.id !== id) }));
       const me = get().user;
       if (me) set({ user: { ...me, favorites_count: Math.max(0, me.favorites_count - 1) } });
+    },
+
+    fetchFavoriteUniversities: async () => {
+      const res = await authService.getFavoriteUniversities();
+      set({ favoriteUniversities: Array.isArray(res.data) ? res.data : [] });
+    },
+
+    addFavoriteUniversity: async (universityCode) => {
+      const res = await authService.addFavoriteUniversity(universityCode);
+      set((state) => {
+        const exists = state.favoriteUniversities.some(
+          (f) => String(f.university_code) === String(universityCode)
+        );
+        return exists
+          ? state
+          : { favoriteUniversities: [...state.favoriteUniversities, res.data] };
+      });
+    },
+
+    removeFavoriteUniversity: async (id) => {
+      await authService.deleteFavoriteUniversity(id);
+      set((state) => ({
+        favoriteUniversities: state.favoriteUniversities.filter((f) => f.id !== id),
+      }));
     },
   };
 });

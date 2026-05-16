@@ -25,61 +25,6 @@ interface Conversation {
   updated_at: string;
 }
 
-function Avatar({
-  email,
-  name,
-  subtitle,
-  collapsed,
-  avatarUrl,
-}: {
-  email: string;
-  name: string;
-  subtitle?: string;
-  collapsed: boolean;
-  avatarUrl?: string;
-}) {
-  const safeName = name?.trim() ?? "";
-  const safeEmail = email?.trim() ?? "";
-  const initials = safeName
-    ? safeName
-        .split(" ")
-        .filter(Boolean)
-        .map((n) => n[0] ?? "")
-        .join("")
-        .toUpperCase()
-        .slice(0, 2)
-    : safeEmail
-    ? safeEmail[0].toUpperCase()
-    : "?";
-
-  return (
-    <div className={`flex items-center gap-3 ${collapsed ? "justify-center" : ""}`}>
-      {avatarUrl ? (
-        <img
-          src={avatarUrl}
-          alt={safeName || safeEmail}
-          className="w-9 h-9 rounded-full object-cover flex-shrink-0"
-        />
-      ) : (
-        <div className="w-9 h-9 rounded-full bg-[#3356AA] flex items-center justify-center text-white font-semibold text-sm flex-shrink-0">
-          {initials}
-        </div>
-      )}
-      {!collapsed && (
-        <div className="flex flex-col leading-tight overflow-hidden">
-          <span className="text-sm font-semibold text-[#111928] truncate">
-            {safeName || safeEmail}
-          </span>
-          {subtitle && (
-            <span className="text-xs text-gray-500 truncate">{subtitle}</span>
-          )}
-          <span className="text-xs text-gray-400 truncate">{safeEmail}</span>
-        </div>
-      )}
-    </div>
-  );
-}
-
 // ── AI Chat nav item with conversation history dropdown ───────────────────────
 function AIChatNavItem({
   item,
@@ -161,12 +106,6 @@ function AIChatNavItem({
           <Icon size={20} className="flex-shrink-0" />
           {!collapsed && <span>{item.label}</span>}
         </div>
-        {!collapsed &&
-          (open ? (
-            <MdKeyboardArrowDown size={18} />
-          ) : (
-            <MdKeyboardArrowRight size={18} />
-          ))}
       </button>
 
       {open && !collapsed && (
