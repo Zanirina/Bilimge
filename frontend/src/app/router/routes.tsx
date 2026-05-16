@@ -9,12 +9,14 @@ import SignUpPage from "../../modules/auth/ui/SignUpPage";
 import ResetPasswordPage from "../../modules/auth/ui/ResetPasswordPage";
 import ResetPasswordConfirmPage from "../../modules/auth/ui/ResetPasswordConfirmPage";
 import HomePage from "../../pages/HomePage";
+import ContactsPage from "../../pages/ContactsPage";
 import UniversitiesPage from "../../modules/universities/ui/UniversitiesPage";
+import UniversityDetailPage from "../../modules/universities/ui/UniversityDetailPage";
+import ProgramDetailPage from "../../modules/universities/ui/ProgramDetailPage";
 import MajorsPage from "../../modules/majors/ui/MajorsPage";
 import ExamsPrepPage from "../../modules/exams/ui/ExamsPrepPage";
 import AIAssistantPage from "../../modules/chatbot/ui/AIAssistantPage";
 import ApplicantDashboardPage from "../../modules/applicant/ui/ApplicantDasboardPage";
-import ApplicantProfilePage from "../../modules/applicant/ui/ApplicantProfilePage";
 import AnnouncementsPage from "../../modules/announcements/ui/AnnouncementsPage";
 import UniDashboardPage from "../../modules/universities/ui/admin/UniDashboardPage";
 import UniProfilePage from "../../modules/universities/ui/admin/UniProfilePage";
@@ -28,6 +30,8 @@ import NtcUniversitiesPage from "../../modules/universities/ui/NtcUniversitiesPa
 import NtcSettingsPage from "../../modules/ntc/ui/NtcSettingsPage";
 import NtcProgramsPage from "../../modules/ntc/ui/NtcProgramsPage";
 import ComparisonPage from "../../modules/comparison/ui/ComparisonPage";
+import AccountProfilePage from "../../modules/auth/ui/ProfilePage";
+import AccountSettingsPage from "../../modules/auth/ui/SettingsPage";
 import AboutPage from "../../pages/AboutPage";
 import NotFoundPage from "../../pages/NotFoundPage";
 
@@ -46,10 +50,13 @@ export const routes: AppRoute[] = [
         children: [
             { index: true, element: <HomePage /> },
             { path: "universities", element: <UniversitiesPage /> },
+            { path: "universities/:code", element: <UniversityDetailPage /> },
+            { path: "programs/:code", element: <ProgramDetailPage /> },
             { path: "majors", element: <MajorsPage /> },
             { path: "exams", element: <ExamsPrepPage /> },
             { path: "chatbot", element: <AIAssistantPage /> },
             { path: "about", element: <AboutPage /> },
+            { path: "contacts", element: <ContactsPage /> },
         ],
     },
     {
@@ -71,10 +78,13 @@ export const routes: AppRoute[] = [
                     { path: "dashboard", element: <ApplicantDashboardPage /> },
                     { path: "announcements", element: <AnnouncementsPage /> },
                     { path: "universities", element: <UniversitiesPage /> },
+                    { path: "universities/:code", element: <UniversityDetailPage /> },
+                    { path: "programs/:code", element: <ProgramDetailPage /> },
                     { path: "majors", element: <MajorsPage /> },
                     { path: "exams", element: <ExamsPrepPage /> },
                     { path: "chatbot", element: <AIAssistantPage /> },
-                    { path: "profile", element: <ApplicantProfilePage /> },
+                    { path: "profile", element: <AccountProfilePage /> },
+                    { path: "settings", element: <AccountSettingsPage /> },
                     { path: "comparison", element: <ComparisonPage /> }
                 ],
             },
@@ -91,6 +101,7 @@ export const routes: AppRoute[] = [
                     { path: "announcements", element: <NtcAnnouncementsPage /> },
                     { path: "programs", element: <NtcProgramsPage /> },
                     { path: "universities", element: <NtcUniversitiesPage /> },
+                    { path: "account", element: <AccountProfilePage /> },
                     { path: "settings", element: <NtcSettingsPage /> },
                 ],
             },
@@ -108,6 +119,7 @@ export const routes: AppRoute[] = [
                     { path: "programs", element: <UniProgramsPage /> },
                     { path: "updates", element: <UniAnnouncementsPage /> },
                     { path: "applicants", element: <UniApplicantsPage /> },
+                    { path: "account", element: <AccountProfilePage /> },
                     { path: "settings", element: <UniSettingsPage /> },
                 ],
             },

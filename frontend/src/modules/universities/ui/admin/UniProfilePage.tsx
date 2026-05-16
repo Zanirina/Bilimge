@@ -19,13 +19,13 @@ const ITrash  = () => <svg width="13" height="13" viewBox="0 0 24 24" fill="none
 const ICamera = () => <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M23 19a2 2 0 01-2 2H3a2 2 0 01-2-2V8a2 2 0 012-2h4l2-3h6l2 3h4a2 2 0 012 2z"/><circle cx="12" cy="13" r="4"/></svg>;
 
 // ─── Shared styles ────────────────────────────────────────────────────────────
-const inp = "w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#E85842]/20 focus:border-[#E85842]/50 bg-white text-gray-800";
+const inp = "w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#3356AA]/20 focus:border-[#3356AA]/50 bg-white text-gray-800";
 const lbl = "block text-xs text-gray-400 mb-1.5";
 
 function Toggle({ checked, onChange, label, sub }: { checked: boolean; onChange: () => void; label: string; sub: string }) {
   return (
     <div className="flex items-center gap-3 cursor-pointer select-none" onClick={onChange}>
-      <div className={`w-11 h-6 rounded-full transition-colors flex-shrink-0 ${checked ? "bg-[#E85842]" : "bg-gray-200"}`}>
+      <div className={`w-11 h-6 rounded-full transition-colors flex-shrink-0 ${checked ? "bg-[#3356AA]" : "bg-gray-200"}`}>
         <div className={`w-5 h-5 bg-white rounded-full mt-0.5 mx-0.5 shadow transition-transform ${checked ? "translate-x-5" : ""}`} />
       </div>
       <div>
@@ -71,8 +71,8 @@ function LogoUploader({ logoUrl, initials, onUpload }: { logoUrl: string; initia
       {logoUrl ? (
         <img src={logoUrl} alt="logo" className="w-20 h-20 rounded-2xl object-fit" />
       ) : (
-        <div className="w-20 h-20 rounded-2xl bg-[#FEEFEC] flex items-center justify-center">
-          <span className="text-3xl font-bold text-[#E85842]">{initials}</span>
+        <div className="w-20 h-20 rounded-2xl bg-[#EEF2FF] flex items-center justify-center">
+          <span className="text-3xl font-bold text-[#3356AA]">{initials}</span>
         </div>
       )}
       <div className="absolute inset-0 rounded-2xl bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
@@ -279,7 +279,7 @@ export default function UniProfilePage() {
           <button key={t.id} onClick={() => setActiveTab(t.id)}
             className={`px-4 py-2 text-sm rounded-lg transition-colors ${
               activeTab === t.id
-                ? "border border-[#E85842] text-gray-900 font-medium"
+                ? "border border-[#3356AA] text-gray-900 font-medium"
                 : "text-gray-500 hover:text-gray-800"
             }`}>
             {t.label}
@@ -293,7 +293,7 @@ export default function UniProfilePage() {
           <Card title="Basic information"
             action={!editMode ? (
               <button onClick={() => setEditMode(true)}
-                className="flex items-center gap-1.5 text-sm text-[#E85842] font-medium hover:text-[#d04535]">
+                className="flex items-center gap-1.5 text-sm text-[#3356AA] font-medium hover:text-[#2c4892]">
                 <IPen /> Edit
               </button>
             ) : undefined}>
@@ -406,7 +406,7 @@ export default function UniProfilePage() {
                 <div className="flex items-center gap-3 pt-1">
                   {saved && <span className="flex items-center gap-1.5 text-sm text-emerald-600 font-medium"><ICheck /> Saved</span>}
                   <button onClick={saveInfo} disabled={saving}
-                    className="bg-[#E85842] text-white rounded-xl px-5 py-2 text-sm font-semibold hover:bg-[#d04535] disabled:opacity-60">
+                    className="bg-[#3356AA] text-white rounded-xl px-5 py-2 text-sm font-semibold hover:bg-[#2c4892] disabled:opacity-60">
                     {saving ? "Saving…" : "Save Changes"}
                   </button>
                   <button onClick={() => setEditMode(false)} className="text-sm text-gray-400 hover:text-gray-600">Cancel</button>
@@ -421,7 +421,7 @@ export default function UniProfilePage() {
             <Card title="Teaching Languages"
               action={
                 <button onClick={() => setShowAddLang(p => !p)}
-                  className="flex items-center gap-1 text-sm text-[#E85842] font-medium hover:text-[#d04535]">
+                  className="flex items-center gap-1 text-sm text-[#3356AA] font-medium hover:text-[#2c4892]">
                   <IPlus /> Add
                 </button>
               }>
@@ -449,7 +449,7 @@ export default function UniProfilePage() {
                     await addMyLanguage(selLangId as number);
                     setSelLangId(""); setShowAddLang(false); setAddingLang(false);
                   }} disabled={!selLangId || addingLang}
-                    className="bg-[#E85842] text-white rounded-lg px-4 py-2 text-sm font-medium hover:bg-[#d04535] disabled:opacity-50">
+                    className="bg-[#3356AA] text-white rounded-lg px-4 py-2 text-sm font-medium hover:bg-[#2c4892] disabled:opacity-50">
                     {addingLang ? "Adding…" : "Add"}
                   </button>
                   <button onClick={() => setShowAddLang(false)} className="text-sm text-gray-400 hover:text-gray-600">Cancel</button>
@@ -461,7 +461,7 @@ export default function UniProfilePage() {
             <Card title="Entrance Requirements"
               action={
                 <button onClick={() => setShowAddReq(p => !p)}
-                  className="flex items-center gap-1 text-sm text-[#E85842] font-medium hover:text-[#d04535]">
+                  className="flex items-center gap-1 text-sm text-[#3356AA] font-medium hover:text-[#2c4892]">
                   <IPlus /> Add
                 </button>
               }>
@@ -496,7 +496,7 @@ export default function UniProfilePage() {
                     onChange={e => setNewReq(e.target.value)} />
                   <button onClick={async () => { if (!newReq.trim()) return; await addMyRequirement(newReq.trim()); setNewReq(""); setShowAddReq(false); }}
                     disabled={!newReq.trim()}
-                    className="flex-shrink-0 bg-[#E85842] text-white rounded-lg px-4 py-2 text-sm font-medium hover:bg-[#d04535] disabled:opacity-50">Add</button>
+                    className="flex-shrink-0 bg-[#3356AA] text-white rounded-lg px-4 py-2 text-sm font-medium hover:bg-[#2c4892] disabled:opacity-50">Add</button>
                   <button onClick={() => { setShowAddReq(false); setNewReq(""); }} className="flex-shrink-0 text-sm text-gray-400 hover:text-gray-600">Cancel</button>
                 </div>
               )}
@@ -506,7 +506,7 @@ export default function UniProfilePage() {
             <Card title="Entrance Exams"
               action={
                 <button onClick={() => setShowAddExam(p => !p)}
-                  className="flex items-center gap-1 text-sm text-[#E85842] font-medium hover:text-[#d04535]">
+                  className="flex items-center gap-1 text-sm text-[#3356AA] font-medium hover:text-[#2c4892]">
                   <IPlus /> Add
                 </button>
               }>
@@ -553,7 +553,7 @@ export default function UniProfilePage() {
                   <div className="flex gap-2">
                     <button onClick={async () => { if (!newExam.name.trim()) return; await addMyExam(newExam); setNewExam({ name: "", description: "" }); setShowAddExam(false); }}
                       disabled={!newExam.name.trim()}
-                      className="bg-[#E85842] text-white rounded-lg px-4 py-2 text-sm font-medium hover:bg-[#d04535] disabled:opacity-50">Add Exam</button>
+                      className="bg-[#3356AA] text-white rounded-lg px-4 py-2 text-sm font-medium hover:bg-[#2c4892] disabled:opacity-50">Add Exam</button>
                     <button onClick={() => { setShowAddExam(false); setNewExam({ name: "", description: "" }); }}
                       className="text-sm text-gray-400 hover:text-gray-600">Cancel</button>
                   </div>
@@ -587,7 +587,7 @@ export default function UniProfilePage() {
               <div className="pt-1 flex items-center gap-3">
                 {saved && <span className="flex items-center gap-1.5 text-sm text-emerald-600 font-medium"><ICheck /> Saved</span>}
                 <button onClick={saveInfo} disabled={saving}
-                  className="bg-[#E85842] text-white rounded-xl px-5 py-2 text-sm font-semibold hover:bg-[#d04535] disabled:opacity-60">
+                  className="bg-[#3356AA] text-white rounded-xl px-5 py-2 text-sm font-semibold hover:bg-[#2c4892] disabled:opacity-60">
                   {saving ? "Saving…" : "Save Changes"}
                 </button>
               </div>
@@ -621,7 +621,7 @@ export default function UniProfilePage() {
               <div className="pt-1 flex items-center gap-3">
                 {saved && <span className="flex items-center gap-1.5 text-sm text-emerald-600 font-medium"><ICheck /> Saved</span>}
                 <button onClick={saveInfo} disabled={saving}
-                  className="bg-[#E85842] text-white rounded-xl px-5 py-2 text-sm font-semibold hover:bg-[#d04535] disabled:opacity-60">
+                  className="bg-[#3356AA] text-white rounded-xl px-5 py-2 text-sm font-semibold hover:bg-[#2c4892] disabled:opacity-60">
                   {saving ? "Saving…" : "Save Changes"}
                 </button>
               </div>
@@ -635,7 +635,7 @@ export default function UniProfilePage() {
         <Card title="Institutional Accreditations"
           action={
             <button onClick={() => setShowAddAcc(p => !p)}
-              className="flex items-center gap-1 text-sm text-[#E85842] font-medium hover:text-[#d04535]">
+              className="flex items-center gap-1 text-sm text-[#3356AA] font-medium hover:text-[#2c4892]">
               <IPlus /> Add
             </button>
           }>
@@ -709,7 +709,7 @@ export default function UniProfilePage() {
                   setNewAcc({ name: "", issued_by: "", valid_until: "" });
                   setShowAddAcc(false);
                 }} disabled={!newAcc.name.trim()}
-                  className="bg-[#E85842] text-white rounded-lg px-4 py-2 text-sm font-medium hover:bg-[#d04535] disabled:opacity-50">
+                  className="bg-[#3356AA] text-white rounded-lg px-4 py-2 text-sm font-medium hover:bg-[#2c4892] disabled:opacity-50">
                   Add Accreditation
                 </button>
                 <button onClick={() => { setShowAddAcc(false); setNewAcc({ name: "", issued_by: "", valid_until: "" }); }}
@@ -725,7 +725,7 @@ export default function UniProfilePage() {
         <Card title="Partner Universities"
           action={
             <button onClick={() => setShowAddMob(p => !p)}
-              className="flex items-center gap-1 text-sm text-[#E85842] font-medium hover:text-[#d04535]">
+              className="flex items-center gap-1 text-sm text-[#3356AA] font-medium hover:text-[#2c4892]">
               <IPlus /> Add
             </button>
           }>
@@ -772,7 +772,7 @@ export default function UniProfilePage() {
               <div className="flex gap-2">
                 <button onClick={async () => { if (!newMob.partner_university_name.trim()) return; await addMyMobility(newMob); setNewMob({ partner_university_name: "", country: "" }); setShowAddMob(false); }}
                   disabled={!newMob.partner_university_name.trim()}
-                  className="bg-[#E85842] text-white rounded-lg px-4 py-2 text-sm font-medium hover:bg-[#d04535] disabled:opacity-50">Add Partner</button>
+                  className="bg-[#3356AA] text-white rounded-lg px-4 py-2 text-sm font-medium hover:bg-[#2c4892] disabled:opacity-50">Add Partner</button>
                 <button onClick={() => { setShowAddMob(false); setNewMob({ partner_university_name: "", country: "" }); }}
                   className="text-sm text-gray-400 hover:text-gray-600">Cancel</button>
               </div>

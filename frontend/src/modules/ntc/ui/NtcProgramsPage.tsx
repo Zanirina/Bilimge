@@ -5,7 +5,7 @@ import { HiX } from "react-icons/hi";
 import { LuSearch, LuPencil, LuTrash2 } from "react-icons/lu";
 
 const inp =
-  "w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm text-gray-800 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-[#E85842]/30 focus:border-[#E85842]";
+  "w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm text-gray-800 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-[#3356AA]/30 focus:border-[#3356AA]";
 const lbl = "block text-sm font-semibold text-[#111928] mb-1.5";
 
 type EditForm = {
@@ -70,7 +70,7 @@ function EditModal({
 
         <div className="px-6 py-5 flex flex-col gap-4">
           <div>
-            <label className={lbl}>Name <span className="text-[#E85842]">*</span></label>
+            <label className={lbl}>Name <span className="text-[#3356AA]">*</span></label>
             <input
               className={inp}
               value={form.name}
@@ -80,7 +80,7 @@ function EditModal({
           </div>
 
           <div>
-            <label className={lbl}>Field of Study <span className="text-[#E85842]">*</span></label>
+            <label className={lbl}>Field of Study <span className="text-[#3356AA]">*</span></label>
             <select
               className={inp}
               value={form.field_of_study}
@@ -95,7 +95,7 @@ function EditModal({
 
           <div className="grid grid-cols-2 gap-3">
             <div>
-              <label className={lbl}>Subject 1 <span className="text-[#E85842]">*</span></label>
+              <label className={lbl}>Subject 1 <span className="text-[#3356AA]">*</span></label>
               <select
                 className={inp}
                 value={form.subject_1}
@@ -108,7 +108,7 @@ function EditModal({
               </select>
             </div>
             <div>
-              <label className={lbl}>Subject 2 <span className="text-[#E85842]">*</span></label>
+              <label className={lbl}>Subject 2 <span className="text-[#3356AA]">*</span></label>
               <select
                 className={inp}
                 value={form.subject_2}
@@ -146,7 +146,7 @@ function EditModal({
           <button
             onClick={handleSubmit}
             disabled={!valid || saving}
-            className="px-5 py-2.5 rounded-xl bg-[#E85842] text-white text-sm font-semibold hover:bg-[#d04535] disabled:opacity-50 transition-colors"
+            className="px-5 py-2.5 rounded-xl bg-[#3356AA] text-white text-sm font-semibold hover:bg-[#2c4892] disabled:opacity-50 transition-colors"
           >
             {saving ? "Saving…" : "Save"}
           </button>
@@ -248,7 +248,7 @@ export default function NtcProgramsPage() {
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             placeholder="Search programmes…"
-            className="w-full pl-9 pr-4 py-2 border border-gray-200 rounded-full text-sm text-gray-700 placeholder:text-gray-400 bg-white focus:outline-none focus:ring-2 focus:ring-[#E85842]/20 focus:border-[#E85842]"
+            className="w-full pl-9 pr-4 py-2 border border-gray-200 rounded-full text-sm text-gray-700 placeholder:text-gray-400 bg-white focus:outline-none focus:ring-2 focus:ring-[#3356AA]/20 focus:border-[#3356AA]"
           />
         </div>
         <p className="ml-auto text-sm text-gray-400 flex-shrink-0">

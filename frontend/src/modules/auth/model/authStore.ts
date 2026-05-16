@@ -1,7 +1,13 @@
 import { create } from "zustand";
 import { authService } from "../api/authService";
 import { storage } from "../../../shared/lib/storage";
-import type { User, UpdateProfileRequest, FavoriteItem } from "./types";
+import type {
+  User,
+  UpdateProfileRequest,
+  UpdateMeRequest,
+  ChangePasswordRequest,
+  FavoriteItem,
+} from "./types";
 
 type AuthState = {
   user: User | null;
@@ -14,6 +20,9 @@ type AuthState = {
   logout: () => void;
   checkAuth: () => Promise<User | null>;
   updateProfile: (data: UpdateProfileRequest) => Promise<void>;
+  updateMe: (data: UpdateMeRequest) => Promise<void>;
+  changePassword: (data: ChangePasswordRequest) => Promise<void>;
+  uploadAvatar: (file: File) => Promise<string>;
   fetchFavorites: () => Promise<void>;
   addFavorite: (programCode: string) => Promise<void>;
   removeFavorite: (id: number) => Promise<void>;
@@ -81,6 +90,24 @@ export const useAuthStore = create<AuthState>((set, get) => {
     updateProfile: async (data) => {
       const res = await authService.updateProfile(data);
       set((state) => ({ user: state.user ? { ...state.user, ...res.data } : res.data }));
+    },
+
+    updateMe: async (data) => {
+      const res = await authService.updateMe(data);
+      set({ user: res.data });
+    },
+
+    changePassword: async (data) => {
+      await authService.changePassword(data);
+    },
+
+    uploadAvatar: async (file) => {
+      const res = await authService.uploadAvatar(file);
+      const url = res.data.avatar_url;
+      set((state) => ({
+        user: state.user ? { ...state.user, avatar_url: url } : state.user,
+      }));
+      return url;
     },
 
     fetchFavorites: async () => {

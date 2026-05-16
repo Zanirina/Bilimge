@@ -16,7 +16,7 @@ export default function SearchInput({
           type="text"
           placeholder={placeholder}
           onChange={(e) => onSearch(e.target.value)}
-          className="w-full px-4 py-3 bg-white border border-[#DFE4EA] rounded-md focus:outline-none focus:ring-2 focus:ring-primary text-secondary_text placeholder-gray-400"
+          className="w-full px-4 py-3 bg-white border border-[#DFE4EA] rounded-2xl focus:outline-none focus:ring-2 focus:ring-[#3356AA]/30 focus:border-[#3356AA] text-secondary_text placeholder-gray-400"
         />
         <FiSearch className="absolute right-3 text-[#6B7280] pointer-events-none" size={20} />
       </div>

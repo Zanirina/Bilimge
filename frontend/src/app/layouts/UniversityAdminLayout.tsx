@@ -1,7 +1,10 @@
 import { Outlet } from "react-router-dom";
 import { useEffect } from "react";
 import { useUniversityStore } from "../../modules/universities/model/universityStore";
-import { MdOutlineDashboard, MdOutlinePeople } from "react-icons/md";
+import {
+  MdOutlineDashboard,
+  MdOutlinePeople,
+} from "react-icons/md";
 import { TbBuilding, TbLayoutList, TbSpeakerphone } from "react-icons/tb";
 import Sidebar from "../../shared/ui/Sidebar";
 import type { SidebarItem } from "../../shared/ui/Sidebar";

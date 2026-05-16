@@ -7,7 +7,7 @@ import { LuCalendar, LuUpload } from "react-icons/lu";
 // ─── constants ───────────────────────────────────────────────────────────────
 
 const TAGS: { key: AnnouncementTag; label: string; color: string; bg: string }[] = [
-  { key: "event",       label: "Event",       color: "#E85842", bg: "#FEEFEC" },
+  { key: "event",       label: "Event",       color: "#3356AA", bg: "#EEF2FF" },
   { key: "scholarship", label: "Scholarship", color: "#10B981", bg: "#E6F7EF" },
   { key: "programme",   label: "Programme",   color: "#7C5CFF", bg: "#F1ECFE" },
   { key: "update",      label: "Update",      color: "#3D5AFE", bg: "#EBF2FE" },
@@ -208,26 +208,26 @@ function NewAnnouncementModal({
 
           <div>
             <label className="block text-sm font-semibold text-[#111928] mb-1.5">
-              Title <span className="text-[#E85842]">*</span>
+              Title <span className="text-[#3356AA]">*</span>
             </label>
             <input
               value={form.title}
               onChange={(e) => setForm((p) => ({ ...p, title: e.target.value }))}
               placeholder="Headline applicants will see"
-              className="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm text-gray-800 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-[#E85842]/30 focus:border-[#E85842]"
+              className="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm text-gray-800 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-[#3356AA]/30 focus:border-[#3356AA]"
             />
           </div>
 
           <div>
             <label className="block text-sm font-semibold text-[#111928] mb-1.5">
-              Body <span className="text-[#E85842]">*</span>
+              Body <span className="text-[#3356AA]">*</span>
             </label>
             <textarea
               value={form.body}
               onChange={(e) => setForm((p) => ({ ...p, body: e.target.value }))}
               placeholder="Tell applicants what's happening and what to do next..."
               rows={6}
-              className="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm text-gray-800 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-[#E85842]/30 focus:border-[#E85842] resize-none"
+              className="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm text-gray-800 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-[#3356AA]/30 focus:border-[#3356AA] resize-none"
             />
             <p className="text-xs text-gray-400 mt-1">Markdown supported. Aim for 1–3 short paragraphs.</p>
           </div>
@@ -242,7 +242,7 @@ function NewAnnouncementModal({
               onDrop={(e) => { e.preventDefault(); setDragOver(false); }}
               onClick={() => fileRef.current?.click()}
               className={`border-2 border-dashed rounded-xl p-10 flex flex-col items-center justify-center gap-2 cursor-pointer transition-colors ${
-                dragOver ? "border-[#E85842] bg-[#FEEFEC]" : "border-gray-200 bg-gray-50 hover:bg-gray-100"
+                dragOver ? "border-[#3356AA] bg-[#EEF2FF]" : "border-gray-200 bg-gray-50 hover:bg-gray-100"
               }`}
             >
               <LuUpload size={24} className="text-gray-400" />
@@ -262,7 +262,7 @@ function NewAnnouncementModal({
           <button
             onClick={handleSubmit}
             disabled={!valid || submitting}
-            className="px-5 py-2.5 rounded-xl bg-[#E85842] text-white text-sm font-semibold hover:bg-[#d04535] disabled:opacity-50 transition-colors"
+            className="px-5 py-2.5 rounded-xl bg-[#3356AA] text-white text-sm font-semibold hover:bg-[#2c4892] disabled:opacity-50 transition-colors"
           >
             {submitting ? "Publishing…" : "Publish"}
           </button>
@@ -319,7 +319,7 @@ export default function NtcAnnouncementsPage() {
         </div>
         <button
           onClick={() => setShowCreate(true)}
-          className="flex items-center gap-2 bg-[#E85842] text-white px-4 py-2.5 rounded-xl text-sm font-semibold hover:bg-[#d04535] transition-colors flex-shrink-0"
+          className="flex items-center gap-2 bg-[#3356AA] text-white px-4 py-2.5 rounded-xl text-sm font-semibold hover:bg-[#2c4892] transition-colors flex-shrink-0"
         >
           <HiPlus size={18} /> New announcement
         </button>
@@ -342,7 +342,7 @@ export default function NtcAnnouncementsPage() {
                     className={`w-full flex items-center justify-between px-3 py-2 rounded-xl text-sm font-medium transition-colors ${
                       active ? "text-white" : "text-gray-600 hover:bg-gray-50"
                     }`}
-                    style={active ? { backgroundColor: meta?.color ?? "#E85842" } : undefined}
+                    style={active ? { backgroundColor: meta?.color ?? "#3356AA" } : undefined}
                   >
                     <span>{label}</span>
                     <span
@@ -368,7 +368,7 @@ export default function NtcAnnouncementsPage() {
               <p className="text-gray-400 text-sm">No announcements yet.</p>
               <button
                 onClick={() => setShowCreate(true)}
-                className="flex items-center gap-1.5 text-sm text-[#E85842] font-medium hover:underline"
+                className="flex items-center gap-1.5 text-sm text-[#3356AA] font-medium hover:underline"
               >
                 <HiPlus size={16} /> Post your first announcement
               </button>

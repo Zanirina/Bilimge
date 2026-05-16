@@ -28,6 +28,8 @@ class UserMeSerializer(serializers.ModelSerializer):
     subject_1_name = serializers.SerializerMethodField()
     subject_2_name = serializers.SerializerMethodField()
     favorites_count = serializers.SerializerMethodField()
+    university_name = serializers.SerializerMethodField()
+    university_code = serializers.SerializerMethodField()
 
     class Meta:
         model = User
@@ -38,6 +40,7 @@ class UserMeSerializer(serializers.ModelSerializer):
             'subject_1', 'subject_1_name',
             'subject_2', 'subject_2_name',
             'favorites_count',
+            'university_name', 'university_code',
         ]
 
     def _get_applicant(self, obj):
@@ -72,6 +75,31 @@ class UserMeSerializer(serializers.ModelSerializer):
 
     def get_favorites_count(self, obj):
         return obj.favorites.count()
+
+    def get_university_name(self, obj):
+        try:
+            return obj.staff_profile.university.name
+        except Exception:
+            return None
+
+    def get_university_code(self, obj):
+        try:
+            return obj.staff_profile.university.code
+        except Exception:
+            return None
+
+
+class UserUpdateSerializer(serializers.ModelSerializer):
+    """PATCH /api/auth/me/ — update editable user fields."""
+    class Meta:
+        model = User
+        fields = ['first_name', 'last_name', 'email', 'phone', 'avatar_url']
+
+    def validate_email(self, value):
+        qs = User.objects.exclude(pk=self.instance.pk).filter(email__iexact=value)
+        if qs.exists():
+            raise serializers.ValidationError('This email is already in use.')
+        return value
 
 
 class ApplicantProfileSerializer(serializers.ModelSerializer):

@@ -1,62 +1,76 @@
-import { MdGridView } from "react-icons/md";
 import SearchInput from "./SearchInput";
 import FilterSelect from "./FilterSelect";
 import { useUniversityStore } from "../../modules/universities/model/universityStore";
 import { useMemo } from "react";
+import { SUBJECT_COMBINATIONS } from "../lib/subjectCombinations";
 
 export interface SearchFilterUniversitiesProps {
   onSearch: (query: string) => void;
   onCityChange: (values: string[]) => void;
-  onSubjectChange: (values: string[]) => void;
-  onMajorChange: (values: string[]) => void;
+  onSubjectComboChange: (values: string[]) => void;
+  onFieldChange: (values: string[]) => void;
   onTuitionChange: (values: string[]) => void;
-  onViewChange?: (view: string) => void;
   selectedCities?: string[];
-  selectedSubjects?: string[];
-  selectedMajors?: string[];
+  selectedSubjectCombos?: string[];
+  selectedFields?: string[];
   selectedTuitions?: string[];
+  onClear?: () => void;
 }
 
-const MAJOR_OPTIONS = [
-  { value: "cs", label: "Computer Science" },
-  { value: "ee", label: "Electrical Engineering" },
+export const TUITION_OPTIONS = [
+  { value: "low", label: "Under 500,000 ₸" },
+  { value: "medium", label: "500,000 – 1,000,000 ₸" },
+  { value: "high", label: "Over 1,000,000 ₸" },
 ];
 
-const TUITION_OPTIONS = [
-  { value: "low", label: "Low" },
-  { value: "medium", label: "Medium" },
-  { value: "high", label: "High" },
-];
+export const tuitionMatches = (cost: number | null | undefined, bucket: string) => {
+  if (cost == null) return false;
+  if (bucket === "low") return cost < 500_000;
+  if (bucket === "medium") return cost >= 500_000 && cost <= 1_000_000;
+  if (bucket === "high") return cost > 1_000_000;
+  return true;
+};
 
 export default function SearchFilterUniversities({
   onSearch,
   onCityChange,
-  onSubjectChange,
-  onMajorChange,
+  onSubjectComboChange,
+  onFieldChange,
   onTuitionChange,
-  onViewChange,
   selectedCities = [],
-  selectedSubjects = [],
-  selectedMajors = [],
+  selectedSubjectCombos = [],
+  selectedFields = [],
   selectedTuitions = [],
+  onClear,
 }: SearchFilterUniversitiesProps) {
-  const { universities, subjects } = useUniversityStore();
+  const { universities, fields } = useUniversityStore();
 
   const cityOptions = useMemo(() => {
-    const unique = [...new Set(universities.map((u) => u.city))];
-    return unique.map((city) => ({ value: city, label: city }));
+    const unique = [...new Set(universities.map((u) => u.city))].filter(Boolean);
+    return unique.sort().map((city) => ({ value: city, label: city }));
   }, [universities]);
 
-  const subjectOptions = useMemo(() => {
-    return subjects.map((s) => ({ value: String(s.id), label: s.name }));
-  }, [subjects]);
+  const subjectComboOptions = useMemo(
+    () => SUBJECT_COMBINATIONS.map((c) => ({ value: c.id, label: c.label })),
+    []
+  );
+
+  const fieldOptions = useMemo(() => {
+    return fields.map((f) => ({ value: f.code, label: f.name }));
+  }, [fields]);
+
+  const activeCount =
+    selectedCities.length +
+    selectedSubjectCombos.length +
+    selectedFields.length +
+    selectedTuitions.length;
 
   return (
     <div className="mb-8">
       <div className="flex flex-col md:flex-row gap-4 items-center justify-between">
         <SearchInput onSearch={onSearch} />
 
-        <div className="flex gap-7 items-center flex-wrap">
+        <div className="flex gap-3 items-center flex-wrap">
           <FilterSelect
             label="City"
             options={cityOptions}
@@ -64,16 +78,16 @@ export default function SearchFilterUniversities({
             values={selectedCities}
           />
           <FilterSelect
-            label="Subjects"
-            options={subjectOptions}
-            onChange={onSubjectChange}
-            values={selectedSubjects}
+            label="Major"
+            options={fieldOptions}
+            onChange={onFieldChange}
+            values={selectedFields}
           />
           <FilterSelect
-            label="Major"
-            options={MAJOR_OPTIONS}
-            onChange={onMajorChange}
-            values={selectedMajors}
+            label="Subject pair"
+            options={subjectComboOptions}
+            onChange={onSubjectComboChange}
+            values={selectedSubjectCombos}
           />
           <FilterSelect
             label="Tuition"
@@ -81,14 +95,15 @@ export default function SearchFilterUniversities({
             onChange={onTuitionChange}
             values={selectedTuitions}
           />
+          {activeCount > 0 && onClear && (
+            <button
+              onClick={onClear}
+              className="px-3 h-[50px] text-sm text-[#3356AA] font-medium hover:underline"
+            >
+              Clear all ({activeCount})
+            </button>
+          )}
         </div>
-
-        <button
-          onClick={() => onViewChange?.("grid")}
-          className="transition flex items-center justify-center"
-        >
-          <MdGridView size={36} className="text-[#3356AA]" />
-        </button>
       </div>
     </div>
   );

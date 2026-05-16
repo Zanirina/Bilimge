@@ -24,6 +24,8 @@ type UniversityState = {
   fields: FieldOfStudy[];
   subjects: Subject[];
   ntcPrograms: NtcProgram[];
+  currentUniversity: University | null;
+  currentProgram: UniversityProgramDetail | null;
   isLoading: boolean;
   error: string | null;
 
@@ -38,9 +40,11 @@ type UniversityState = {
 
   // Actions — public
   fetchUniversities: () => Promise<void>;
+  fetchUniversityDetail: (code: string) => Promise<void>;
   fetchPrograms: () => Promise<void>;
   fetchProgramsByUniversity: (code: string) => Promise<void>;
   fetchProgramDetail: (code: string) => Promise<UniversityProgramDetail>;
+  fetchProgramDetailIntoStore: (code: string) => Promise<void>;
   fetchFields: () => Promise<void>;
   fetchSubjects: () => Promise<void>;
   fetchNtcPrograms: () => Promise<void>;
@@ -109,6 +113,8 @@ export const useUniversityStore = create<UniversityState>((set) => ({
   fields: [],
   subjects: [],
   ntcPrograms: [],
+  currentUniversity: null,
+  currentProgram: null,
   isLoading: false,
   error: null,
   myUniversity: null,
@@ -125,6 +131,18 @@ export const useUniversityStore = create<UniversityState>((set) => ({
     withLoading(set, async () => {
       const res = await universityService.getUniversities();
       set({ universities: res.data });
+    }),
+
+  fetchUniversityDetail: (code) =>
+    withLoading(set, async () => {
+      const res = await universityService.getUniversityByCode(code);
+      set({ currentUniversity: res.data });
+    }),
+
+  fetchProgramDetailIntoStore: (code) =>
+    withLoading(set, async () => {
+      const res = await universityService.getUniversityProgramDetail(code);
+      set({ currentProgram: res.data });
     }),
 
   fetchPrograms: () =>

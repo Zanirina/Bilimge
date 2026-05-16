@@ -13,11 +13,14 @@ export type User = {
   created_at: string;
   first_name: string;
   last_name: string;
+  avatar_url: string;
   birth_date: string | null;
   unt_score: number | null;
   target_speciality: string | null;
   target_speciality_name: string | null;
   favorites_count: number;
+  university_name?: string | null;
+  university_code?: string | null;
 };
 
 export type RegisterRequest = {
@@ -49,6 +52,18 @@ export type UpdateProfileRequest = {
   birth_date?: string;
   unt_score?: number;
   target_speciality?: string;
+};
+
+export type UpdateMeRequest = {
+  first_name?: string;
+  last_name?: string;
+  email?: string;
+  phone?: string;
+};
+
+export type ChangePasswordRequest = {
+  current_password: string;
+  new_password: string;
 };
 
 export type ResetPasswordRequest = {

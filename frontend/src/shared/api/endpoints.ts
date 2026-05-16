@@ -7,6 +7,8 @@ export const endpoints = {
     applicantProfile: "/api/auth/applicant/profile/",
     resetPassword: "/api/auth/reset-password/",
     resetPasswordConfirm: "/api/auth/reset-password/confirm/",
+    changePassword: "/api/auth/change-password/",
+    uploadAvatar: "/api/auth/upload-avatar/",
     favorites: "/api/auth/favorites/",
     favoriteById: (id: number | string) => `/api/auth/favorites/${id}/`,
   },

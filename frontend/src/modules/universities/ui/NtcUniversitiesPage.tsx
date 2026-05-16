@@ -9,7 +9,7 @@ import { LuSearch, LuPencil } from "react-icons/lu";
 const PALETTE = [
   { bg: "#EBF2FE", text: "#3D5AFE" },
   { bg: "#F1ECFE", text: "#7C5CFF" },
-  { bg: "#FEEFEC", text: "#E85842" },
+  { bg: "#EEF2FF", text: "#3356AA" },
   { bg: "#FFF4E0", text: "#E08900" },
   { bg: "#E6F7EF", text: "#10B981" },
   { bg: "#FDE8F3", text: "#E5499A" },
@@ -27,7 +27,7 @@ function uniInitials(name: string) {
 
 // ─── Edit Modal ───────────────────────────────────────────────────────────────
 
-const inp = "w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm text-gray-800 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-[#E85842]/30 focus:border-[#E85842]";
+const inp = "w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm text-gray-800 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-[#3356AA]/30 focus:border-[#3356AA]";
 const lbl = "block text-sm font-semibold text-[#111928] mb-1.5";
 
 function EditModal({
@@ -135,7 +135,7 @@ function EditModal({
                 Cancel
               </button>
               <button onClick={handleSave} disabled={saving}
-                className="px-5 py-2.5 rounded-xl bg-[#E85842] text-white text-sm font-semibold hover:bg-[#d04535] disabled:opacity-50 transition-colors">
+                className="px-5 py-2.5 rounded-xl bg-[#3356AA] text-white text-sm font-semibold hover:bg-[#2c4892] disabled:opacity-50 transition-colors">
                 {saving ? "Saving…" : "Save changes"}
               </button>
             </div>
@@ -275,7 +275,7 @@ export default function NtcUniversitiesPage() {
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               placeholder="Search by name or city…"
-              className="w-full pl-9 pr-4 py-2 border border-gray-200 rounded-full text-sm text-gray-700 placeholder:text-gray-400 bg-gray-50 focus:outline-none focus:ring-2 focus:ring-[#E85842]/20 focus:border-[#E85842]"
+              className="w-full pl-9 pr-4 py-2 border border-gray-200 rounded-full text-sm text-gray-700 placeholder:text-gray-400 bg-gray-50 focus:outline-none focus:ring-2 focus:ring-[#3356AA]/20 focus:border-[#3356AA]"
             />
           </div>
 

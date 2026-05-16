@@ -37,14 +37,14 @@ const EVENT_TYPE_LABELS: Record<string, string> = {
 };
 
 const EVENT_TILE_STYLE: Record<string, string> = {
-  coral:  "bg-[#FEEFEC] text-[#E85842]",
+  coral:  "bg-[#EEF2FF] text-[#3356AA]",
   amber:  "bg-[#FFF4E0] text-[#E08900]",
   blue:   "bg-[#EBF2FE] text-[#3D5AFE]",
   purple: "bg-[#F1ECFE] text-[#7C5CFF]",
 };
 
 const EVENT_CHIP_STYLE: Record<string, string> = {
-  coral:  "bg-[#FEEFEC] text-[#E85842]",
+  coral:  "bg-[#EEF2FF] text-[#3356AA]",
   amber:  "bg-[#FFF4E0] text-[#E08900]",
   blue:   "bg-[#EBF2FE] text-[#3D5AFE]",
   purple: "bg-[#F1ECFE] text-[#7C5CFF]",
@@ -108,14 +108,14 @@ function BarChart({ data }: { data: { label: string; value: number; color: strin
 const FUNNEL_COLORS: Record<string, string> = {
   blue:   "#3D5AFE",
   purple: "#7C5CFF",
-  coral:  "#E85842",
+  coral:  "#3356AA",
   amber:  "#E08900",
   green:  "#10B981",
 };
 const FUNNEL_BG: Record<string, string> = {
   blue:   "#EBF2FE",
   purple: "#F1ECFE",
-  coral:  "#FEEFEC",
+  coral:  "#EEF2FF",
   amber:  "#FFF4E0",
   green:  "#E6F7EF",
 };
@@ -191,12 +191,12 @@ function MiniCalendar({ year, month, selectedDay, onSelect, markedDays }: {
             disabled={!d}
             onClick={() => d && onSelect(d)}
             className={`aspect-square text-xs font-medium rounded-lg flex items-center justify-center relative transition-all
-              ${isSelected ? "bg-[#E85842] text-white font-bold" : isToday ? "bg-[#FEEFEC] text-[#E85842] font-bold" : d ? "hover:bg-gray-100 text-gray-700" : ""}
+              ${isSelected ? "bg-[#3356AA] text-white font-bold" : isToday ? "bg-[#EEF2FF] text-[#3356AA] font-bold" : d ? "hover:bg-gray-100 text-gray-700" : ""}
             `}
           >
             {d}
             {isMarked && (
-              <span className="absolute bottom-0.5 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full bg-[#E85842]" />
+              <span className="absolute bottom-0.5 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full bg-[#3356AA]" />
             )}
           </button>
         );
@@ -291,7 +291,7 @@ export default function UniDashboardPage() {
         { tile: "5",  color: "bg-[#EBF2FE] text-[#3D5AFE]",  label: "TOTAL APPLICANTS",    value: "5 students",  spark: [3,2,4,3,5,4,5] as number[], sc: "#3D5AFE" },
         { tile: "4",  color: "bg-[#F1ECFE] text-[#7C5CFF]",  label: "UNT SCORE ≥ 100",     value: "4 students",  spark: [1,2,3,2,3,4,4] as number[], sc: "#7C5CFF" },
         { tile: "10", color: "bg-[#E6F7EF] text-[#10B981]",  label: "PROGRAMMES SAVED",    value: "10 total",    spark: [6,5,8,7,9,10,10] as number[], sc: "#10B981" },
-        { tile: `${myPrograms.length || 4}`, color: "bg-[#FEEFEC] text-[#E85842]", label: "ACTIVE PROGRAMMES", value: `${myPrograms.length || 4} published`, spark: [4,4,5,5,6,6,myPrograms.length || 6] as number[], sc: "#E85842" },
+        { tile: `${myPrograms.length || 4}`, color: "bg-[#EEF2FF] text-[#3356AA]", label: "ACTIVE PROGRAMMES", value: `${myPrograms.length || 4} published`, spark: [4,4,5,5,6,6,myPrograms.length || 6] as number[], sc: "#3356AA" },
       ]).map((s, i) => (
         <div key={i} className="bg-white rounded-2xl p-5 border border-gray-100 shadow-sm flex flex-col gap-3">
           <div className="flex items-center gap-3">
@@ -316,7 +316,7 @@ export default function UniDashboardPage() {
         <h3 className="font-bold text-lg text-gray-900">Calendar</h3>
         <button
           onClick={() => setAddEventOpen(true)}
-          className="flex items-center gap-1.5 px-3 py-1.5 bg-[#E85842] text-white text-sm font-semibold rounded-xl hover:bg-[#D24A36] transition-colors"
+          className="flex items-center gap-1.5 px-3 py-1.5 bg-[#3356AA] text-white text-sm font-semibold rounded-xl hover:bg-[#D24A36] transition-colors"
         >
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M12 5v14M5 12h14"/></svg>
           Add Event
@@ -414,7 +414,7 @@ export default function UniDashboardPage() {
               <div className="flex flex-col gap-1.5">
                 <label className="text-xs font-semibold text-gray-600">Title *</label>
                 <input
-                  className="border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#E85842]/30 focus:border-[#E85842]"
+                  className="border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#3356AA]/30 focus:border-[#3356AA]"
                   placeholder="e.g. Open Day – Spring intake"
                   value={newEvent.title}
                   onChange={(e) => setNewEvent(p => ({ ...p, title: e.target.value }))}
@@ -423,18 +423,18 @@ export default function UniDashboardPage() {
               <div className="grid grid-cols-2 gap-3">
                 <div className="flex flex-col gap-1.5">
                   <label className="text-xs font-semibold text-gray-600">Start date *</label>
-                  <input type="date" className="border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#E85842]/30 focus:border-[#E85842]"
+                  <input type="date" className="border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#3356AA]/30 focus:border-[#3356AA]"
                     value={newEvent.start_date} onChange={(e) => setNewEvent(p => ({ ...p, start_date: e.target.value }))} />
                 </div>
                 <div className="flex flex-col gap-1.5">
                   <label className="text-xs font-semibold text-gray-600">Time</label>
-                  <input type="time" className="border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#E85842]/30 focus:border-[#E85842]"
+                  <input type="time" className="border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#3356AA]/30 focus:border-[#3356AA]"
                     value={newEvent.start_time} onChange={(e) => setNewEvent(p => ({ ...p, start_time: e.target.value }))} />
                 </div>
               </div>
               <div className="flex flex-col gap-1.5">
                 <label className="text-xs font-semibold text-gray-600">End date</label>
-                <input type="date" className="border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#E85842]/30 focus:border-[#E85842]"
+                <input type="date" className="border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#3356AA]/30 focus:border-[#3356AA]"
                   value={newEvent.end_date} onChange={(e) => setNewEvent(p => ({ ...p, end_date: e.target.value }))} />
               </div>
               <div className="flex flex-col gap-1.5">
@@ -442,7 +442,7 @@ export default function UniDashboardPage() {
                 <div className="flex flex-wrap gap-2">
                   {(["event","deadline","exam","enrollment","open_day","announcement"] as const).map((k) => (
                     <button key={k} onClick={() => setNewEvent(p => ({ ...p, event_type: k }))}
-                      className={`px-3 py-1.5 rounded-xl text-xs font-semibold border transition-all ${newEvent.event_type === k ? "bg-[#FEEFEC] text-[#E85842] border-[#E85842]" : "border-gray-200 text-gray-500 hover:bg-gray-50"}`}>
+                      className={`px-3 py-1.5 rounded-xl text-xs font-semibold border transition-all ${newEvent.event_type === k ? "bg-[#EEF2FF] text-[#3356AA] border-[#3356AA]" : "border-gray-200 text-gray-500 hover:bg-gray-50"}`}>
                       {EVENT_TYPE_LABELS[k]}
                     </button>
                   ))}
@@ -451,7 +451,7 @@ export default function UniDashboardPage() {
               <div className="flex flex-col gap-1.5">
                 <label className="text-xs font-semibold text-gray-600">Description</label>
                 <textarea
-                  className="border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#E85842]/30 focus:border-[#E85842] resize-none h-20"
+                  className="border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#3356AA]/30 focus:border-[#3356AA] resize-none h-20"
                   placeholder="Optional details…"
                   value={newEvent.description}
                   onChange={(e) => setNewEvent(p => ({ ...p, description: e.target.value }))}
@@ -463,7 +463,7 @@ export default function UniDashboardPage() {
               <button
                 onClick={submitAddEvent}
                 disabled={!newEvent.title.trim() || !newEvent.start_date || saving}
-                className="px-4 py-2 text-sm font-semibold bg-[#E85842] text-white rounded-xl hover:bg-[#D24A36] disabled:opacity-60"
+                className="px-4 py-2 text-sm font-semibold bg-[#3356AA] text-white rounded-xl hover:bg-[#D24A36] disabled:opacity-60"
               >
                 {saving ? "Saving…" : "Save event"}
               </button>
@@ -479,12 +479,12 @@ export default function UniDashboardPage() {
     ? myPrograms.slice(0, 5).map((p, i) => ({
         label: p.local_name,
         value: [248, 192, 124, 188, 64][i] ?? 50,
-        color: ["#3D5AFE","#7C5CFF","#E85842","#10B981","#E08900"][i],
+        color: ["#3D5AFE","#7C5CFF","#3356AA","#10B981","#E08900"][i],
       }))
     : [
         { label: "Software Engineering", value: 248, color: "#3D5AFE" },
         { label: "Computer Science",     value: 192, color: "#7C5CFF" },
-        { label: "Cybersecurity",        value: 124, color: "#E85842" },
+        { label: "Cybersecurity",        value: 124, color: "#3356AA" },
         { label: "Data Science",         value: 188, color: "#10B981" },
         { label: "Big Data Analysis",    value: 64,  color: "#E08900" },
       ];

@@ -1,5 +1,10 @@
 import { Outlet } from "react-router-dom";
-import { MdOutlineDashboard, MdOutlineSettings, MdOutlineSchool } from "react-icons/md";
+import {
+  MdOutlineDashboard,
+  MdOutlineSettings,
+  MdOutlineSchool,
+  MdOutlinePerson,
+} from "react-icons/md";
 import { TbLayoutList, TbSpeakerphone } from "react-icons/tb";
 import Sidebar from "../../shared/ui/Sidebar";
 import type { SidebarItem } from "../../shared/ui/Sidebar";

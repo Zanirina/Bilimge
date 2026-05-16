@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect } from "react";
+import { Link } from "react-router-dom";
 import { useAuthStore } from "../../modules/auth/model/authStore";
 import { IoNotificationsOutline } from "react-icons/io5";
 import { MdKeyboardArrowDown, MdKeyboardArrowUp } from "react-icons/md";
@@ -11,13 +12,23 @@ interface TopBarProps {
   settingsPath?: string;
 }
 
+const ROLE_PATHS: Record<string, { profile: string; settings: string }> = {
+  APPLICANT: { profile: "/applicant/profile", settings: "/applicant/settings" },
+  UNI_ADMIN: { profile: "/uni/account", settings: "/uni/settings" },
+  NTC_ADMIN: { profile: "/ntc/account", settings: "/ntc/settings" },
+};
+
 export default function TopBar({
   userSubtitle,
-  profilePath = "#",
-  settingsPath = "#",
+  profilePath,
+  settingsPath,
 }: TopBarProps) {
   const user = useAuthStore((s) => s.user);
   const logout = useAuthStore((s) => s.logout);
+
+  const defaults = (user?.role ? ROLE_PATHS[user.role] : undefined) ?? ROLE_PATHS.APPLICANT;
+  const resolvedProfilePath = profilePath ?? defaults.profile;
+  const resolvedSettingsPath = settingsPath ?? defaults.settings;
 
   const fullName = `${user?.first_name ?? "Name"} ${user?.last_name ?? "Surname"}`.trim();
   const displayName = fullName || user?.email || "";
@@ -65,9 +76,17 @@ export default function TopBar({
           onClick={() => setOpen((v) => !v)}
           className="flex items-center gap-2.5 pl-1 pr-2 py-1.5 rounded-xl hover:bg-gray-50 transition-colors"
         >
-          <div className="w-8 h-8 rounded-full bg-[#3356AA] flex items-center justify-center text-white text-xs font-semibold flex-shrink-0">
-            {initials}
-          </div>
+          {user?.avatar_url ? (
+            <img
+              src={user.avatar_url}
+              alt={displayName}
+              className="w-8 h-8 rounded-full object-cover flex-shrink-0"
+            />
+          ) : (
+            <div className="w-8 h-8 rounded-full bg-[#3356AA] flex items-center justify-center text-white text-xs font-semibold flex-shrink-0">
+              {initials}
+            </div>
+          )}
           <div className="flex flex-col items-start leading-tight">
             <span className="text-sm font-semibold text-[#111928]">{displayName}</span>
             <span className="text-xs text-gray-400">{userSubtitle ?? user?.email}</span>
@@ -81,22 +100,22 @@ export default function TopBar({
 
         {open && (
           <div className="absolute right-0 top-full mt-1.5 w-52 bg-white rounded-xl shadow-lg border border-gray-100 py-1 z-50">
-            <a
-              href={profilePath}
+            <Link
+              to={resolvedProfilePath}
               onClick={() => setOpen(false)}
               className="flex items-center gap-3 px-4 py-2.5 text-sm text-[#374151] hover:bg-gray-50 transition-colors"
             >
               <FiUser size={15} />
               My Profile
-            </a>
-            <a
-              href={settingsPath}
+            </Link>
+            <Link
+              to={resolvedSettingsPath}
               onClick={() => setOpen(false)}
               className="flex items-center gap-3 px-4 py-2.5 text-sm text-[#374151] hover:bg-gray-50 transition-colors"
             >
               <FiSettings size={15} />
               Settings
-            </a>
+            </Link>
             <div className="my-1 border-t border-gray-100" />
             <button
               onClick={logout}

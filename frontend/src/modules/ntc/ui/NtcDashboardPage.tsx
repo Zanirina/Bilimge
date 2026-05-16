@@ -8,7 +8,7 @@ import type { UniversityListItem, NtcProgram } from "../../universities/model/ty
 const PALETTE = [
   { bg: "#EBF2FE", text: "#3D5AFE" },
   { bg: "#F1ECFE", text: "#7C5CFF" },
-  { bg: "#FEEFEC", text: "#E85842" },
+  { bg: "#EEF2FF", text: "#3356AA" },
   { bg: "#FFF4E0", text: "#E08900" },
   { bg: "#E6F7EF", text: "#10B981" },
   { bg: "#FDE8F3", text: "#E5499A" },
@@ -76,7 +76,7 @@ function BarChart({ data }: { data: { label: string; value: number; color: strin
 
 const NTC_EVENTS = [
   { date: 18, time: "09:00", title: "UNT main session · Round 1 begins", kind: "Exam",      color: { bg: "#FFF4E0", text: "#E08900" } },
-  { date: 22, time: "23:59", title: "Programme catalogue freeze",         kind: "Deadline",  color: { bg: "#FEEFEC", text: "#E85842" } },
+  { date: 22, time: "23:59", title: "Programme catalogue freeze",         kind: "Deadline",  color: { bg: "#EEF2FF", text: "#3356AA" } },
   { date: 25, time: "14:00", title: "University compliance review",       kind: "Review",    color: { bg: "#EBF2FE", text: "#3D5AFE" } },
   { date: 28, time: "10:00", title: "Results published",                  kind: "Milestone", color: { bg: "#E6F7EF", text: "#10B981" } },
 ];
@@ -114,11 +114,11 @@ function MiniCalendar({ selected, onSelect }: { selected: number; onSelect: (d: 
               disabled={!d}
               onClick={() => d && onSelect(d)}
               className={`aspect-square text-xs font-medium rounded-lg flex items-center justify-center relative transition-all
-                ${isSel ? "bg-[#E85842] text-white font-bold" : isToday ? "bg-[#FEEFEC] text-[#E85842] font-bold" : d ? "hover:bg-gray-100 text-gray-700" : ""}`}
+                ${isSel ? "bg-[#3356AA] text-white font-bold" : isToday ? "bg-[#EEF2FF] text-[#3356AA] font-bold" : d ? "hover:bg-gray-100 text-gray-700" : ""}`}
             >
               {d}
               {isMarked && (
-                <span className="absolute bottom-0.5 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full bg-[#E85842]" />
+                <span className="absolute bottom-0.5 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full bg-[#3356AA]" />
               )}
             </button>
           );
@@ -157,7 +157,7 @@ export default function NtcDashboardPage() {
 
   const subjectCombos = useMemo(() => {
     const map: Record<string, { value: number; color: string }> = {};
-    const colors = ["#3D5AFE","#7C5CFF","#10B981","#E08900","#E85842","#E5499A"];
+    const colors = ["#3D5AFE","#7C5CFF","#10B981","#E08900","#3356AA","#E5499A"];
     programs.forEach((p) => {
       const key = `${p.subject_1_name} + ${p.subject_2_name}`;
       map[key] = { value: (map[key]?.value ?? 0) + 1, color: "" };
@@ -191,12 +191,12 @@ export default function NtcDashboardPage() {
     },
     {
       tile: String(announcements.length || "—"),
-      tileBg: "#FEEFEC", tileText: "#E85842",
+      tileBg: "#EEF2FF", tileText: "#3356AA",
       label: "ANNOUNCEMENTS",
       value: `${announcements.length} posted`,
       sub: "NTC platform-wide messages",
       spark: [1, 2, 2, 3, 4, announcements.length - 1, announcements.length || 4],
-      sc: "#E85842",
+      sc: "#3356AA",
     },
     {
       tile: String(avgMinScore || "—"),
@@ -246,7 +246,7 @@ export default function NtcDashboardPage() {
               <h3 className="font-bold text-lg text-gray-900">UNT Calendar</h3>
               <p className="text-xs text-gray-400 mt-0.5">National testing milestones and review windows</p>
             </div>
-            <button className="flex items-center gap-1.5 px-3 py-1.5 bg-[#E85842] text-white text-sm font-semibold rounded-xl hover:bg-[#d04535] transition-colors">
+            <button className="flex items-center gap-1.5 px-3 py-1.5 bg-[#3356AA] text-white text-sm font-semibold rounded-xl hover:bg-[#2c4892] transition-colors">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M12 5v14M5 12h14"/></svg>
               Event
             </button>
@@ -341,7 +341,7 @@ export default function NtcDashboardPage() {
             <div className="flex flex-col">
               {recentAnnouncements.map((a, i) => (
                 <div key={a.id} className={`flex items-start gap-3 py-3 ${i < recentAnnouncements.length - 1 ? "border-b border-gray-100" : ""}`}>
-                  <div className="w-8 h-8 rounded-xl flex items-center justify-center flex-shrink-0 bg-[#FEEFEC] text-[#E85842]">
+                  <div className="w-8 h-8 rounded-xl flex items-center justify-center flex-shrink-0 bg-[#EEF2FF] text-[#3356AA]">
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75">
                       <path d="M3 11v2a2 2 0 0 0 2 2h1l4 4V7L6 11H5a2 2 0 0 0-2 0z"/><path d="M11 7v10l8 4V3z"/>
                     </svg>

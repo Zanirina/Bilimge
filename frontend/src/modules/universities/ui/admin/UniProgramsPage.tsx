@@ -127,7 +127,7 @@ const EMPTY: CreateProgramRequest = {
   description: "", passing_score: 0, grant_score: 0, future_professions: "",
 };
 
-const inp = "w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm text-gray-800 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-[#E85842]/30 focus:border-[#E85842]";
+const inp = "w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm text-gray-800 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-[#3356AA]/30 focus:border-[#3356AA]";
 const lbl = "block text-sm font-semibold text-[#111928] mb-1.5";
 
 function ProgramModal({
@@ -173,7 +173,7 @@ function ProgramModal({
 
           {/* NTC programme */}
           <div>
-            <label className={lbl}>NTC Programme <span className="text-[#E85842]">*</span></label>
+            <label className={lbl}>NTC Programme <span className="text-[#3356AA]">*</span></label>
             <select className={inp} value={form.ntc_program}
               onChange={(e) => {
                 const p = ntcPrograms.find((x) => x.code === e.target.value);
@@ -188,7 +188,7 @@ function ProgramModal({
 
           {/* local name */}
           <div>
-            <label className={lbl}>Local name <span className="text-[#E85842]">*</span></label>
+            <label className={lbl}>Local name <span className="text-[#3356AA]">*</span></label>
             <input className={inp} value={form.local_name} placeholder="Programme name shown on your page"
               onChange={(e) => patch({ local_name: e.target.value })} />
           </div>
@@ -227,7 +227,7 @@ function ProgramModal({
               </select>
             </div>
             <div>
-              <label className={lbl}>Teaching language <span className="text-[#E85842]">*</span></label>
+              <label className={lbl}>Teaching language <span className="text-[#3356AA]">*</span></label>
               <select className={inp} value={form.language || ""}
                 onChange={(e) => patch({ language: +e.target.value })}>
                 <option value="">Select…</option>
@@ -241,7 +241,7 @@ function ProgramModal({
           {/* cost + passing score */}
           <div className="grid grid-cols-2 gap-3">
             <div>
-              <label className={lbl}>Tuition / year (₸) <span className="text-[#E85842]">*</span></label>
+              <label className={lbl}>Tuition / year (₸) <span className="text-[#3356AA]">*</span></label>
               <input className={inp} type="number" min={0}
                 value={form.cost || ""} placeholder="e.g. 1360000"
                 onChange={(e) => patch({ cost: +e.target.value })} />
@@ -287,7 +287,7 @@ function ProgramModal({
             Cancel
           </button>
           <button onClick={handleSubmit} disabled={!valid || saving}
-            className="px-5 py-2.5 rounded-xl bg-[#E85842] text-white text-sm font-semibold hover:bg-[#d04535] disabled:opacity-50 transition-colors">
+            className="px-5 py-2.5 rounded-xl bg-[#3356AA] text-white text-sm font-semibold hover:bg-[#2c4892] disabled:opacity-50 transition-colors">
             {saving ? "Saving…" : "Save"}
           </button>
         </div>
@@ -388,7 +388,7 @@ export default function UniProgramsPage() {
         </div>
         <button
           onClick={() => setAddOpen(true)}
-          className="flex items-center gap-2 bg-[#E85842] text-white px-4 py-2.5 rounded-xl text-sm font-semibold hover:bg-[#d04535] transition-colors"
+          className="flex items-center gap-2 bg-[#3356AA] text-white px-4 py-2.5 rounded-xl text-sm font-semibold hover:bg-[#2c4892] transition-colors"
         >
           <HiPlus size={18} /> Add programme
         </button>
@@ -418,7 +418,7 @@ export default function UniProgramsPage() {
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             placeholder="Search programmes…"
-            className="w-full pl-9 pr-4 py-2 border border-gray-200 rounded-full text-sm text-gray-700 placeholder:text-gray-400 bg-white focus:outline-none focus:ring-2 focus:ring-[#E85842]/20 focus:border-[#E85842]"
+            className="w-full pl-9 pr-4 py-2 border border-gray-200 rounded-full text-sm text-gray-700 placeholder:text-gray-400 bg-white focus:outline-none focus:ring-2 focus:ring-[#3356AA]/20 focus:border-[#3356AA]"
           />
         </div>
 
@@ -435,7 +435,7 @@ export default function UniProgramsPage() {
             {myPrograms.length === 0 && (
               <button
                 onClick={() => setAddOpen(true)}
-                className="flex items-center gap-1.5 text-sm text-[#E85842] font-medium hover:underline"
+                className="flex items-center gap-1.5 text-sm text-[#3356AA] font-medium hover:underline"
               >
                 <HiPlus size={16} /> Add your first programme
               </button>

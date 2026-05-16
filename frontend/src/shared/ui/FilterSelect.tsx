@@ -43,7 +43,7 @@ export default function FilterSelect({
       <button
         type="button"
         onClick={() => setOpen((v) => !v)}
-        className={`w-[150px] h-[50px] px-4 py-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-primary bg-white cursor-pointer flex items-center justify-between gap-2 transition
+        className={`w-[150px] h-[50px] px-4 py-3 border rounded-2xl focus:outline-none focus:ring-2 focus:ring-[#3356AA]/30 bg-white cursor-pointer flex items-center justify-between gap-2 transition
           ${values.length > 0
             ? "border-[#3356AA] text-[#3356AA]"
             : "border-[#DFE4EA] text-[#6B7280]"
@@ -57,7 +57,7 @@ export default function FilterSelect({
       </button>
 
       {open && (
-        <div className="absolute z-50 mt-1 w-[220px] bg-white border border-[#DFE4EA] rounded-md shadow-lg max-h-60 overflow-y-auto">
+        <div className="absolute z-50 mt-1 w-[220px] bg-white border border-[#DFE4EA] rounded-2xl shadow-lg max-h-60 overflow-y-auto">
           {/* All option */}
           <button
             type="button"

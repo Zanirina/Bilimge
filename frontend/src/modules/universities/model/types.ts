@@ -47,12 +47,19 @@ export type UniversityProgramShort = {
 export type UniversityProgramDetail = {
   code: string;
   local_name: string;
+  university: string;
   university_name: string;
+  field_of_study_code: string;
   field_of_study_name: string;
+  ntc_program: string;
+  ntc_program_name: string;
   description: string;
   passing_score: number;
   grant_score: number;
   cost: number;
+  degree: ProgramDegree;
+  years_of_study: number | null;
+  study_type: ProgramStudyType;
   language_name: string;
   subject_1: string;
   subject_2: string;
@@ -97,6 +104,9 @@ export type UniversityListItem = {
   short_name: string;
   city: string;
   passing_score: number;
+  cover_url?: string;
+  logo_url?: string;
+  tuition_cost?: number | null;
 };
 
 // Full university detail from /unipage/api/universities/{code}/
@@ -133,10 +143,15 @@ export type ProgramStudyType = "full_time" | "part_time" | "distance" | "evening
 // Admin program shape used in my-university programs CRUD
 export type UniversityProgram = {
   code: string;
+  university: string;
+  university_name: string;
+  ntc_program: string;
+  ntc_program_name: string;
   local_name: string;
   cost: number;
   passing_score: number;
   grant_score: number;
+  language: number | null;
   language_name: string;
   degree: ProgramDegree;
   years_of_study: number | null;

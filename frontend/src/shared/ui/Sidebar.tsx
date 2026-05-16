@@ -30,11 +30,13 @@ function Avatar({
   name,
   subtitle,
   collapsed,
+  avatarUrl,
 }: {
   email: string;
   name: string;
   subtitle?: string;
   collapsed: boolean;
+  avatarUrl?: string;
 }) {
   const safeName = name?.trim() ?? "";
   const safeEmail = email?.trim() ?? "";
@@ -52,9 +54,17 @@ function Avatar({
 
   return (
     <div className={`flex items-center gap-3 ${collapsed ? "justify-center" : ""}`}>
-      <div className="w-9 h-9 rounded-full bg-[#3356AA] flex items-center justify-center text-white font-semibold text-sm flex-shrink-0">
-        {initials}
-      </div>
+      {avatarUrl ? (
+        <img
+          src={avatarUrl}
+          alt={safeName || safeEmail}
+          className="w-9 h-9 rounded-full object-cover flex-shrink-0"
+        />
+      ) : (
+        <div className="w-9 h-9 rounded-full bg-[#3356AA] flex items-center justify-center text-white font-semibold text-sm flex-shrink-0">
+          {initials}
+        </div>
+      )}
       {!collapsed && (
         <div className="flex flex-col leading-tight overflow-hidden">
           <span className="text-sm font-semibold text-[#111928] truncate">
@@ -321,16 +331,6 @@ export default function Sidebar({ items, userSubtitle }: SidebarProps) {
             <NavItemComponent key={item.path} item={item} collapsed={collapsed} />
           ))}
         </nav>
-      </div>
-
-      {/* User avatar at bottom */}
-      <div className="px-4 pt-4 border-t border-gray-100 mt-2">
-        <Avatar
-          email={user?.email ?? ""}
-          name={fullName}
-          subtitle={userSubtitle}
-          collapsed={collapsed}
-        />
       </div>
     </aside>
   );

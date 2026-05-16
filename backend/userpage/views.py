@@ -8,6 +8,7 @@ from .models import User, Applicant, Favorite, UniversityStaff
 from .serializers import (
     RegisterSerializer, UserMeSerializer,
     ApplicantProfileSerializer, FavoriteSerializer,
+    UserUpdateSerializer,
 )
 
 
@@ -36,11 +37,45 @@ class MeView(APIView):
         # The lazy load of target_speciality works via simple WHERE, so we skip
         # the deep join here.
         user = User.objects.select_related(
-            'applicant_profile',
+            'applicant_profile', 'staff_profile',
         ).prefetch_related('favorites').get(pk=request.user.pk)
 
         serializer = UserMeSerializer(user)
         return Response(serializer.data)
+
+    def patch(self, request):
+        serializer = UserUpdateSerializer(request.user, data=request.data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            user = User.objects.select_related(
+                'applicant_profile', 'staff_profile',
+            ).prefetch_related('favorites').get(pk=request.user.pk)
+            return Response(UserMeSerializer(user).data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class ChangePasswordView(APIView):
+    """POST /api/auth/change-password/ — verify current pw, set new."""
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request):
+        current = request.data.get('current_password')
+        new = request.data.get('new_password')
+        if not current or not new:
+            return Response(
+                {'error': 'current_password and new_password are required'},
+                status=400,
+            )
+        if len(new) < 8:
+            return Response(
+                {'error': 'New password must be at least 8 characters.'},
+                status=400,
+            )
+        if not request.user.check_password(current):
+            return Response({'error': 'Current password is incorrect.'}, status=400)
+        request.user.set_password(new)
+        request.user.save()
+        return Response({'message': 'Password changed successfully.'})
 
 class ApplicantProfileView(APIView):
     permission_classes = [IsAuthenticated]

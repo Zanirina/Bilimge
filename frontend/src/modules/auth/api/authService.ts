@@ -7,6 +7,8 @@ import type {
   LoginRequest,
   RegisterRequest,
   UpdateProfileRequest,
+  UpdateMeRequest,
+  ChangePasswordRequest,
   ResetPasswordRequest,
   ResetPasswordConfirmRequest,
   User,
@@ -33,6 +35,20 @@ export const authService = {
 
   updateProfile: (data: UpdateProfileRequest) =>
     http.patch<User>(endpoints.auth.applicantProfile, data),
+
+  updateMe: (data: UpdateMeRequest) =>
+    http.patch<User>(endpoints.auth.me, data),
+
+  changePassword: (data: ChangePasswordRequest) =>
+    http.post<{ message: string }>(endpoints.auth.changePassword, data),
+
+  uploadAvatar: (file: File) => {
+    const form = new FormData();
+    form.append("avatar", file);
+    return http.post<{ avatar_url: string }>(endpoints.auth.uploadAvatar, form, {
+      headers: { "Content-Type": undefined },
+    });
+  },
 
   resetPassword: (data: ResetPasswordRequest) =>
     http.post<{ message: string }>(endpoints.auth.resetPassword, data),

@@ -63,7 +63,8 @@ class UniversityProgramDetailSerializer(serializers.ModelSerializer):
             'field_of_study_code', 'field_of_study_name',
             'ntc_program', 'ntc_program_name',
             'description', 'passing_score', 'grant_score',
-             'language', 'language_name',
+            'cost', 'degree', 'years_of_study', 'study_type',
+            'language', 'language_name',
             'subject_1', 'subject_2',
             'future_professions',
         ]

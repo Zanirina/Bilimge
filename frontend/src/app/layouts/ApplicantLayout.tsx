@@ -1,5 +1,9 @@
 import { Outlet } from "react-router-dom";
-import { MdOutlineDashboard, MdOutlineSchool, MdOutlineMenuBook } from "react-icons/md";
+import {
+  MdOutlineDashboard,
+  MdOutlineSchool,
+  MdOutlineMenuBook,
+} from "react-icons/md";
 import { TbRobot, TbSpeakerphone } from "react-icons/tb";
 import { LuBrain, LuGitCompare } from "react-icons/lu";
 import Sidebar from "../../shared/ui/Sidebar";
