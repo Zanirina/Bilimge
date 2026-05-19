@@ -341,10 +341,10 @@ export default function UniProgramsPage() {
   function buildInitial(prog: UniversityProgram): CreateProgramRequest {
     return {
       code: prog.code,
-      ntc_program: prog.code,
+      ntc_program: prog.ntc_program,
       local_name: prog.local_name,
       cost: prog.cost,
-      language: 0,
+      language: prog.language ?? 0,
       degree: prog.degree,
       years_of_study: prog.years_of_study,
       study_type: prog.study_type,

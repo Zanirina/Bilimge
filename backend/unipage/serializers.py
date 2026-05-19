@@ -131,6 +131,7 @@ class UniversityPageSerializer(serializers.ModelSerializer):
             'tuition_cost',
             'passing_score', 'history',
             'has_dormitory', 'has_military_department',
+            'logo_url', 'cover_url',
             'teaching_languages',
             'programs_by_field',
             'entrance_requirements',

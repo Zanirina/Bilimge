@@ -1,17 +1,17 @@
 import { useEffect, useState, useMemo, useRef } from "react";
 import { useAnnouncementsStore } from "../model/announcementsStore";
 import type { Announcement, AnnouncementTag, CreateAnnouncementRequest } from "../model/types";
-import { HiOutlineChevronRight, HiOutlineShare, HiOutlineTrash, HiPlus, HiX, HiOutlinePencil } from "react-icons/hi";
-import { LuCalendar, LuUpload } from "react-icons/lu";
+import { HiOutlineChevronRight, HiPlus, HiX } from "react-icons/hi";
+import { LuUpload } from "react-icons/lu";
+import {
+  AnnouncementCard,
+  TAG_OPTIONS,
+  TagBadge,
+  formatManageDate,
+  tagMeta,
+} from "./AnnouncementCard";
 
 // ─── constants ───────────────────────────────────────────────────────────────
-
-const TAGS: { key: AnnouncementTag; label: string; color: string; bg: string }[] = [
-  { key: "event",       label: "Event",       color: "#3356AA", bg: "#EEF2FF" },
-  { key: "scholarship", label: "Scholarship", color: "#10B981", bg: "#E6F7EF" },
-  { key: "programme",   label: "Programme",   color: "#7C5CFF", bg: "#F1ECFE" },
-  { key: "update",      label: "Update",      color: "#3D5AFE", bg: "#EBF2FE" },
-];
 
 const ALL_FILTERS: { key: AnnouncementTag | "all"; label: string }[] = [
   { key: "all",         label: "All" },
@@ -21,118 +21,14 @@ const ALL_FILTERS: { key: AnnouncementTag | "all"; label: string }[] = [
   { key: "update",      label: "Update" },
 ];
 
-// ─── helpers ─────────────────────────────────────────────────────────────────
-
-function formatDate(iso: string) {
-  return new Date(iso).toLocaleDateString("en-US", {
-    month: "short", day: "numeric", year: "numeric",
-  });
-}
-
-function tagMeta(tag: AnnouncementTag) {
-  return TAGS.find((t) => t.key === tag) ?? null;
-}
-
 // ─── sub-components ──────────────────────────────────────────────────────────
-
-function TagBadge({ tag }: { tag: AnnouncementTag }) {
-  const meta = tagMeta(tag);
-  if (!meta) return null;
-  return (
-    <span
-      className="inline-block text-xs font-semibold px-3 py-1 rounded-full"
-      style={{ color: meta.color, backgroundColor: meta.bg }}
-    >
-      {meta.label}
-    </span>
-  );
-}
-
-function AnnouncementCard({
-  item,
-  onView,
-  onEdit,
-  onDelete,
-}: {
-  item: Announcement;
-  onView: (a: Announcement) => void;
-  onEdit: (a: Announcement) => void;
-  onDelete: (id: number) => void;
-}) {
-  const [confirming, setConfirming] = useState(false);
-  const preview = item.body.length > 180 ? item.body.slice(0, 180) + "…" : item.body;
-  return (
-    <div className="bg-white rounded-2xl border border-gray-100 p-5 flex flex-col gap-3">
-      <div className="flex items-start justify-between gap-2">
-        <TagBadge tag={item.tag} />
-        <div className="flex items-center gap-2">
-          <button
-            className="w-8 h-8 flex items-center justify-center rounded-lg text-gray-400 hover:text-gray-600 hover:bg-gray-50 transition-colors"
-            title="Share"
-          >
-            <HiOutlineShare size={16} />
-          </button>
-          <button
-            onClick={() => onEdit(item)}
-            className="w-8 h-8 flex items-center justify-center rounded-lg text-gray-400 hover:text-blue-600 hover:bg-blue-50 transition-colors"
-            title="Edit"
-          >
-            <HiOutlinePencil size={16} />
-          </button>
-          {confirming ? (
-            <div className="flex items-center gap-1">
-              <button
-                onClick={() => { onDelete(item.id); setConfirming(false); }}
-                className="px-2.5 py-1 rounded-lg bg-red-500 text-white text-xs font-semibold hover:bg-red-600"
-              >
-                Delete
-              </button>
-              <button
-                onClick={() => setConfirming(false)}
-                className="px-2.5 py-1 rounded-lg border border-gray-200 text-xs text-gray-500 hover:bg-gray-50"
-              >
-                Cancel
-              </button>
-            </div>
-          ) : (
-            <button
-              onClick={() => setConfirming(true)}
-              className="w-8 h-8 flex items-center justify-center rounded-lg text-gray-400 hover:text-red-500 hover:bg-red-50 transition-colors"
-              title="Delete"
-            >
-              <HiOutlineTrash size={16} />
-            </button>
-          )}
-        </div>
-      </div>
-
-      <div>
-        <h3 className="text-[15px] font-bold text-[#111928] mb-1">{item.title}</h3>
-        <p className="text-sm text-gray-600 leading-relaxed">{preview}</p>
-      </div>
-
-      <div className="flex items-center justify-between pt-1 border-t border-gray-50">
-        <span className="flex items-center gap-1.5 text-xs text-gray-400">
-          <LuCalendar size={13} />
-          {formatDate(item.created_at)}
-        </span>
-        <button
-          onClick={() => onView(item)}
-          className="flex items-center gap-1 text-sm text-[#3356AA] font-medium hover:underline"
-        >
-          View post <HiOutlineChevronRight size={15} />
-        </button>
-      </div>
-    </div>
-  );
-}
 
 function LatestCard({ item, onView }: { item: Announcement; onView: (a: Announcement) => void }) {
   return (
     <div className="py-3 border-b border-gray-100 last:border-0">
       <TagBadge tag={item.tag} />
       <p className="text-sm font-semibold text-[#111928] mt-1.5 line-clamp-1">{item.title}</p>
-      <p className="text-xs text-gray-400 mt-0.5">{formatDate(item.created_at)}</p>
+      <p className="text-xs text-gray-400 mt-0.5">{formatManageDate(item.created_at)}</p>
       <button
         onClick={() => onView(item)}
         className="flex items-center gap-1 mt-1.5 text-xs text-[#3356AA] font-medium hover:underline"
@@ -155,7 +51,7 @@ function FullPostModal({ item, onClose }: { item: Announcement; onClose: () => v
           <button onClick={onClose} className="text-gray-400 hover:text-gray-600"><HiX size={20} /></button>
         </div>
         <h2 className="text-xl font-bold text-[#111928] mb-2">{item.title}</h2>
-        <p className="text-xs text-gray-400 mb-4">{formatDate(item.created_at)}</p>
+        <p className="text-xs text-gray-400 mb-4">{formatManageDate(item.created_at)}</p>
         <p className="text-sm text-gray-700 leading-relaxed whitespace-pre-wrap">{item.body}</p>
       </div>
     </div>
@@ -215,7 +111,7 @@ function NewAnnouncementModal({
           <div>
             <label className="block text-sm font-semibold text-[#111928] mb-2">Tag</label>
             <div className="flex items-center gap-2 flex-wrap">
-              {TAGS.map((t) => {
+              {TAG_OPTIONS.map((t) => {
                 const active = form.tag === t.key;
                 return (
                   <button
@@ -356,7 +252,7 @@ function EditAnnouncementModal({
           <div>
             <label className="block text-sm font-semibold text-[#111928] mb-2">Tag</label>
             <div className="flex items-center gap-2 flex-wrap">
-              {TAGS.map((t) => {
+              {TAG_OPTIONS.map((t) => {
                 const active = form.tag === t.key;
                 return (
                   <button
@@ -539,9 +435,12 @@ export default function UniAnnouncementsPage() {
               <AnnouncementCard
                 key={item.id}
                 item={item}
+                variant="manage"
                 onView={setSelected}
                 onEdit={setEditTarget}
                 onDelete={deleteUniversity}
+                onShare={() => {}}
+                confirmDelete
               />
             ))
           )}

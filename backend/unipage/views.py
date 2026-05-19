@@ -76,7 +76,8 @@ class MyUniversityProgramDetailView(APIView):
                 title=f'Обновление программы {program.local_name}',
                 body=f'Университет {program.university.name} обновил информацию по программе «{program.local_name}».',
                 author_type='university',
-                university=program.university,
+                university_id=program.university.code,
+                university_name=program.university.name,
                 created_by=request.user,
             )
             notify_users(ann)

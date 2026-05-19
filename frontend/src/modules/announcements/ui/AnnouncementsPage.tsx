@@ -1,141 +1,15 @@
 import { useEffect, useState, useMemo } from "react";
 import { useAnnouncementsStore } from "../model/announcementsStore";
 import type { Announcement, AnnouncementAuthorType } from "../model/types";
-import { BsPin } from "react-icons/bs";
-import { LuBuilding2 } from "react-icons/lu";
-import { MdOutlineSchool } from "react-icons/md";
-import { HiOutlineChevronRight } from "react-icons/hi";
-
-// ─── helpers ────────────────────────────────────────────────────────────────
-
-function formatDate(iso: string) {
-  const d = new Date(iso);
-  return d.toLocaleDateString("en-US", {
-    month: "short",
-    day: "numeric",
-    hour: "2-digit",
-    minute: "2-digit",
-  });
-}
-
-function initials(name: string) {
-  return name
-    .split(" ")
-    .filter(Boolean)
-    .map((w) => w[0])
-    .join("")
-    .toUpperCase()
-    .slice(0, 2);
-}
-
-function authorLabel(a: Announcement) {
-  return a.author_type === "university" && a.university_name
-    ? a.university_name
-    : "NTC";
-}
-
-function authorRole(a: Announcement) {
-  return a.author_type === "university" ? "University" : "NTC Admin";
-}
-
-// ─── sub-components ─────────────────────────────────────────────────────────
-
-function AuthorAvatar({ name, type }: { name: string; type: AnnouncementAuthorType }) {
-  const bg = type === "university" ? "bg-purple-600" : "bg-[#3356AA]";
-  return (
-    <div
-      className={`w-10 h-10 rounded-full ${bg} flex items-center justify-center text-white text-xs font-bold flex-shrink-0`}
-    >
-      {initials(name)}
-    </div>
-  );
-}
-
-function TypeBadge({ type }: { type: AnnouncementAuthorType }) {
-  if (type === "university") {
-    return (
-      <span className="inline-flex items-center gap-1 text-xs font-medium text-purple-700 bg-purple-50 px-2 py-0.5 rounded-full">
-        <MdOutlineSchool size={12} /> University
-      </span>
-    );
-  }
-  return (
-    <span className="inline-flex items-center gap-1 text-xs font-medium text-blue-700 bg-blue-50 px-2 py-0.5 rounded-full">
-      <LuBuilding2 size={12} /> NTC
-    </span>
-  );
-}
-
-function AnnouncementCard({
-  item,
-  onView,
-}: {
-  item: Announcement;
-  onView: (a: Announcement) => void;
-}) {
-  const name = authorLabel(item);
-  const role = authorRole(item);
-  const preview = item.body.length > 200 ? item.body.slice(0, 200) + "…" : item.body;
-
-  return (
-    <div className="bg-white rounded-2xl border border-gray-100 p-5 flex flex-col gap-3">
-      {/* header row */}
-      <div className="flex items-start justify-between gap-2">
-        <div className="flex items-center gap-3">
-          <AuthorAvatar name={name} type={item.author_type} />
-          <div>
-            <p className="text-sm font-semibold text-[#111928]">{name}</p>
-            <p className="text-xs text-gray-400">
-              {role} · {formatDate(item.created_at)}
-            </p>
-          </div>
-        </div>
-        <TypeBadge type={item.author_type} />
-      </div>
-
-      {/* body */}
-      <div>
-        <h3 className="text-[15px] font-bold text-[#111928] mb-1">{item.title}</h3>
-        <p className="text-sm text-gray-600 leading-relaxed">{preview}</p>
-      </div>
-
-      {/* footer */}
-      <div className="flex items-center justify-end pt-1 border-t border-gray-50">
-        <button
-          onClick={() => onView(item)}
-          className="flex items-center gap-1 text-sm text-[#3356AA] font-medium hover:underline"
-        >
-          View Full Post <HiOutlineChevronRight size={15} />
-        </button>
-      </div>
-    </div>
-  );
-}
-
-function PinnedCard({ item, onView }: { item: Announcement; onView: (a: Announcement) => void }) {
-  const name = authorLabel(item);
-  return (
-    <div className="py-4 border-b border-gray-100 last:border-0">
-      <div className="flex items-center gap-2 mb-2">
-        <AuthorAvatar name={name} type={item.author_type} />
-        <div className="flex-1 min-w-0">
-          <p className="text-sm font-semibold text-[#111928] truncate">{name}</p>
-        </div>
-        <span className="flex items-center gap-1 text-xs text-gray-400 font-medium flex-shrink-0">
-          <BsPin size={11} /> Pinned
-        </span>
-      </div>
-      <TypeBadge type={item.author_type} />
-      <p className="text-sm text-gray-600 mt-1 line-clamp-2">{item.body}</p>
-      <button
-        onClick={() => onView(item)}
-        className="flex items-center gap-1 mt-2 text-xs text-[#3356AA] font-medium hover:underline"
-      >
-        View post <HiOutlineChevronRight size={13} />
-      </button>
-    </div>
-  );
-}
+import {
+  AnnouncementCard,
+  AuthorAvatar,
+  PinnedCard,
+  TypeBadge,
+  authorLabel,
+  authorRole,
+  formatFeedDate,
+} from "./AnnouncementCard";
 
 function FullPostModal({
   item,
@@ -156,11 +30,11 @@ function FullPostModal({
         onClick={(e) => e.stopPropagation()}
       >
         <div className="flex items-center gap-3 mb-4">
-          <AuthorAvatar name={name} type={item.author_type} />
+          <AuthorAvatar name={name} type={item.author_type} avatarUrl={item.author_avatar_url} />
           <div>
             <p className="font-semibold text-[#111928]">{name}</p>
             <p className="text-xs text-gray-400">
-              {role} · {formatDate(item.created_at)}
+              {role} · {formatFeedDate(item.created_at)}
             </p>
           </div>
           <div className="ml-auto">
@@ -204,7 +78,6 @@ export default function AnnouncementsPage() {
     return announcements.filter((a) => a.author_type === filter);
   }, [announcements, filter]);
 
-  // top-3 for "pinned" sidebar
   const pinned = useMemo(() => announcements.slice(0, 3), [announcements]);
 
   const counts: Record<FilterKey, number> = useMemo(
@@ -285,7 +158,12 @@ export default function AnnouncementsPage() {
             </div>
           ) : (
             filtered.map((item) => (
-              <AnnouncementCard key={item.id} item={item} onView={setSelected} />
+              <AnnouncementCard
+                key={item.id}
+                item={item}
+                variant="feed"
+                onView={setSelected}
+              />
             ))
           )}
         </div>

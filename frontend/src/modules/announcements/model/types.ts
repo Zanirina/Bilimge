@@ -9,6 +9,7 @@ export type Announcement = {
   author_type: AnnouncementAuthorType;
   university_id: number | null;
   university_name: string;
+  author_avatar_url?: string;
   created_at: string;
 };
 
