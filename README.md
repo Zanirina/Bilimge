@@ -54,7 +54,8 @@ npm run preview
 Regenerate `backend/full_dump.sql` from your local database after schema or seed changes:
 
 ```bash
-pg_dump -U postgres -h localhost --encoding=UTF8 bilimge_bd > backend/full_dump.sql
+cd backend
+pg_dump -U postgres -h localhost --encoding=UTF8 bilimge_bd > full_dump.sql
 ```
 
 Then commit the updated file so teammates can rebuild their DB with `psql -U postgres -d bilimge_bd < full_dump.sql`.
