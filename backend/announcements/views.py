@@ -11,8 +11,26 @@ User = get_user_model()
 
 
 def notify_users(announcement):
-    """Отправить письмо всем юзерам у кого есть email"""
-    emails = list(User.objects.filter(email__isnull=False).exclude(email='').values_list('email', flat=True))
+    """Отправить письмо только подписчикам университета (или всем если от NTC)"""
+    from userpage.models import FavoriteUniversity
+
+    if announcement.author_type == 'ntc':
+        # От NTC — всем пользователям
+        emails = list(
+            User.objects.filter(email__isnull=False)
+            .exclude(email='')
+            .values_list('email', flat=True)
+        )
+    else:
+        # От университета — только подписчикам этого вуза
+        emails = list(
+            FavoriteUniversity.objects.filter(
+                university_id=announcement.university_id
+            ).select_related('user')
+            .exclude(user__email='')
+            .values_list('user__email', flat=True)
+        )
+
     if not emails:
         return
 

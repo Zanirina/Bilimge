@@ -30,6 +30,8 @@ class UserMeSerializer(serializers.ModelSerializer):
     favorites_count = serializers.SerializerMethodField()
     university_name = serializers.SerializerMethodField()
     university_code = serializers.SerializerMethodField()
+    followed_universities_count = serializers.SerializerMethodField()
+
 
     class Meta:
         model = User
@@ -40,7 +42,7 @@ class UserMeSerializer(serializers.ModelSerializer):
             'subject_1', 'subject_1_name',
             'subject_2', 'subject_2_name',
             'favorites_count',
-            'university_name', 'university_code',
+            'university_name', 'university_code','followed_universities_count'
         ]
 
     def _get_applicant(self, obj):
@@ -87,6 +89,10 @@ class UserMeSerializer(serializers.ModelSerializer):
             return obj.staff_profile.university.code
         except Exception:
             return None
+
+    def get_followed_universities_count(self, obj):
+        return obj.favorite_universities.count()
+
 
 
 class UserUpdateSerializer(serializers.ModelSerializer):

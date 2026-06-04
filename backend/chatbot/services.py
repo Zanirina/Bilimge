@@ -122,7 +122,6 @@ def get_context_from_db(question: str) -> str:
             prog_lines = [_uni_program_detail(up) for up in uni_programs]
             context.append("Программы этого университета:\n" + "\n".join(prog_lines))
         else:
-            # Fall back to NTC programs + uni passing score info
             ntc_by_field = {}
             for field in FieldOfStudy.objects.all():
                 progs = NtcProgram.objects.filter(field_of_study=field)[:5]
@@ -209,13 +208,11 @@ def get_context_from_db(question: str) -> str:
             label = "IT/CS образовательные программы и вступительные предметы" if is_it_query else "Образовательные программы и вступительные предметы"
             context.append(f"{label}:\n" + "\n".join(lines))
 
-        # Also include university programs if IT query
         if is_it_query and not matched_uni:
             uni_progs = UniversityProgram.objects.filter(
                 ntc_program__in=all_progs
             ).select_related('university', 'ntc_program', 'language') if all_progs.exists() else UniversityProgram.objects.none()
 
-            # Also search by program name
             uni_progs_by_name = UniversityProgram.objects.filter(
                 local_name__icontains='IT'
             ) | UniversityProgram.objects.filter(

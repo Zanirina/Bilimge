@@ -34,7 +34,7 @@ class NtcProgramSerializer(serializers.ModelSerializer):
         fields = [
             'code', 'name', 'field_of_study', 'field_of_study_name',
             'subject_1', 'subject_1_name', 'subject_2', 'subject_2_name',
-            'minimum_score',
+            'minimum_score','updated_at',
         ]
 
 
@@ -66,7 +66,8 @@ class UniversityProgramDetailSerializer(serializers.ModelSerializer):
             'cost', 'degree', 'years_of_study', 'study_type',
             'language', 'language_name',
             'subject_1', 'subject_2',
-            'future_professions',
+            'future_professions', 'updated_at',
+
         ]
 
 
@@ -137,7 +138,8 @@ class UniversityPageSerializer(serializers.ModelSerializer):
             'entrance_requirements',
             'entrance_exams',
             'academic_mobility',
-            'accreditations',
+            'accreditations', 'updated_at',
+
         ]
 
     def get_teaching_languages(self, obj):
@@ -188,7 +190,8 @@ class UniversityUpdateSerializer(serializers.ModelSerializer):
             'telegram_url', 'instagram_url',
             'tuition_cost',
             'passing_score', 'history',
-            'has_dormitory', 'has_military_department',
+            'has_dormitory', 'has_military_department','updated_at',
+
         ]
 
 
@@ -207,7 +210,7 @@ class UniversityProgramSerializer(serializers.ModelSerializer):
             'subject_1_name', 'subject_2_name',
             'local_name', 'cost', 'language', 'language_name',
             'degree', 'years_of_study', 'study_type',
-            'description', 'passing_score', 'grant_score', 'future_professions',
+            'description', 'passing_score', 'grant_score', 'future_professions','updated_at',
         ]
 
 

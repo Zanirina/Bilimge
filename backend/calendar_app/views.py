@@ -7,36 +7,24 @@ from .models import CalendarEvent
 from .serializers import CalendarEventSerializer, CalendarEventWriteSerializer, CalendarEventUpdateSerializer
 from userpage.permissions import IsNtcAdmin, IsUniAdmin
 from unipage.models import UniversityProgram
+from django.core.mail import send_mass_mail
+from django.contrib.auth import get_user_model
+
+User = get_user_model()
 
 
 def _favorite_university_ids_for(user):
-    """Собирает id вузов, в которые подписан пользователь (через избранные программы
-    и через избранные вузы напрямую). Не используем select_related: favorites.program_id
-    в унаследованной схеме — integer, а university_programs.code — varchar, поэтому ORM-JOIN
-    падает. Резолвим программы вручную через приведение ключей к строкам.
-    """
-    from userpage.models import FavoriteUniversity  # импорт здесь, чтобы избежать циклов
-
-    program_ids = list(
-        user.favorites.values_list('program_id', flat=True).distinct()
+    from userpage.models import FavoriteUniversity
+    return list(
+        FavoriteUniversity.objects.filter(user=user)
+        .values_list('university_id', flat=True)
     )
-    uni_ids = set()
-    if program_ids:
-        program_keys = {str(pid) for pid in program_ids}
-        for p in UniversityProgram.objects.filter(code__in=list(program_keys)).only('university_id'):
-            uni_ids.add(p.university_id)
-
-    direct = FavoriteUniversity.objects.filter(user=user).values_list('university_id', flat=True)
-    uni_ids.update(direct)
-    return list(uni_ids)
 
 
 class CalendarEventListView(APIView):
     permission_classes = [AllowAny]
 
     def get(self, request):
-        qs = CalendarEvent.objects.filter(visibility='public')
-
         if request.user.is_authenticated:
             favorite_uni_ids = _favorite_university_ids_for(request.user)
             qs = CalendarEvent.objects.filter(
@@ -44,6 +32,8 @@ class CalendarEventListView(APIView):
                 Q(visibility='university', university_id__in=favorite_uni_ids) |
                 Q(visibility='personal', created_by=request.user)
             )
+        else:
+            qs = CalendarEvent.objects.filter(visibility='public')
 
         month = request.query_params.get('month')
         year = request.query_params.get('year')
@@ -93,6 +83,7 @@ class NtcCalendarView(APIView):
                 created_by=request.user,
                 university_id=None,
             )
+            notify_calendar_event(event)
             return Response(CalendarEventSerializer(event).data, status=201)
         return Response(serializer.errors, status=400)
 
@@ -147,6 +138,7 @@ class UniCalendarView(APIView):
                 visibility=visibility,
                 created_by=request.user
             )
+            notify_calendar_event(event)
             return Response(CalendarEventSerializer(event).data, status=201)
         return Response(serializer.errors, status=400)
 
@@ -215,3 +207,43 @@ class PersonalCalendarDetailView(APIView):
     def delete(self, request, pk):
         self.get_object(request, pk).delete()
         return Response({'status': 'deleted'}, status=204)
+
+def notify_calendar_event(event):
+    """Уведомление о новом событии в календаре"""
+    from userpage.models import FavoriteUniversity
+
+    if event.visibility == 'public':
+        emails = list(
+            User.objects.filter(email__isnull=False)
+            .exclude(email='')
+            .values_list('email', flat=True)
+        )
+    elif event.visibility == 'university' and event.university_id:
+        emails = list(
+            FavoriteUniversity.objects.filter(university_id=event.university_id)
+            .exclude(user__email='')
+            .values_list('user__email', flat=True)
+        )
+    else:
+        return
+
+    if not emails:
+        return
+
+    link = f"https://bilimge.kz/calendar/"
+    date_str = event.start_date.strftime('%d.%m.%Y')
+    time_str = f" в {event.start_time.strftime('%H:%M')}" if event.start_time else ""
+
+    messages = tuple(
+        (
+            f'Новое событие: {event.title}',
+            f'{event.title}\n'
+            f'Дата: {date_str}{time_str}\n'
+            f'{event.description[:200] if event.description else ""}\n\n'
+            f'Посмотреть календарь: {link}',
+            None,
+            [email]
+        )
+        for email in emails
+    )
+    send_mass_mail(messages, fail_silently=True)

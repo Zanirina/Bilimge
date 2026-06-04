@@ -6,6 +6,7 @@ from rest_framework.permissions import AllowAny
 from announcements.models import Announcement
 from announcements.views import notify_users
 from .models import Accreditation
+from django.utils import timezone
 from rest_framework import serializers
 from .serializers import AccreditationSerializer
 from userpage.permissions import IsNtcAdmin, IsUniAdminOfThisUniversity, IsUniAdmin
@@ -21,6 +22,7 @@ from .serializers import (
     UniversityProgramWriteSerializer,
     UniversityBasicUpdateSerializer
 )
+from .services import get_comparison_ai_analysis
 
 
 class MyUniversityView(APIView):
@@ -31,9 +33,11 @@ class MyUniversityView(APIView):
             university = request.user.staff_profile.university
             serializer = UniversitySerializer(university)
             return Response(serializer.data)
-        except Exception:
-            return Response({"error": "Employee profile not found"}, status=404)
-
+        except Exception as e:
+            print("ERROR in MyUniversityView:", e)
+            import traceback
+            traceback.print_exc()
+            return Response({"error": str(e)}, status=404)
 
 class MyUniversityProgramView(APIView):
     permission_classes = [IsUniAdmin]
@@ -50,7 +54,9 @@ class MyUniversityProgramView(APIView):
         university = request.user.staff_profile.university
         serializer = UniversityProgramWriteSerializer(data=request.data)
         if serializer.is_valid():
-            serializer.save(university=university)
+            program = serializer.save(university=university)
+            program.updated_at = timezone.now()
+            program.save()
             return Response(serializer.data, status=201)
         return Response(serializer.errors, status=400)
 
@@ -154,6 +160,10 @@ class NtcProgramViewSet(viewsets.ModelViewSet):
             return NtcProgramUpdateSerializer
         return NtcProgramSerializer
 
+    def perform_update(self, serializer):
+        instance = serializer.save()
+        instance.updated_at = timezone.now()
+        instance.save()
 
 class SubjectViewSet(viewsets.ModelViewSet):
     queryset = Subject.objects.all()
@@ -201,6 +211,7 @@ def ntc_program_edit(request, code=None, field_code=None):
             program.name = name
             program.subject_1_id = s1_id
             program.subject_2_id = s2_id
+            program.updated_at = timezone.now()
             program.save()
             target_field = program.field_of_study_id
         else:
@@ -306,6 +317,7 @@ class MyUniversityUpdateView(APIView):
         university = request.user.staff_profile.university
         serializer = UniversityUpdateSerializer(university, data=request.data, partial=True)
         if serializer.is_valid():
+            university.updated_at = timezone.now()
             serializer.save()
             return Response(serializer.data)
         return Response(serializer.errors, status=400)
@@ -601,3 +613,25 @@ class MyUniversityAccreditationDetailView(APIView):
     def delete(self, request, pk):
         self.get_object(request, pk).delete()
         return Response({'status': 'deleted'}, status=204)
+
+class UniversityCompareAIView(APIView):
+    permission_classes = [AllowAny]
+
+    def post(self, request):
+        codes = request.data.get('codes', [])
+        language = request.data.get('language', 'en')  # ← добавь
+
+        if len(codes) < 2:
+            return Response({'error': 'Need at least 2 universities'}, status=400)
+        if len(codes) > 3:
+            return Response({'error': 'Maximum 3 universities'}, status=400)
+
+        universities = University.objects.filter(code__in=codes).prefetch_related(
+            'programs', 'accreditations', 'academic_mobility', 'teaching_languages'
+        )
+
+        if universities.count() < 2:
+            return Response({'error': 'Universities not found'}, status=404)
+
+        analysis = get_comparison_ai_analysis(list(universities), language)  # ← передай
+        return Response({'ai_analysis': analysis})

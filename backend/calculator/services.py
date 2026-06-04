@@ -27,7 +27,6 @@ MIN_SCORE_BY_TYPE = {
     'default':     50,
 }
 
-# Маппинг field_of_study.code (int) → тип специальности
 FIELD_TYPE_MAP = {
     1: 'pedagogy', 2: 'pedagogy', 3: 'pedagogy', 4: 'pedagogy',
     5: 'pedagogy', 6: 'pedagogy', 7: 'pedagogy', 9: 'pedagogy',
@@ -49,7 +48,6 @@ QUOTA_BONUS = {
 
 
 def field_code_int_to_grant_code(field_code_int) -> str:
-    """Конвертирует числовой код поля (1) в формат грантников (B001)"""
     return f"B{int(field_code_int):03d}"
 
 
@@ -88,10 +86,7 @@ def check_minimum_scores(scores: dict, field_type: str) -> tuple[bool, str]:
 
 
 def get_grant_stats_from_winners(field_code_int, university_code=None) -> dict:
-    """Берёт реальную статистику из базы грантников 2025.
 
-    Если передан university_code — статистика по конкретному вузу в этом поле.
-    """
     grant_code = field_code_int_to_grant_code(field_code_int)
     qs = GrantWinner.objects.filter(field_code=grant_code, year=2025)
     if university_code is not None:
@@ -106,7 +101,6 @@ def get_grant_stats_from_winners(field_code_int, university_code=None) -> dict:
 
 
 def calculate_grant_chance(total_score: int, grant_score: int, quotas: list) -> float:
-    """Шанс на грант по конкретному grant_score (порогу) из БД"""
     if grant_score is None or grant_score == 0:
         return 0.0
 
@@ -139,13 +133,7 @@ def calculate_grant_chance_by_winners(
     quotas: list,
     university_code=None,
 ) -> tuple[float, str]:
-    """Шанс на грант на основе перцентиля среди грантников 2025.
 
-    Считаем, какая доля прошлогодних грантников набрала меньше абитуриента —
-    это его перцентиль. Чем выше перцентиль, тем выше шанс. Если у конкретного
-    вуза в этом поле не было грантников, откатываемся на статистику по полю.
-    Возвращаем (шанс, источник).
-    """
     grant_code = field_code_int_to_grant_code(field_code_int)
     source = 'grant_winners_2025'
 
@@ -162,11 +150,9 @@ def calculate_grant_chance_by_winners(
 
     below = qs.filter(score__lt=total_score).count()
     at_or_below = qs.filter(score__lte=total_score).count()
-    # midpoint percentile — справедливо обрабатывает ничьи
     percentile = ((below + at_or_below) / 2) / total * 100
 
-    # выпуклая кривая: щедрая сверху, крутая снизу
-    # перцентиль 100 → ~98, 75 → ~94, 50 → ~78, 25 → ~49, 0 → 10
+
     pct = percentile / 100.0
     base_chance = 10.0 + 88.0 * (1 - (1 - pct) ** 2)
 

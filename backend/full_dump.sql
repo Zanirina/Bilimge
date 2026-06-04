@@ -2,10 +2,10 @@
 -- PostgreSQL database dump
 --
 
-\restrict Zy9MXhmtu47ifvaIfPdmhgwIQiJAqF2jc0l7bWLMXP7Yu2PkV1AzWmv552SOXvk
+\restrict cnH5Oux17JHHCL2bHmjY2aaeazdepvpmtRiFKM2BZv3y9mOOYKzIFqdBIf3yqLZ
 
--- Dumped from database version 18.3 (Homebrew)
--- Dumped by pg_dump version 18.3 (Homebrew)
+-- Dumped from database version 18.3
+-- Dumped by pg_dump version 18.3
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -552,7 +552,7 @@ ALTER SEQUENCE public.entrance_requirements_id_seq OWNED BY public.entrance_requ
 CREATE TABLE public.favorite_universities (
     id bigint NOT NULL,
     created_at timestamp with time zone NOT NULL,
-    university_id character varying(20) NOT NULL,
+    university_id integer NOT NULL,
     user_id bigint NOT NULL
 );
 
@@ -763,7 +763,8 @@ CREATE TABLE public.ntc_programs (
     name character varying(255),
     subject_1_id integer,
     subject_2_id integer,
-    minimum_score integer DEFAULT 50 NOT NULL
+    minimum_score integer DEFAULT 50 NOT NULL,
+    updated_at timestamp with time zone
 );
 
 
@@ -904,7 +905,8 @@ CREATE TABLE public.universities (
     telegram_url character varying(500) DEFAULT ''::character varying NOT NULL,
     instagram_url character varying(500) DEFAULT ''::character varying NOT NULL,
     tuition_cost integer,
-    short_name character varying(100) DEFAULT ''::character varying NOT NULL
+    short_name character varying(100) DEFAULT ''::character varying NOT NULL,
+    updated_at timestamp with time zone
 );
 
 
@@ -985,7 +987,8 @@ CREATE TABLE public.university_programs (
     future_professions text DEFAULT ''::text NOT NULL,
     degree character varying(20) DEFAULT 'bachelor'::character varying NOT NULL,
     years_of_study integer,
-    study_type character varying(20) DEFAULT 'full_time'::character varying NOT NULL
+    study_type character varying(20) DEFAULT 'full_time'::character varying NOT NULL,
+    updated_at timestamp with time zone
 );
 
 
@@ -1019,7 +1022,7 @@ ALTER SEQUENCE public.university_programs_id_seq OWNED BY public.university_prog
 
 CREATE TABLE public.university_staff (
     id bigint NOT NULL,
-    university_id character varying(20) NOT NULL,
+    university_id integer NOT NULL,
     user_id bigint NOT NULL
 );
 
@@ -1299,6 +1302,9 @@ COPY public.announcements (id, title, body, author_type, university_id, universi
 9	New Bachelor's Programme: Artificial Intelligence	Starting from the 2026–2027 academic year, AITU is launching a new Bachelor's programme in Artificial Intelligence. The programme covers machine learning, computer vision, NLP, and AI ethics. Taught in English. 40 grant-funded seats available for the first cohort.	university	522	Astana IT University	2026-05-15 13:33:20.015252+05	2026-05-15 13:33:20.015254+05	5	programme	
 11	Hackathon AITU 2026 — Register by May 30	fhnigijn	university	522	Astana IT University	2026-05-15 13:33:20.016376+05	2026-05-15 15:18:40.26487+05	5	event	
 13	Обновление программы Computer Hardware and Software	Университет Astana IT University обновил информацию по программе «Computer Hardware and Software».	university	522	Astana IT University	2026-05-19 18:18:29.958193+05	2026-05-19 18:18:29.958203+05	5		
+14	т уууу	алооооооооо	university	522	Astana IT University	2026-06-04 13:04:02.407161+05	2026-06-04 13:04:02.407193+05	5	event	
+15	Test of announcements	you can see if you follow AITU	university	522	Astana IT University	2026-06-04 13:10:41.695306+05	2026-06-04 13:10:41.695326+05	5	event	
+16	TEST NTC ANNOUNCEMENT	HELLO SWETIE	ntc	\N		2026-06-04 13:31:17.259851+05	2026-06-04 13:31:17.259875+05	1	event	
 \.
 
 
@@ -1312,6 +1318,7 @@ COPY public.applicant (id, birth_date, unt_score, user_id, subject_1_id, subject
 1	\N	138	3	\N	\N
 5	\N	63	7	\N	\N
 3	2006-08-21	121	9	1	14
+6	\N	123	11	1	14
 \.
 
 
@@ -1462,6 +1469,8 @@ COPY public.auth_permission (id, name, content_type_id, codename) FROM stdin;
 COPY public.calendar_events (id, title, description, event_type, visibility, start_date, end_date, start_time, end_time, university_id, created_at, created_by_id) FROM stdin;
 1	Open Day		event	university	2026-05-16	\N	10:00:00	\N	522	2026-05-15 14:47:43.968805+05	5
 2	UNT Day		exam	personal	2026-05-30	\N	13:00:00	\N	\N	2026-05-16 11:21:35.164878+05	9
+3	Olimpiad Informatics	lorem	event	university	2026-06-25	2026-06-25	14:00:00	\N	522	2026-06-04 12:59:53.295495+05	5
+7	Test calendar	Test calendar notification	event	university	2026-06-07	2026-06-07	12:00:00	\N	522	2026-06-04 13:29:22.398239+05	5
 \.
 
 
@@ -2120,6 +2129,7 @@ COPY public.django_session (session_key, session_data, expire_date) FROM stdin;
 lyauljc4rvv6whz7am3d6yfeoooziu1r	.eJxVjDEOwjAMAP_iGUVNiBvTkZ03VI4d0wJqpaadEH9HlTrAene6N_S8rUO_1bL0o0IHHk6_LLM8y7QLffB0n53M07qM2e2JO2x1t1nL63q0f4OB6wAdULYgKEnFWzRCSQ17YsXA5hEthLakqJQafyG0wBKkEW3pHJkJM3y-9xk4MA:1wEhya:dD5nsAenoOhd4qkGtfkARNJ5LFU2aLzDYqEVMOQiYL8	2026-05-04 11:19:20.391989+05
 gd6s11gkjiixmakgmzfsqh89b53pmo0j	.eJxVjLsOgzAMAP_FcxXVSYiBsTvfgBw7LrQVSDymqv9eITG0693p3tDzvg39vpalHxVaSHD5ZZnlWaZD6IOn--xknrZlzO5I3GlX181aXrez_RsMvA7QAteSQrDGRyLvEcUEiQsZBkYktMDq5WpG1MQKc4W1asosiimaJvh8AdqrN_w:1wKWIt:gHB3vghLhmOgfmLc3uzYFoQBOqIOI-aetNW75Z6rars	2026-05-20 12:04:19.836061+05
 e2q12kfqpe23j13sup6j26ercdh3c4gm	.eJxVjEEOwiAQAP_C2RDQhUWP3n0DWVhWqoYmpT0Z_25IetDrzGTeKtK21rj1ssSJ1UUFdfhlifKztCH4Qe0-6zy3dZmSHonebde3mcvrurd_g0q9jq0nNonPFsFZg0UMnMShN-QzoANOVggF2XIBT-BCEZLkQ0CxHo7q8wXhADfn:1wNmOp:wgp3HQCYp39EG4wqCqkFbiCk9-MyVx2wibac_IzDuVg	2026-05-29 11:51:55.972391+05
+xw81xz882h9g02p5s49tjdaw6ekokk47	.eJxVjEEOwiAQAP_C2RDQhUWP3n0DWVhWqoYmpT0Z_25IetDrzGTeKtK21rj1ssSJ1UUFdfhlifKztCH4Qe0-6zy3dZmSHonebde3mcvrurd_g0q9jq0nNonPFsFZg0UMnMShN-QzoANOVggF2XIBT-BCEZLkQ0CxHo7q8wXhADfn:1wSYIt:bgRo7AlRsInVNwyayn56XDKssep3IvOXK81HXcTPmjQ	2026-06-11 15:49:31.114766+05
 \.
 
 
@@ -2168,6 +2178,9 @@ COPY public.entrance_requirements (id, university_id, description) FROM stdin;
 --
 
 COPY public.favorite_universities (id, created_at, university_id, user_id) FROM stdin;
+1	2026-06-04 11:47:06.214277+05	522	7
+2	2026-06-04 12:07:27.56173+05	522	11
+4	2026-06-04 13:06:51.468127+05	13	9
 \.
 
 
@@ -2186,6 +2199,9 @@ COPY public.favorites (id, created_at, program_id, user_id) FROM stdin;
 8	2026-05-14 19:17:19.242762+05	6102	7
 9	2026-05-14 19:17:19.243809+05	6101	9
 10	2026-05-14 19:17:19.244837+05	6102	9
+11	2026-06-04 11:07:02.068119+05	522009	7
+12	2026-06-04 11:08:31.183469+05	61025	7
+13	2026-06-04 12:09:05.239072+05	130003	11
 \.
 
 
@@ -45198,142 +45214,142 @@ COPY public.ntc_news (id, title, content, created_by, created_at) FROM stdin;
 -- Data for Name: ntc_programs; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.ntc_programs (code, field_of_study_id, name, subject_1_id, subject_2_id, minimum_score) FROM stdin;
-В091	6B111	Tourism	4	7	50
-В094	6B112	Sanitary and preventive measures	1	2	50
-В098	6В115	Sport	13	13	50
-В089	6В101	Public health	3	5	70
-В097	6B123	Fire safety	1	2	50
-В025	6В021	Conducting	13	13	50
-В099	6В021	Instrumental performance	13	13	50
-В102	6В021	The art of stage	13	13	50
-В105	6В021	Directing animation	13	13	50
-В108	6В021	Scenography	13	13	50
-BM086	6В101	Medicine	3	5	70
-4220	49	International law	6	\N	50
-В027	6В021	Theatrical art	13	13	50
-В030	6В021	Visual art	13	13	50
-В034	6В022	History	13	13	50
-В035	6В022	Turkology	7	6	50
-В038	6В031	Sociology	1	4	50
-В041	6В031	Psychology	3	4	50
-В145	6В041	State audit	1	4	50
-В048	6В041	Work skills	1	4	50
-В051	6В052	Environment	3	4	50
-В053	6В053	Chemistry	3	5	50
-В056	6В054	Mechanics	1	2	50
-В158	6В063	Cryptology	1	14	50
-В171	6В072	Metallurgy	1	2	50
-В073	6В073	Architecture	13	13	50
-В077	6B081	Plant growing	3	5	50
-В079	6B083	Forestry	3	4	50
-В080	6B084	Fisheries	3	5	50
-В092	6B111	Leisure	13	13	50
-В095	6B113	Transportation services	1	4	50
-В084	6В101	Nursing	3	5	70
-BM087	6В101	Dentistry	3	5	70
-В022	6В021	Musicology	13	13	50
-В026	6В021	Composition	13	13	50
-В100	6В021	Vocal art	13	13	50
-В103	6В021	Film and TV directing	13	13	50
-В106	6В021	Camera and photo art	13	13	50
-В109	6В021	Decorative art	13	13	50
-BM089	6В101	Medical and preventive business	3	5	70
-В042	6В032	Journalism and reporting	13	13	50
-В002	6В012	Pedagogy of preschool education and upbringing	3	4	75
-В001	6В011	Pedagogy and psychology	3	4	75
-В003	6В013	Pedagogy and methods of primary education	3	4	75
-В142	6В032	Public relations	13	13	50
-В005	6В014	Training of physical education teachers	13	13	75
-В007	6В014	Training of teachers of art and drawing	13	13	75
-В008	6В014	Teacher training fundamentals of law and economics	6	4	75
-В011	6В015	Training of computer science teachers	1	14	75
-В010	6В015	Training of physics teachers	1	2	75
-В009	6В015	Training of mathematics teachers	1	2	75
-В006	6В014	Training of music teachers	13	13	75
-В004	6В014	Training of primary military training teachers	13	13	75
-В012	6В015	Training of chemistry teachers	3	5	75
-В013	6В015	Training of biology teachers	3	5	75
-В014	6В015	Training of geography teachers	6	4	75
-В015	6В016	Teacher training in humanitarian subjects	6	4	75
-В016	6В017	Training of teachers of Kazakh language and literature	8	9	75
-В017	6В017	Training of teachers of Russian language and literature	10	11	75
-В018	6В017	Foreign language teacher training	7	6	75
-В019	6В018	Training of social educators	3	4	75
-В020	6В019	Special pedagogy	3	4	75
-В021	6В021	Performing arts	13	13	50
-В023	6В021	Directing, art management	13	13	50
-В028	6В021	Choreography	13	13	50
-В029	6В021	Audiovisual and media production	13	13	50
-В031	6В021	Fashion, design	13	13	50
-В032	6В022	Philosophy and ethics	6	4	50
-В033	6В022	Religion and theology	13	13	50
-В134	6В022	Archaeology and ethnology	6	4	50
-В234	6В022	Museum business and monument protection	6	4	50
-В135	6В022	Oriental studies	7	6	50
-В036	6В023	Translation business	7	6	50
-В043	6В032	Librarianship, information processing and archiving	8	9	50
-В037	6В023	Philology	8	9	50
-В039	6В031	Cultural studies	7	6	50
-В040	6В031	Political science	7	6	50
-В140	6В031	International relations and diplomacy	7	6	50
-В044	6В041	Management and administration	1	4	50
-В045	6В041	Audit and taxation	1	4	50
-В046	6В041	Finance, economics, banking and insurance business	1	4	50
-В047	6В041	Marketing and advertising	1	4	50
-В049	6В042	Law	6	12	75
-В050	6В051	Biological and related sciences	3	5	50
-В052	6В052	Earth science	1	4	50
-В054	6В053	Phisics	1	2	50
-В055	6В054	Mathematics and statistics	1	2	50
-В057	6В061	Information technology	1	14	50
-В157	6В061	Mathematical and computer modeling	1	14	50
-В058	6В063	Information security	1	14	50
-В059	6В062	Communications and communication technologies	1	2	50
-В060	6В071	Chemical engineering and processes	5	2	50
-В061	6В071	Materials science and technology	1	2	50
-В161	6В071	Materials engineering	1	2	50
-В062	6В071	Electrical engineering and power engineering	1	2	50
-В162	6В071	Thermal power engineering	1	2	50
-В063	6В071	Electrical engineering and automation	1	2	50
-В064	6В071	Mechanics and metalworking	1	2	50
-В065	6В071	Transport equipment and technologies	1	2	50
-В066	6В071	Maritime transport and technology	1	2	50
-В067	6В071	Air transport and technology	1	2	50
-В167	6В071	Flight operation of aircraft and engines	1	2	50
-В165	6В071	Backbone networks and infrastructure	1	2	50
-В265	6В071	Railway transport and technology	1	2	50
-В166	6В071	Transport facilities	1	2	50
-В068	6В072	Food production	3	5	50
-В069	6В072	Production of materials (glass, paper, plastic, wood)	1	2	50
-В070	6В072	Textiles: clothing, shoes and leather goods	1	2	50
-В071	6В072	Mining and extraction of minerals	1	2	50
-В172	6В072	Pressure treatment of materials	1	2	50
-В271	6В072	Oil and gas business	1	2	50
-В072	6В072	Pharmaceutical production technology	3	5	50
-В173	6В073	Hydromelioration	1	2	50
-В175	6В073	Water supply and sanitation	1	2	50
-В074	6В073	Urban planning, construction and civil engineering	1	2	50
-В174	6В073	Geodesy and cartography	1	2	50
-В126	6В073	Transport construction	1	2	50
-В176	6В073	Hydraulic engineering and water resources management	1	2	50
-В075	6В073	Cadastre and land management	1	4	50
-В076	6В075	Standardization, certification and metrology (by industry)	1	2	50
-В078	6B082	Animal husbandry	3	5	50
-В082	6B086	Water resources and water use	1	2	50
-В183	6В087	Agroengineering	1	2	50
-В083	6В091	Veterinary medicine	3	5	50
-В093	6B111	Restaurant and hotel business	4	7	50
-В090	6B114	Social work	3	4	50
-В085	6В101	Pharmacy	3	5	70
-BM088	6В101	Pediatrics	3	5	70
-В096	6B123	Law enforcement activities	6	12	50
-В024	6В021	Art history	13	13	50
-В081	6B085	Land management	1	2	50
-В101	6В021	Traditional musical art	13	13	50
-В104	6В021	Directing of performing arts and circus	13	13	50
-В107	6В021	Media art and digital technologies	13	13	50
-В110	6В021	Fashion design	13	13	50
+COPY public.ntc_programs (code, field_of_study_id, name, subject_1_id, subject_2_id, minimum_score, updated_at) FROM stdin;
+В091	6B111	Tourism	4	7	50	\N
+В094	6B112	Sanitary and preventive measures	1	2	50	\N
+В098	6В115	Sport	13	13	50	\N
+В089	6В101	Public health	3	5	70	\N
+В097	6B123	Fire safety	1	2	50	\N
+В025	6В021	Conducting	13	13	50	\N
+В099	6В021	Instrumental performance	13	13	50	\N
+В102	6В021	The art of stage	13	13	50	\N
+В105	6В021	Directing animation	13	13	50	\N
+В108	6В021	Scenography	13	13	50	\N
+BM086	6В101	Medicine	3	5	70	\N
+4220	49	International law	6	\N	50	\N
+В027	6В021	Theatrical art	13	13	50	\N
+В030	6В021	Visual art	13	13	50	\N
+В034	6В022	History	13	13	50	\N
+В035	6В022	Turkology	7	6	50	\N
+В038	6В031	Sociology	1	4	50	\N
+В041	6В031	Psychology	3	4	50	\N
+В145	6В041	State audit	1	4	50	\N
+В048	6В041	Work skills	1	4	50	\N
+В051	6В052	Environment	3	4	50	\N
+В053	6В053	Chemistry	3	5	50	\N
+В056	6В054	Mechanics	1	2	50	\N
+В158	6В063	Cryptology	1	14	50	\N
+В171	6В072	Metallurgy	1	2	50	\N
+В073	6В073	Architecture	13	13	50	\N
+В077	6B081	Plant growing	3	5	50	\N
+В079	6B083	Forestry	3	4	50	\N
+В080	6B084	Fisheries	3	5	50	\N
+В092	6B111	Leisure	13	13	50	\N
+В095	6B113	Transportation services	1	4	50	\N
+В084	6В101	Nursing	3	5	70	\N
+BM087	6В101	Dentistry	3	5	70	\N
+В022	6В021	Musicology	13	13	50	\N
+В026	6В021	Composition	13	13	50	\N
+В100	6В021	Vocal art	13	13	50	\N
+В103	6В021	Film and TV directing	13	13	50	\N
+В106	6В021	Camera and photo art	13	13	50	\N
+В109	6В021	Decorative art	13	13	50	\N
+BM089	6В101	Medical and preventive business	3	5	70	\N
+В042	6В032	Journalism and reporting	13	13	50	\N
+В002	6В012	Pedagogy of preschool education and upbringing	3	4	75	\N
+В001	6В011	Pedagogy and psychology	3	4	75	\N
+В003	6В013	Pedagogy and methods of primary education	3	4	75	\N
+В142	6В032	Public relations	13	13	50	\N
+В005	6В014	Training of physical education teachers	13	13	75	\N
+В007	6В014	Training of teachers of art and drawing	13	13	75	\N
+В008	6В014	Teacher training fundamentals of law and economics	6	4	75	\N
+В011	6В015	Training of computer science teachers	1	14	75	\N
+В010	6В015	Training of physics teachers	1	2	75	\N
+В009	6В015	Training of mathematics teachers	1	2	75	\N
+В006	6В014	Training of music teachers	13	13	75	\N
+В004	6В014	Training of primary military training teachers	13	13	75	\N
+В012	6В015	Training of chemistry teachers	3	5	75	\N
+В013	6В015	Training of biology teachers	3	5	75	\N
+В014	6В015	Training of geography teachers	6	4	75	\N
+В015	6В016	Teacher training in humanitarian subjects	6	4	75	\N
+В016	6В017	Training of teachers of Kazakh language and literature	8	9	75	\N
+В017	6В017	Training of teachers of Russian language and literature	10	11	75	\N
+В018	6В017	Foreign language teacher training	7	6	75	\N
+В019	6В018	Training of social educators	3	4	75	\N
+В020	6В019	Special pedagogy	3	4	75	\N
+В021	6В021	Performing arts	13	13	50	\N
+В023	6В021	Directing, art management	13	13	50	\N
+В028	6В021	Choreography	13	13	50	\N
+В029	6В021	Audiovisual and media production	13	13	50	\N
+В031	6В021	Fashion, design	13	13	50	\N
+В032	6В022	Philosophy and ethics	6	4	50	\N
+В033	6В022	Religion and theology	13	13	50	\N
+В134	6В022	Archaeology and ethnology	6	4	50	\N
+В234	6В022	Museum business and monument protection	6	4	50	\N
+В135	6В022	Oriental studies	7	6	50	\N
+В036	6В023	Translation business	7	6	50	\N
+В043	6В032	Librarianship, information processing and archiving	8	9	50	\N
+В037	6В023	Philology	8	9	50	\N
+В039	6В031	Cultural studies	7	6	50	\N
+В040	6В031	Political science	7	6	50	\N
+В140	6В031	International relations and diplomacy	7	6	50	\N
+В044	6В041	Management and administration	1	4	50	\N
+В045	6В041	Audit and taxation	1	4	50	\N
+В046	6В041	Finance, economics, banking and insurance business	1	4	50	\N
+В047	6В041	Marketing and advertising	1	4	50	\N
+В049	6В042	Law	6	12	75	\N
+В050	6В051	Biological and related sciences	3	5	50	\N
+В052	6В052	Earth science	1	4	50	\N
+В054	6В053	Phisics	1	2	50	\N
+В055	6В054	Mathematics and statistics	1	2	50	\N
+В057	6В061	Information technology	1	14	50	\N
+В157	6В061	Mathematical and computer modeling	1	14	50	\N
+В058	6В063	Information security	1	14	50	\N
+В059	6В062	Communications and communication technologies	1	2	50	\N
+В060	6В071	Chemical engineering and processes	5	2	50	\N
+В061	6В071	Materials science and technology	1	2	50	\N
+В161	6В071	Materials engineering	1	2	50	\N
+В062	6В071	Electrical engineering and power engineering	1	2	50	\N
+В162	6В071	Thermal power engineering	1	2	50	\N
+В063	6В071	Electrical engineering and automation	1	2	50	\N
+В064	6В071	Mechanics and metalworking	1	2	50	\N
+В065	6В071	Transport equipment and technologies	1	2	50	\N
+В066	6В071	Maritime transport and technology	1	2	50	\N
+В067	6В071	Air transport and technology	1	2	50	\N
+В167	6В071	Flight operation of aircraft and engines	1	2	50	\N
+В165	6В071	Backbone networks and infrastructure	1	2	50	\N
+В265	6В071	Railway transport and technology	1	2	50	\N
+В166	6В071	Transport facilities	1	2	50	\N
+В068	6В072	Food production	3	5	50	\N
+В069	6В072	Production of materials (glass, paper, plastic, wood)	1	2	50	\N
+В070	6В072	Textiles: clothing, shoes and leather goods	1	2	50	\N
+В071	6В072	Mining and extraction of minerals	1	2	50	\N
+В172	6В072	Pressure treatment of materials	1	2	50	\N
+В271	6В072	Oil and gas business	1	2	50	\N
+В072	6В072	Pharmaceutical production technology	3	5	50	\N
+В173	6В073	Hydromelioration	1	2	50	\N
+В175	6В073	Water supply and sanitation	1	2	50	\N
+В074	6В073	Urban planning, construction and civil engineering	1	2	50	\N
+В174	6В073	Geodesy and cartography	1	2	50	\N
+В126	6В073	Transport construction	1	2	50	\N
+В176	6В073	Hydraulic engineering and water resources management	1	2	50	\N
+В075	6В073	Cadastre and land management	1	4	50	\N
+В076	6В075	Standardization, certification and metrology (by industry)	1	2	50	\N
+В078	6B082	Animal husbandry	3	5	50	\N
+В082	6B086	Water resources and water use	1	2	50	\N
+В183	6В087	Agroengineering	1	2	50	\N
+В083	6В091	Veterinary medicine	3	5	50	\N
+В093	6B111	Restaurant and hotel business	4	7	50	\N
+В090	6B114	Social work	3	4	50	\N
+В085	6В101	Pharmacy	3	5	70	\N
+BM088	6В101	Pediatrics	3	5	70	\N
+В096	6B123	Law enforcement activities	6	12	50	\N
+В024	6В021	Art history	13	13	50	\N
+В081	6B085	Land management	1	2	50	\N
+В101	6В021	Traditional musical art	13	13	50	\N
+В104	6В021	Directing of performing arts and circus	13	13	50	\N
+В107	6В021	Media art and digital technologies	13	13	50	\N
+В110	6В021	Fashion design	13	13	50	\N
 \.
 
 
@@ -45372,121 +45388,121 @@ COPY public.subject (id, name) FROM stdin;
 -- Data for Name: universities; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.universities (code, name, city, address, year_established, email, phone, passing_score, history, website, has_dormitory, has_military_department, logo_url, cover_url, telegram_url, instagram_url, tuition_cost, short_name) FROM stdin;
-4	Marat Ospanov West Kazakhstan Medical University 	Aktobe	68 Maresyev str.	1957	zkgmu@zkgmu.kz	+77132567210	70			f	f					\N	
-5	K. Zhubanov Aktobe Regional University 	Aktobe	34 A. Moldagulova Ave.	1935	kense@zhubanov.edu.kz	+77132541244	60			f	f					\N	
-6	Kurmangazy Kazakh National Conservatory 	Almaty	86 Abylai Khan Ave.	1944	info@conservatoire.kz	+77272729045	50			f	f					\N	
-7	Abai Kazakh National Pedagogical University 	Almaty	13 Dostyk Ave.	1928	rector@abaiuniversity.edu.kz	+77272913366	75			f	f					\N	
-8	I. Altynsarin Arkalyk Pedagogical Institute 	Arkalyk	17 Auelbekov str.	1972	api@api.edu.kz	+77143071318	50			f	f					\N	
-9	S. Utebayev Atyrau University of Oil and Gas 	Atyrau	1 Baitursynov str.	1980	info@aiau.edu.kz	+77122362548	55			f	f					\N	
-10	Kh. Dosmukhamedov Atyrau University 	Atyrau	212 Studentskaya str.	1950	kense@asu.edu.kz	+77122276300	50			f	f					\N	
-11	S. Amanzholov East Kazakhstan University 	Oskemen	30 Kazakhstan str.	1952	kense@vku.edu.kz	+77232241458	65			f	f					\N	
-12	D. Serikbayev East Kazakhstan Technical University 	Oskemen	69 Protozanov str.	1958	kense@ektu.kz	+77232267409	65			f	f					\N	
-14	O.A. Baikonurov Zhezkazgan University 	Zhezkazgan	7 Gurba str.	1996	zhez_un@mail.ru	+77102737633	50			f	f					\N	
-15	I. Zhansugurov Zhetysu University 	Taldykorgan	187a I. Zhansugurov str.	1972	kense@zhetysu.edu.kz	+77282222123	55			f	f					\N	
-16	M. Utemisov West Kazakhstan University 	Uralsk	162 Dostyk-Druzhba Ave.	1932	info@wku.edu.kz	+77112512632	55			f	f					\N	
-17	T. Zhurgenov Kazakh National Academy of Arts 	Almaty	127 Panfilov str.	1978	info@kaznai.kz	+77272724398	50			f	f					\N	
-18	Kazakh National University of Arts 	Astana	33 Tauelsizdik Ave.	1998	kaznua@mail.ru	+77172705499	50			f	f					\N	
-19	M. Tynyshpayev Kazakh Academy of Transport and Communications 	Almaty	97 Shevchenko str.	1931	info@alt.edu.kz	+77272922115	60			f	f					\N	
-20	Kazakh Academy of Sport and Tourism 	Almaty	105 Abai Ave.	1944	info@kazast.kz	+77272920215	50			f	f					\N	
-21	Narxoz University	Almaty	55 Zhandosov str.	1963	info@narxoz.kz	+77273771111	75			f	f					\N	
-22	International Education Corporation (IEC)	Almaty	28 Ryskulbekov str.	1980	info@mok.kz	+77272208081	65			f	f					\N	
-23	Ablai Khan Kazakh University of International Relations and World Languages	Almaty	200 Muratbaev str.	1941	kazumo@ablaikhan.kz	+77272920384	80			f	f					\N	
-24	Kazakh National Agrarian Research University	Almaty	8 Abay Ave.	1930	info@kaznaru.edu.kz	+77272642409	65			f	f					\N	
-25	Kazakh National Women's Teacher Training University	Almaty	99 Aiteke Bi str.	1944	qyzpu@qyzpu.edu.kz	+77272331852	75			f	f					\N	
-26	Asfendiyarov Kazakh National Medical University	Almaty	94 Tole Bi str.	1930	info@kaznmu.kz	+77273387090	85			f	f					\N	
-27	Al-Farabi Kazakh National University	Almaty	71 Al-Farabi Ave.	1934	info@kaznu.kz	+77273773333	95			f	f					\N	
-29	Satbayev University	Almaty	22 Satpaev str.	1934	info@satbayev.university	+77272926022	85			f	f					\N	
-30	Karaganda Medical University	Karaganda	40 Gogol str.	1950	info@qmu.kz	+77212503930	75			f	f					\N	
-31	Karaganda Buketov University	Karaganda	28 Universitetskaya str.	1938	office@buketov.edu.kz	+77212351039	65			f	f					\N	
-32	Karaganda Technical University	Karaganda	56 Nursultan Nazarbayev Ave.	1953	kense@kstu.kz	+77212560328	70			f	f					\N	
-33	Karaganda Industrial University	Temirtau	30 Republic Ave.	1963	kense@tttu.edu.kz	+77213915046	55			f	f					\N	
-34	Korkyt Ata Kyzylorda University	Kyzylorda	29A Ayteke Bi str.	1937	kense@korkyt.kz	+77242262241	60			f	f					\N	
-35	Sh. Ualikhanov Kokshetau University	Kokshetau	76 Abay str.	1962	kense@shokan.edu.kz	+77162255583	60			f	f					\N	
-36	A. Baitursynov Kostanay Regional University	Kostanay	47 Baytursynov str.	1939	info@ksu.edu.kz	+77142511195	60			f	f					\N	
-37	Khoja Akhmet Yassawi International Kazakh-Turkish University	Turkistan	290 B. Sattarkhanov Ave.	1991	info@ayu.edu.kz	+77253363636	75			f	f					\N	
-38	Toraighyrov University	Pavlodar	64 Lomov str.	1960	info@tou.edu.kz	+77182673673	65			f	f					\N	
-39	Rudny Industrial Institute	Rudny	38 50 Let Oktyabrya str.	1959	rii@rii.kz	+77143150723	50			f	f					\N	
-40	Kozybayev University	Petropavlovsk	86 Pushkin str.	1937	mail@ku.edu.kz	+77152493233	60			f	f					\N	
-41	Semey Medical University	Semey	103 Abay str.	1953	info@smu.edu.kz	+77222522054	70			f	f					\N	
-42	Shakarim University of Semey	Semey	20A Glinka str.	1934	info@shakarim.kz	+77222313143	60			f	f					\N	
-43	M.Kh. Dulaty Taraz Regional University	Taraz	7 Suleimenov str.	1958	info@tarsu.kz	+77262453663	60			f	f					\N	
-44	South Kazakhstan Medical Academy	Shymkent	1 Al-Farabi square	1979	skma@skma.kz	+77252408222	70			f	f					\N	
-45	M. Auezov South Kazakhstan University	Shymkent	5 Tauke Khan Ave.	1943	rector@auezov.edu.kz	+77252210141	65			f	f					\N	
-47	Eurasian Humanities Institute	Astana	4 M. Zhumabayev Ave.	1995	eagi@list.ru	+77172562200	50			f	f					\N	
-48	Kazakh Academy of Labor and Social Relations	Almaty	9 Nauryzbai Batyr str.	1994	info@kazatiso.kz	+77272792015	50			f	f					\N	
-49	Kazakhstan Engineering and Technology University	Almaty	93A Al-Farabi Ave.	2001	info@kazetu.kz	+77273000777	50			f	f					\N	
-50	Kazakh Medical University of Continuing Education	Almaty	126 Abay Ave.	1963	info@kazmuno.kz	+77273378018	65			f	f					\N	
-53	Almaty Technological University	Almaty	100 Tole Bi str.	1957	rector@atu.kz	+77272935292	60			f	f					\N	
-57	G. Daukeyev Almaty University of Power Engineering and Telecommunications	Almaty	126/1 Baitursynov str.	1975	aues@aues.kz	+77272925614	75			f	f					\N	
-69	University of International Business (UIB)	Almaty	8A Abay Ave.	1992	uib@uib.kz	+77272597000	70			f	f					\N	
-78	L.B. Goncharov Kazakh Automobile and Road Academy	Almaty	54 Shagabutdinov str.	1991	kazdorakad@mail.ru	+77272922501	55			f	f					\N	
-79	Caspian University	Almaty	521 Seifullin Ave.	1992	info@cu.edu.kz	+77272506930	65			f	f					\N	
-80	Kazakh-Russian Medical University	Almaty	122 Torekulov str.	1992	krmu@krmu.kz	+77272508104	65			f	f					\N	
-82	Kazakh-German University (DKU)	Almaty	173 Nazarbayev Ave.	1999	info@dku.kz	+77273550551	80			f	f					\N	
-83	Almaty Management University (AlmaU)	Almaty	227 Rozybakiev str.	1988	info@almau.edu.kz	+77273133040	80			f	f					\N	
-3	Sh. Yessenov Caspian University of Technology and Engineering	Aktau	34 microdistrict, building 1	1976	office@yu.edu.kz	+77292425515	50			f	f					\N	
-89	Kainar Academy	Almaty	7A Satpayev str.	1991	priem@kainar-u.kz	+77272558356	50			f	f					\N	
-90	O.A. Dzholdasbekov Academy of Economics and Law	Taldykorgan	1 mkr., bld. 26	1997	ael_tdk@mail.ru	+77282242858	50			f	f					\N	
-93	Turan University	Almaty	108 Satpayev str.	1992	turan@turan-edu.kz	+77272604000	70			f	f					\N	
-103	Kazakh-Russian International University	Aktobe	52 Aiteke Bi str.	1994	kriu@kriu.kz	+77132511471	50			f	f					\N	
-116	Bolashaq Academy	Karaganda	17 Abay Ave.	1995	info@kubolashak.kz	+77212420428	50			f	f					\N	
-122	Karaganda University of Kazpotrebsoyuz	Karaganda	9 Akademicheskaya str.	1966	mail@keu.kz	+77212441624	60			f	f					\N	
-133	Miras University	Shymkent	17 Sapabaev str.	1997	info@miras.edu.kz	+77252212356	50			f	f					\N	
-140	M. Dulatov Kostanay Engineering and Economic University	Kostanay	31 Chernyshevsky str.	1996	kineu@mail.ru	+77142280248	50			f	f					\N	
-141	Alikhan Bokeikhan University (ex. KazGJIU)	Semey	11 Mangilik El str.	1998	info@abu.edu.kz	+77222524855	55			f	f					\N	
-146	Innovative University of Eurasia	Pavlodar	45 Lomov str.	1991	info@ineu.edu.kz	+77182314242	55			f	f					\N	
-147	K. Satpayev Ekibastuz Engineering and Technical Institute	Ekibastuz	54 Energetikov str.	1994	eiti_ekibastuz@mail.ru	+77187340056	50			f	f					\N	
-153	Kazakh-American Free University	Ust-Kamenogorsk	76 M. Gorkiy str.	1994	kafu@kafu.kz	+77232248500	65			f	f					\N	
-154	Almaty Academy of Economics and Statistics	Almaty	25 Zhandosov str.	1998	info@aess.kz	+77273771340	50			f	f					\N	
-157	Civil Aviation Academy	Almaty	44 Zakarpatskaya str.	1995	info@agakaz.kz	+77273308333	65			f	f					\N	
-158	Abay Myrzakhmetov Kokshetau University	Kokshetau	189a Gorky str.	2000	info@kuam.kz	+77162254259	50			f	f					\N	
-160	Eurasian Technological University	Almaty	109 Tole Bi str.	2013	info@etu.edu.kz	+77273315555	55			f	f					\N	
-161	Almaty University	Almaty	24/1 Mamyr-1 dist.	1998	info@ualmaty.kz	+77273111306	50			f	f					\N	
-162	Kazakh University of Ways of Communications	Almaty	82 Shevchenko str.	2000	info@kups.kz	+77272922115	50			f	f					\N	
-173	Esil University (ex. KazUEFIT)	Astana	7 Zhubanov str.	2006	info@esiluniversity.edu.kz	+77172703058	60			f	f					\N	
-174	M. Narikbayev KAZGUU University	Astana	8 Korgalzhyn Highway	1994	info@kazguu.kz	+77172703030	85			f	f					\N	
-182	Kazakh University of Technology and Business	Astana	31 Saryarka Ave.	2003	info@kaztub.kz	+77172270101	55			f	f					\N	
-184	Turan-Astana University	Astana	1 Yessenberlin str.	1998	tau_astana@mail.ru	+77172398118	60			f	f					\N	
-185	Astana International University	Astana	8 Kabanbay Batyr Ave.	2018	info@aiu.edu.kz	+77172476677	70			f	f					\N	
-186	Silkway International University	Shymkent	32 Tokayev str.	1992	info@swu.edu.kz	+77252951111	50			f	f					\N	
-190	International IT University (IITU)	Almaty	34/1 Manas str.	2009	info@iitu.edu.kz	+77272445101	85			f	f					\N	
-191	Financial Academy	Astana	25 Esenberlin str.	1965	info@finacad.kz	+77172312601	60			f	f					\N	
-194	Astana University	Astana	11/1 Abay Ave.	1998	un_astana@mail.ru	+77172278030	50			f	f					\N	
-195	Kazakhstan Maritime University	Aktau	1st district, bld 1/2	1996	info@kmu.edu.kz	+77292503943	50			f	f					\N	
-196	South Kazakhstan State Pedagogical University	Shymkent	13 Baitursynov str.	1937	info@okgpu.edu.kz	+77252210512	70			f	f					\N	
-197	Central Kazakhstan Academy	Karaganda	11 Saryarka str.	1993	info@c-k-a.kz	+77212423714	50			f	f					\N	
-198	West Kazakhstan Innovative-Technological University	Uralsk	12 Ikhsanov str.	2000	info@wkitu.kz	+77112503935	50			f	f					\N	
-199	Kazakhstan University of Innovative and Telecommunication Systems	Uralsk	67a K. Batyr str.	1998	kuits@list.ru	+77112513511	50			f	f					\N	
-200	D. Kunayev Eurasian Law Academy	Almaty	107 Kurmangazy str.	1992	info@kunaev.kz	+77272610731	60			f	f					\N	
-202	A. Kuatbekov Peoples' Friendship University	Shymkent	13 Tokayev str.	1992	info@unat.edu.kz	+77252537152	50			f	f					\N	
-205	Kazakh National Academy of Choreography	Astana	9 Akmeshit str.	2016	info@balletacademy.kz	+77172790858	60			f	f					\N	
-223	Taraz Innovative-Humanities University	Taraz	45 Zheltoksan str.	2008	info@tigu.kz	+77262512140	55			f	f					\N	
-302	Suleyman Demirel University (SDU)	Kaskelen	1/1 Abylai Khan str.	1996	info@sdu.edu.kz	+77273079560	80			f	f					\N	
-305	Bolashak Kyzylorda University	Kyzylorda	46 Abay Ave.	1998	info@bolashak-u.kz	+77242234510	50			f	f					\N	
-318	Atyrau Engineering and Humanities Institute	Atyrau	212 Studentskaya str.	2001	aigi_2001@mail.ru	+77122271454	50			f	f					\N	
-350	Military Institute of Land Forces	Almaty	123 Abay Ave.	1970	visv@mod.gov.kz	+77272558066	50			f	f					\N	
-351	T. Bigeldinov Military Institute of Air Defense Forces	Aktobe	39 Moldagulova Ave.	1974	visvo@mod.gov.kz	+77132517511	50			f	f					\N	
-353	Academy of Civil Protection (ex. Kokshetau Technical Institute)	Kokshetau	138 Auezov str.	1997	kti@emer.kz	+77162255249	50			f	f					\N	
-354	M. Esbulatov Almaty Academy of the Ministry of Internal Affairs	Almaty	29 Ak-Kayik mkr.	1956	info@almacademy.kz	+77273378393	50			f	f					\N	
-355	B. Beisenov Karaganda Academy of the Ministry of Internal Affairs	Karaganda	7 Ermekov str.	1969	kense@kacadem.kz	+77212303402	50			f	f					\N	
-356	Sh. Kabylbayev Kostanay Academy of the Ministry of Internal Affairs	Kostanay	11 Abay Ave.	1971	kense_kost@mvd.gov.kz	+77142254422	50			f	f					\N	
-357	Military Institute of the National Guard of the Republic of Kazakhstan	Petropavlovsk	290 Zhambyl str.	1997	viny@mvd.gov.kz	+77152474077	50			f	f					\N	
-359	Military Engineering Institute of Radio Electronics and Communications	Almaty	126/1 Dzhandosov str.	2001	viireis@mod.gov.kz	+77273036814	50			f	f					\N	
-413	Mardan Saparbayev Institute	Shymkent	34 Momyshuly Ave.	1994	msi_shymkent@mail.ru	+77252536737	50			f	f					\N	
-414	Shymkent University	Shymkent	80 mkr. Sever	2001	shymkent_univer@mail.ru	+77252371101	50			f	f					\N	
-416	Baishev University	Aktobe	40 Zhubanov str.	1996	info@bu.edu.kz	+77132512145	55			f	f					\N	
-419	University of Foreign Languages and Professional Career	Almaty	17 Kazybek Bi str.	2004	info@inyaz-career.kz	+77272912555	50			f	f					\N	
-501	Zhangir Khan West Kazakhstan Agricultural-Technical University	Uralsk	51 Zhangir Khan str.	1963	wkau@wkau.kz	+77112506041	60			f	f					\N	
-503	Nur-Mubarak Egyptian University of Islamic Culture	Almaty	73 Al-Farabi Ave.	2001	info@nmu.kz	+77273020930	50			f	f					\N	
-517	Pavlodar Pedagogical University	Pavlodar	60 Mira str.	1962	ppu@ppu.edu.kz	+77182554722	75			f	f					\N	
-518	Academy of the Border Service of the NSC RK	Almaty	103 Dostyk Ave.	1931	pogranacademy@knb.gov.kz	+77272635601	50			f	f					\N	
-979	KIMEP University	Almaty	2 Abay Ave.	1992	info@kimep.kz	+77272704213	90			f	f					\N	
-2	S. Seifullin Kazakh Agrotechnical University	Astana	62 Zhenis Ave.	1957	katu_mail@kazatu.kz	+77172317547	60			f	f					\N	
-1	Astana Medical University 	Astana	49/a Beybitshilik str.	1964	info@amu.kz	+77172539424	70			f	f		https://res.cloudinary.com/test/test.jpg			\N	
-522	Astana IT University	Astana	Mangilik El 55/11, Block C1, Astana 010000	2019	info@astanait.edu.kz	+7 (7172) 64-57-00	110	Astana IT University was founded in 2019 by a Decree of the Government of Kazakhstan to become the country's leading IT-focused university. Located in Astana Hub — the largest international technopark in Central Asia — AITU brings together a fully English-medium curriculum, dual-degree partnerships and direct collaboration with the local tech industry.\n\nAITU operates four schools — Computing, Engineering, Creative Industries and Business — and hosts the AITU NeuroSpace research center, Telegram Lab Kazakhstan and joint programs with the University of Westminster, Tampere University and others.	https://astanait.edu.kz	t	t	https://res.cloudinary.com/dbsi2t4yq/image/upload/v1779195605/universities/logos/logo_522.png	https://res.cloudinary.com/dbsi2t4yq/image/upload/v1778828019/universities/covers/cover_522.jpg	https://t.me/aitu2020info	https://www.instagram.com/astana_it_university	2200000	AITU
-13	L.N. Gumilyov Eurasian National University	Astana	2 Satpayev St., Astana 010008	1996	enu@enu.kz	+7 (7172) 70-95-00	85	L.N. Gumilyov Eurasian National University was founded in 1996 by a Decree of the First President of the Republic of Kazakhstan. Named after the great Eurasian thinker Lev Gumilyov, the university quickly became one of the flagship classical universities in Central Asia.\n\nToday ENU offers more than 80 undergraduate programs across 13 faculties and is home to over 20,000 students. It is consistently ranked in the QS Asia top 250 and houses partnerships with leading universities across Europe and Asia.	https://www.enu.kz	t	t	https://upload.wikimedia.org/wikipedia/commons/thumb/9/9d/Coat_of_Arms_of_Eurasian_National_University.svg/200px-Coat_of_Arms_of_Eurasian_National_University.svg.png	https://www.enu.kz/static/img/main-bg.jpg	https://t.me/enu_kz	https://www.instagram.com/enu_official	950000	ENU
-421	Kazakh-British Technical University	Almaty	59 Tole bi St., Almaty 050000	2001	info@kbtu.kz	+7 (727) 357-42-22	120	Kazakh-British Technical University was established in 2001 by the governments of Kazakhstan and the United Kingdom as a model research-intensive university focused on oil & gas, IT and business.\n\nKBTU runs flagship schools — School of Information Technology and Engineering, KBTU Business School, School of Energy and Petroleum Industry, School of Mathematics and Cybernetics, and School of Geology — and offers all bachelor programs in English. The university is a member of the Erasmus+ program and partners with UCL, Heriot-Watt, the University of Westminster and many others.	https://kbtu.edu.kz	t	t	https://kbtu.edu.kz/templates/yootheme/cache/8d/kbtu-logo-8d4d3e3f.png	https://kbtu.edu.kz/images/main/campus.jpg	https://t.me/kbtuofficial	https://www.instagram.com/kbtu_official	2400000	KBTU
+COPY public.universities (code, name, city, address, year_established, email, phone, passing_score, history, website, has_dormitory, has_military_department, logo_url, cover_url, telegram_url, instagram_url, tuition_cost, short_name, updated_at) FROM stdin;
+4	Marat Ospanov West Kazakhstan Medical University 	Aktobe	68 Maresyev str.	1957	zkgmu@zkgmu.kz	+77132567210	70			f	f					\N		\N
+5	K. Zhubanov Aktobe Regional University 	Aktobe	34 A. Moldagulova Ave.	1935	kense@zhubanov.edu.kz	+77132541244	60			f	f					\N		\N
+6	Kurmangazy Kazakh National Conservatory 	Almaty	86 Abylai Khan Ave.	1944	info@conservatoire.kz	+77272729045	50			f	f					\N		\N
+7	Abai Kazakh National Pedagogical University 	Almaty	13 Dostyk Ave.	1928	rector@abaiuniversity.edu.kz	+77272913366	75			f	f					\N		\N
+8	I. Altynsarin Arkalyk Pedagogical Institute 	Arkalyk	17 Auelbekov str.	1972	api@api.edu.kz	+77143071318	50			f	f					\N		\N
+9	S. Utebayev Atyrau University of Oil and Gas 	Atyrau	1 Baitursynov str.	1980	info@aiau.edu.kz	+77122362548	55			f	f					\N		\N
+10	Kh. Dosmukhamedov Atyrau University 	Atyrau	212 Studentskaya str.	1950	kense@asu.edu.kz	+77122276300	50			f	f					\N		\N
+11	S. Amanzholov East Kazakhstan University 	Oskemen	30 Kazakhstan str.	1952	kense@vku.edu.kz	+77232241458	65			f	f					\N		\N
+12	D. Serikbayev East Kazakhstan Technical University 	Oskemen	69 Protozanov str.	1958	kense@ektu.kz	+77232267409	65			f	f					\N		\N
+14	O.A. Baikonurov Zhezkazgan University 	Zhezkazgan	7 Gurba str.	1996	zhez_un@mail.ru	+77102737633	50			f	f					\N		\N
+15	I. Zhansugurov Zhetysu University 	Taldykorgan	187a I. Zhansugurov str.	1972	kense@zhetysu.edu.kz	+77282222123	55			f	f					\N		\N
+16	M. Utemisov West Kazakhstan University 	Uralsk	162 Dostyk-Druzhba Ave.	1932	info@wku.edu.kz	+77112512632	55			f	f					\N		\N
+17	T. Zhurgenov Kazakh National Academy of Arts 	Almaty	127 Panfilov str.	1978	info@kaznai.kz	+77272724398	50			f	f					\N		\N
+18	Kazakh National University of Arts 	Astana	33 Tauelsizdik Ave.	1998	kaznua@mail.ru	+77172705499	50			f	f					\N		\N
+19	M. Tynyshpayev Kazakh Academy of Transport and Communications 	Almaty	97 Shevchenko str.	1931	info@alt.edu.kz	+77272922115	60			f	f					\N		\N
+20	Kazakh Academy of Sport and Tourism 	Almaty	105 Abai Ave.	1944	info@kazast.kz	+77272920215	50			f	f					\N		\N
+21	Narxoz University	Almaty	55 Zhandosov str.	1963	info@narxoz.kz	+77273771111	75			f	f					\N		\N
+22	International Education Corporation (IEC)	Almaty	28 Ryskulbekov str.	1980	info@mok.kz	+77272208081	65			f	f					\N		\N
+23	Ablai Khan Kazakh University of International Relations and World Languages	Almaty	200 Muratbaev str.	1941	kazumo@ablaikhan.kz	+77272920384	80			f	f					\N		\N
+24	Kazakh National Agrarian Research University	Almaty	8 Abay Ave.	1930	info@kaznaru.edu.kz	+77272642409	65			f	f					\N		\N
+25	Kazakh National Women's Teacher Training University	Almaty	99 Aiteke Bi str.	1944	qyzpu@qyzpu.edu.kz	+77272331852	75			f	f					\N		\N
+26	Asfendiyarov Kazakh National Medical University	Almaty	94 Tole Bi str.	1930	info@kaznmu.kz	+77273387090	85			f	f					\N		\N
+27	Al-Farabi Kazakh National University	Almaty	71 Al-Farabi Ave.	1934	info@kaznu.kz	+77273773333	95			f	f					\N		\N
+29	Satbayev University	Almaty	22 Satpaev str.	1934	info@satbayev.university	+77272926022	85			f	f					\N		\N
+30	Karaganda Medical University	Karaganda	40 Gogol str.	1950	info@qmu.kz	+77212503930	75			f	f					\N		\N
+31	Karaganda Buketov University	Karaganda	28 Universitetskaya str.	1938	office@buketov.edu.kz	+77212351039	65			f	f					\N		\N
+32	Karaganda Technical University	Karaganda	56 Nursultan Nazarbayev Ave.	1953	kense@kstu.kz	+77212560328	70			f	f					\N		\N
+33	Karaganda Industrial University	Temirtau	30 Republic Ave.	1963	kense@tttu.edu.kz	+77213915046	55			f	f					\N		\N
+34	Korkyt Ata Kyzylorda University	Kyzylorda	29A Ayteke Bi str.	1937	kense@korkyt.kz	+77242262241	60			f	f					\N		\N
+35	Sh. Ualikhanov Kokshetau University	Kokshetau	76 Abay str.	1962	kense@shokan.edu.kz	+77162255583	60			f	f					\N		\N
+36	A. Baitursynov Kostanay Regional University	Kostanay	47 Baytursynov str.	1939	info@ksu.edu.kz	+77142511195	60			f	f					\N		\N
+37	Khoja Akhmet Yassawi International Kazakh-Turkish University	Turkistan	290 B. Sattarkhanov Ave.	1991	info@ayu.edu.kz	+77253363636	75			f	f					\N		\N
+38	Toraighyrov University	Pavlodar	64 Lomov str.	1960	info@tou.edu.kz	+77182673673	65			f	f					\N		\N
+39	Rudny Industrial Institute	Rudny	38 50 Let Oktyabrya str.	1959	rii@rii.kz	+77143150723	50			f	f					\N		\N
+40	Kozybayev University	Petropavlovsk	86 Pushkin str.	1937	mail@ku.edu.kz	+77152493233	60			f	f					\N		\N
+41	Semey Medical University	Semey	103 Abay str.	1953	info@smu.edu.kz	+77222522054	70			f	f					\N		\N
+42	Shakarim University of Semey	Semey	20A Glinka str.	1934	info@shakarim.kz	+77222313143	60			f	f					\N		\N
+43	M.Kh. Dulaty Taraz Regional University	Taraz	7 Suleimenov str.	1958	info@tarsu.kz	+77262453663	60			f	f					\N		\N
+44	South Kazakhstan Medical Academy	Shymkent	1 Al-Farabi square	1979	skma@skma.kz	+77252408222	70			f	f					\N		\N
+45	M. Auezov South Kazakhstan University	Shymkent	5 Tauke Khan Ave.	1943	rector@auezov.edu.kz	+77252210141	65			f	f					\N		\N
+47	Eurasian Humanities Institute	Astana	4 M. Zhumabayev Ave.	1995	eagi@list.ru	+77172562200	50			f	f					\N		\N
+48	Kazakh Academy of Labor and Social Relations	Almaty	9 Nauryzbai Batyr str.	1994	info@kazatiso.kz	+77272792015	50			f	f					\N		\N
+49	Kazakhstan Engineering and Technology University	Almaty	93A Al-Farabi Ave.	2001	info@kazetu.kz	+77273000777	50			f	f					\N		\N
+50	Kazakh Medical University of Continuing Education	Almaty	126 Abay Ave.	1963	info@kazmuno.kz	+77273378018	65			f	f					\N		\N
+53	Almaty Technological University	Almaty	100 Tole Bi str.	1957	rector@atu.kz	+77272935292	60			f	f					\N		\N
+57	G. Daukeyev Almaty University of Power Engineering and Telecommunications	Almaty	126/1 Baitursynov str.	1975	aues@aues.kz	+77272925614	75			f	f					\N		\N
+69	University of International Business (UIB)	Almaty	8A Abay Ave.	1992	uib@uib.kz	+77272597000	70			f	f					\N		\N
+78	L.B. Goncharov Kazakh Automobile and Road Academy	Almaty	54 Shagabutdinov str.	1991	kazdorakad@mail.ru	+77272922501	55			f	f					\N		\N
+79	Caspian University	Almaty	521 Seifullin Ave.	1992	info@cu.edu.kz	+77272506930	65			f	f					\N		\N
+80	Kazakh-Russian Medical University	Almaty	122 Torekulov str.	1992	krmu@krmu.kz	+77272508104	65			f	f					\N		\N
+82	Kazakh-German University (DKU)	Almaty	173 Nazarbayev Ave.	1999	info@dku.kz	+77273550551	80			f	f					\N		\N
+83	Almaty Management University (AlmaU)	Almaty	227 Rozybakiev str.	1988	info@almau.edu.kz	+77273133040	80			f	f					\N		\N
+3	Sh. Yessenov Caspian University of Technology and Engineering	Aktau	34 microdistrict, building 1	1976	office@yu.edu.kz	+77292425515	50			f	f					\N		\N
+89	Kainar Academy	Almaty	7A Satpayev str.	1991	priem@kainar-u.kz	+77272558356	50			f	f					\N		\N
+90	O.A. Dzholdasbekov Academy of Economics and Law	Taldykorgan	1 mkr., bld. 26	1997	ael_tdk@mail.ru	+77282242858	50			f	f					\N		\N
+93	Turan University	Almaty	108 Satpayev str.	1992	turan@turan-edu.kz	+77272604000	70			f	f					\N		\N
+103	Kazakh-Russian International University	Aktobe	52 Aiteke Bi str.	1994	kriu@kriu.kz	+77132511471	50			f	f					\N		\N
+116	Bolashaq Academy	Karaganda	17 Abay Ave.	1995	info@kubolashak.kz	+77212420428	50			f	f					\N		\N
+122	Karaganda University of Kazpotrebsoyuz	Karaganda	9 Akademicheskaya str.	1966	mail@keu.kz	+77212441624	60			f	f					\N		\N
+133	Miras University	Shymkent	17 Sapabaev str.	1997	info@miras.edu.kz	+77252212356	50			f	f					\N		\N
+140	M. Dulatov Kostanay Engineering and Economic University	Kostanay	31 Chernyshevsky str.	1996	kineu@mail.ru	+77142280248	50			f	f					\N		\N
+141	Alikhan Bokeikhan University (ex. KazGJIU)	Semey	11 Mangilik El str.	1998	info@abu.edu.kz	+77222524855	55			f	f					\N		\N
+146	Innovative University of Eurasia	Pavlodar	45 Lomov str.	1991	info@ineu.edu.kz	+77182314242	55			f	f					\N		\N
+147	K. Satpayev Ekibastuz Engineering and Technical Institute	Ekibastuz	54 Energetikov str.	1994	eiti_ekibastuz@mail.ru	+77187340056	50			f	f					\N		\N
+153	Kazakh-American Free University	Ust-Kamenogorsk	76 M. Gorkiy str.	1994	kafu@kafu.kz	+77232248500	65			f	f					\N		\N
+154	Almaty Academy of Economics and Statistics	Almaty	25 Zhandosov str.	1998	info@aess.kz	+77273771340	50			f	f					\N		\N
+157	Civil Aviation Academy	Almaty	44 Zakarpatskaya str.	1995	info@agakaz.kz	+77273308333	65			f	f					\N		\N
+158	Abay Myrzakhmetov Kokshetau University	Kokshetau	189a Gorky str.	2000	info@kuam.kz	+77162254259	50			f	f					\N		\N
+160	Eurasian Technological University	Almaty	109 Tole Bi str.	2013	info@etu.edu.kz	+77273315555	55			f	f					\N		\N
+161	Almaty University	Almaty	24/1 Mamyr-1 dist.	1998	info@ualmaty.kz	+77273111306	50			f	f					\N		\N
+162	Kazakh University of Ways of Communications	Almaty	82 Shevchenko str.	2000	info@kups.kz	+77272922115	50			f	f					\N		\N
+173	Esil University (ex. KazUEFIT)	Astana	7 Zhubanov str.	2006	info@esiluniversity.edu.kz	+77172703058	60			f	f					\N		\N
+174	M. Narikbayev KAZGUU University	Astana	8 Korgalzhyn Highway	1994	info@kazguu.kz	+77172703030	85			f	f					\N		\N
+182	Kazakh University of Technology and Business	Astana	31 Saryarka Ave.	2003	info@kaztub.kz	+77172270101	55			f	f					\N		\N
+184	Turan-Astana University	Astana	1 Yessenberlin str.	1998	tau_astana@mail.ru	+77172398118	60			f	f					\N		\N
+185	Astana International University	Astana	8 Kabanbay Batyr Ave.	2018	info@aiu.edu.kz	+77172476677	70			f	f					\N		\N
+186	Silkway International University	Shymkent	32 Tokayev str.	1992	info@swu.edu.kz	+77252951111	50			f	f					\N		\N
+190	International IT University (IITU)	Almaty	34/1 Manas str.	2009	info@iitu.edu.kz	+77272445101	85			f	f					\N		\N
+191	Financial Academy	Astana	25 Esenberlin str.	1965	info@finacad.kz	+77172312601	60			f	f					\N		\N
+194	Astana University	Astana	11/1 Abay Ave.	1998	un_astana@mail.ru	+77172278030	50			f	f					\N		\N
+195	Kazakhstan Maritime University	Aktau	1st district, bld 1/2	1996	info@kmu.edu.kz	+77292503943	50			f	f					\N		\N
+196	South Kazakhstan State Pedagogical University	Shymkent	13 Baitursynov str.	1937	info@okgpu.edu.kz	+77252210512	70			f	f					\N		\N
+197	Central Kazakhstan Academy	Karaganda	11 Saryarka str.	1993	info@c-k-a.kz	+77212423714	50			f	f					\N		\N
+198	West Kazakhstan Innovative-Technological University	Uralsk	12 Ikhsanov str.	2000	info@wkitu.kz	+77112503935	50			f	f					\N		\N
+199	Kazakhstan University of Innovative and Telecommunication Systems	Uralsk	67a K. Batyr str.	1998	kuits@list.ru	+77112513511	50			f	f					\N		\N
+200	D. Kunayev Eurasian Law Academy	Almaty	107 Kurmangazy str.	1992	info@kunaev.kz	+77272610731	60			f	f					\N		\N
+202	A. Kuatbekov Peoples' Friendship University	Shymkent	13 Tokayev str.	1992	info@unat.edu.kz	+77252537152	50			f	f					\N		\N
+205	Kazakh National Academy of Choreography	Astana	9 Akmeshit str.	2016	info@balletacademy.kz	+77172790858	60			f	f					\N		\N
+223	Taraz Innovative-Humanities University	Taraz	45 Zheltoksan str.	2008	info@tigu.kz	+77262512140	55			f	f					\N		\N
+302	Suleyman Demirel University (SDU)	Kaskelen	1/1 Abylai Khan str.	1996	info@sdu.edu.kz	+77273079560	80			f	f					\N		\N
+305	Bolashak Kyzylorda University	Kyzylorda	46 Abay Ave.	1998	info@bolashak-u.kz	+77242234510	50			f	f					\N		\N
+318	Atyrau Engineering and Humanities Institute	Atyrau	212 Studentskaya str.	2001	aigi_2001@mail.ru	+77122271454	50			f	f					\N		\N
+350	Military Institute of Land Forces	Almaty	123 Abay Ave.	1970	visv@mod.gov.kz	+77272558066	50			f	f					\N		\N
+351	T. Bigeldinov Military Institute of Air Defense Forces	Aktobe	39 Moldagulova Ave.	1974	visvo@mod.gov.kz	+77132517511	50			f	f					\N		\N
+353	Academy of Civil Protection (ex. Kokshetau Technical Institute)	Kokshetau	138 Auezov str.	1997	kti@emer.kz	+77162255249	50			f	f					\N		\N
+354	M. Esbulatov Almaty Academy of the Ministry of Internal Affairs	Almaty	29 Ak-Kayik mkr.	1956	info@almacademy.kz	+77273378393	50			f	f					\N		\N
+355	B. Beisenov Karaganda Academy of the Ministry of Internal Affairs	Karaganda	7 Ermekov str.	1969	kense@kacadem.kz	+77212303402	50			f	f					\N		\N
+356	Sh. Kabylbayev Kostanay Academy of the Ministry of Internal Affairs	Kostanay	11 Abay Ave.	1971	kense_kost@mvd.gov.kz	+77142254422	50			f	f					\N		\N
+357	Military Institute of the National Guard of the Republic of Kazakhstan	Petropavlovsk	290 Zhambyl str.	1997	viny@mvd.gov.kz	+77152474077	50			f	f					\N		\N
+359	Military Engineering Institute of Radio Electronics and Communications	Almaty	126/1 Dzhandosov str.	2001	viireis@mod.gov.kz	+77273036814	50			f	f					\N		\N
+413	Mardan Saparbayev Institute	Shymkent	34 Momyshuly Ave.	1994	msi_shymkent@mail.ru	+77252536737	50			f	f					\N		\N
+414	Shymkent University	Shymkent	80 mkr. Sever	2001	shymkent_univer@mail.ru	+77252371101	50			f	f					\N		\N
+416	Baishev University	Aktobe	40 Zhubanov str.	1996	info@bu.edu.kz	+77132512145	55			f	f					\N		\N
+419	University of Foreign Languages and Professional Career	Almaty	17 Kazybek Bi str.	2004	info@inyaz-career.kz	+77272912555	50			f	f					\N		\N
+501	Zhangir Khan West Kazakhstan Agricultural-Technical University	Uralsk	51 Zhangir Khan str.	1963	wkau@wkau.kz	+77112506041	60			f	f					\N		\N
+503	Nur-Mubarak Egyptian University of Islamic Culture	Almaty	73 Al-Farabi Ave.	2001	info@nmu.kz	+77273020930	50			f	f					\N		\N
+517	Pavlodar Pedagogical University	Pavlodar	60 Mira str.	1962	ppu@ppu.edu.kz	+77182554722	75			f	f					\N		\N
+518	Academy of the Border Service of the NSC RK	Almaty	103 Dostyk Ave.	1931	pogranacademy@knb.gov.kz	+77272635601	50			f	f					\N		\N
+979	KIMEP University	Almaty	2 Abay Ave.	1992	info@kimep.kz	+77272704213	90			f	f					\N		\N
+2	S. Seifullin Kazakh Agrotechnical University	Astana	62 Zhenis Ave.	1957	katu_mail@kazatu.kz	+77172317547	60			f	f					\N		\N
+1	Astana Medical University 	Astana	49/a Beybitshilik str.	1964	info@amu.kz	+77172539424	70			f	f		https://res.cloudinary.com/test/test.jpg			\N		\N
+13	L.N. Gumilyov Eurasian National University	Astana	2 Satpayev St., Astana 010008	1996	enu@enu.kz	+7 (7172) 70-95-00	85	L.N. Gumilyov Eurasian National University was founded in 1996 by a Decree of the First President of the Republic of Kazakhstan. Named after the great Eurasian thinker Lev Gumilyov, the university quickly became one of the flagship classical universities in Central Asia.\n\nToday ENU offers more than 80 undergraduate programs across 13 faculties and is home to over 20,000 students. It is consistently ranked in the QS Asia top 250 and houses partnerships with leading universities across Europe and Asia.	https://www.enu.kz	t	t	https://upload.wikimedia.org/wikipedia/commons/thumb/9/9d/Coat_of_Arms_of_Eurasian_National_University.svg/200px-Coat_of_Arms_of_Eurasian_National_University.svg.png	https://www.enu.kz/static/img/main-bg.jpg	https://t.me/enu_kz	https://www.instagram.com/enu_official	950000	ENU	\N
+421	Kazakh-British Technical University	Almaty	59 Tole bi St., Almaty 050000	2001	info@kbtu.kz	+7 (727) 357-42-22	120	Kazakh-British Technical University was established in 2001 by the governments of Kazakhstan and the United Kingdom as a model research-intensive university focused on oil & gas, IT and business.\n\nKBTU runs flagship schools — School of Information Technology and Engineering, KBTU Business School, School of Energy and Petroleum Industry, School of Mathematics and Cybernetics, and School of Geology — and offers all bachelor programs in English. The university is a member of the Erasmus+ program and partners with UCL, Heriot-Watt, the University of Westminster and many others.	https://kbtu.edu.kz	t	t	https://kbtu.edu.kz/templates/yootheme/cache/8d/kbtu-logo-8d4d3e3f.png	https://kbtu.edu.kz/images/main/campus.jpg	https://t.me/kbtuofficial	https://www.instagram.com/kbtu_official	2400000	KBTU	\N
+522	Astana IT University	Astana	Mangilik El 55/11, Block C1, Astana 010000	2019	info@astanait.edu.kz	+7 (7172) 64-57-00	110	Astana IT University was founded in 2019 by a Decree of the Government of Kazakhstan to become the country's leading IT-focused university. Located in Astana Hub — the largest international technopark in Central Asia — AITU brings together a fully English-medium curriculum, dual-degree partnerships and direct collaboration with the local tech industry.\n\nAITU operates four schools — Computing, Engineering, Creative Industries and Business — and hosts the AITU NeuroSpace research center, Telegram Lab Kazakhstan and joint programs with the University of Westminster, Tampere University and others.	https://astanait.edu.kz	t	t	https://res.cloudinary.com/dbsi2t4yq/image/upload/v1779195605/universities/logos/logo_522.png	https://res.cloudinary.com/dbsi2t4yq/image/upload/v1778828019/universities/covers/cover_522.jpg	https://t.me/aitu2020info	https://www.instagram.com/astana_it_university	2500000	AITU	2026-06-04 12:48:57.437708+05
 \.
 
 
@@ -45508,46 +45524,46 @@ COPY public.university_languages (id, university_id, language_id) FROM stdin;
 -- Data for Name: university_programs; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.university_programs (code, university_id, ntc_program_id, local_name, cost, language, language_id, description, passing_score, grant_score, future_professions, degree, years_of_study, study_type) FROM stdin;
-130005	13	4220	International Law	1050000	\N	3	Public and private international law, with English-track moot court practice.	100	118	Lawyer, diplomat, legal counsel, prosecutor.	bachelor	4	full_time
-130003	13	В009	Mathematics	720000	\N	1	Classical mathematics with research-track preparation for graduate study.	85	98		bachelor	4	full_time
-522001	522	В057	Computer Science	2200000	\N	3	Core CS plus electives in distributed systems, ML and HCI.	115	125	Software engineer, ML engineer, system architect.	bachelor	4	full_time
-522009	522	В044	IT Management	1900000	\N	3		100	110		bachelor	4	full_time
-522008	522	В047	IT Marketing & Digital Communications	1900000	\N	3		100	110		bachelor	4	full_time
-522007	522	В057	Computer Hardware and Software	2100000	\N	3		110	118		bachelor	4	full_time
-522006	522	В057	Information Systems	2100000	\N	3		110	120		bachelor	4	full_time
-522005	522	В058	Cybersecurity	2300000	\N	3	Offensive and defensive security; CTF training; certified Red Team labs.	115	125		bachelor	4	full_time
-522004	522	В057	Big Data Analysis	2300000	\N	3		115	125		bachelor	4	full_time
-522003	522	В058	Artificial Intelligence	2300000	\N	3	Deep learning, NLP, computer vision; capstone with Astana Hub residents.	118	128		bachelor	4	full_time
-522002	522	В057	Software Engineering	2200000	\N	3		112	122		bachelor	4	full_time
-421010	421	В055	Applied Mathematics	2200000	\N	3		115	122		bachelor	4	full_time
-421009	421	В044	Management	2400000	\N	3		118	125		bachelor	4	full_time
-421008	421	В046	Finance	2500000	\N	3	CFA-aligned finance curriculum with corporate-finance and FinTech tracks.	120	128		bachelor	4	full_time
-421007	421	В063	Electric Power Industry	2300000	\N	2		110	120		bachelor	4	full_time
-421006	421	В162	Thermal Power Engineering	2300000	\N	2		110	120		bachelor	4	full_time
-421005	421	В271	Machinery for Oil and Gas	2600000	\N	3		115	123		bachelor	4	full_time
-421004	421	В271	Petroleum Engineering	2700000	\N	3	Upstream petroleum engineering with field practice at major KZ operators.	118	125	Reservoir engineer, drilling engineer, production engineer.	bachelor	4	full_time
-421003	421	В057	Big Data and AI	2400000	\N	3	Statistical learning, deep learning and large-scale data engineering.	126	132		bachelor	4	full_time
-421002	421	В058	Information Systems and Cybersecurity	2400000	\N	3	Enterprise IT systems, cloud architecture and defensive security.	120	128		bachelor	4	full_time
-421001	421	В057	Computer Science and Software Engineering	2400000	\N	3	Industry-standard CS curriculum with internships at top KZ tech companies.	125	130	Software engineer, ML engineer, backend / mobile developer.	bachelor	4	full_time
-130010	13	В045	Accounting and Audit	830000	\N	1		88	102		bachelor	4	full_time
-130009	13	В041	Psychology	820000	\N	2		85	98		bachelor	4	full_time
-130008	13	В037	Foreign Philology	900000	\N	3	English, German and Chinese tracks for translators and educators.	95	110		bachelor	4	full_time
-130007	13	В042	Journalism	850000	\N	2	Digital and broadcast journalism with editorial newsroom practice.	90	105		bachelor	4	full_time
-130006	13	В140	International Relations	1050000	\N	3	Diplomacy, geopolitics, regional studies (Central Asia, EU, MENA).	105	122		bachelor	4	full_time
-130004	13	В054	Physics	780000	\N	2	Theoretical and applied physics, with laboratories in optics and condensed matter.	85	100		bachelor	4	full_time
-130002	13	В058	Information Security	1050000	\N	2	Cryptography, network security and applied infosec for state and enterprise.	108	125	SOC analyst, penetration tester, security architect.	bachelor	4	full_time
-130001	13	В057	Computer Engineering and Software	1100000	\N	3	Foundations of computer science with applied software engineering tracks.	110	128	Software engineer, backend developer, DevOps engineer.	bachelor	4	full_time
-61041	421	В044	Management in IT	1700000	\N	3		\N	\N		bachelor	\N	full_time
-61025	421	В057	Computer Systems and Software	2000000	\N	3		\N	\N		bachelor	\N	full_time
-61021	421	В057	Computer Systems and Software	2000000	\N	3		\N	\N		bachelor	\N	full_time
-6301	522	В058	Cybersecurity	2500000	\N	3		\N	\N		bachelor	\N	full_time
-6121	522	В058	Artificial Intelligence	1500000	\N	3		90	90		bachelor	3	full_time
-6104	13	В057	Computer Engineering and Software	1600000	Russian, Kazakh	2		\N	\N		bachelor	\N	full_time
-6103	522	В057	Big Data Analysis	2500000	\N	3		\N	\N		bachelor	\N	full_time
-6102	522	В057	Software Engineering	2500000	English	3		\N	\N		bachelor	\N	full_time
-6101	522	В057	Computer Science	2500000	\N	3		\N	\N		bachelor	\N	full_time
-4109	421	В044	Business and Management	1700000	\N	3		\N	\N		bachelor	\N	full_time
+COPY public.university_programs (code, university_id, ntc_program_id, local_name, cost, language, language_id, description, passing_score, grant_score, future_professions, degree, years_of_study, study_type, updated_at) FROM stdin;
+130005	13	4220	International Law	1050000	\N	3	Public and private international law, with English-track moot court practice.	100	118	Lawyer, diplomat, legal counsel, prosecutor.	bachelor	4	full_time	\N
+130003	13	В009	Mathematics	720000	\N	1	Classical mathematics with research-track preparation for graduate study.	85	98		bachelor	4	full_time	\N
+522001	522	В057	Computer Science	2200000	\N	3	Core CS plus electives in distributed systems, ML and HCI.	115	125	Software engineer, ML engineer, system architect.	bachelor	4	full_time	\N
+522009	522	В044	IT Management	1900000	\N	3		100	110		bachelor	4	full_time	\N
+522008	522	В047	IT Marketing & Digital Communications	1900000	\N	3		100	110		bachelor	4	full_time	\N
+522007	522	В057	Computer Hardware and Software	2100000	\N	3		110	118		bachelor	4	full_time	\N
+522006	522	В057	Information Systems	2100000	\N	3		110	120		bachelor	4	full_time	\N
+522005	522	В058	Cybersecurity	2300000	\N	3	Offensive and defensive security; CTF training; certified Red Team labs.	115	125		bachelor	4	full_time	\N
+522004	522	В057	Big Data Analysis	2300000	\N	3		115	125		bachelor	4	full_time	\N
+522003	522	В058	Artificial Intelligence	2300000	\N	3	Deep learning, NLP, computer vision; capstone with Astana Hub residents.	118	128		bachelor	4	full_time	\N
+522002	522	В057	Software Engineering	2200000	\N	3		112	122		bachelor	4	full_time	\N
+421010	421	В055	Applied Mathematics	2200000	\N	3		115	122		bachelor	4	full_time	\N
+421009	421	В044	Management	2400000	\N	3		118	125		bachelor	4	full_time	\N
+421008	421	В046	Finance	2500000	\N	3	CFA-aligned finance curriculum with corporate-finance and FinTech tracks.	120	128		bachelor	4	full_time	\N
+421007	421	В063	Electric Power Industry	2300000	\N	2		110	120		bachelor	4	full_time	\N
+421006	421	В162	Thermal Power Engineering	2300000	\N	2		110	120		bachelor	4	full_time	\N
+421005	421	В271	Machinery for Oil and Gas	2600000	\N	3		115	123		bachelor	4	full_time	\N
+421004	421	В271	Petroleum Engineering	2700000	\N	3	Upstream petroleum engineering with field practice at major KZ operators.	118	125	Reservoir engineer, drilling engineer, production engineer.	bachelor	4	full_time	\N
+421003	421	В057	Big Data and AI	2400000	\N	3	Statistical learning, deep learning and large-scale data engineering.	126	132		bachelor	4	full_time	\N
+421002	421	В058	Information Systems and Cybersecurity	2400000	\N	3	Enterprise IT systems, cloud architecture and defensive security.	120	128		bachelor	4	full_time	\N
+421001	421	В057	Computer Science and Software Engineering	2400000	\N	3	Industry-standard CS curriculum with internships at top KZ tech companies.	125	130	Software engineer, ML engineer, backend / mobile developer.	bachelor	4	full_time	\N
+130010	13	В045	Accounting and Audit	830000	\N	1		88	102		bachelor	4	full_time	\N
+130009	13	В041	Psychology	820000	\N	2		85	98		bachelor	4	full_time	\N
+130008	13	В037	Foreign Philology	900000	\N	3	English, German and Chinese tracks for translators and educators.	95	110		bachelor	4	full_time	\N
+130007	13	В042	Journalism	850000	\N	2	Digital and broadcast journalism with editorial newsroom practice.	90	105		bachelor	4	full_time	\N
+130006	13	В140	International Relations	1050000	\N	3	Diplomacy, geopolitics, regional studies (Central Asia, EU, MENA).	105	122		bachelor	4	full_time	\N
+130004	13	В054	Physics	780000	\N	2	Theoretical and applied physics, with laboratories in optics and condensed matter.	85	100		bachelor	4	full_time	\N
+130002	13	В058	Information Security	1050000	\N	2	Cryptography, network security and applied infosec for state and enterprise.	108	125	SOC analyst, penetration tester, security architect.	bachelor	4	full_time	\N
+130001	13	В057	Computer Engineering and Software	1100000	\N	3	Foundations of computer science with applied software engineering tracks.	110	128	Software engineer, backend developer, DevOps engineer.	bachelor	4	full_time	\N
+61041	421	В044	Management in IT	1700000	\N	3		\N	\N		bachelor	\N	full_time	\N
+61025	421	В057	Computer Systems and Software	2000000	\N	3		\N	\N		bachelor	\N	full_time	\N
+61021	421	В057	Computer Systems and Software	2000000	\N	3		\N	\N		bachelor	\N	full_time	\N
+6301	522	В058	Cybersecurity	2500000	\N	3		\N	\N		bachelor	\N	full_time	\N
+6121	522	В058	Artificial Intelligence	1500000	\N	3		90	90		bachelor	3	full_time	\N
+6104	13	В057	Computer Engineering and Software	1600000	Russian, Kazakh	2		\N	\N		bachelor	\N	full_time	\N
+6103	522	В057	Big Data Analysis	2500000	\N	3		\N	\N		bachelor	\N	full_time	\N
+6102	522	В057	Software Engineering	2500000	English	3		\N	\N		bachelor	\N	full_time	\N
+6101	522	В057	Computer Science	2500000	\N	3		\N	\N		bachelor	\N	full_time	\N
+4109	421	В044	Business and Management	1700000	\N	3		\N	\N		bachelor	\N	full_time	\N
 \.
 
 
@@ -45570,13 +45586,14 @@ COPY public.users (id, password, last_login, is_superuser, first_name, last_name
 3	pbkdf2_sha256$1200000$PRu2tTNvJvyJp6DvU6NJUe$dVp612SJZa2aArjhNsv42DbAFcHlAsZ56hAV9+/Oabk=	\N	f			z@mail.com	f	t	2026-04-21 11:24:58.333089+05	APPLICANT		2026-04-21 11:24:59.486795+05	
 4	pbkdf2_sha256$1200000$yjgNgVsBuVcOtX1QnnYhq6$gGcR/ZH07U3ToeZom86wuH305ZqYyW74EzgtIMt5pgY=	\N	f	Appli	Last	a@mail.com	f	t	2026-04-21 12:36:09.770615+05	APPLICANT	87052346517	2026-04-21 12:36:11.108676+05	
 6	pbkdf2_sha256$1200000$TAIjmjht0ESr7UjWzK0jDn$BZCNRPYigmVowZoedms/K99SXUDSrn/k9jEnIAh6+aI=	2026-05-06 12:04:19.829711+05	t			bz@gmail.com	t	t	2026-05-06 12:03:49.691459+05	SUPER_ADMIN	\N	2026-05-06 12:03:50.271757+05	
-8	pbkdf2_sha256$1200000$w6swmh4FJRRkVRxOeoDius$0s6aMLSjFJZEx0DMYvjwY9D/XP7m7RfpD2jAuPgIHBM=	2026-05-13 14:15:13.136171+05	t			superadm@gmail.com	t	t	2026-05-13 14:14:55.184155+05	SUPER_ADMIN	\N	2026-05-13 14:14:55.30787+05	
 1	pbkdf2_sha256$1200000$4m0MFRVvwA7AlR6O1KrwkK$PUOly42LHfBtpRuRALk0Euh3zrw68C8vSXUK2oU39BQ=	2026-04-20 11:19:20+05	t	Alikhan	Alibekov	admin@gmail.com	t	t	2026-04-20 11:17:10+05	NTC_ADMIN		2026-04-20 11:17:11.446939+05	https://res.cloudinary.com/dbsi2t4yq/image/upload/v1779195163/avatars/user_1.jpg
 5	pbkdf2_sha256$1200000$iGi0CHLSe7HTmOjThIp0ca$uHgBkJvbMnZCk9d9Nw9R91f3BNrYHhnkIarNj9DSaXA=	\N	f	Zarina	Beketova	info@astanait.edu.kz	f	t	2026-04-24 11:00:52+05	UNI_ADMIN	+77172645716	2026-04-24 11:00:53.427973+05	https://res.cloudinary.com/dbsi2t4yq/image/upload/v1779195625/avatars/user_5.png
 7	pbkdf2_sha256$1200000$6u1BWWE7T5uN5BHwflV7HV$MTyhS64sZ92N+Fex1XiZhJo7bDfEr5aJc+nGuDA/dec=	\N	f	Алуа	Асеткызы	alu@mail.com	f	t	2026-05-06 12:07:34.779555+05	APPLICANT	\N	2026-05-06 12:07:36.193069+05	
 2	pbkdf2_sha256$1200000$3Sr9JFmmRc5ivfJBzP2Nsh$qmocSDp1rUg2DYQS/TDY5WwA+sdjNLg5LotPRBIQ+Cc=	2026-04-20 11:23:26+05	f	Алина	Муратова	alina@bilimge.kz	f	t	2026-04-20 11:23:42+05	APPLICANT	+77007841234	2026-04-20 11:21:10.301193+05	
 10	pbkdf2_sha256$1200000$QCYrPq2KEmbDHxBmUzUVDB$E78a8xHOh6xrYKFZCzPbED+DUBxMRmfpLim8kfdgFpI=	\N	f			kense@kbtu.kz	f	t	2026-05-15 09:41:26.977085+05	UNI_ADMIN	\N	2026-05-15 09:41:27.11624+05	
 9	pbkdf2_sha256$1200000$vBT65rMXe3jiZAvqC8CzTF$7ocqjT1hpNdq9DfijPhTiwaQLqwUOuBG9TnEdrlwh2M=	\N	f	Alua	Nurlybekova	aluanrlybekova@gmail.com	f	t	2026-05-13 16:33:04.838261+05	APPLICANT	+77755200663	2026-05-13 16:33:04.935819+05	https://res.cloudinary.com/dbsi2t4yq/image/upload/v1778890891/avatars/user_9.jpg
+8	pbkdf2_sha256$1200000$w6swmh4FJRRkVRxOeoDius$0s6aMLSjFJZEx0DMYvjwY9D/XP7m7RfpD2jAuPgIHBM=	2026-05-28 15:49:31.110485+05	t			superadm@gmail.com	t	t	2026-05-13 14:14:55.184155+05	SUPER_ADMIN	\N	2026-05-13 14:14:55.30787+05	
+11	pbkdf2_sha256$1200000$5DZHQFaDwSsoXb3BUbWR8c$EI+fxP18TZoMinHwTbRYWg6VafTXAiMkQNXQDVV3EkM=	\N	f	Mega	Mozg	bz.zarina.bz@gmail.com	f	t	2026-06-04 11:53:02.97016+05	APPLICANT	87453651234	2026-06-04 11:53:04.721203+05	
 \.
 
 
@@ -45615,14 +45632,14 @@ SELECT pg_catalog.setval('public.accreditations_id_seq', 1, true);
 -- Name: announcements_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.announcements_id_seq', 12, true);
+SELECT pg_catalog.setval('public.announcements_id_seq', 16, true);
 
 
 --
 -- Name: applicant_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.applicant_id_seq', 5, true);
+SELECT pg_catalog.setval('public.applicant_id_seq', 6, true);
 
 
 --
@@ -45657,7 +45674,7 @@ SELECT pg_catalog.setval('public.auth_permission_id_seq', 104, true);
 -- Name: calendar_events_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.calendar_events_id_seq', 1, true);
+SELECT pg_catalog.setval('public.calendar_events_id_seq', 7, true);
 
 
 --
@@ -45713,14 +45730,14 @@ SELECT pg_catalog.setval('public.entrance_requirements_id_seq', 2, true);
 -- Name: favorite_universities_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.favorite_universities_id_seq', 1, false);
+SELECT pg_catalog.setval('public.favorite_universities_id_seq', 4, true);
 
 
 --
 -- Name: favorites_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.favorites_id_seq', 10, true);
+SELECT pg_catalog.setval('public.favorites_id_seq', 13, true);
 
 
 --
@@ -45818,7 +45835,7 @@ SELECT pg_catalog.setval('public.users_groups_id_seq', 1, false);
 -- Name: users_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.users_id_seq', 9, true);
+SELECT pg_catalog.setval('public.users_id_seq', 11, true);
 
 
 --
@@ -46317,13 +46334,6 @@ CREATE INDEX favorite_universities_university_id_487031a3 ON public.favorite_uni
 
 
 --
--- Name: favorite_universities_university_id_487031a3_like; Type: INDEX; Schema: public; Owner: postgres
---
-
-CREATE INDEX favorite_universities_university_id_487031a3_like ON public.favorite_universities USING btree (university_id varchar_pattern_ops);
-
-
---
 -- Name: favorite_universities_user_id_27575c19; Type: INDEX; Schema: public; Owner: postgres
 --
 
@@ -46356,13 +46366,6 @@ CREATE INDEX favorites_user_id_d60eb79f ON public.favorites USING btree (user_id
 --
 
 CREATE INDEX university_staff_university_id_a56c50a0 ON public.university_staff USING btree (university_id);
-
-
---
--- Name: university_staff_university_id_a56c50a0_like; Type: INDEX; Schema: public; Owner: postgres
---
-
-CREATE INDEX university_staff_university_id_a56c50a0_like ON public.university_staff USING btree (university_id varchar_pattern_ops);
 
 
 --
@@ -46661,5 +46664,5 @@ ALTER TABLE ONLY public.users_user_permissions
 -- PostgreSQL database dump complete
 --
 
-\unrestrict Zy9MXhmtu47ifvaIfPdmhgwIQiJAqF2jc0l7bWLMXP7Yu2PkV1AzWmv552SOXvk
+\unrestrict cnH5Oux17JHHCL2bHmjY2aaeazdepvpmtRiFKM2BZv3y9mOOYKzIFqdBIf3yqLZ
 

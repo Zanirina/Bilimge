@@ -17,7 +17,7 @@ from .views import (
     MyUniversityMobilityDetailView,
     NtcUniversityUpdateView,
     MyUniversityApplicantsView,
-    LanguageListView, MyUniversityAccreditationsView, MyUniversityAccreditationDetailView,
+    LanguageListView, MyUniversityAccreditationsView, MyUniversityAccreditationDetailView,UniversityCompareAIView
 )
 from .upload_views import UniversityLogoUploadView, UniversityCoverUploadView
 
@@ -43,7 +43,7 @@ urlpatterns = [
     path('fields/delete/<str:code>/', views.field_delete, name='field_delete'),
 
     # API
-    path('api/', include(router.urls)),
+    path('api/universities/compare-ai/', UniversityCompareAIView.as_view()),
     path('api/languages/', LanguageListView.as_view(), name='languages-list'),
     path('api/my-university/', MyUniversityView.as_view(), name='my-university'),
     path('api/my-university/info/', MyUniversityUpdateView.as_view(), name='my-university-info'),
@@ -64,4 +64,5 @@ urlpatterns = [
     path('api/my-university/upload-cover/', UniversityCoverUploadView.as_view()),
     path('api/my-university/accreditations/', MyUniversityAccreditationsView.as_view()),
     path('api/my-university/accreditations/<int:pk>/', MyUniversityAccreditationDetailView.as_view()),
+    path('api/', include(router.urls)),
 ]

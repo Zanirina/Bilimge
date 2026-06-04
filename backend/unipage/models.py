@@ -27,6 +27,8 @@ class University(models.Model):
     instagram_url = models.URLField(max_length=500, blank=True, default='', verbose_name='Instagram')
     tuition_cost = models.IntegerField(null=True, blank=True, verbose_name='Tuition Cost')
 
+    updated_at = models.DateTimeField(null=True, blank=True, verbose_name='Last Updated')
+
     def __str__(self):
         return f"{self.code} - {self.name}"
 
@@ -77,6 +79,7 @@ class NtcProgram(models.Model):
     subject_1 = models.ForeignKey(Subject, on_delete=models.RESTRICT, related_name='subject_1')
     subject_2 = models.ForeignKey(Subject, on_delete=models.RESTRICT, related_name='subject_2')
     minimum_score = models.IntegerField(default=50, verbose_name='Minimum UNT Score')
+    updated_at = models.DateTimeField(null=True, blank=True, verbose_name='Last Updated')
 
     def __str__(self):
         return f"{self.code} - {self.name}"
@@ -104,6 +107,7 @@ class UniversityProgram(models.Model):
     ntc_program = models.ForeignKey(NtcProgram, on_delete=models.RESTRICT, related_name='programs')
     local_name = models.CharField(max_length=255, verbose_name='Name of University Program')
     language = models.ForeignKey(Language, on_delete=models.SET_NULL, null=True, blank=True)
+    updated_at = models.DateTimeField(null=True, blank=True, verbose_name='Last Updated')
 
     degree = models.CharField(
         max_length=20, choices=Degree.choices, default=Degree.BACHELOR, blank=True,

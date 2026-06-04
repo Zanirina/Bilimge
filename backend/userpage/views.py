@@ -108,10 +108,6 @@ class FavoriteView(APIView):
         if not favorites:
             return Response([])
 
-        # Не используем select_related — favorites.program_id хранится как integer
-        # в унаследованной схеме, а university_programs.code — varchar, поэтому
-        # ORM-JOIN падает на несовместимости типов. Резолвим программы вручную,
-        # приводя ключи к строкам, чтобы стыковались оба представления.
         program_keys = {str(f.program_id) for f in favorites}
         programs = UniversityProgram.objects.filter(
             code__in=list(program_keys)
@@ -157,7 +153,6 @@ class FavoriteDeleteView(APIView):
     permission_classes = [IsAuthenticated]
 
     def delete(self, request, pk):
-        """Удалить из избранного"""
         try:
             fav = Favorite.objects.get(pk=pk, user=request.user)
             fav.delete()
@@ -170,7 +165,6 @@ class FavoriteUniversityView(APIView):
     permission_classes = [IsAuthenticated]
 
     def get(self, request):
-        """Список избранных вузов"""
         rows = list(
             FavoriteUniversity.objects.filter(user=request.user).only('id', 'university_id', 'created_at')
         )
@@ -198,24 +192,40 @@ class FavoriteUniversityView(APIView):
         return Response(result)
 
     def post(self, request):
-        """Добавить вуз в избранное"""
         code = request.data.get('university')
         if not code:
             return Response({"error": "university обязателен"}, status=400)
+
         try:
             university = University.objects.get(code=code)
         except University.DoesNotExist:
             return Response({"error": "Вуз не найден"}, status=404)
 
-        obj, created = FavoriteUniversity.objects.get_or_create(
-            user=request.user, university=university,
+        exists = FavoriteUniversity.objects.filter(
+            user=request.user,
+            university_id=str(university.code)
+        ).exists()
+
+        if exists:
+            fav = FavoriteUniversity.objects.get(
+                user=request.user,
+                university_id=str(university.code)
+            )
+            return Response({
+                "id": fav.id,
+                "university_code": university.code,
+                "university_name": university.name,
+            }, status=200)
+
+        fav = FavoriteUniversity.objects.create(
+            user=request.user,
+            university_id=str(university.code),
         )
         return Response({
-            "id": obj.id,
+            "id": fav.id,
             "university_code": university.code,
             "university_name": university.name,
-        }, status=201 if created else 200)
-
+        }, status=201)
 
 class FavoriteUniversityDeleteView(APIView):
     permission_classes = [IsAuthenticated]
