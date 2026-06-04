@@ -1,2 +1,5 @@
+[phases.build]
+cmds = ["python manage.py collectstatic --noinput"]
+
 [start]
-cmd = "python manage.py runserver 0.0.0.0:8000"
+cmd = "python manage.py migrate --noinput && gunicorn backend.wsgi:application --bind 0.0.0.0:$PORT"
