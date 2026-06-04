@@ -2,7 +2,7 @@
 -- PostgreSQL database dump
 --
 
-\restrict cnH5Oux17JHHCL2bHmjY2aaeazdepvpmtRiFKM2BZv3y9mOOYKzIFqdBIf3yqLZ
+\restrict vQevQVzeJfvd9wXcZeHnxhKsVUHzeHKZHuwbInz3Sj43BCdu6IvaVpIoXEZKUQW
 
 -- Dumped from database version 18.3
 -- Dumped by pg_dump version 18.3
@@ -1302,8 +1302,6 @@ COPY public.announcements (id, title, body, author_type, university_id, universi
 9	New Bachelor's Programme: Artificial Intelligence	Starting from the 2026–2027 academic year, AITU is launching a new Bachelor's programme in Artificial Intelligence. The programme covers machine learning, computer vision, NLP, and AI ethics. Taught in English. 40 grant-funded seats available for the first cohort.	university	522	Astana IT University	2026-05-15 13:33:20.015252+05	2026-05-15 13:33:20.015254+05	5	programme	
 11	Hackathon AITU 2026 — Register by May 30	fhnigijn	university	522	Astana IT University	2026-05-15 13:33:20.016376+05	2026-05-15 15:18:40.26487+05	5	event	
 13	Обновление программы Computer Hardware and Software	Университет Astana IT University обновил информацию по программе «Computer Hardware and Software».	university	522	Astana IT University	2026-05-19 18:18:29.958193+05	2026-05-19 18:18:29.958203+05	5		
-14	т уууу	алооооооооо	university	522	Astana IT University	2026-06-04 13:04:02.407161+05	2026-06-04 13:04:02.407193+05	5	event	
-15	Test of announcements	you can see if you follow AITU	university	522	Astana IT University	2026-06-04 13:10:41.695306+05	2026-06-04 13:10:41.695326+05	5	event	
 16	TEST NTC ANNOUNCEMENT	HELLO SWETIE	ntc	\N		2026-06-04 13:31:17.259851+05	2026-06-04 13:31:17.259875+05	1	event	
 \.
 
@@ -2033,6 +2031,12 @@ COPY public.django_admin_log (id, action_time, object_id, object_repr, action_fl
 499	2026-05-21 18:07:11.888315+05	ВМ086	ВМ086 - Medicine	3		7	8
 500	2026-05-21 18:07:25.968081+05	BM089	BM089 - Medical and preventive business	2	[{"changed": {"fields": ["Program Code"]}}]	7	8
 501	2026-05-21 18:07:39.608272+05	ВМ089	ВМ089 - Medical and preventive business	3		7	8
+502	2026-06-04 17:26:48.383426+05	12	enu@bilimge.kz (UNI_ADMIN)	2	[{"changed": {"fields": ["Role"]}}]	13	8
+503	2026-06-04 17:28:04.82629+05	4	UniversityStaff object (4)	1	[{"added": {}}]	12	8
+504	2026-06-04 17:36:23.885602+05	3	UniversityStaff object (3)	2	[]	12	8
+505	2026-06-04 17:41:41.867858+05	5	UniversityStaff object (5)	1	[{"added": {}}]	12	8
+506	2026-06-04 17:43:03.30382+05	5	UniversityStaff object (5)	2	[]	12	8
+507	2026-06-04 17:43:31.433476+05	13	mnu@bilimge.kz (UNI_ADMIN)	2	[{"changed": {"fields": ["Role"]}}]	13	8
 \.
 
 
@@ -2170,6 +2174,7 @@ COPY public.entrance_requirements (id, university_id, description) FROM stdin;
 14	522	Optional portfolio for AI/Cybersecurity scholarship competition.
 1	522	AET - minimum 30 scores in each module
 2	522	English level - B1 and more
+15	174	IELTS 5.0
 \.
 
 
@@ -45461,7 +45466,6 @@ COPY public.universities (code, name, city, address, year_established, email, ph
 161	Almaty University	Almaty	24/1 Mamyr-1 dist.	1998	info@ualmaty.kz	+77273111306	50			f	f					\N		\N
 162	Kazakh University of Ways of Communications	Almaty	82 Shevchenko str.	2000	info@kups.kz	+77272922115	50			f	f					\N		\N
 173	Esil University (ex. KazUEFIT)	Astana	7 Zhubanov str.	2006	info@esiluniversity.edu.kz	+77172703058	60			f	f					\N		\N
-174	M. Narikbayev KAZGUU University	Astana	8 Korgalzhyn Highway	1994	info@kazguu.kz	+77172703030	85			f	f					\N		\N
 182	Kazakh University of Technology and Business	Astana	31 Saryarka Ave.	2003	info@kaztub.kz	+77172270101	55			f	f					\N		\N
 184	Turan-Astana University	Astana	1 Yessenberlin str.	1998	tau_astana@mail.ru	+77172398118	60			f	f					\N		\N
 185	Astana International University	Astana	8 Kabanbay Batyr Ave.	2018	info@aiu.edu.kz	+77172476677	70			f	f					\N		\N
@@ -45500,9 +45504,10 @@ COPY public.universities (code, name, city, address, year_established, email, ph
 979	KIMEP University	Almaty	2 Abay Ave.	1992	info@kimep.kz	+77272704213	90			f	f					\N		\N
 2	S. Seifullin Kazakh Agrotechnical University	Astana	62 Zhenis Ave.	1957	katu_mail@kazatu.kz	+77172317547	60			f	f					\N		\N
 1	Astana Medical University 	Astana	49/a Beybitshilik str.	1964	info@amu.kz	+77172539424	70			f	f		https://res.cloudinary.com/test/test.jpg			\N		\N
-13	L.N. Gumilyov Eurasian National University	Astana	2 Satpayev St., Astana 010008	1996	enu@enu.kz	+7 (7172) 70-95-00	85	L.N. Gumilyov Eurasian National University was founded in 1996 by a Decree of the First President of the Republic of Kazakhstan. Named after the great Eurasian thinker Lev Gumilyov, the university quickly became one of the flagship classical universities in Central Asia.\n\nToday ENU offers more than 80 undergraduate programs across 13 faculties and is home to over 20,000 students. It is consistently ranked in the QS Asia top 250 and houses partnerships with leading universities across Europe and Asia.	https://www.enu.kz	t	t	https://upload.wikimedia.org/wikipedia/commons/thumb/9/9d/Coat_of_Arms_of_Eurasian_National_University.svg/200px-Coat_of_Arms_of_Eurasian_National_University.svg.png	https://www.enu.kz/static/img/main-bg.jpg	https://t.me/enu_kz	https://www.instagram.com/enu_official	950000	ENU	\N
-421	Kazakh-British Technical University	Almaty	59 Tole bi St., Almaty 050000	2001	info@kbtu.kz	+7 (727) 357-42-22	120	Kazakh-British Technical University was established in 2001 by the governments of Kazakhstan and the United Kingdom as a model research-intensive university focused on oil & gas, IT and business.\n\nKBTU runs flagship schools — School of Information Technology and Engineering, KBTU Business School, School of Energy and Petroleum Industry, School of Mathematics and Cybernetics, and School of Geology — and offers all bachelor programs in English. The university is a member of the Erasmus+ program and partners with UCL, Heriot-Watt, the University of Westminster and many others.	https://kbtu.edu.kz	t	t	https://kbtu.edu.kz/templates/yootheme/cache/8d/kbtu-logo-8d4d3e3f.png	https://kbtu.edu.kz/images/main/campus.jpg	https://t.me/kbtuofficial	https://www.instagram.com/kbtu_official	2400000	KBTU	\N
 522	Astana IT University	Astana	Mangilik El 55/11, Block C1, Astana 010000	2019	info@astanait.edu.kz	+7 (7172) 64-57-00	110	Astana IT University was founded in 2019 by a Decree of the Government of Kazakhstan to become the country's leading IT-focused university. Located in Astana Hub — the largest international technopark in Central Asia — AITU brings together a fully English-medium curriculum, dual-degree partnerships and direct collaboration with the local tech industry.\n\nAITU operates four schools — Computing, Engineering, Creative Industries and Business — and hosts the AITU NeuroSpace research center, Telegram Lab Kazakhstan and joint programs with the University of Westminster, Tampere University and others.	https://astanait.edu.kz	t	t	https://res.cloudinary.com/dbsi2t4yq/image/upload/v1779195605/universities/logos/logo_522.png	https://res.cloudinary.com/dbsi2t4yq/image/upload/v1778828019/universities/covers/cover_522.jpg	https://t.me/aitu2020info	https://www.instagram.com/astana_it_university	2500000	AITU	2026-06-04 12:48:57.437708+05
+13	L.N. Gumilyov Eurasian National University	Astana	2 Satpayev St., Astana 010008	1996	enu@enu.kz	+7 (7172) 70-95-00	85	L.N. Gumilyov Eurasian National University was founded in 1996 by a Decree of the First President of the Republic of Kazakhstan. Named after the great Eurasian thinker Lev Gumilyov, the university quickly became one of the flagship classical universities in Central Asia.\n\nToday ENU offers more than 80 undergraduate programs across 13 faculties and is home to over 20,000 students. It is consistently ranked in the QS Asia top 250 and houses partnerships with leading universities across Europe and Asia.	https://www.enu.kz	t	t	https://res.cloudinary.com/dbsi2t4yq/image/upload/v1780576150/universities/logos/logo_13.webp	https://res.cloudinary.com/dbsi2t4yq/image/upload/v1780576244/universities/covers/cover_13.jpg	https://t.me/enu_kz	https://www.instagram.com/enu_official	950000	ENU	\N
+421	Kazakh-British Technical University	Almaty	59 Tole bi St., Almaty 050000	2001	info@kbtu.kz	+7 (727) 357-42-22	120	Kazakh-British Technical University was established in 2001 by the governments of Kazakhstan and the United Kingdom as a model research-intensive university focused on oil & gas, IT and business.\n\nKBTU runs flagship schools — School of Information Technology and Engineering, KBTU Business School, School of Energy and Petroleum Industry, School of Mathematics and Cybernetics, and School of Geology — and offers all bachelor programs in English. The university is a member of the Erasmus+ program and partners with UCL, Heriot-Watt, the University of Westminster and many others.	https://kbtu.edu.kz	t	t	https://res.cloudinary.com/dbsi2t4yq/image/upload/v1780576423/universities/logos/logo_421.webp	https://res.cloudinary.com/dbsi2t4yq/image/upload/v1780576430/universities/covers/cover_421.jpg	https://t.me/kbtuofficial	https://www.instagram.com/kbtu_official	2400000	KBTU	\N
+174	Maqsut Narikbayev University	Astana	8 Korgalzhyn Highway	1994	info@kazguu.kz	+77172703030	85	Maqsut Narikbayev University's mission is to serve people through providing high quality and affordable education. \nVision: To contribute to the creation of an honest and just society, whose development is determined by science, education, social responsibility and moral values.		t	t	https://res.cloudinary.com/dbsi2t4yq/image/upload/v1780577152/universities/logos/logo_174.jpg	https://res.cloudinary.com/dbsi2t4yq/image/upload/v1780577102/universities/covers/cover_174.webp		https://www.instagram.com/mnu.kz/	2700000	MNU	2026-06-04 17:58:18.276633+05
 \.
 
 
@@ -45517,6 +45522,9 @@ COPY public.university_languages (id, university_id, language_id) FROM stdin;
 9	421	3
 10	421	2
 11	522	3
+1	174	3
+2	174	1
+3	174	2
 \.
 
 
@@ -45574,7 +45582,9 @@ COPY public.university_programs (code, university_id, ntc_program_id, local_name
 COPY public.university_staff (id, university_id, user_id) FROM stdin;
 1	522	5
 2	1	2
+4	13	12
 3	421	10
+5	174	13
 \.
 
 
@@ -45594,6 +45604,8 @@ COPY public.users (id, password, last_login, is_superuser, first_name, last_name
 9	pbkdf2_sha256$1200000$vBT65rMXe3jiZAvqC8CzTF$7ocqjT1hpNdq9DfijPhTiwaQLqwUOuBG9TnEdrlwh2M=	\N	f	Alua	Nurlybekova	aluanrlybekova@gmail.com	f	t	2026-05-13 16:33:04.838261+05	APPLICANT	+77755200663	2026-05-13 16:33:04.935819+05	https://res.cloudinary.com/dbsi2t4yq/image/upload/v1778890891/avatars/user_9.jpg
 8	pbkdf2_sha256$1200000$w6swmh4FJRRkVRxOeoDius$0s6aMLSjFJZEx0DMYvjwY9D/XP7m7RfpD2jAuPgIHBM=	2026-05-28 15:49:31.110485+05	t			superadm@gmail.com	t	t	2026-05-13 14:14:55.184155+05	SUPER_ADMIN	\N	2026-05-13 14:14:55.30787+05	
 11	pbkdf2_sha256$1200000$5DZHQFaDwSsoXb3BUbWR8c$EI+fxP18TZoMinHwTbRYWg6VafTXAiMkQNXQDVV3EkM=	\N	f	Mega	Mozg	bz.zarina.bz@gmail.com	f	t	2026-06-04 11:53:02.97016+05	APPLICANT	87453651234	2026-06-04 11:53:04.721203+05	
+12	pbkdf2_sha256$1200000$f6mztVvhRwDR36wwPlnCh9$qLSAi0a2LQ3lRUBpzZaJQpAIjUhRfi/4hcbN3DTfBS8=	\N	f			enu@bilimge.kz	f	t	2026-06-04 17:26:10.191272+05	UNI_ADMIN	\N	2026-06-04 17:26:11.207955+05	
+13	pbkdf2_sha256$1200000$2s8GLllgoN4dmx3owTDVIR$TB6cO2h1dmgW/v7VEN8fVPOz1XHbUT4SWV2jisnw7MY=	\N	f			mnu@bilimge.kz	f	t	2026-06-04 17:39:17.643189+05	UNI_ADMIN	\N	2026-06-04 17:39:18.684256+05	
 \.
 
 
@@ -45695,7 +45707,7 @@ SELECT pg_catalog.setval('public.conversations_id_seq', 4, true);
 -- Name: django_admin_log_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.django_admin_log_id_seq', 501, true);
+SELECT pg_catalog.setval('public.django_admin_log_id_seq', 507, true);
 
 
 --
@@ -45723,7 +45735,7 @@ SELECT pg_catalog.setval('public.entrance_exams_id_seq', 1, true);
 -- Name: entrance_requirements_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.entrance_requirements_id_seq', 2, true);
+SELECT pg_catalog.setval('public.entrance_requirements_id_seq', 15, true);
 
 
 --
@@ -45807,7 +45819,7 @@ SELECT pg_catalog.setval('public.universities_id_seq', 1, false);
 -- Name: university_languages_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.university_languages_id_seq', 1, false);
+SELECT pg_catalog.setval('public.university_languages_id_seq', 3, true);
 
 
 --
@@ -45821,7 +45833,7 @@ SELECT pg_catalog.setval('public.university_programs_id_seq', 1, false);
 -- Name: university_staff_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.university_staff_id_seq', 2, true);
+SELECT pg_catalog.setval('public.university_staff_id_seq', 5, true);
 
 
 --
@@ -45835,7 +45847,7 @@ SELECT pg_catalog.setval('public.users_groups_id_seq', 1, false);
 -- Name: users_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.users_id_seq', 11, true);
+SELECT pg_catalog.setval('public.users_id_seq', 13, true);
 
 
 --
@@ -46664,5 +46676,5 @@ ALTER TABLE ONLY public.users_user_permissions
 -- PostgreSQL database dump complete
 --
 
-\unrestrict cnH5Oux17JHHCL2bHmjY2aaeazdepvpmtRiFKM2BZv3y9mOOYKzIFqdBIf3yqLZ
+\unrestrict vQevQVzeJfvd9wXcZeHnxhKsVUHzeHKZHuwbInz3Sj43BCdu6IvaVpIoXEZKUQW
 

@@ -21,7 +21,6 @@ def get_llm():
     return _llm
 
 
-# ── IT / tech field detection ─────────────────────────────────────────────────
 IT_KEYWORDS = [
     'it', 'software', 'computer', 'программир', 'информатик', 'cs',
     'computing', 'tech', 'цифр', 'digital', 'кибер', 'cyber', 'робот',
@@ -104,7 +103,7 @@ def get_context_from_db(question: str) -> str:
     q = question.lower()
     context = []
 
-    # ── 1. Specific university by name ────────────────────────────────────────
+
     matched_uni = None
     for u in University.objects.all():
         if u.name.lower() in q or (u.short_name and u.short_name.lower() in q):
@@ -128,7 +127,7 @@ def get_context_from_db(question: str) -> str:
                 if progs:
                     ntc_by_field[field.name] = progs
 
-    # ── 2. City filter ────────────────────────────────────────────────────────
+
     city_map = {
         'алматы': 'Алматы', 'almaty': 'Алматы',
         'астана': 'Астана', 'astana': 'Астана', 'нур-султан': 'Астана', 'nursultan': 'Астана',
@@ -158,14 +157,12 @@ def get_context_from_db(question: str) -> str:
                 context.append(f"Университеты в городе {city_name} ({unis.count()} вузов):\n" + "\n".join(lines))
             break
 
-    # ── 3. Required subjects / admission questions ────────────────────────────
+
     is_subject_query = any(kw in q for kw in SUBJECT_KEYWORDS)
     is_it_query = any(kw in q for kw in IT_KEYWORDS)
 
     if is_subject_query or is_it_query:
-        # Find relevant NTC programs
         if is_it_query:
-            # IT-specific: search by field name
             it_fields = FieldOfStudy.objects.filter(
                 name__icontains='Information'
             ) | FieldOfStudy.objects.filter(
@@ -181,7 +178,6 @@ def get_context_from_db(question: str) -> str:
             )
             it_progs = NtcProgram.objects.filter(field_of_study__in=it_fields)
 
-            # Also search by program name
             name_matches = NtcProgram.objects.filter(
                 name__icontains='Informatics'
             ) | NtcProgram.objects.filter(
@@ -194,7 +190,6 @@ def get_context_from_db(question: str) -> str:
 
             all_progs = (it_progs | name_matches).distinct().select_related('subject_1', 'subject_2', 'field_of_study')
         else:
-            # General subject query — try to find programs matching keywords
             words = [w for w in q.split() if len(w) > 3]
             all_progs = NtcProgram.objects.none()
             for word in words:
@@ -242,21 +237,18 @@ def get_context_from_db(question: str) -> str:
                     lines.append(line)
                 context.append("IT программы в университетах:\n" + "\n".join(lines))
 
-    # ── 4. Dormitory / housing query ──────────────────────────────────────────
     if any(kw in q for kw in DORM_KEYWORDS):
         unis = University.objects.filter(has_dormitory=True)
         if unis.exists():
             lines = [f"  • {u.name} ({u.city})" for u in unis[:30]]
             context.append(f"Университеты с общежитием ({unis.count()} вузов):\n" + "\n".join(lines))
 
-    # ── 5. Military department query ──────────────────────────────────────────
     if any(kw in q for kw in MILITARY_KEYWORDS):
         unis = University.objects.filter(has_military_department=True)
         if unis.exists():
             lines = [f"  • {u.name} ({u.city})" for u in unis[:20]]
             context.append(f"Университеты с военной кафедрой ({unis.count()} вузов):\n" + "\n".join(lines))
 
-    # ── 6. General university list ────────────────────────────────────────────
     general_keywords = [
         'университет', 'вуз', 'универ', 'university', 'куда поступить',
         'список', 'все вузы', 'какие вузы', 'which universities', 'universities',
@@ -273,7 +265,6 @@ def get_context_from_db(question: str) -> str:
             lines.append(line)
         context.append(f"Все университеты на платформе ({unis.count()} вузов):\n" + "\n".join(lines))
 
-    # ── 7. Cost / grant price query ───────────────────────────────────────────
     if any(kw in q for kw in ['стоимост', 'цена', 'сколько стоит', 'платно', 'бесплатно', 'cost', 'tuition', 'price']):
         progs = UniversityProgram.objects.select_related(
             'university', 'ntc_program'
@@ -286,7 +277,6 @@ def get_context_from_db(question: str) -> str:
             ]
             context.append("Стоимость обучения (от дешёвых к дорогим):\n" + "\n".join(lines))
 
-        # Also show universities with tuition_cost
         unis_cost = University.objects.filter(tuition_cost__isnull=False).order_by('tuition_cost')[:20]
         if unis_cost.exists():
             lines = [
@@ -295,7 +285,6 @@ def get_context_from_db(question: str) -> str:
             ]
             context.append("Стоимость обучения в университетах (в год):\n" + "\n".join(lines))
 
-    # ── 8. Grant check by IKT number ─────────────────────────────────────────
     ikt_match = re.search(r'\b(\d{9})\b', question)
     if ikt_match:
         ikt = ikt_match.group(1)
@@ -313,7 +302,6 @@ def get_context_from_db(question: str) -> str:
         else:
             context.append(f"По ИКТ {ikt} грант не найден в базе 2025 года.")
 
-    # ── 9. Grant statistics ───────────────────────────────────────────────────
     if any(kw in q for kw in ['грант', 'grant', 'гранты', 'grants', 'проходной балл', 'passing score']):
         from django.db.models import Min, Max, Count
         stats = (
@@ -386,4 +374,4 @@ def get_ai_response(user_message: str, chat_history: list) -> str:
         return response.content
 
     except Exception as e:
-        raise  # re-raise so the view can log/return proper error
+        raise

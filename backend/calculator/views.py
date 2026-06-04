@@ -12,7 +12,7 @@ class CalculatorView(APIView):
     def post(self, request):
         data = request.data
 
-        # Валидация
+
         scores = data.get('scores', {})
         required_scores = ['history', 'math_literacy', 'reading_literacy', 'subject_1', 'subject_2']
         missing = [s for s in required_scores if s not in scores]

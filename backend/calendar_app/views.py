@@ -92,7 +92,6 @@ class NtcCalendarDetailView(APIView):
     permission_classes = [IsNtcAdmin]
 
     def get_object(self, pk):
-        # university_id__isnull вместо university__isnull
         return get_object_or_404(CalendarEvent, pk=pk, university_id__isnull=True)
 
     def patch(self, request, pk):
@@ -209,7 +208,6 @@ class PersonalCalendarDetailView(APIView):
         return Response({'status': 'deleted'}, status=204)
 
 def notify_calendar_event(event):
-    """Уведомление о новом событии в календаре"""
     from userpage.models import FavoriteUniversity
 
     if event.visibility == 'public':
