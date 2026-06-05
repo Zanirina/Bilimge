@@ -21,8 +21,7 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 SECRET_KEY = os.getenv('SECRET_KEY', 'django-insecure-q8u7ytg#6g51hi$=19^aly6mqcdo!pu*5v-=+dvnvq-cz=v7^n')
 DEBUG = os.getenv('DEBUG', 'False').lower() == 'true'
-ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', '*').split(',')
-# ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', 'localhost,127.0.0.1,bilimge.onrender.com').split(',')
+ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', 'localhost,127.0.0.1,bilimge-backend.onrender.com').split(',')
 
 INSTALLED_APPS = [
     'django.contrib.admin',
