@@ -4,24 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3b678858-2e5f-40a1-8509-89ad10ffc1ba" name="Changes" comment="adding chance calculator">
-      <change afterPath="$PROJECT_DIR$/backend/calendar_app/management/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/calendar_app/management/commands/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/calendar_app/management/commands/send_reminders.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/unipage/services.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+    <list default="true" id="3b678858-2e5f-40a1-8509-89ad10ffc1ba" name="Changes" comment="dump upd">
+      <change afterPath="$PROJECT_DIR$/backend/build.sh" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/render.yaml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/announcements/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/backend/announcements/views.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/calculator/services.py" beforeDir="false" afterPath="$PROJECT_DIR$/backend/calculator/services.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/calendar_app/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/backend/calendar_app/views.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/chatbot/services.py" beforeDir="false" afterPath="$PROJECT_DIR$/backend/chatbot/services.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/full_dump.sql" beforeDir="false" afterPath="$PROJECT_DIR$/backend/full_dump.sql" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/unipage/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/backend/unipage/models.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/unipage/serializers.py" beforeDir="false" afterPath="$PROJECT_DIR$/backend/unipage/serializers.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/unipage/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/backend/unipage/urls.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/unipage/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/backend/unipage/views.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/userpage/serializers.py" beforeDir="false" afterPath="$PROJECT_DIR$/backend/userpage/serializers.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/userpage/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/backend/userpage/views.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/backend/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/backend/backend/settings.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/backend/requirements.txt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -92,42 +80,42 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "DefaultHtmlFileTemplate": "HTML File",
-    "ModuleVcsDetector.initialDetectionPerformed": "true",
-    "Python.main.executor": "Run",
-    "Python.manage.executor": "Run",
-    "Python.urls.executor": "Run",
-    "Python.views.executor": "Run",
-    "RunOnceActivity.MCP Project settings loaded": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "RunOnceActivity.typescript.service.memoryLimit.init": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "ai.playground.ignore.import.keys.banner.in.settings": "true",
-    "git-widget-placeholder": "main",
-    "last_opened_file_path": "C:/Users/22208/PycharmProjects/Bilimge/backend/calendar_app/management/commands",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "preferences.pluginManager",
-    "ts.external.directory.path": "C:\\Users\\22208\\PycharmProjects\\Bilimge\\frontend\\node_modules\\typescript\\lib",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;DefaultHtmlFileTemplate&quot;: &quot;HTML File&quot;,
+    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
+    &quot;Python.main.executor&quot;: &quot;Run&quot;,
+    &quot;Python.manage.executor&quot;: &quot;Run&quot;,
+    &quot;Python.urls.executor&quot;: &quot;Run&quot;,
+    &quot;Python.views.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.MCP Project settings loaded&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.typescript.service.memoryLimit.init&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;ai.playground.ignore.import.keys.banner.in.settings&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/22208/PycharmProjects/Bilimge/backend/calendar_app/management/commands&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
+    &quot;ts.external.directory.path&quot;: &quot;C:\\Users\\22208\\PycharmProjects\\Bilimge\\frontend\\node_modules\\typescript\\lib&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   },
-  "keyToStringList": {
-    "ChangesTree.GroupingKeys": [
-      "directory",
-      "repository"
+  &quot;keyToStringList&quot;: {
+    &quot;ChangesTree.GroupingKeys&quot;: [
+      &quot;directory&quot;,
+      &quot;repository&quot;
     ],
-    "DatabaseDriversLRU": [
-      "postgresql"
+    &quot;DatabaseDriversLRU&quot;: [
+      &quot;postgresql&quot;
     ]
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\22208\PycharmProjects\Bilimge\backend\calendar_app\management\commands" />
@@ -135,6 +123,7 @@
       <recent name="C:\Users\22208\PycharmProjects\Bilimge\backend\unipage\fixtures" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\22208\PycharmProjects\Bilimge\backend" />
       <recent name="C:\Users\22208\PycharmProjects\Bilimge\backend\announcements" />
       <recent name="C:\Users\22208\PycharmProjects\Bilimge\backend\main" />
       <recent name="C:\Users\22208\PycharmProjects\Bilimge\frontend" />
@@ -205,7 +194,9 @@
       <workItem from="1779956412295" duration="1717000" />
       <workItem from="1779958741367" duration="1750000" />
       <workItem from="1779964579144" duration="9888000" />
-      <workItem from="1780550434080" duration="10894000" />
+      <workItem from="1780550434080" duration="11654000" />
+      <workItem from="1780574924993" duration="3921000" />
+      <workItem from="1780651459667" duration="3673000" />
     </task>
     <task id="LOCAL-00001" summary="add frontend dir">
       <option name="closed" value="true" />
@@ -431,7 +422,23 @@
       <option name="project" value="LOCAL" />
       <updated>1778872273667</updated>
     </task>
-    <option name="localTasksCounter" value="29" />
+    <task id="LOCAL-00029" summary="notifications fix">
+      <option name="closed" value="true" />
+      <created>1780562247139</created>
+      <option name="number" value="00029" />
+      <option name="presentableId" value="LOCAL-00029" />
+      <option name="project" value="LOCAL" />
+      <updated>1780562247139</updated>
+    </task>
+    <task id="LOCAL-00030" summary="dump upd">
+      <option name="closed" value="true" />
+      <created>1780584165268</created>
+      <option name="number" value="00030" />
+      <option name="presentableId" value="LOCAL-00030" />
+      <option name="project" value="LOCAL" />
+      <updated>1780584165268</updated>
+    </task>
+    <option name="localTasksCounter" value="31" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -483,7 +490,9 @@
     <MESSAGE value="insta,tg fields in uni" />
     <MESSAGE value="adding calendar" />
     <MESSAGE value="adding chance calculator" />
-    <option name="LAST_COMMIT_MESSAGE" value="adding chance calculator" />
+    <MESSAGE value="notifications fix" />
+    <MESSAGE value="dump upd" />
+    <option name="LAST_COMMIT_MESSAGE" value="dump upd" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/Bilimge$main.coverage" NAME="main Coverage Results" MODIFIED="1773743816355" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
