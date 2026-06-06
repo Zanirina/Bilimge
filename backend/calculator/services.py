@@ -1,21 +1,16 @@
-from langchain_groq import ChatGroq
-from langchain_core.messages import HumanMessage, SystemMessage
+from groq import Groq
 from django.conf import settings
 from unipage.models import NtcProgram, UniversityProgram
 from announcements.models import GrantWinner
 from django.db.models import Min, Max, Avg, Count
 
-_llm = None
+_client = None
 
-def get_llm():
-    global _llm
-    if _llm is None:
-        _llm = ChatGroq(
-            api_key=settings.GROQ_API_KEY,
-            model_name="llama-3.3-70b-versatile",
-            temperature=0.3,
-        )
-    return _llm
+def get_client():
+    global _client
+    if _client is None:
+        _client = Groq(api_key=settings.GROQ_API_KEY)
+    return _client
 
 
 MIN_SCORE_BY_TYPE = {
@@ -32,8 +27,10 @@ FIELD_TYPE_MAP = {
     5: 'pedagogy', 6: 'pedagogy', 7: 'pedagogy', 9: 'pedagogy',
     10: 'pedagogy', 11: 'pedagogy', 12: 'pedagogy', 13: 'pedagogy',
     14: 'pedagogy', 15: 'pedagogy', 16: 'pedagogy', 17: 'pedagogy',
-    60: 'medicine', 61: 'medicine', 62: 'medicine',
+    60: 'medicine', 61: 'medicine', 62: 'medicine', 91: 'medicine',
     80: 'agriculture', 81: 'agriculture', 82: 'agriculture',
+    84: 'agriculture', 85: 'agriculture', 87: 'agriculture',
+    42: 'law', 43: 'law',
 }
 
 QUOTA_BONUS = {
@@ -46,15 +43,28 @@ QUOTA_BONUS = {
     'orphan':            0.07,
 }
 
-
-def field_code_int_to_grant_code(field_code_int) -> str:
-    return f"B{int(field_code_int):03d}"
-
-
-def get_field_type(field_code_int) -> str:
-    return FIELD_TYPE_MAP.get(int(field_code_int), 'default')
+LANGUAGE_INSTRUCTIONS = {
+    'en': "Respond in English.",
+    'ru': "Отвечай на русском языке.",
+    'kk': "Қазақ тілінде жауап бер.",
+}
 
 
+def field_code_to_grant_code(field_code) -> str:
+    code_str = str(field_code)
+    digits = ''.join(filter(str.isdigit, code_str))
+    if len(digits) >= 3:
+        return f"B{digits[-3:]}"
+    return f"B{digits.zfill(3)}"
+
+
+def get_field_type(field_code) -> str:
+    try:
+        digits = ''.join(filter(str.isdigit, str(field_code)))
+        num = int(digits[-3:]) if len(digits) >= 3 else 0
+        return FIELD_TYPE_MAP.get(num, 'default')
+    except (ValueError, TypeError):
+        return 'default'
 def calculate_total_score(scores: dict) -> int:
     return (
         scores.get('history', 0) +
@@ -86,8 +96,7 @@ def check_minimum_scores(scores: dict, field_type: str) -> tuple[bool, str]:
 
 
 def get_grant_stats_from_winners(field_code_int, university_code=None) -> dict:
-
-    grant_code = field_code_int_to_grant_code(field_code_int)
+    grant_code = field_code_to_grant_code(field_code_int)
     qs = GrantWinner.objects.filter(field_code=grant_code, year=2025)
     if university_code is not None:
         qs = qs.filter(university_code=str(university_code))
@@ -133,8 +142,7 @@ def calculate_grant_chance_by_winners(
     quotas: list,
     university_code=None,
 ) -> tuple[float, str]:
-
-    grant_code = field_code_int_to_grant_code(field_code_int)
+    grant_code = field_code_to_grant_code(field_code_int)
     source = 'grant_winners_2025'
 
     qs = GrantWinner.objects.filter(field_code=grant_code, year=2025)
@@ -151,7 +159,6 @@ def calculate_grant_chance_by_winners(
     below = qs.filter(score__lt=total_score).count()
     at_or_below = qs.filter(score__lte=total_score).count()
     percentile = ((below + at_or_below) / 2) / total * 100
-
 
     pct = percentile / 100.0
     base_chance = 10.0 + 88.0 * (1 - (1 - pct) ** 2)
@@ -171,16 +178,22 @@ def get_programs_for_subjects(subject_1_id: int, subject_2_id: int):
     )
 
 
-def get_ai_analysis(total_score: int, results: list, quotas: list, ntc_program_name: str) -> str:
+def get_ai_analysis(
+    total_score: int,
+    results: list,
+    quotas: list,
+    ntc_program_name: str,
+    language: str = 'ru',
+) -> str:
     try:
-        llm = get_llm()
+        client = get_client()
+        lang_instruction = LANGUAGE_INSTRUCTIONS.get(language, LANGUAGE_INSTRUCTIONS['ru'])
 
         top_unis = results[:5]
         unis_text = "\n".join([
             f"- {r['university_name']} ({r['university_city']}): "
             f"шанс на грант {r['grant_chance']}%, "
-            f"грант-балл {r['grant_score'] or 'нет данных'}, "
-            f"источник: {r['data_source']}"
+            f"грант-балл {r['grant_score'] or 'нет данных'}"
             for r in top_unis
         ])
 
@@ -192,14 +205,22 @@ def get_ai_analysis(total_score: int, results: list, quotas: list, ntc_program_n
 
 Напиши краткий анализ (3-4 предложения) обращаясь к абитуриенту на "Вы".
 Например: "С вашим баллом...", "У вас есть шанс...", "Вам рекомендуется..."
-Отвечай на английском языке. Будь конкретным и позитивным но честным.
+{lang_instruction} Будь конкретным и позитивным но честным.
 Если данные взяты из статистики грантников (grant_winners_2025) — это реальные данные прошлого года."""
 
-        response = llm.invoke([
-            SystemMessage(content="Ты эксперт по поступлению в казахстанские университеты. Давай краткие, честные оценки."),
-            HumanMessage(content=prompt)
-        ])
-        return response.content
+        response = client.chat.completions.create(
+            model="llama-3.3-70b-versatile",
+            messages=[
+                {
+                    "role": "system",
+                    "content": f"Ты эксперт по поступлению в казахстанские университеты. Обращайся на Вы. {lang_instruction}"
+                },
+                {"role": "user", "content": prompt}
+            ],
+            temperature=0.3,
+            max_tokens=1000,
+        )
+        return response.choices[0].message.content
     except Exception:
         return ""
 
@@ -210,6 +231,7 @@ def calculate_chances(data: dict) -> dict:
     scores = data.get('scores', {})
     quotas = data.get('quotas', [])
     ntc_program_code = data.get('ntc_program_code')
+    language = data.get('language', 'ru')
 
     total_score = calculate_total_score(scores)
 
@@ -275,11 +297,11 @@ def calculate_chances(data: dict) -> dict:
     best_chance = results[0]['grant_chance'] if results else 0
     avg_chance = round(sum(r['grant_chance'] for r in results) / len(results), 1) if results else 0
 
-    ai_analysis = get_ai_analysis(total_score, results, quotas, ntc_program.name)
+    ai_analysis = get_ai_analysis(total_score, results, quotas, ntc_program.name, language)
 
     grant_stats_info = None
     if grant_stats['total']:
-        grant_code = field_code_int_to_grant_code(field_code_int)
+        grant_code = field_code_to_grant_code(field_code_int)
         grant_stats_info = {
             'field_code': grant_code,
             'min_score': grant_stats['min_score'],
@@ -299,7 +321,7 @@ def calculate_chances(data: dict) -> dict:
             'name': ntc_program.name,
             'field': ntc_program.field_of_study.name,
             'field_code': str(field_code_int),
-            'grant_code': field_code_int_to_grant_code(field_code_int),
+            'grant_code': field_code_to_grant_code(field_code_int),
         },
         'grant_stats_2025': grant_stats_info,
         'scores_breakdown': scores,

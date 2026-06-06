@@ -1,18 +1,13 @@
-from langchain_groq import ChatGroq
-from langchain_core.messages import HumanMessage, SystemMessage
+from groq import Groq
 from django.conf import settings
 
-_llm = None
+_client = None
 
-def get_llm():
-    global _llm
-    if _llm is None:
-        _llm = ChatGroq(
-            api_key=settings.GROQ_API_KEY,
-            model_name="llama-3.3-70b-versatile",
-            temperature=0.5,
-        )
-    return _llm
+def get_client():
+    global _client
+    if _client is None:
+        _client = Groq(api_key=settings.GROQ_API_KEY)
+    return _client
 
 LANGUAGE_INSTRUCTIONS = {
     'en': "Respond in English.",
@@ -29,7 +24,7 @@ LANGUAGE_ADDRESS = {
 
 def get_comparison_ai_analysis(universities, language: str = 'en') -> str:
     try:
-        llm = get_llm()
+        client = get_client()
 
         lang_instruction = LANGUAGE_INSTRUCTIONS.get(language, LANGUAGE_INSTRUCTIONS['en'])
         lang_address = LANGUAGE_ADDRESS.get(language, LANGUAGE_ADDRESS['en'])
@@ -41,8 +36,7 @@ def get_comparison_ai_analysis(universities, language: str = 'en') -> str:
             mobility_count = u.academic_mobility.count()
             languages = [ul.language.name for ul in u.teaching_languages.select_related('language').all()]
 
-            block = f"""
-University: {u.name} ({u.city})
+            block = f"""University: {u.name} ({u.city})
 - Founded: {u.year_established or '—'}
 - UNT minimum: {u.passing_score or '—'}
 - Tuition: {f"{u.tuition_cost:,} KZT/year" if u.tuition_cost else '—'}
@@ -51,8 +45,7 @@ University: {u.name} ({u.city})
 - Accreditations: {', '.join(accreditations) if accreditations else 'none'}
 - International partners: {mobility_count}
 - Dormitory: {'yes' if u.has_dormitory else 'no'}
-- Military dept: {'yes' if u.has_military_department else 'no'}
-""".strip()
+- Military dept: {'yes' if u.has_military_department else 'no'}""".strip()
             uni_blocks.append(block)
 
         unis_text = "\n\n".join(uni_blocks)
@@ -68,11 +61,20 @@ Write an analytical summary (4-6 sentences) for a prospective student:
 
 {lang_instruction} {lang_address} Be specific and objective."""
 
-        response = llm.invoke([
-            SystemMessage(content=f"You are an expert consultant helping students choose a university in Kazakhstan. Give balanced, objective comparisons. {lang_instruction}"),
-            HumanMessage(content=prompt)
-        ])
-        return response.content
+        response = client.chat.completions.create(
+            model="llama-3.3-70b-versatile",
+            messages=[
+                {"role": "system", "content": f"You are an expert consultant helping students choose a university in Kazakhstan. {lang_instruction}"},
+                {"role": "user", "content": prompt}
+            ],
+            temperature=0.5,
+            max_tokens=1000,
+        )
+        return response.choices[0].message.content
 
-    except Exception:
+
+    except Exception as e:
+        print(f"compare-ai error: {e}")  # ← добавь
+        import traceback
+        traceback.print_exc()  # ← и это
         return ""

@@ -1,24 +1,19 @@
 # services.py
 import re
-
-from langchain_groq import ChatGroq
-from langchain_core.messages import HumanMessage, SystemMessage, AIMessage
+from groq import Groq
 from django.conf import settings
 from unipage.models import University, NtcProgram, UniversityProgram, FieldOfStudy
 from announcements.models import GrantWinner
 
 
-_llm = None
 
-def get_llm():
-    global _llm
-    if _llm is None:
-        _llm = ChatGroq(
-            api_key=settings.GROQ_API_KEY,
-            model_name="llama-3.3-70b-versatile",
-            temperature=0.7,
-        )
-    return _llm
+_client = None
+
+def get_client():
+    global _client
+    if _client is None:
+        _client = Groq(api_key=settings.GROQ_API_KEY)
+    return _client
 
 
 IT_KEYWORDS = [
@@ -347,7 +342,7 @@ SYSTEM_PROMPT = """Ты — Bilimge Assistant, умный помощник аб�
 
 def get_ai_response(user_message: str, chat_history: list) -> str:
     try:
-        llm = get_llm()
+        client = get_client()
         db_context = get_context_from_db(user_message)
 
         system = SYSTEM_PROMPT
@@ -356,22 +351,24 @@ def get_ai_response(user_message: str, chat_history: list) -> str:
         else:
             system += (
                 "\n\nДанные по этому запросу не найдены в базе — отвечай на основе "
-                "общих знаний о системе образования Казахстана и порекомендуй проверить "
-                "на ntc.edu.kz или на официальном сайте университета."
+                "общих знаний о системе образования Казахстана."
             )
 
-        messages = [SystemMessage(content=system)]
+        messages = [{"role": "system", "content": system}]
 
         for msg in chat_history[-10:]:
-            if msg['role'] == 'user':
-                messages.append(HumanMessage(content=msg['content']))
-            elif msg['role'] == 'assistant':
-                messages.append(AIMessage(content=msg['content']))
+            if msg['role'] in ['user', 'assistant']:
+                messages.append({"role": msg['role'], "content": msg['content']})
 
-        messages.append(HumanMessage(content=user_message))
+        messages.append({"role": "user", "content": user_message})
 
-        response = llm.invoke(messages)
-        return response.content
+        response = client.chat.completions.create(
+            model="llama-3.3-70b-versatile",
+            messages=messages,
+            temperature=0.7,
+            max_tokens=1000,
+        )
+        return response.choices[0].message.content
 
     except Exception as e:
         raise
