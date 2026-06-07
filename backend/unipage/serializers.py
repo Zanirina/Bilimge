@@ -5,7 +5,6 @@ from .models import (
 )
 
 
-
 class LanguageSerializer(serializers.ModelSerializer):
     class Meta:
         model = Language
@@ -13,75 +12,111 @@ class LanguageSerializer(serializers.ModelSerializer):
 
 
 class SubjectSerializer(serializers.ModelSerializer):
+    name_localized = serializers.SerializerMethodField()
+
     class Meta:
         model = Subject
-        fields = '__all__'
+        fields = ['id', 'name', 'name_ru', 'name_kk', 'name_localized']
+
+    def get_name_localized(self, obj):
+        request = self.context.get('request')
+        language = request.query_params.get('language', 'en') if request else 'en'
+        return obj.get_name(language)
 
 
 class FieldOfStudySerializer(serializers.ModelSerializer):
+    name_localized = serializers.SerializerMethodField()
+
     class Meta:
         model = FieldOfStudy
-        fields = '__all__'
+        fields = ['code', 'name', 'name_ru', 'name_kk', 'name_localized']
+
+    def get_name_localized(self, obj):
+        request = self.context.get('request')
+        language = request.query_params.get('language', 'en') if request else 'en'
+        return obj.get_name(language)
 
 
 class NtcProgramSerializer(serializers.ModelSerializer):
     field_of_study_name = serializers.CharField(source='field_of_study.name', read_only=True)
+    field_of_study_name_localized = serializers.SerializerMethodField()
     subject_1_name = serializers.CharField(source='subject_1.name', read_only=True)
     subject_2_name = serializers.CharField(source='subject_2.name', read_only=True)
+    name_localized = serializers.SerializerMethodField()
 
     class Meta:
         model = NtcProgram
         fields = [
-            'code', 'name', 'field_of_study', 'field_of_study_name',
-            'subject_1', 'subject_1_name', 'subject_2', 'subject_2_name',
-            'minimum_score','updated_at',
+            'code', 'name', 'name_ru', 'name_kk', 'name_localized',
+            'field_of_study', 'field_of_study_name', 'field_of_study_name_localized',
+            'subject_1', 'subject_1_name',
+            'subject_2', 'subject_2_name',
+            'minimum_score', 'updated_at',
         ]
+
+    def _get_language(self):
+        request = self.context.get('request')
+        return request.query_params.get('language', 'en') if request else 'en'
+
+    def get_name_localized(self, obj):
+        return obj.get_name(self._get_language())
+
+    def get_field_of_study_name_localized(self, obj):
+        return obj.field_of_study.get_name(self._get_language())
 
 
 class NtcProgramUpdateSerializer(serializers.ModelSerializer):
     class Meta:
         model = NtcProgram
-        fields = ['name', 'field_of_study', 'subject_1', 'subject_2', 'minimum_score']
-
-
-# --- Для страницы программы ---
-
-class UniversityProgramDetailSerializer(serializers.ModelSerializer):
-    """GET /unipage/api/university-programs/<code>/"""
-    field_of_study_code = serializers.CharField(source='ntc_program.field_of_study.code', read_only=True)
-    field_of_study_name = serializers.CharField(source='ntc_program.field_of_study.name', read_only=True)
-    ntc_program_name = serializers.CharField(source='ntc_program.name', read_only=True)
-    language_name = serializers.CharField(source='language.name', read_only=True)
-    subject_1 = serializers.CharField(source='ntc_program.subject_1.name', read_only=True)
-    subject_2 = serializers.CharField(source='ntc_program.subject_2.name', read_only=True)
-    university_name = serializers.CharField(source='university.name', read_only=True)
-
-    class Meta:
-        model = UniversityProgram
-        fields = [
-            'code', 'local_name', 'university', 'university_name',
-            'field_of_study_code', 'field_of_study_name',
-            'ntc_program', 'ntc_program_name',
-            'description', 'passing_score', 'grant_score',
-            'cost', 'degree', 'years_of_study', 'study_type',
-            'language', 'language_name',
-            'subject_1', 'subject_2',
-            'future_professions', 'updated_at',
-
-        ]
-
+        fields = ['name', 'name_ru', 'name_kk', 'field_of_study', 'subject_1', 'subject_2', 'minimum_score']
 
 
 class EntranceRequirementSerializer(serializers.ModelSerializer):
+    description_localized = serializers.SerializerMethodField()
+
     class Meta:
         model = EntranceRequirement
-        fields = ['id', 'description']
+        fields = ['id', 'description', 'description_ru', 'description_kk', 'description_localized']
+
+    def get_description_localized(self, obj):
+        request = self.context.get('request')
+        language = request.query_params.get('language', 'en') if request else 'en'
+        return obj.get_description(language)
 
 
 class EntranceExamSerializer(serializers.ModelSerializer):
+    name_localized = serializers.SerializerMethodField()
+    description_localized = serializers.SerializerMethodField()
+
     class Meta:
         model = EntranceExam
-        fields = ['id', 'name', 'description']
+        fields = [
+            'id',
+            'name', 'name_ru', 'name_kk', 'name_localized',
+            'description', 'description_ru', 'description_kk', 'description_localized',
+        ]
+
+    def _get_language(self):
+        request = self.context.get('request')
+        return request.query_params.get('language', 'en') if request else 'en'
+
+    def get_name_localized(self, obj):
+        return obj.get_name(self._get_language())
+
+    def get_description_localized(self, obj):
+        return obj.get_description(self._get_language())
+
+
+class EntranceRequirementWriteSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = EntranceRequirement
+        fields = ['id', 'description', 'description_ru', 'description_kk']
+
+
+class EntranceExamWriteSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = EntranceExam
+        fields = ['id', 'name', 'name_ru', 'name_kk', 'description', 'description_ru', 'description_kk']
 
 
 class AcademicMobilitySerializer(serializers.ModelSerializer):
@@ -90,21 +125,10 @@ class AcademicMobilitySerializer(serializers.ModelSerializer):
         fields = ['id', 'partner_university_name', 'country']
 
 
-class UniversityProgramInFieldSerializer(serializers.ModelSerializer):
-    """Программа внутри группы (FieldOfStudy) на странице университета"""
-    language_name = serializers.CharField(source='language.name', read_only=True)
-
+class AcademicMobilityWriteSerializer(serializers.ModelSerializer):
     class Meta:
-        model = UniversityProgram
-        fields = ['code', 'local_name', 'cost', 'passing_score', 'grant_score', 'language_name']
-
-
-class FieldOfStudyWithProgramsSerializer(serializers.Serializer):
-    """Группа ОП с вложенными программами университета"""
-    code = serializers.CharField()
-    name = serializers.CharField()
-    programs = UniversityProgramInFieldSerializer(many=True)
-
+        model = AcademicMobility
+        fields = ['id', 'partner_university_name', 'country']
 
 
 class AccreditationSerializer(serializers.ModelSerializer):
@@ -112,6 +136,91 @@ class AccreditationSerializer(serializers.ModelSerializer):
         model = Accreditation
         fields = ['id', 'name', 'issued_by', 'valid_until']
 
+
+class UniversityProgramInFieldSerializer(serializers.ModelSerializer):
+    language_name = serializers.CharField(source='language.name', read_only=True)
+    local_name_localized = serializers.SerializerMethodField()
+
+    class Meta:
+        model = UniversityProgram
+        fields = [
+            'code', 'local_name', 'local_name_ru', 'local_name_kk', 'local_name_localized',
+            'cost', 'passing_score', 'grant_score', 'language_name',
+        ]
+
+    def get_local_name_localized(self, obj):
+        request = self.context.get('request')
+        language = request.query_params.get('language', 'en') if request else 'en'
+        return obj.get_local_name(language)
+
+
+class FieldOfStudyWithProgramsSerializer(serializers.Serializer):
+    code = serializers.CharField()
+    name = serializers.CharField()
+    programs = UniversityProgramInFieldSerializer(many=True)
+
+
+class UniversityProgramDetailSerializer(serializers.ModelSerializer):
+    field_of_study_code = serializers.CharField(source='ntc_program.field_of_study.code', read_only=True)
+    field_of_study_name = serializers.CharField(source='ntc_program.field_of_study.name', read_only=True)
+    field_of_study_name_localized = serializers.SerializerMethodField()
+    ntc_program_name = serializers.CharField(source='ntc_program.name', read_only=True)
+    ntc_program_name_localized = serializers.SerializerMethodField()
+    university_name = serializers.CharField(source='university.name', read_only=True)
+    university_name_localized = serializers.SerializerMethodField()
+    language_name = serializers.CharField(source='language.name', read_only=True)
+    subject_1 = serializers.CharField(source='ntc_program.subject_1.name', read_only=True)
+    subject_2 = serializers.CharField(source='ntc_program.subject_2.name', read_only=True)
+    subject_1_localized = serializers.SerializerMethodField()
+    subject_2_localized = serializers.SerializerMethodField()
+    local_name_localized = serializers.SerializerMethodField()
+    description_localized = serializers.SerializerMethodField()
+    future_professions_localized = serializers.SerializerMethodField()
+
+    class Meta:
+        model = UniversityProgram
+        fields = [
+            'code',
+            'local_name', 'local_name_ru', 'local_name_kk', 'local_name_localized',
+            'university', 'university_name', 'university_name_localized',
+            'field_of_study_code', 'field_of_study_name', 'field_of_study_name_localized',
+            'ntc_program', 'ntc_program_name', 'ntc_program_name_localized',
+            'description', 'description_ru', 'description_kk', 'description_localized',
+            'passing_score', 'grant_score',
+            'cost', 'degree', 'years_of_study', 'study_type',
+            'language', 'language_name',
+            'subject_1', 'subject_2', 'subject_1_localized', 'subject_2_localized',
+            'future_professions', 'future_professions_ru', 'future_professions_kk', 'future_professions_localized',
+            'updated_at',
+        ]
+
+    def _get_language(self):
+        request = self.context.get('request')
+        return request.query_params.get('language', 'en') if request else 'en'
+
+    def get_local_name_localized(self, obj):
+        return obj.get_local_name(self._get_language())
+
+    def get_description_localized(self, obj):
+        return obj.get_description(self._get_language())
+
+    def get_future_professions_localized(self, obj):
+        return obj.get_future_professions(self._get_language())
+
+    def get_field_of_study_name_localized(self, obj):
+        return obj.ntc_program.field_of_study.get_name(self._get_language())
+
+    def get_ntc_program_name_localized(self, obj):
+        return obj.ntc_program.get_name(self._get_language())
+
+    def get_university_name_localized(self, obj):
+        return obj.university.get_name(self._get_language())
+
+    def get_subject_1_localized(self, obj):
+        return obj.ntc_program.subject_1.get_name(self._get_language())
+
+    def get_subject_2_localized(self, obj):
+        return obj.ntc_program.subject_2.get_name(self._get_language())
 
 
 class UniversityPageSerializer(serializers.ModelSerializer):
@@ -121,8 +230,8 @@ class UniversityPageSerializer(serializers.ModelSerializer):
     history_localized = serializers.SerializerMethodField()
     teaching_languages = serializers.SerializerMethodField()
     programs_by_field = serializers.SerializerMethodField()
-    entrance_requirements = EntranceRequirementSerializer(many=True, read_only=True)
-    entrance_exams = EntranceExamSerializer(many=True, read_only=True)
+    entrance_requirements = serializers.SerializerMethodField()
+    entrance_exams = serializers.SerializerMethodField()
     academic_mobility = AcademicMobilitySerializer(many=True, read_only=True)
     accreditations = AccreditationSerializer(many=True, read_only=True)
 
@@ -166,7 +275,16 @@ class UniversityPageSerializer(serializers.ModelSerializer):
         langs = obj.teaching_languages.select_related('language').all()
         return [ul.language.name for ul in langs]
 
+    def get_entrance_requirements(self, obj):
+        qs = obj.entrance_requirements.all()
+        return EntranceRequirementSerializer(qs, many=True, context=self.context).data
+
+    def get_entrance_exams(self, obj):
+        qs = obj.entrance_exams.all()
+        return EntranceExamSerializer(qs, many=True, context=self.context).data
+
     def get_programs_by_field(self, obj):
+        language = self._get_language()
         programs = obj.programs.select_related(
             'ntc_program__field_of_study', 'language'
         ).all()
@@ -178,6 +296,7 @@ class UniversityPageSerializer(serializers.ModelSerializer):
                 grouped[fos.code] = {
                     'code': fos.code,
                     'name': fos.name,
+                    'name_localized': fos.get_name(language),
                     'programs': []
                 }
             grouped[fos.code]['programs'].append(prog)
@@ -187,7 +306,10 @@ class UniversityPageSerializer(serializers.ModelSerializer):
             result.append({
                 'code': group['code'],
                 'name': group['name'],
-                'programs': UniversityProgramInFieldSerializer(group['programs'], many=True).data
+                'name_localized': group['name_localized'],
+                'programs': UniversityProgramInFieldSerializer(
+                    group['programs'], many=True, context=self.context
+                ).data
             })
         return result
 
@@ -226,6 +348,7 @@ class UniversitySerializer(serializers.ModelSerializer):
     def get_address_localized(self, obj):
         return obj.get_address(self._get_language())
 
+
 class UniversityUpdateSerializer(serializers.ModelSerializer):
     class Meta:
         model = University
@@ -248,6 +371,7 @@ class UniversityProgramSerializer(serializers.ModelSerializer):
     language_name = serializers.CharField(source='language.name', read_only=True)
     subject_1_name = serializers.CharField(source='ntc_program.subject_1.name', read_only=True)
     subject_2_name = serializers.CharField(source='ntc_program.subject_2.name', read_only=True)
+    local_name_localized = serializers.SerializerMethodField()
 
     class Meta:
         model = UniversityProgram
@@ -255,66 +379,32 @@ class UniversityProgramSerializer(serializers.ModelSerializer):
             'code', 'university', 'university_name',
             'ntc_program', 'ntc_program_name',
             'subject_1_name', 'subject_2_name',
-            'local_name', 'cost', 'language', 'language_name',
+            'local_name', 'local_name_ru', 'local_name_kk', 'local_name_localized',
+            'cost', 'language', 'language_name',
             'degree', 'years_of_study', 'study_type',
-            'description', 'passing_score', 'grant_score', 'future_professions','updated_at',
+            'description', 'passing_score', 'grant_score',
+            'future_professions', 'updated_at',
         ]
+
+    def get_local_name_localized(self, obj):
+        request = self.context.get('request')
+        language = request.query_params.get('language', 'en') if request else 'en'
+        return obj.get_local_name(language)
 
 
 class UniversityProgramWriteSerializer(serializers.ModelSerializer):
     class Meta:
         model = UniversityProgram
         fields = [
-            'code', 'ntc_program', 'local_name', 'cost', 'language',
-            'degree', 'years_of_study', 'study_type',
-            'description', 'passing_score', 'grant_score', 'future_professions',
+            'code', 'ntc_program', 'local_name', 'local_name_ru', 'local_name_kk',
+            'cost', 'language', 'degree', 'years_of_study', 'study_type',
+            'description', 'description_ru', 'description_kk',
+            'passing_score', 'grant_score',
+            'future_professions', 'future_professions_ru', 'future_professions_kk',
         ]
 
-
-
-class EntranceRequirementSerializer(serializers.ModelSerializer):
-    description_localized = serializers.SerializerMethodField()
-
-    class Meta:
-        model = EntranceRequirement
-        fields = ['id', 'description', 'description_ru', 'description_kk', 'description_localized']
-
-    def get_description_localized(self, obj):
-        request = self.context.get('request')
-        language = request.query_params.get('language', 'en') if request else 'en'
-        return obj.get_description(language)
-
-
-class EntranceExamSerializer(serializers.ModelSerializer):
-    name_localized = serializers.SerializerMethodField()
-    description_localized = serializers.SerializerMethodField()
-
-    class Meta:
-        model = EntranceExam
-        fields = [
-            'id',
-            'name', 'name_ru', 'name_kk', 'name_localized',
-            'description', 'description_ru', 'description_kk', 'description_localized',
-        ]
-
-    def _get_language(self):
-        request = self.context.get('request')
-        return request.query_params.get('language', 'en') if request else 'en'
-
-    def get_name_localized(self, obj):
-        return obj.get_name(self._get_language())
-
-    def get_description_localized(self, obj):
-        return obj.get_description(self._get_language())
-class AcademicMobilityWriteSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = AcademicMobility
-        fields = ['id', 'partner_university_name', 'country']
 
 class UniversityBasicUpdateSerializer(serializers.ModelSerializer):
-    """NTC может менять только базовые поля"""
     class Meta:
         model = University
         fields = ['name', 'short_name', 'city', 'address', 'phone', 'email', 'website']
-
-

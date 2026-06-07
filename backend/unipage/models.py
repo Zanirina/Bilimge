@@ -82,7 +82,16 @@ class Subject(models.Model):
         managed = False
 
     id = models.AutoField(primary_key=True)
-    name = models.CharField(max_length=255, verbose_name='Subject Name')
+    name = models.CharField(max_length=255)
+    name_ru = models.CharField(max_length=255, blank=True, default='')
+    name_kk = models.CharField(max_length=255, blank=True, default='')
+
+    def get_name(self, language='en'):
+        if language == 'ru' and self.name_ru:
+            return self.name_ru
+        if language == 'kk' and self.name_kk:
+            return self.name_kk
+        return self.name
 
     def __str__(self):
         return self.name
@@ -93,11 +102,17 @@ class FieldOfStudy(models.Model):
         db_table = 'field_of_study'
         managed = False
 
-    code = models.CharField(max_length=255, primary_key=True, verbose_name='Code of Field of Study')
-    name = models.CharField(max_length=255, verbose_name='Naming of Field of Study')
+    code = models.CharField(max_length=255, primary_key=True)
+    name = models.CharField(max_length=255)
+    name_ru = models.CharField(max_length=255, blank=True, default='')
+    name_kk = models.CharField(max_length=255, blank=True, default='')
 
-    def __str__(self):
-        return f"{self.code} - {self.name}"
+    def get_name(self, language='en'):
+        if language == 'ru' and self.name_ru:
+            return self.name_ru
+        if language == 'kk' and self.name_kk:
+            return self.name_kk
+        return self.name
 
 
 class NtcProgram(models.Model):
@@ -105,16 +120,22 @@ class NtcProgram(models.Model):
         db_table = 'ntc_programs'
         managed = False
 
-    code = models.CharField(max_length=20, primary_key=True, verbose_name='Program Code')
+    code = models.CharField(max_length=20, primary_key=True)
     field_of_study = models.ForeignKey(FieldOfStudy, on_delete=models.RESTRICT, related_name='ntc_programs')
     name = models.CharField(max_length=255)
+    name_ru = models.CharField(max_length=255, blank=True, default='')
+    name_kk = models.CharField(max_length=255, blank=True, default='')
     subject_1 = models.ForeignKey(Subject, on_delete=models.RESTRICT, related_name='subject_1')
     subject_2 = models.ForeignKey(Subject, on_delete=models.RESTRICT, related_name='subject_2')
-    minimum_score = models.IntegerField(default=50, verbose_name='Minimum UNT Score')
-    updated_at = models.DateTimeField(null=True, blank=True, verbose_name='Last Updated')
+    minimum_score = models.IntegerField(default=50)
+    updated_at = models.DateTimeField(null=True, blank=True)
 
-    def __str__(self):
-        return f"{self.code} - {self.name}"
+    def get_name(self, language='en'):
+        if language == 'ru' and self.name_ru:
+            return self.name_ru
+        if language == 'kk' and self.name_kk:
+            return self.name_kk
+        return self.name
 
 
 class UniversityProgram(models.Model):
@@ -134,33 +155,50 @@ class UniversityProgram(models.Model):
         db_table = 'university_programs'
         managed = False
 
-    code = models.CharField(max_length=20, primary_key=True, verbose_name='Program Code')
+    code = models.CharField(max_length=20, primary_key=True)
     university = models.ForeignKey(University, on_delete=models.RESTRICT, related_name='programs')
     ntc_program = models.ForeignKey(NtcProgram, on_delete=models.RESTRICT, related_name='programs')
-    local_name = models.CharField(max_length=255, verbose_name='Name of University Program')
+    local_name = models.CharField(max_length=255)
+    local_name_ru = models.CharField(max_length=255, blank=True, default='')
+    local_name_kk = models.CharField(max_length=255, blank=True, default='')
     language = models.ForeignKey(Language, on_delete=models.SET_NULL, null=True, blank=True)
-    updated_at = models.DateTimeField(null=True, blank=True, verbose_name='Last Updated')
+    updated_at = models.DateTimeField(null=True, blank=True)
+    degree = models.CharField(max_length=20, choices=Degree.choices, default=Degree.BACHELOR, blank=True)
+    years_of_study = models.PositiveIntegerField(null=True, blank=True)
+    study_type = models.CharField(max_length=20, choices=StudyType.choices, default=StudyType.FULL_TIME, blank=True)
+    description = models.TextField(blank=True, default='')
+    description_ru = models.TextField(blank=True, default='')
+    description_kk = models.TextField(blank=True, default='')
+    cost = models.IntegerField(null=True, blank=True)
+    passing_score = models.IntegerField(null=True, blank=True)
+    grant_score = models.IntegerField(null=True, blank=True)
+    future_professions = models.TextField(blank=True, default='')
+    future_professions_ru = models.TextField(blank=True, default='')
+    future_professions_kk = models.TextField(blank=True, default='')
 
-    degree = models.CharField(
-        max_length=20, choices=Degree.choices, default=Degree.BACHELOR, blank=True,
-        verbose_name='Degree Level'
-    )
-    years_of_study = models.PositiveIntegerField(null=True, blank=True, verbose_name='Years of Study')
-    study_type = models.CharField(
-        max_length=20, choices=StudyType.choices, default=StudyType.FULL_TIME, blank=True,
-        verbose_name='Study Type'
-    )
+    def get_local_name(self, language='en'):
+        if language == 'ru' and self.local_name_ru:
+            return self.local_name_ru
+        if language == 'kk' and self.local_name_kk:
+            return self.local_name_kk
+        return self.local_name
 
-    description = models.TextField(blank=True, default='', verbose_name='Program Description')
-    cost = models.IntegerField(null=True, blank=True, verbose_name='Tuition Cost')
-    passing_score = models.IntegerField(null=True, blank=True, verbose_name='Passing Score for Program')
-    grant_score = models.IntegerField(null=True, blank=True, verbose_name='Grant Passing Score')
-    future_professions = models.TextField(blank=True, default='', verbose_name='Future Professions')
+    def get_description(self, language='en'):
+        if language == 'ru' and self.description_ru:
+            return self.description_ru
+        if language == 'kk' and self.description_kk:
+            return self.description_kk
+        return self.description
+
+    def get_future_professions(self, language='en'):
+        if language == 'ru' and self.future_professions_ru:
+            return self.future_professions_ru
+        if language == 'kk' and self.future_professions_kk:
+            return self.future_professions_kk
+        return self.future_professions
 
     def __str__(self):
         return f"{self.code} - {self.local_name}"
-
-
 
 class UniversityLanguage(models.Model):
     """Языки обучения в университете"""
