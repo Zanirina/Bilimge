@@ -115,7 +115,10 @@ class AccreditationSerializer(serializers.ModelSerializer):
 
 
 class UniversityPageSerializer(serializers.ModelSerializer):
-    """GET /unipage/api/universities/<code>/ — полная страница университета"""
+    name_localized = serializers.SerializerMethodField()
+    city_localized = serializers.SerializerMethodField()
+    address_localized = serializers.SerializerMethodField()
+    history_localized = serializers.SerializerMethodField()
     teaching_languages = serializers.SerializerMethodField()
     programs_by_field = serializers.SerializerMethodField()
     entrance_requirements = EntranceRequirementSerializer(many=True, read_only=True)
@@ -126,28 +129,44 @@ class UniversityPageSerializer(serializers.ModelSerializer):
     class Meta:
         model = University
         fields = [
-            'code', 'name', 'short_name', 'city', 'address', 'year_established',
-            'email', 'phone', 'website',
-            'telegram_url', 'instagram_url',
-            'tuition_cost',
-            'passing_score', 'history',
+            'code', 'name', 'name_ru', 'name_kk', 'name_localized',
+            'short_name',
+            'city', 'city_ru', 'city_kk', 'city_localized',
+            'address', 'address_ru', 'address_kk', 'address_localized',
+            'year_established', 'email', 'phone', 'website',
+            'telegram_url', 'instagram_url', 'tuition_cost',
+            'passing_score',
+            'history', 'history_ru', 'history_kk', 'history_localized',
             'has_dormitory', 'has_military_department',
             'logo_url', 'cover_url',
-            'teaching_languages',
-            'programs_by_field',
-            'entrance_requirements',
-            'entrance_exams',
-            'academic_mobility',
-            'accreditations', 'updated_at',
-
+            'teaching_languages', 'programs_by_field',
+            'entrance_requirements', 'entrance_exams',
+            'academic_mobility', 'accreditations', 'updated_at',
         ]
+
+    def _get_language(self):
+        request = self.context.get('request')
+        if request:
+            return request.query_params.get('language', 'en')
+        return self.context.get('language', 'en')
+
+    def get_name_localized(self, obj):
+        return obj.get_name(self._get_language())
+
+    def get_city_localized(self, obj):
+        return obj.get_city(self._get_language())
+
+    def get_address_localized(self, obj):
+        return obj.get_address(self._get_language())
+
+    def get_history_localized(self, obj):
+        return obj.get_history(self._get_language())
 
     def get_teaching_languages(self, obj):
         langs = obj.teaching_languages.select_related('language').all()
         return [ul.language.name for ul in langs]
 
     def get_programs_by_field(self, obj):
-        # Группируем программы университета по FieldOfStudy
         programs = obj.programs.select_related(
             'ntc_program__field_of_study', 'language'
         ).all()
@@ -173,25 +192,53 @@ class UniversityPageSerializer(serializers.ModelSerializer):
         return result
 
 
-
 class UniversitySerializer(serializers.ModelSerializer):
-    class Meta:
-        model = University
-        fields = '__all__'
+    name_localized = serializers.SerializerMethodField()
+    city_localized = serializers.SerializerMethodField()
+    address_localized = serializers.SerializerMethodField()
 
-
-class UniversityUpdateSerializer(serializers.ModelSerializer):
-    """PATCH /api/my-university/ — редактирование данных своего вуза"""
     class Meta:
         model = University
         fields = [
-            'name', 'short_name', 'city', 'address', 'year_established',
-            'email', 'phone', 'website',
-            'telegram_url', 'instagram_url',
-            'tuition_cost',
-            'passing_score', 'history',
-            'has_dormitory', 'has_military_department','updated_at',
+            'code', 'logo_url', 'cover_url',
+            'name', 'name_ru', 'name_kk', 'name_localized',
+            'short_name',
+            'city', 'city_ru', 'city_kk', 'city_localized',
+            'address', 'address_ru', 'address_kk', 'address_localized',
+            'year_established', 'email', 'phone', 'passing_score',
+            'history', 'history_ru', 'history_kk',
+            'website', 'has_dormitory', 'has_military_department',
+            'telegram_url', 'instagram_url', 'tuition_cost', 'updated_at',
+        ]
 
+    def _get_language(self):
+        request = self.context.get('request')
+        if request:
+            return request.query_params.get('language', 'en')
+        return self.context.get('language', 'en')
+
+    def get_name_localized(self, obj):
+        return obj.get_name(self._get_language())
+
+    def get_city_localized(self, obj):
+        return obj.get_city(self._get_language())
+
+    def get_address_localized(self, obj):
+        return obj.get_address(self._get_language())
+
+class UniversityUpdateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = University
+        fields = [
+            'name', 'name_ru', 'name_kk',
+            'short_name',
+            'city', 'city_ru', 'city_kk',
+            'address', 'address_ru', 'address_kk',
+            'year_established', 'email', 'phone', 'website',
+            'telegram_url', 'instagram_url', 'tuition_cost',
+            'passing_score',
+            'history', 'history_ru', 'history_kk',
+            'has_dormitory', 'has_military_department', 'updated_at',
         ]
 
 
