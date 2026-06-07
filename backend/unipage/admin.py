@@ -85,7 +85,7 @@ class FieldOfStudyAdmin(admin.ModelAdmin):
 class NtcProgramAdmin(admin.ModelAdmin):
     list_display = ('code', 'field_of_study', 'name', 'name_ru', 'name_kk', 'subject_1', 'subject_2')
     search_fields = ('name', 'code')
-    readonly_fields = ('updated_at')
+    readonly_fields = ('updated_at',)
     fields = (
         'code', 'field_of_study',
         'name', 'name_ru', 'name_kk',
