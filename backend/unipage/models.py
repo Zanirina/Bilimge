@@ -177,7 +177,6 @@ class UniversityLanguage(models.Model):
 
 
 class EntranceRequirement(models.Model):
-    """Вступительные требования университета"""
     class Meta:
         db_table = 'entrance_requirements'
         managed = False
@@ -185,24 +184,46 @@ class EntranceRequirement(models.Model):
     id = models.AutoField(primary_key=True)
     university = models.ForeignKey(University, on_delete=models.CASCADE, related_name='entrance_requirements')
     description = models.TextField(verbose_name='Requirement Description')
+    description_ru = models.TextField(blank=True, default='')
+    description_kk = models.TextField(blank=True, default='')
 
-    def __str__(self):
-        return f"{self.university_id}: {self.description[:50]}"
+    def get_description(self, language='en'):
+        if language == 'ru' and self.description_ru:
+            return self.description_ru
+        if language == 'kk' and self.description_kk:
+            return self.description_kk
+        return self.description
+
+
 
 
 class EntranceExam(models.Model):
-    """Вступительные экзамены университета"""
     class Meta:
         db_table = 'entrance_exams'
         managed = False
 
     id = models.AutoField(primary_key=True)
     university = models.ForeignKey(University, on_delete=models.CASCADE, related_name='entrance_exams')
-    name = models.CharField(max_length=255, verbose_name='Exam Name')
-    description = models.TextField(blank=True, default='', verbose_name='Exam Description')
+    name = models.CharField(max_length=255)
+    name_ru = models.CharField(max_length=255, blank=True, default='')
+    name_kk = models.CharField(max_length=255, blank=True, default='')
+    description = models.TextField(blank=True, default='')
+    description_ru = models.TextField(blank=True, default='')
+    description_kk = models.TextField(blank=True, default='')
 
-    def __str__(self):
-        return f"{self.university_id}: {self.name}"
+    def get_name(self, language='en'):
+        if language == 'ru' and self.name_ru:
+            return self.name_ru
+        if language == 'kk' and self.name_kk:
+            return self.name_kk
+        return self.name
+
+    def get_description(self, language='en'):
+        if language == 'ru' and self.description_ru:
+            return self.description_ru
+        if language == 'kk' and self.description_kk:
+            return self.description_kk
+        return self.description
 
 
 class AcademicMobility(models.Model):

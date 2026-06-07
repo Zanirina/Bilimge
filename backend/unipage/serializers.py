@@ -272,18 +272,40 @@ class UniversityProgramWriteSerializer(serializers.ModelSerializer):
 
 
 
-class EntranceRequirementWriteSerializer(serializers.ModelSerializer):
+class EntranceRequirementSerializer(serializers.ModelSerializer):
+    description_localized = serializers.SerializerMethodField()
+
     class Meta:
         model = EntranceRequirement
-        fields = ['id', 'description']
+        fields = ['id', 'description', 'description_ru', 'description_kk', 'description_localized']
+
+    def get_description_localized(self, obj):
+        request = self.context.get('request')
+        language = request.query_params.get('language', 'en') if request else 'en'
+        return obj.get_description(language)
 
 
-class EntranceExamWriteSerializer(serializers.ModelSerializer):
+class EntranceExamSerializer(serializers.ModelSerializer):
+    name_localized = serializers.SerializerMethodField()
+    description_localized = serializers.SerializerMethodField()
+
     class Meta:
         model = EntranceExam
-        fields = ['id', 'name', 'description']
+        fields = [
+            'id',
+            'name', 'name_ru', 'name_kk', 'name_localized',
+            'description', 'description_ru', 'description_kk', 'description_localized',
+        ]
 
+    def _get_language(self):
+        request = self.context.get('request')
+        return request.query_params.get('language', 'en') if request else 'en'
 
+    def get_name_localized(self, obj):
+        return obj.get_name(self._get_language())
+
+    def get_description_localized(self, obj):
+        return obj.get_description(self._get_language())
 class AcademicMobilityWriteSerializer(serializers.ModelSerializer):
     class Meta:
         model = AcademicMobility
