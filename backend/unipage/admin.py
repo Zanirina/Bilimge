@@ -17,7 +17,7 @@ class EntranceExamInline(admin.TabularInline):
 class UniversityAdmin(admin.ModelAdmin):
     list_display = ('code', 'name', 'city', 'passing_score', 'updated_at')
     search_fields = ('name', 'city', 'code')
-    readonly_fields = ('updated_at')
+    readonly_fields = ('code','updated_at')
     fieldsets = (
         ('General', {
             'fields': ('code', 'logo_url', 'cover_url', 'short_name', 'year_established',
@@ -85,7 +85,7 @@ class FieldOfStudyAdmin(admin.ModelAdmin):
 class NtcProgramAdmin(admin.ModelAdmin):
     list_display = ('code', 'field_of_study', 'name', 'name_ru', 'name_kk', 'subject_1', 'subject_2')
     search_fields = ('name', 'code')
-    readonly_fields = ('code', 'updated_at')
+    readonly_fields = ('updated_at')
     fields = (
         'code', 'field_of_study',
         'name', 'name_ru', 'name_kk',
