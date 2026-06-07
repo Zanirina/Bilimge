@@ -4,7 +4,7 @@ from django.contrib import admin
 from .models import University, UniversityProgram, FieldOfStudy, NtcProgram, Subject
 
 class UniversityAdmin(admin.ModelAdmin):
-    list_display = ('code','name','city', 'address', 'year_established', 'email', 'phone', 'passing_score')
+    list_display = ('code','name','name_ru','name_kk','city', 'address', 'year_established', 'email', 'phone', 'passing_score','history','history_ru','history_kk')
 
 
 class UniversityProgramAdmin(admin.ModelAdmin):
