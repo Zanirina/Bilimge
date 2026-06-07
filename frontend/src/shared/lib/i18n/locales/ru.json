@@ -2,7 +2,7 @@
     "nav": {
         "home": "Главная",
         "universities": "Университеты",
-        "majors": "Специальности",
+        "majors": "Программы",
         "exams": "Экзамены",
         "aiAssistant": "ИИ Ассистент",
         "admissionGuide": "Гид по поступлению",
@@ -92,6 +92,12 @@
                 "title": "Официальные обновления",
                 "description": "Получайте последние обновления от НЦТ и официальных источников университетов."
             }
+        },
+        "calltoaction": {
+            "subtitle": "Твоё будущее начинается здесь",
+            "title": "Сделайте первый шаг к\nвашему будущему университету",
+            "description": "Изучайте университеты, готовьтесь к вступительным экзаменам и получайте рекомендации, которые помогут вам принимать уверенные решения.",
+            "button": "Начать сейчас"
         }
     },
     "footer": {
@@ -100,5 +106,213 @@
         "resources": "РЕСУРСЫ",
         "company": "КОМПАНИЯ",
         "followUs": "Мы в соцсетях"
+    },
+    "common": {
+        "loading": "Загрузка…",
+        "saving": "Сохранение…",
+        "save": "Сохранить",
+        "cancel": "Отмена",
+        "delete": "Удалить",
+        "edit": "Редактировать",
+        "add": "Добавить",
+        "close": "Закрыть",
+        "search": "Поиск",
+        "back": "Назад",
+        "viewAll": "Показать все",
+        "noResults": "Ничего не найдено.",
+        "retry": "Повторить",
+        "required": "Обязательно"
+    },
+    "sidebar": {
+        "overview": "Мой обзор",
+        "announcements": "Объявления",
+        "exploreUniversities": "Изучить университеты",
+        "compareUniversities": "Сравнение университетов",
+        "programsMajors": "Образовательные программы",
+        "examPreparation": "Подготовка к экзаменам",
+        "chanceCalculator": "Калькулятор шансов",
+        "aiAssistant": "AI-помощник"
+    },
+    "dashboard": {
+        "greetingHi": "Привет, {{name}}",
+        "greetingBack": "С возвращением",
+        "subtitle": "Планируйте свой путь поступления. Отслеживайте дедлайны, экзамены и личные события.",
+        "addEvent": "Добавить личное событие",
+        "addEventConfirm": "Добавить событие",
+        "today": "Сегодня",
+        "prevMonth": "Предыдущий месяц",
+        "nextMonth": "Следующий месяц",
+        "selectedDay": "Выбранный день",
+        "noEvents": "На этот день событий нет.",
+        "moreCount": "+ ещё {{count}}",
+        "legend": "Обозначения",
+        "modal": {
+            "title": "Добавить личное событие",
+            "subtitle": "Эту запись будете видеть только вы."
+        },
+        "form": {
+            "title": "Название *",
+            "titlePlaceholder": "Например: Забрать документы из школы",
+            "startDate": "Дата начала *",
+            "time": "Время",
+            "endDate": "Дата окончания",
+            "type": "Тип",
+            "description": "Описание",
+            "descriptionPlaceholder": "Дополнительные детали…"
+        },
+        "errors": {
+            "save": "Не удалось сохранить событие.",
+            "delete": "Не удалось удалить событие."
+        },
+        "eventTypes": {
+            "deadline": "Дедлайн",
+            "exam": "Экзамен",
+            "enrollment": "Зачисление",
+            "open_day": "День открытых дверей",
+            "event": "Событие",
+            "announcement": "Объявление"
+        },
+        "visibility": {
+            "public": "Публичное",
+            "university": "Университетское",
+            "personal": "Личное"
+        }
+    },
+    "university": {
+        "loading": "Загрузка университета…",
+        "founded": "Основан в {{year}}",
+        "kazakhstan": "Казахстан",
+        "saveUniversity": "Сохранить университет",
+        "removeFavorite": "Удалить из избранного",
+        "save": "Сохранить",
+        "saved": "Сохранено",
+        "saveProgram": "Сохранить программу",
+        "stats": {
+            "passingScore": "Проходной балл",
+            "programsOffered": "Доступно программ",
+            "avgTuition": "Средняя стоимость / год",
+            "languages": "Языки"
+        },
+        "basicInfo": "Основная информация",
+        "officialName": "Официальное название",
+        "shortName": "Короткое название",
+        "yearFounded": "Год основания",
+        "cityCountry": "Город, Страна",
+        "address": "Адрес",
+        "tuitionCost": "Стоимость обучения (₸/год)",
+        "minPassingScore": "Мин. проходной балл (ЕНТ)",
+        "teachingLanguages": "Языки обучения",
+        "about": "О университете",
+        "dormitory": "Общежитие",
+        "militaryDept": "Военная кафедра",
+        "majorsPrograms": "Специальности и программы ({{count}})",
+        "noPrograms": "Программы ещё не опубликованы.",
+        "allFields": "Все направления",
+        "tuition": "Стоимость",
+        "passing": "Проходной",
+        "grant": "Грант",
+        "entranceRequirements": "Требования для поступления",
+        "entranceExams": "Вступительные экзамены",
+        "contacts": "Контакты",
+        "accreditations": "Аккредитации",
+        "issuedBy": "Выдано: {{name}}",
+        "validUntil": "Действует до: {{date}}",
+        "academicMobility": "Академическая мобильность",
+        "compareCta": "Сравнить с другими университетами →"
+    },
+    "program": {
+        "loading": "Загрузка программы…",
+        "program": "Программа",
+        "offeredBy": "Предлагается",
+        "code": "Код {{code}}",
+        "save": "Сохранить",
+        "saved": "Сохранено",
+        "stats": {
+            "tuition": "Стоимость / год",
+            "passingScore": "Проходной балл",
+            "grantScore": "Грантовый балл",
+            "teachingLanguage": "Язык обучения"
+        },
+        "degree": "Степень",
+        "duration": "Длительность",
+        "years": "{{count}} лет",
+        "studyMode": "Форма обучения",
+        "about": "Об этой программе",
+        "noDescription": "Описание ещё не добавлено.",
+        "futureProfessions": "Будущие профессии",
+        "notSpecified": "Не указано.",
+        "untSubjects": "Предметы ЕНТ",
+        "university": "Университет",
+        "viewUniversity": "Посмотреть профиль университета →",
+        "degrees": {
+            "college": "Колледж",
+            "bachelor": "Бакалавриат",
+            "master": "Магистратура",
+            "phd": "Докторантура"
+        },
+        "studyTypes": {
+            "full_time": "Очная",
+            "part_time": "Заочная",
+            "distance": "Дистанционная",
+            "evening": "Вечерняя"
+        }
+    },
+    "universitiesPage": {
+        "bannerSubtitle": "Найдите лучший университет для себя",
+        "bannerTitle": "Университеты Казахстана",
+        "bannerDescription": "Изучайте университеты, сравнивайте программы и требования для поступления и находите лучший вариант для своих академических целей.",
+        "found_one": "Найден {{count}} университет",
+        "found_few": "Найдено {{count}} университета",
+        "found_many": "Найдено {{count}} университетов",
+        "loading": "Загрузка университетов…",
+        "noResults": "Университеты не найдены. Попробуйте изменить фильтры."
+    },
+    "majorsPage": {
+        "bannerSubtitle": "Откройте своё будущее направление",
+        "bannerTitle": "Образовательные программы",
+        "bannerDescription": "Изучайте различные направления обучения и узнавайте, какие университеты Казахстана предлагают программы по вашим интересам.",
+        "found_one": "Найдена {{count}} специальность",
+        "found_few": "Найдено {{count}} специальности",
+        "found_many": "Найдено {{count}} специальностей",
+        "loading": "Загрузка…",
+        "noResults": "Специальности не найдены. Попробуйте изменить фильтры.",
+        "untSubjects": "Предметы ЕНТ",
+        "offeredBy": "Предлагают",
+        "unis_one": "{{count}} университет",
+        "unis_few": "{{count}} университета",
+        "unis_many": "{{count}} университетов",
+        "tuition": "Стоимость",
+        "viewOfferings": "Показать предложения",
+        "hideOfferings": "Скрыть предложения"
+    },
+    "universityCard": {
+        "majorsOffered": "Доступные специальности",
+        "noMajors": "Специальности не указаны.",
+        "more": "+{{count}} ещё",
+        "unt": "ЕНТ",
+        "tuition": "Стоимость",
+        "viewDetails": "Подробнее"
+    },
+    "filters": {
+        "searchUniPlaceholder": "Поиск университетов...",
+        "searchProgramPlaceholder": "Поиск программ...",
+        "city": "Город",
+        "major": "Специальность",
+        "field": "Направление",
+        "subjectPair": "Комбинация предметов",
+        "degree": "Степень",
+        "tuition": "Стоимость",
+        "clearAll": "Сбросить всё ({{count}})",
+        "all": "Все",
+        "allLabel": "{{label}}",
+        "labelCount": "{{label}} ({{count}})",
+        "noOptions": "Нет вариантов",
+        "tuitionLow": "До 500 000 ₸",
+        "tuitionMedium": "500 000 – 1 000 000 ₸",
+        "tuitionHigh": "Более 1 000 000 ₸",
+        "degreeCollege": "Колледж",
+        "degreeBachelor": "Бакалавриат",
+        "degreeMaster": "Магистратура",
+        "degreePhd": "Докторантура"
     }
 }

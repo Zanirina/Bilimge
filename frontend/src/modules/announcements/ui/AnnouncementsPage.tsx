@@ -1,6 +1,7 @@
 import { useEffect, useState, useMemo } from "react";
 import { useAnnouncementsStore } from "../model/announcementsStore";
-import type { Announcement, AnnouncementAuthorType } from "../model/types";
+import { useAuthStore } from "../../auth/model/authStore";
+import type { Announcement } from "../model/types";
 import {
   AnnouncementCard,
   AuthorAvatar,
@@ -56,16 +57,50 @@ function FullPostModal({
 
 // ─── main page ───────────────────────────────────────────────────────────────
 
-type FilterKey = "all" | AnnouncementAuthorType;
+// Static filters plus one dynamic `uni:<code>` filter per saved university.
+type FilterKey = "all" | "ntc" | "university" | `uni:${string}`;
 
-const FILTERS: { key: FilterKey; label: string }[] = [
+const BASE_FILTERS: { key: FilterKey; label: string }[] = [
   { key: "all", label: "All Announcements" },
+  { key: "university", label: "Universities" },
   { key: "ntc", label: "NTC" },
-  { key: "university", label: "University" },
 ];
+
+function FilterItem({
+  label,
+  count,
+  active,
+  onClick,
+}: {
+  label: string;
+  count: number;
+  active: boolean;
+  onClick: () => void;
+}) {
+  return (
+    <li>
+      <button
+        onClick={onClick}
+        className={`w-full flex items-center justify-between px-3 py-2 rounded-xl text-sm font-medium transition-colors ${
+          active ? "bg-[#3356AA] text-white" : "text-gray-600 hover:bg-gray-50"
+        }`}
+      >
+        <span className="truncate text-left">{label}</span>
+        <span
+          className={`ml-2 flex-shrink-0 text-xs rounded-full px-2 py-0.5 font-semibold ${
+            active ? "bg-white/20 text-white" : "bg-gray-100 text-gray-500"
+          }`}
+        >
+          {count}
+        </span>
+      </button>
+    </li>
+  );
+}
 
 export default function AnnouncementsPage() {
   const { announcements, isLoading, fetchList } = useAnnouncementsStore();
+  const { isAuth, favoriteUniversities, fetchFavoriteUniversities } = useAuthStore();
   const [filter, setFilter] = useState<FilterKey>("all");
   const [selected, setSelected] = useState<Announcement | null>(null);
 
@@ -73,21 +108,47 @@ export default function AnnouncementsPage() {
     fetchList();
   }, [fetchList]);
 
+  useEffect(() => {
+    if (isAuth) fetchFavoriteUniversities();
+  }, [isAuth, fetchFavoriteUniversities]);
+
+  // One extra category per saved university (empty list → no extra categories).
+  const savedUniFilters = useMemo(
+    () =>
+      favoriteUniversities.map((u) => ({
+        key: `uni:${u.university_code}` as FilterKey,
+        label: u.short_name || u.university_name,
+        code: String(u.university_code),
+      })),
+    [favoriteUniversities]
+  );
+
   const filtered = useMemo(() => {
     if (filter === "all") return announcements;
-    return announcements.filter((a) => a.author_type === filter);
+    if (filter === "ntc" || filter === "university")
+      return announcements.filter((a) => a.author_type === filter);
+    // dynamic `uni:<code>` → that university's announcements only
+    const code = filter.slice(4);
+    return announcements.filter(
+      (a) => a.author_type === "university" && String(a.university_id) === code
+    );
   }, [announcements, filter]);
 
   const pinned = useMemo(() => announcements.slice(0, 3), [announcements]);
 
-  const counts: Record<FilterKey, number> = useMemo(
-    () => ({
+  const counts: Record<string, number> = useMemo(() => {
+    const c: Record<string, number> = {
       all: announcements.length,
       ntc: announcements.filter((a) => a.author_type === "ntc").length,
       university: announcements.filter((a) => a.author_type === "university").length,
-    }),
-    [announcements]
-  );
+    };
+    savedUniFilters.forEach(({ key, code }) => {
+      c[key] = announcements.filter(
+        (a) => a.author_type === "university" && String(a.university_id) === code
+      ).length;
+    });
+    return c;
+  }, [announcements, savedUniFilters]);
 
   return (
     <>
@@ -98,52 +159,42 @@ export default function AnnouncementsPage() {
       {/* page header */}
       <div className="flex items-center justify-between mb-6">
         <h1 className="text-2xl font-bold text-[#111928]">Announcements</h1>
-        <div className="flex items-center gap-2">
-          <select className="text-sm border border-gray-200 rounded-lg px-3 py-1.5 text-gray-600 bg-white focus:outline-none focus:ring-2 focus:ring-[#3356AA]">
-            <option>All time</option>
-            <option>This week</option>
-            <option>This month</option>
-          </select>
-          <select className="text-sm border border-gray-200 rounded-lg px-3 py-1.5 text-gray-600 bg-white focus:outline-none focus:ring-2 focus:ring-[#3356AA]">
-            <option>Newest first</option>
-            <option>Oldest first</option>
-          </select>
-        </div>
       </div>
 
       {/* 3-column layout */}
       <div className="flex gap-5 items-start">
         {/* ── left sidebar ── */}
-        <aside className="w-52 flex-shrink-0 bg-white rounded-2xl border border-gray-100 p-4">
-          <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-3 px-1">
-            Category
-          </p>
+        <aside className="w-55 flex-shrink-0 bg-white rounded-2xl border border-gray-100 p-4">
           <ul className="space-y-0.5">
-            {FILTERS.map(({ key, label }) => {
-              const active = filter === key;
-              return (
-                <li key={key}>
-                  <button
-                    onClick={() => setFilter(key)}
-                    className={`w-full flex items-center justify-between px-3 py-2 rounded-xl text-sm font-medium transition-colors ${
-                      active
-                        ? "bg-[#3356AA] text-white"
-                        : "text-gray-600 hover:bg-gray-50"
-                    }`}
-                  >
-                    <span>{label}</span>
-                    <span
-                      className={`text-xs rounded-full px-2 py-0.5 font-semibold ${
-                        active ? "bg-white/20 text-white" : "bg-gray-100 text-gray-500"
-                      }`}
-                    >
-                      {counts[key]}
-                    </span>
-                  </button>
-                </li>
-              );
-            })}
+            {BASE_FILTERS.map(({ key, label }) => (
+              <FilterItem
+                key={key}
+                label={label}
+                count={counts[key] ?? 0}
+                active={filter === key}
+                onClick={() => setFilter(key)}
+              />
+            ))}
           </ul>
+
+          {savedUniFilters.length > 0 && (
+            <>
+              <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider mt-5 mb-3 px-1">
+                Saved Universities
+              </p>
+              <ul className="space-y-0.5">
+                {savedUniFilters.map(({ key, label }) => (
+                  <FilterItem
+                    key={key}
+                    label={label}
+                    count={counts[key] ?? 0}
+                    active={filter === key}
+                    onClick={() => setFilter(key)}
+                  />
+                ))}
+              </ul>
+            </>
+          )}
         </aside>
 
         {/* ── center feed ── */}

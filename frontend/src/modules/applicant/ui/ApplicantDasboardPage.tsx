@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { MdAdd, MdChevronLeft, MdChevronRight, MdClose, MdDelete } from "react-icons/md";
 import { http } from "../../../shared/api/http";
 import { endpoints } from "../../../shared/api/endpoints";
@@ -28,15 +29,6 @@ const EVENT_TYPES = [
 ] as const;
 type EventTypeKey = (typeof EVENT_TYPES)[number];
 
-const EVENT_TYPE_LABELS: Record<string, string> = {
-  deadline: "Deadline",
-  exam: "Exam",
-  enrollment: "Enrollment",
-  open_day: "Open Day",
-  event: "Event",
-  announcement: "Announcement",
-};
-
 const EVENT_COLOR: Record<string, { bg: string; ink: string; dot: string }> = {
   deadline:     { bg: "#FFF4E0", ink: "#E08900", dot: "#E08900" },
   exam:         { bg: "#F1ECFE", ink: "#7C5CFF", dot: "#7C5CFF" },
@@ -46,17 +38,11 @@ const EVENT_COLOR: Record<string, { bg: string; ink: string; dot: string }> = {
   announcement: { bg: "#E6F7EF", ink: "#10B981", dot: "#10B981" },
 };
 
-const VISIBILITY_LABELS: Record<string, { label: string; bg: string; ink: string }> = {
-  public:     { label: "Public",     bg: "#F2F2F5", ink: "#4A4A55" },
-  university: { label: "University", bg: "#EBF2FE", ink: "#3D5AFE" },
-  personal:   { label: "Personal",   bg: "#FEEFEC", ink: "#E85842" },
+const VISIBILITY_COLOR: Record<string, { bg: string; ink: string }> = {
+  public:     { bg: "#F2F2F5", ink: "#4A4A55" },
+  university: { bg: "#EBF2FE", ink: "#3D5AFE" },
+  personal:   { bg: "#FEEFEC", ink: "#E85842" },
 };
-
-const MONTH_NAMES = [
-  "January", "February", "March", "April", "May", "June",
-  "July", "August", "September", "October", "November", "December",
-];
-const WEEK_LABELS = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
 
 function ymdLocal(d: Date) {
   const y = d.getFullYear();
@@ -65,12 +51,35 @@ function ymdLocal(d: Date) {
   return `${y}-${m}-${day}`;
 }
 
-function colorForType(t: string) {
-  return EVENT_COLOR[t] ?? EVENT_COLOR.event;
+function colorForType(key: string) {
+  return EVENT_COLOR[key] ?? EVENT_COLOR.event;
 }
 
 export default function ApplicantDashboardPage() {
   const user = useAuthStore((s) => s.user);
+  const { t, i18n } = useTranslation();
+  const locale = i18n.language || "en";
+
+  // Localized, Monday-first weekday short labels (Jan 1 2024 is a Monday).
+  const weekLabels = useMemo(
+    () =>
+      Array.from({ length: 7 }, (_, i) =>
+        new Intl.DateTimeFormat(locale, { weekday: "short" }).format(new Date(2024, 0, 1 + i))
+      ),
+    [locale]
+  );
+  const monthLabel = (y: number, m: number) =>
+    new Intl.DateTimeFormat(locale, { month: "long", year: "numeric" }).format(new Date(y, m, 1));
+  const formatLongDate = (ymd: string) => {
+    const [y, m, d] = ymd.split("-").map(Number);
+    if (!y || !m || !d) return ymd;
+    return new Intl.DateTimeFormat(locale, {
+      day: "numeric",
+      month: "long",
+      year: "numeric",
+    }).format(new Date(y, m - 1, d));
+  };
+  const eventTypeLabel = (key: string) => t(`dashboard.eventTypes.${key}`);
 
   const now = new Date();
   const [year, setYear] = useState(now.getFullYear());
@@ -127,13 +136,12 @@ export default function ApplicantDashboardPage() {
       const date = new Date(year, month, d);
       arr.push({ date: ymdLocal(date), day: d, inMonth: true });
     }
-    // trailing days to fill 6 rows
-    while (arr.length % 7 !== 0 || arr.length < 42) {
+    // trailing days only to complete the final week (no extra next-month week)
+    while (arr.length % 7 !== 0) {
       const last = arr[arr.length - 1];
       const nextDay = last ? new Date(last.date) : new Date(year, month + 1, 1);
       nextDay.setDate(nextDay.getDate() + 1);
       arr.push({ date: ymdLocal(nextDay), day: nextDay.getDate(), inMonth: false });
-      if (arr.length >= 42) break;
     }
     return arr;
   }, [year, month]);
@@ -156,10 +164,10 @@ export default function ApplicantDashboardPage() {
     } else setMonth((m) => m + 1);
   };
   const goToday = () => {
-    const t = new Date();
-    setYear(t.getFullYear());
-    setMonth(t.getMonth());
-    setSelectedDate(ymdLocal(t));
+    const today = new Date();
+    setYear(today.getFullYear());
+    setMonth(today.getMonth());
+    setSelectedDate(ymdLocal(today));
   };
 
   const openAdd = (date?: string) => {
@@ -196,7 +204,7 @@ export default function ApplicantDashboardPage() {
       setSelectedDate(created.start_date);
       setAddOpen(false);
     } catch (e: any) {
-      setError(e?.response?.data?.error ?? "Could not save event.");
+      setError(e?.response?.data?.error ?? t("dashboard.errors.save"));
     } finally {
       setSaving(false);
     }
@@ -207,11 +215,13 @@ export default function ApplicantDashboardPage() {
       await http.delete(endpoints.calendar.personalById(id));
       setEvents((prev) => prev.filter((e) => e.id !== id));
     } catch {
-      setError("Could not delete event.");
+      setError(t("dashboard.errors.delete"));
     }
   };
 
-  const greet = user?.first_name ? `Hi, ${user.first_name}` : "Welcome back";
+  const greet = user?.first_name
+    ? t("dashboard.greetingHi", { name: user.first_name })
+    : t("dashboard.greetingBack");
 
   return (
     <div className="flex flex-col gap-5">
@@ -219,14 +229,14 @@ export default function ApplicantDashboardPage() {
         <div>
           <h1 className="text-2xl font-bold text-gray-900">{greet}</h1>
           <p className="text-sm text-gray-500 mt-1">
-            Plan your admissions journey. Track deadlines, exams, and your personal events.
+            {t("dashboard.subtitle")}
           </p>
         </div>
         <button
           onClick={() => openAdd()}
           className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-[#3356AA] text-white text-sm font-semibold hover:bg-[#2c4892] transition"
         >
-          <MdAdd size={18} /> Add personal event
+          <MdAdd size={18} /> {t("dashboard.addEvent")}
         </button>
       </div>
 
@@ -235,27 +245,27 @@ export default function ApplicantDashboardPage() {
         <div className="flex items-center justify-between px-5 py-4 border-b border-gray-100 flex-wrap gap-3">
           <div className="flex items-center gap-3">
             <h2 className="text-lg font-bold text-gray-900">
-              {MONTH_NAMES[month]} {year}
+              {monthLabel(year, month)}
             </h2>
             <button
               onClick={goToday}
               className="text-xs font-semibold text-[#3356AA] px-3 py-1.5 rounded-lg border border-[#3356AA]/30 hover:bg-[#EEF2FF]"
             >
-              Today
+              {t("dashboard.today")}
             </button>
           </div>
           <div className="flex items-center gap-2">
             <button
               onClick={prevMonth}
               className="w-9 h-9 flex items-center justify-center rounded-lg hover:bg-gray-100 text-gray-500"
-              title="Previous month"
+              title={t("dashboard.prevMonth")}
             >
               <MdChevronLeft size={20} />
             </button>
             <button
               onClick={nextMonth}
               className="w-9 h-9 flex items-center justify-center rounded-lg hover:bg-gray-100 text-gray-500"
-              title="Next month"
+              title={t("dashboard.nextMonth")}
             >
               <MdChevronRight size={20} />
             </button>
@@ -266,7 +276,7 @@ export default function ApplicantDashboardPage() {
           {/* Month grid */}
           <div className="border-r border-gray-100">
             <div className="grid grid-cols-7 border-b border-gray-100">
-              {WEEK_LABELS.map((w) => (
+              {weekLabels.map((w) => (
                 <div
                   key={w}
                   className="text-center text-[11px] font-bold text-gray-400 uppercase tracking-wider py-2"
@@ -327,7 +337,7 @@ export default function ApplicantDashboardPage() {
                       })}
                       {more > 0 && (
                         <span className="text-[10px] font-semibold text-gray-400 pl-1">
-                          +{more} more
+                          {t("dashboard.moreCount", { count: more })}
                         </span>
                       )}
                     </div>
@@ -342,37 +352,31 @@ export default function ApplicantDashboardPage() {
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-[11px] font-bold text-gray-400 uppercase tracking-wider">
-                  Selected day
+                  {t("dashboard.selectedDay")}
                 </p>
                 <p className="text-base font-bold text-gray-900">
-                  {selectedDate}
+                  {formatLongDate(selectedDate)}
                 </p>
               </div>
-              <button
-                onClick={() => openAdd(selectedDate)}
-                className="inline-flex items-center gap-1.5 text-xs font-semibold text-[#3356AA] px-2.5 py-1.5 rounded-lg border border-[#3356AA]/30 hover:bg-[#EEF2FF]"
-              >
-                <MdAdd size={14} /> Add
-              </button>
             </div>
 
             {loading ? (
-              <p className="text-sm text-gray-400">Loading…</p>
+              <p className="text-sm text-gray-400">{t("common.loading")}</p>
             ) : selectedEvents.length === 0 ? (
               <div className="rounded-xl border border-dashed border-gray-200 p-5 text-center">
-                <p className="text-sm text-gray-500">No events on this day.</p>
+                <p className="text-sm text-gray-500">{t("dashboard.noEvents")}</p>
                 <button
                   onClick={() => openAdd(selectedDate)}
                   className="mt-2 text-xs font-semibold text-[#3356AA] hover:underline"
                 >
-                  Add personal event
+                  {t("dashboard.addEvent")}
                 </button>
               </div>
             ) : (
               <ul className="flex flex-col gap-2 overflow-y-auto pr-1">
                 {selectedEvents.map((e) => {
                   const c = colorForType(e.event_type);
-                  const v = VISIBILITY_LABELS[e.visibility] ?? VISIBILITY_LABELS.public;
+                  const v = VISIBILITY_COLOR[e.visibility] ?? VISIBILITY_COLOR.public;
                   return (
                     <li
                       key={e.id}
@@ -393,7 +397,7 @@ export default function ApplicantDashboardPage() {
                         {e.visibility === "personal" && (
                           <button
                             onClick={() => deletePersonal(e.id)}
-                            title="Delete"
+                            title={t("common.delete")}
                             className="text-gray-300 hover:text-red-500 shrink-0"
                           >
                             <MdDelete size={16} />
@@ -405,13 +409,13 @@ export default function ApplicantDashboardPage() {
                           className="text-[10px] font-bold px-2 py-0.5 rounded-full"
                           style={{ background: c.bg, color: c.ink }}
                         >
-                          {EVENT_TYPE_LABELS[e.event_type] ?? e.event_type}
+                          {eventTypeLabel(e.event_type)}
                         </span>
                         <span
                           className="text-[10px] font-bold px-2 py-0.5 rounded-full"
                           style={{ background: v.bg, color: v.ink }}
                         >
-                          {v.label}
+                          {t(`dashboard.visibility.${e.visibility}`)}
                         </span>
                       </div>
                       {e.description && (
@@ -427,14 +431,14 @@ export default function ApplicantDashboardPage() {
 
             <div className="mt-auto pt-3 border-t border-gray-100">
               <p className="text-[11px] font-bold text-gray-400 uppercase tracking-wider mb-2">
-                Legend
+                {t("dashboard.legend")}
               </p>
               <div className="flex flex-wrap gap-1.5">
-                {EVENT_TYPES.map((t) => {
-                  const c = colorForType(t);
+                {EVENT_TYPES.map((et) => {
+                  const c = colorForType(et);
                   return (
                     <span
-                      key={t}
+                      key={et}
                       className="inline-flex items-center gap-1.5 text-[10px] font-semibold px-2 py-1 rounded-full"
                       style={{ background: c.bg, color: c.ink }}
                     >
@@ -442,7 +446,7 @@ export default function ApplicantDashboardPage() {
                         className="w-1.5 h-1.5 rounded-full"
                         style={{ background: c.dot }}
                       />
-                      {EVENT_TYPE_LABELS[t]}
+                      {eventTypeLabel(et)}
                     </span>
                   );
                 })}
@@ -464,9 +468,9 @@ export default function ApplicantDashboardPage() {
           >
             <div className="flex items-start justify-between p-6 pb-4 border-b border-gray-100">
               <div>
-                <h3 className="font-bold text-xl text-gray-900">Add personal event</h3>
+                <h3 className="font-bold text-xl text-gray-900">{t("dashboard.modal.title")}</h3>
                 <p className="text-sm text-gray-400 mt-1">
-                  Only you will see this entry.
+                  {t("dashboard.modal.subtitle")}
                 </p>
               </div>
               <button
@@ -479,17 +483,17 @@ export default function ApplicantDashboardPage() {
 
             <div className="p-6 flex flex-col gap-4">
               <div className="flex flex-col gap-1.5">
-                <label className="text-xs font-semibold text-gray-600">Title *</label>
+                <label className="text-xs font-semibold text-gray-600">{t("dashboard.form.title")}</label>
                 <input
                   className="border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#3356AA]/30 focus:border-[#3356AA]"
-                  placeholder="e.g. Pick documents from school"
+                  placeholder={t("dashboard.form.titlePlaceholder")}
                   value={form.title}
                   onChange={(e) => setForm((p) => ({ ...p, title: e.target.value }))}
                 />
               </div>
               <div className="grid grid-cols-2 gap-3">
                 <div className="flex flex-col gap-1.5">
-                  <label className="text-xs font-semibold text-gray-600">Start date *</label>
+                  <label className="text-xs font-semibold text-gray-600">{t("dashboard.form.startDate")}</label>
                   <input
                     type="date"
                     className="border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#3356AA]/30 focus:border-[#3356AA]"
@@ -500,7 +504,7 @@ export default function ApplicantDashboardPage() {
                   />
                 </div>
                 <div className="flex flex-col gap-1.5">
-                  <label className="text-xs font-semibold text-gray-600">Time</label>
+                  <label className="text-xs font-semibold text-gray-600">{t("dashboard.form.time")}</label>
                   <input
                     type="time"
                     className="border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#3356AA]/30 focus:border-[#3356AA]"
@@ -512,7 +516,7 @@ export default function ApplicantDashboardPage() {
                 </div>
               </div>
               <div className="flex flex-col gap-1.5">
-                <label className="text-xs font-semibold text-gray-600">End date</label>
+                <label className="text-xs font-semibold text-gray-600">{t("dashboard.form.endDate")}</label>
                 <input
                   type="date"
                   className="border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#3356AA]/30 focus:border-[#3356AA]"
@@ -523,7 +527,7 @@ export default function ApplicantDashboardPage() {
                 />
               </div>
               <div className="flex flex-col gap-1.5">
-                <label className="text-xs font-semibold text-gray-600">Type</label>
+                <label className="text-xs font-semibold text-gray-600">{t("dashboard.form.type")}</label>
                 <div className="flex flex-wrap gap-2">
                   {EVENT_TYPES.map((k) => (
                     <button
@@ -535,16 +539,16 @@ export default function ApplicantDashboardPage() {
                           : "border-gray-200 text-gray-500 hover:bg-gray-50"
                       }`}
                     >
-                      {EVENT_TYPE_LABELS[k]}
+                      {eventTypeLabel(k)}
                     </button>
                   ))}
                 </div>
               </div>
               <div className="flex flex-col gap-1.5">
-                <label className="text-xs font-semibold text-gray-600">Description</label>
+                <label className="text-xs font-semibold text-gray-600">{t("dashboard.form.description")}</label>
                 <textarea
                   className="border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#3356AA]/30 focus:border-[#3356AA] resize-none h-20"
-                  placeholder="Optional details…"
+                  placeholder={t("dashboard.form.descriptionPlaceholder")}
                   value={form.description}
                   onChange={(e) =>
                     setForm((p) => ({ ...p, description: e.target.value }))
@@ -561,14 +565,14 @@ export default function ApplicantDashboardPage() {
                 disabled={saving}
                 className="px-4 py-2 rounded-xl text-sm font-medium text-gray-600 hover:bg-gray-100 disabled:opacity-50"
               >
-                Cancel
+                {t("common.cancel")}
               </button>
               <button
                 onClick={submitAdd}
                 disabled={saving || !form.title.trim() || !form.start_date}
                 className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-[#3356AA] text-white text-sm font-semibold hover:bg-[#2c4892] disabled:opacity-50"
               >
-                {saving ? "Saving…" : "Add event"}
+                {saving ? t("common.saving") : t("dashboard.addEventConfirm")}
               </button>
             </div>
           </div>

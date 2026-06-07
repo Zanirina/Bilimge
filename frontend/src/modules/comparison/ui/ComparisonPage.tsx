@@ -685,13 +685,6 @@ export default function ComparisonPage() {
     <div className="space-y-6">
       {/* Breadcrumb + header */}
       <div>
-        <p className="text-xs text-gray-400 mb-2">
-          <Link to="/applicant/universities" className="hover:text-[#3356AA]">
-            Universities
-          </Link>{" "}
-          <span className="mx-1">›</span>
-          <span className="text-gray-700 font-medium">Compare</span>
-        </p>
         <div className="flex items-end justify-between gap-3 flex-wrap">
           <div>
             <h1 className="text-3xl font-bold text-gray-900">Compare universities</h1>

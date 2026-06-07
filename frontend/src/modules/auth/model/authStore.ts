@@ -58,11 +58,23 @@ export const useAuthStore = create<AuthState>((set, get) => {
     favoriteUniversities: [],
 
     register: async (data) => {
-      await authService.register(data);
+      await authService.register({
+        email: data.email,
+        password: data.password,
+        phone: data.phone,
+      });
       const loginRes = await authService.login({ email: data.email, password: data.password });
       const { access, refresh } = loginRes.data;
       if (!access) throw new Error("No token received");
       storage.setTokens(access, refresh);
+      // RegisterSerializer only accepts email/password/phone, so the name
+      // entered at signup must be saved separately via PATCH /auth/me/.
+      if (data.first_name || data.last_name) {
+        await authService.updateMe({
+          first_name: data.first_name,
+          last_name: data.last_name,
+        });
+      }
       const meRes = await authService.getMe();
       set({ isAuth: true, user: meRes.data });
     },

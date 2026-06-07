@@ -2,7 +2,7 @@
     "nav": {
         "home": "Басты бет",
         "universities": "Университеттер",
-        "majors": "Мамандықтар",
+        "majors": "Бағдарламалар",
         "exams": "Емтихандар",
         "aiAssistant": "ЖИ Көмекші",
         "admissionGuide": "Нұсқаулық",
@@ -92,6 +92,12 @@
                 "title": "Ресми жаңартулар",
                 "description": "ҰБТ орталығы мен университеттердің ресми көздерінен соңғы жаңартуларды алыңыз."
             }
+        },
+        "calltoaction": {
+            "subtitle": "Сенің болашағың осы жерден басталады",
+            "title": "Армандаған университетіңізге\nалғашқы қадамыңызды жасаңыз",
+            "description": "Университеттерді зерттеңіз, қабылдау емтихандарына дайындалыңыз және сенімді шешім қабылдауға көмектесетін нұсқаулар алыңыз.",
+            "button": "Қазірден бастау"
         }
     },
     "footer": {
@@ -100,5 +106,210 @@
         "resources": "РЕСУРСТАР",
         "company": "КОМПАНИЯ",
         "followUs": "Бізді бақылаңыз"
+    },
+    "common": {
+        "loading": "Жүктелуде…",
+        "saving": "Сақталуда…",
+        "save": "Сақтау",
+        "cancel": "Бас тарту",
+        "delete": "Жою",
+        "edit": "Түзету",
+        "add": "Қосу",
+        "close": "Жабу",
+        "search": "Іздеу",
+        "back": "Артқа",
+        "viewAll": "Барлығын көру",
+        "noResults": "Нәтиже табылмады.",
+        "retry": "Қайта көру",
+        "required": "Міндетті"
+    },
+    "sidebar": {
+        "overview": "Менің шолуым",
+        "announcements": "Жариялаулар",
+        "exploreUniversities": "Университеттерді зерттеу",
+        "compareUniversities": "Университеттерді салыстыру",
+        "programsMajors": "Оқу бағдарламалары",
+        "examPreparation": "Емтиханға дайындалу",
+        "chanceCalculator": "Мүмкіндік калькуляторы",
+        "aiAssistant": "ЖИ Көмекші"
+    },
+    "dashboard": {
+        "greetingHi": "Сәлем, {{name}}",
+        "greetingBack": "Қайта келгеніңізге қуаныштымыз",
+        "subtitle": "Оқуға түсу жолыңызды жоспарлаңыз. Мерзімдерді, емтихандарды және жеке оқиғаларыңызды бақылаңыз.",
+        "addEvent": "Жеке оқиға қосу",
+        "addEventConfirm": "Оқиға қосу",
+        "today": "Бүгін",
+        "prevMonth": "Алдыңғы ай",
+        "nextMonth": "Келесі ай",
+        "selectedDay": "Таңдалған күн",
+        "noEvents": "Бұл күнде оқиғалар жоқ.",
+        "moreCount": "+ тағы {{count}}",
+        "legend": "Түсіндірме",
+        "modal": {
+            "title": "Жеке оқиға қосу",
+            "subtitle": "Бұл жазбаны тек сіз көресіз."
+        },
+        "form": {
+            "title": "Тақырып *",
+            "titlePlaceholder": "Мысалы: Мектептен құжаттарды алу",
+            "startDate": "Басталу күні *",
+            "time": "Уақыт",
+            "endDate": "Аяқталу күні",
+            "type": "Түрі",
+            "description": "Сипаттама",
+            "descriptionPlaceholder": "Қосымша мәліметтер…"
+        },
+        "errors": {
+            "save": "Оқиғаны сақтау мүмкін болмады.",
+            "delete": "Оқиғаны жою мүмкін болмады."
+        },
+        "eventTypes": {
+            "deadline": "Соңғы мерзім",
+            "exam": "Емтихан",
+            "enrollment": "Тіркелу",
+            "open_day": "Ашық есік күні",
+            "event": "Оқиға",
+            "announcement": "Жариялау"
+        },
+        "visibility": {
+            "public": "Қоғамдық",
+            "university": "Университет",
+            "personal": "Жеке"
+        }
+    },
+    "university": {
+        "loading": "Университет жүктелуде…",
+        "founded": "{{year}} жылы құрылған",
+        "kazakhstan": "Қазақстан",
+        "saveUniversity": "Университетті сақтау",
+        "removeFavorite": "Таңдаулылардан жою",
+        "save": "Сақтау",
+        "saved": "Сақталды",
+        "saveProgram": "Бағдарламаны сақтау",
+        "stats": {
+            "passingScore": "Өту балы",
+            "programsOffered": "Қолжетімді бағдарламалар",
+            "avgTuition": "Орташа оқу ақысы / жыл",
+            "languages": "Тілдер"
+        },
+        "basicInfo": "Негізгі ақпарат",
+        "officialName": "Ресми атауы",
+        "shortName": "Қысқаша атауы",
+        "yearFounded": "Құрылған жылы",
+        "cityCountry": "Қала, Ел",
+        "address": "Мекенжай",
+        "tuitionCost": "Оқу ақысы (₸/жыл)",
+        "minPassingScore": "Ең төм. өту балы (ҰБТ)",
+        "teachingLanguages": "Оқыту тілдері",
+        "about": "Университет туралы",
+        "dormitory": "Жатақхана",
+        "militaryDept": "Әскери кафедра",
+        "majorsPrograms": "Мамандықтар мен бағдарламалар ({{count}})",
+        "noPrograms": "Бағдарламалар әлі жарияланбаған.",
+        "allFields": "Барлық бағыттар",
+        "tuition": "Оқу ақысы",
+        "passing": "Өту балы",
+        "grant": "Грант",
+        "entranceRequirements": "Түсу талаптары",
+        "entranceExams": "Кіру емтихандары",
+        "contacts": "Байланыс",
+        "accreditations": "Аккредитациялар",
+        "issuedBy": "Берген: {{name}}",
+        "validUntil": "Жарамдылық мерзімі: {{date}}",
+        "academicMobility": "Академиялық ұтқырлық",
+        "compareCta": "Басқа университеттермен салыстыру →"
+    },
+    "program": {
+        "loading": "Бағдарлама жүктелуде…",
+        "program": "Бағдарлама",
+        "offeredBy": "Ұсынушы",
+        "code": "Коды {{code}}",
+        "save": "Сақтау",
+        "saved": "Сақталды",
+        "stats": {
+            "tuition": "Оқу ақысы / жыл",
+            "passingScore": "Өту балы",
+            "grantScore": "Грант балы",
+            "teachingLanguage": "Оқыту тілі"
+        },
+        "degree": "Дәреже",
+        "duration": "Ұзақтығы",
+        "years": "{{count}} жыл",
+        "studyMode": "Оқу түрі",
+        "about": "Осы бағдарлама туралы",
+        "noDescription": "Сипаттама әлі қосылмаған.",
+        "futureProfessions": "Болашақ мамандықтар",
+        "notSpecified": "Көрсетілмеген.",
+        "untSubjects": "ҰБТ пәндері",
+        "university": "Университет",
+        "viewUniversity": "Университет профилін көру →",
+        "degrees": {
+            "college": "Колледж",
+            "bachelor": "Бакалавриат",
+            "master": "Магистратура",
+            "phd": "Докторантура"
+        },
+        "studyTypes": {
+            "full_time": "Күндізгі",
+            "part_time": "Сырттай",
+            "distance": "Қашықтан",
+            "evening": "Кешкі"
+        }
+    },
+    "universitiesPage": {
+        "bannerSubtitle": "Өзіңізге ең жақсы университетті табыңыз",
+        "bannerTitle": "Қазақстан университеттері",
+        "bannerDescription": "Университеттерді зерттеңіз, бағдарламалар мен түсу талаптарын салыстырыңыз және академиялық мақсаттарыңызға сай ең жақсы нұсқаны табыңыз.",
+        "found_one": "{{count}} университет табылды",
+        "found_other": "{{count}} университет табылды",
+        "loading": "Университеттер жүктелуде…",
+        "noResults": "Университеттер табылмады. Сүзгілерді өзгертіп көріңіз."
+    },
+    "majorsPage": {
+        "bannerSubtitle": "Болашақ бағытыңызды ашыңыз",
+        "bannerTitle": "Оқу бағдарламалары",
+        "bannerDescription": "Әртүрлі оқу бағыттарын зерттеп, Қазақстанның қай университеттері қызығушылығыңызға сай бағдарламалар ұсынатынын біліңіз.",
+        "found_one": "{{count}} мамандық табылды",
+        "found_other": "{{count}} мамандық табылды",
+        "loading": "Жүктелуде…",
+        "noResults": "Мамандықтар табылмады. Сүзгілерді өзгертіп көріңіз.",
+        "untSubjects": "ҰБТ пәндері",
+        "offeredBy": "Ұсынады",
+        "unis_one": "{{count}} университет",
+        "unis_other": "{{count}} университет",
+        "tuition": "Оқу ақысы",
+        "viewOfferings": "Ұсыныстарды көру",
+        "hideOfferings": "Ұсыныстарды жасыру"
+    },
+    "universityCard": {
+        "majorsOffered": "Қолжетімді мамандықтар",
+        "noMajors": "Мамандықтар көрсетілмеген.",
+        "more": "+{{count}} тағы",
+        "unt": "ҰБТ",
+        "tuition": "Оқу ақысы",
+        "viewDetails": "Толығырақ"
+    },
+    "filters": {
+        "searchUniPlaceholder": "Университеттерді іздеу...",
+        "searchProgramPlaceholder": "Бағдарламаларды іздеу...",
+        "city": "Қала",
+        "major": "Мамандық",
+        "field": "Бағыт",
+        "subjectPair": "Пәндер комбинациясы",
+        "degree": "Дәреже",
+        "tuition": "Оқу ақысы",
+        "clearAll": "Барлығын тазалау ({{count}})",
+        "all": "Барлығы",
+        "allLabel": "{{label}}",
+        "labelCount": "{{label}} ({{count}})",
+        "noOptions": "Нұсқалар жоқ",
+        "tuitionLow": "500 000 ₸ дейін",
+        "tuitionMedium": "500 000 – 1 000 000 ₸",
+        "tuitionHigh": "1 000 000 ₸ жоғары",
+        "degreeCollege": "Колледж",
+        "degreeBachelor": "Бакалавриат",
+        "degreeMaster": "Магистратура",
+        "degreePhd": "Докторантура"
     }
 }

@@ -8,9 +8,22 @@ export const http = axios.create({
   headers: { "Content-Type": "application/json" },
 });
 
+// Public endpoints must NOT carry an Authorization header: DRF runs JWT
+// authentication before permissions, so a stale/expired token would make
+// even an AllowAny view (login/register/refresh) reject the request with 401.
+const PUBLIC_ENDPOINTS = [
+  endpoints.auth.login,
+  endpoints.auth.register,
+  endpoints.auth.refresh,
+  endpoints.auth.resetPassword,
+  endpoints.auth.resetPasswordConfirm,
+];
+
 http.interceptors.request.use((config) => {
+  const url = String(config.url ?? "");
+  const isPublic = PUBLIC_ENDPOINTS.some((e) => url.includes(e));
   const token = storage.getAccessToken();
-  if (token) {
+  if (token && !isPublic) {
     config.headers.Authorization = `Bearer ${token}`;
   }
   return config;

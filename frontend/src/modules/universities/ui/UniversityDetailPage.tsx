@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { useParams, useNavigate, Link, useLocation } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import {
   MdLocationOn,
   MdPhone,
@@ -58,8 +59,9 @@ function ProgramRow({ field, programCode, name, cost, passing, grant, language, 
   programBase: string;
 }) {
   const navigate = useNavigate();
+  const { t } = useTranslation();
   const { isAuth, favorites, addFavorite, removeFavorite } = useAuthStore();
-  const fav = favorites.find((f) => f.program === programCode);
+  const fav = favorites.find((f) => String(f.program) === String(programCode));
   const [busy, setBusy] = useState(false);
 
   async function toggleFav(e: React.MouseEvent) {
@@ -84,15 +86,15 @@ function ProgramRow({ field, programCode, name, cost, passing, grant, language, 
         <p className="text-xs text-gray-400 mt-0.5">{field} · {programCode}</p>
       </div>
       <div className="col-span-2">
-        <p className="text-[10px] text-gray-400 uppercase tracking-wider">Tuition</p>
+        <p className="text-[10px] text-gray-400 uppercase tracking-wider">{t("university.tuition")}</p>
         <p className="text-sm font-semibold text-gray-900">{fmtMoney(cost)}</p>
       </div>
       <div className="col-span-2">
-        <p className="text-[10px] text-gray-400 uppercase tracking-wider">Passing</p>
+        <p className="text-[10px] text-gray-400 uppercase tracking-wider">{t("university.passing")}</p>
         <p className="text-sm font-semibold text-gray-900">{passing ?? "—"}</p>
       </div>
       <div className="col-span-2">
-        <p className="text-[10px] text-gray-400 uppercase tracking-wider">Grant</p>
+        <p className="text-[10px] text-gray-400 uppercase tracking-wider">{t("university.grant")}</p>
         <p className="text-sm font-semibold text-gray-900">{grant ?? "—"}</p>
       </div>
       <div className="col-span-1 flex items-center justify-end gap-2">
@@ -102,7 +104,7 @@ function ProgramRow({ field, programCode, name, cost, passing, grant, language, 
             type="button"
             onClick={toggleFav}
             disabled={busy}
-            title={fav ? "Remove from favorites" : "Save program"}
+            title={fav ? t("university.removeFavorite") : t("university.saveProgram")}
             className={`shrink-0 inline-flex items-center justify-center w-8 h-8 rounded-full border transition disabled:opacity-50 ${
               fav
                 ? "bg-[#3356AA] border-[#3356AA] text-white hover:bg-[#2c4892]"
@@ -120,6 +122,7 @@ function ProgramRow({ field, programCode, name, cost, passing, grant, language, 
 export default function UniversityDetailPage() {
   const { code } = useParams<{ code: string }>();
   const navigate = useNavigate();
+  const { t } = useTranslation();
   const location = useLocation();
   const inApplicant = location.pathname.startsWith("/applicant");
   const programBase = inApplicant ? "/applicant/programs" : "/programs";
@@ -187,7 +190,7 @@ export default function UniversityDetailPage() {
   if (isLoading || !u) {
     return (
       <div className="flex items-center justify-center py-24 text-gray-400 text-sm">
-        {error ? <span className="text-red-500">{error}</span> : "Loading university…"}
+        {error ? <span className="text-red-500">{error}</span> : t("university.loading")}
       </div>
     );
   }
@@ -204,7 +207,7 @@ export default function UniversityDetailPage() {
         onClick={() => navigate(-1)}
         className="flex items-center gap-1.5 text-sm text-gray-500 hover:text-[#3356AA]"
       >
-        <MdArrowBack size={18} /> Back
+        <MdArrowBack size={18} /> {t("common.back")}
       </button>
 
       {/* Header card with cover and logo */}
@@ -237,12 +240,12 @@ export default function UniversityDetailPage() {
             <div className="flex items-center gap-5 mt-2 text-sm text-gray-500 flex-wrap">
               {u.city && (
                 <span className="flex items-center gap-1.5">
-                  <MdLocationOn size={16} /> {u.city}, Kazakhstan
+                  <MdLocationOn size={16} /> {u.city}, {t("university.kazakhstan")}
                 </span>
               )}
               {u.year_established && (
                 <span className="flex items-center gap-1.5">
-                  <MdCalendarToday size={14} /> Founded {u.year_established}
+                  <MdCalendarToday size={14} /> {t("university.founded", { year: u.year_established })}
                 </span>
               )}
               {u.website && (
@@ -264,7 +267,7 @@ export default function UniversityDetailPage() {
                 type="button"
                 onClick={toggleUniFavorite}
                 disabled={uniFavBusy}
-                title={savedUniRow ? "Remove from favorites" : "Save university"}
+                title={savedUniRow ? t("university.removeFavorite") : t("university.saveUniversity")}
                 className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-semibold border transition-colors disabled:opacity-60 ${
                   savedUniRow
                     ? "bg-[#3356AA] text-white border-[#3356AA] hover:bg-[#2c4892]"
@@ -272,7 +275,7 @@ export default function UniversityDetailPage() {
                 }`}
               >
                 {savedUniRow ? <MdBookmark size={16} /> : <MdBookmarkBorder size={16} />}
-                {savedUniRow ? "Saved" : "Save"}
+                {savedUniRow ? t("university.saved") : t("university.save")}
               </button>
             )}
             {u.telegram_url && (
@@ -309,22 +312,22 @@ export default function UniversityDetailPage() {
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
         <StatCard
           icon={<MdSchool size={20} />}
-          label="Passing score"
+          label={t("university.stats.passingScore")}
           value={u.passing_score || "—"}
         />
         <StatCard
           icon={<MdOutlineSchool size={20} />}
-          label="Programs offered"
+          label={t("university.stats.programsOffered")}
           value={totalPrograms}
         />
         <StatCard
           icon={<MdAttachMoney size={20} />}
-          label="Avg. tuition / year"
+          label={t("university.stats.avgTuition")}
           value={u.tuition_cost ? fmtMoney(u.tuition_cost) : "—"}
         />
         <StatCard
           icon={<MdLanguage size={20} />}
-          label="Languages"
+          label={t("university.stats.languages")}
           value={
             teachingLanguages.length > 0
               ? teachingLanguages.join(", ")
@@ -338,37 +341,37 @@ export default function UniversityDetailPage() {
         <div className="lg:col-span-2 space-y-5">
           {/* Basic information — mirrors admin Overview panel */}
           <div className="bg-white rounded-2xl shadow-sm p-6">
-            <h2 className="text-lg font-bold text-gray-900 mb-4">Basic information</h2>
+            <h2 className="text-lg font-bold text-gray-900 mb-4">{t("university.basicInfo")}</h2>
             <div className="divide-y divide-gray-100">
               <div className="grid grid-cols-2 divide-x divide-gray-100">
                 <div className="py-3 pr-6">
-                  <p className="text-xs text-gray-400 mb-1">Official name</p>
+                  <p className="text-xs text-gray-400 mb-1">{t("university.officialName")}</p>
                   <p className="text-sm font-medium text-gray-900">{u.name || "—"}</p>
                 </div>
                 <div className="py-3 pl-6">
-                  <p className="text-xs text-gray-400 mb-1">Short name</p>
+                  <p className="text-xs text-gray-400 mb-1">{t("university.shortName")}</p>
                   <p className="text-sm font-medium text-gray-900">{u.short_name || "—"}</p>
                 </div>
               </div>
               <div className="grid grid-cols-2 divide-x divide-gray-100">
                 <div className="py-3 pr-6">
-                  <p className="text-xs text-gray-400 mb-1">Year founded</p>
+                  <p className="text-xs text-gray-400 mb-1">{t("university.yearFounded")}</p>
                   <p className="text-sm font-medium text-gray-900">{u.year_established || "—"}</p>
                 </div>
                 <div className="py-3 pl-6">
-                  <p className="text-xs text-gray-400 mb-1">City, Country</p>
+                  <p className="text-xs text-gray-400 mb-1">{t("university.cityCountry")}</p>
                   <p className="text-sm font-medium text-gray-900">
-                    {u.city ? `${u.city}, Kazakhstan` : "—"}
+                    {u.city ? `${u.city}, ${t("university.kazakhstan")}` : "—"}
                   </p>
                 </div>
               </div>
               <div className="grid grid-cols-2 divide-x divide-gray-100">
                 <div className="py-3 pr-6">
-                  <p className="text-xs text-gray-400 mb-1">Address</p>
+                  <p className="text-xs text-gray-400 mb-1">{t("university.address")}</p>
                   <p className="text-sm font-medium text-gray-900">{u.address || "—"}</p>
                 </div>
                 <div className="py-3 pl-6">
-                  <p className="text-xs text-gray-400 mb-1">Tuition cost (₸/year)</p>
+                  <p className="text-xs text-gray-400 mb-1">{t("university.tuitionCost")}</p>
                   <p className="text-sm font-medium text-gray-900">
                     {u.tuition_cost ? fmtMoney(u.tuition_cost) : "—"}
                   </p>
@@ -376,13 +379,13 @@ export default function UniversityDetailPage() {
               </div>
               <div className="grid grid-cols-2 divide-x divide-gray-100">
                 <div className="py-3 pr-6">
-                  <p className="text-xs text-gray-400 mb-1">Min. passing score (UNT)</p>
+                  <p className="text-xs text-gray-400 mb-1">{t("university.minPassingScore")}</p>
                   <p className="text-sm font-medium text-gray-900">
                     {u.passing_score || "—"}
                   </p>
                 </div>
                 <div className="py-3 pl-6">
-                  <p className="text-xs text-gray-400 mb-1">Teaching languages</p>
+                  <p className="text-xs text-gray-400 mb-1">{t("university.teachingLanguages")}</p>
                   <p className="text-sm font-medium text-gray-900">
                     {teachingLanguages.length > 0 ? teachingLanguages.join(", ") : "—"}
                   </p>
@@ -392,7 +395,7 @@ export default function UniversityDetailPage() {
 
             {u.history && (
               <div className="mt-4 pt-4 border-t border-gray-100">
-                <p className="text-xs text-gray-400 mb-1.5">About</p>
+                <p className="text-xs text-gray-400 mb-1.5">{t("university.about")}</p>
                 <p className="text-sm text-gray-600 leading-relaxed whitespace-pre-line">
                   {u.history}
                 </p>
@@ -407,7 +410,7 @@ export default function UniversityDetailPage() {
                     : "bg-gray-100 text-gray-400"
                 }`}
               >
-                <MdHome size={14} /> Dormitory {u.has_dormitory ? "✓" : "✗"}
+                <MdHome size={14} /> {t("university.dormitory")} {u.has_dormitory ? "✓" : "✗"}
               </span>
               <span
                 className={`flex items-center gap-1.5 text-xs font-medium px-3 py-1.5 rounded-full ${
@@ -416,7 +419,7 @@ export default function UniversityDetailPage() {
                     : "bg-gray-100 text-gray-400"
                 }`}
               >
-                <MdMilitaryTech size={14} /> Military dept.{" "}
+                <MdMilitaryTech size={14} /> {t("university.militaryDept")}{" "}
                 {u.has_military_department ? "✓" : "✗"}
               </span>
             </div>
@@ -426,12 +429,12 @@ export default function UniversityDetailPage() {
           <div className="bg-white rounded-2xl shadow-sm p-6">
             <div className="flex items-center justify-between mb-4 flex-wrap gap-2">
               <h2 className="text-lg font-bold text-gray-900">
-                Majors & Programs ({totalPrograms})
+                {t("university.majorsPrograms", { count: totalPrograms })}
               </h2>
             </div>
 
             {programsByField.length === 0 && (
-              <p className="text-sm text-gray-400">No programs published yet.</p>
+              <p className="text-sm text-gray-400">{t("university.noPrograms")}</p>
             )}
 
             {programsByField.length > 0 && (
@@ -445,7 +448,7 @@ export default function UniversityDetailPage() {
                         : "bg-gray-100 text-gray-600 hover:bg-gray-200"
                     }`}
                   >
-                    All fields
+                    {t("university.allFields")}
                   </button>
                   {programsByField.map((f) => (
                     <button
@@ -493,7 +496,7 @@ export default function UniversityDetailPage() {
           {/* Entrance requirements */}
           {entranceRequirements.length > 0 && (
             <div className="bg-white rounded-2xl shadow-sm p-6">
-              <h2 className="text-lg font-bold text-gray-900 mb-3">Entrance Requirements</h2>
+              <h2 className="text-lg font-bold text-gray-900 mb-3">{t("university.entranceRequirements")}</h2>
               <ul className="space-y-2">
                 {entranceRequirements.map((req) => (
                   <li
@@ -510,7 +513,7 @@ export default function UniversityDetailPage() {
           {/* Entrance exams */}
           {entranceExams.length > 0 && (
             <div className="bg-white rounded-2xl shadow-sm p-6">
-              <h2 className="text-lg font-bold text-gray-900 mb-3">Entrance Exams</h2>
+              <h2 className="text-lg font-bold text-gray-900 mb-3">{t("university.entranceExams")}</h2>
               <ul className="space-y-2">
                 {entranceExams.map((exam) => (
                   <li key={exam.id} className="bg-gray-50 rounded-xl px-4 py-3">
@@ -529,7 +532,7 @@ export default function UniversityDetailPage() {
         <div className="space-y-5">
           {/* Contacts */}
           <div className="bg-white rounded-2xl shadow-sm p-6">
-            <h2 className="text-lg font-bold text-gray-900 mb-3">Contacts</h2>
+            <h2 className="text-lg font-bold text-gray-900 mb-3">{t("university.contacts")}</h2>
             <ul className="space-y-3 text-sm">
               {u.address && (
                 <li className="flex items-start gap-3 text-gray-700">
@@ -571,19 +574,19 @@ export default function UniversityDetailPage() {
           {/* Accreditations */}
           {accreditations.length > 0 && (
             <div className="bg-white rounded-2xl shadow-sm p-6">
-              <h2 className="text-lg font-bold text-gray-900 mb-3">Accreditations</h2>
+              <h2 className="text-lg font-bold text-gray-900 mb-3">{t("university.accreditations")}</h2>
               <ul className="space-y-2">
                 {accreditations.map((acc) => (
                   <li key={acc.id} className="bg-gray-50 rounded-xl px-4 py-3">
                     <p className="text-sm font-medium text-gray-800">{acc.name}</p>
                     {acc.issued_by && (
                       <p className="text-xs text-gray-500 mt-0.5">
-                        Issued by: {acc.issued_by}
+                        {t("university.issuedBy", { name: acc.issued_by })}
                       </p>
                     )}
                     {acc.valid_until && (
                       <p className="text-xs text-gray-400 mt-0.5">
-                        Valid until: {acc.valid_until}
+                        {t("university.validUntil", { date: acc.valid_until })}
                       </p>
                     )}
                   </li>
@@ -595,7 +598,7 @@ export default function UniversityDetailPage() {
           {/* Academic mobility */}
           {academicMobility.length > 0 && (
             <div className="bg-white rounded-2xl shadow-sm p-6">
-              <h2 className="text-lg font-bold text-gray-900 mb-3">Academic Mobility</h2>
+              <h2 className="text-lg font-bold text-gray-900 mb-3">{t("university.academicMobility")}</h2>
               <ul className="space-y-2">
                 {academicMobility.map((m) => (
                   <li key={m.id} className="bg-gray-50 rounded-xl px-4 py-3">
@@ -614,7 +617,7 @@ export default function UniversityDetailPage() {
             to={comparisonPath}
             className="block bg-[#3356AA] text-white rounded-2xl px-5 py-4 text-center text-sm font-semibold hover:bg-[#2c4892] transition"
           >
-            Compare with other universities →
+            {t("university.compareCta")}
           </Link>
         </div>
       </div>

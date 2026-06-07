@@ -1,5 +1,6 @@
 import { useState, useMemo, useEffect } from "react";
 import { useLocation } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import Banner from "../../../shared/ui/Banner";
 import UniversityCard from "../../../shared/ui/UniversityCard";
 import Pagination from "../../../shared/ui/Pagination";
@@ -24,6 +25,7 @@ export default function UniversitiesPage() {
     fetchFields,
   } = useUniversityStore();
 
+  const { t } = useTranslation();
   const location = useLocation();
   const inApplicant = location.pathname.startsWith("/applicant");
   const basePath = inApplicant ? "/applicant/universities" : "/universities";
@@ -159,9 +161,9 @@ export default function UniversitiesPage() {
     <div>
       <Banner
         backgroundImage={universities}
-        subtitle="Find the Best University for You"
-        title="Universities in Kazakhstan"
-        description="Explore universities, compare programs and admission requirements, and find the best option for your academic goals."
+        subtitle={t("universitiesPage.bannerSubtitle")}
+        title={t("universitiesPage.bannerTitle")}
+        description={t("universitiesPage.bannerDescription")}
       />
 
       <div className="bg-[#F3F4F6] min-h-screen py-12">
@@ -180,13 +182,12 @@ export default function UniversitiesPage() {
           />
 
           <div className="mb-6 text-[#4B5563] font-medium text-center">
-            Found {filteredUniversities.length} universit
-            {filteredUniversities.length === 1 ? "y" : "ies"}
+            {t("universitiesPage.found", { count: filteredUniversities.length })}
           </div>
 
           {isLoading && universitiesData.length === 0 && (
             <div className="text-center py-12">
-              <p className="text-[#4B5563] text-lg">Loading universities…</p>
+              <p className="text-[#4B5563] text-lg">{t("universitiesPage.loading")}</p>
             </div>
           )}
 
@@ -223,7 +224,7 @@ export default function UniversitiesPage() {
           {!isLoading && !error && filteredUniversities.length === 0 && (
             <div className="text-center py-12">
               <p className="text-secondary_text text-lg">
-                No universities found. Try adjusting your filters.
+                {t("universitiesPage.noResults")}
               </p>
             </div>
           )}

@@ -1,5 +1,6 @@
 import { useState, useMemo, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import Banner from "../../../shared/ui/Banner";
 import Pagination from "../../../shared/ui/Pagination";
 import SearchFilterMajors from "../../../shared/ui/SearchFilterMajors";
@@ -27,6 +28,7 @@ export default function MajorsPage() {
     fetchUniversities,
   } = useUniversityStore();
 
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const location = useLocation();
   const inApplicant = location.pathname.startsWith("/applicant");
@@ -151,9 +153,9 @@ export default function MajorsPage() {
     <div>
       <Banner
         backgroundImage={majorsBanner}
-        subtitle="Discover Your Future Field"
-        title="Majors & Study Programs"
-        description="Explore different fields of study and discover which universities in Kazakhstan offer programs that match your interests."
+        subtitle={t("majorsPage.bannerSubtitle")}
+        title={t("majorsPage.bannerTitle")}
+        description={t("majorsPage.bannerDescription")}
       />
 
       <div className="bg-[#F3F4F6] min-h-screen py-12">
@@ -172,12 +174,12 @@ export default function MajorsPage() {
           />
 
           <div className="mb-6 text-[#4B5563] font-medium text-center">
-            Found {filteredPrograms.length} majors
+            {t("majorsPage.found", { count: filteredPrograms.length })}
           </div>
 
           {!dataReady ? (
             <div className="text-center py-12">
-              <p className="text-gray-400">Loading…</p>
+              <p className="text-gray-400">{t("majorsPage.loading")}</p>
             </div>
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
@@ -211,7 +213,7 @@ export default function MajorsPage() {
                     <div className="space-y-2 text-sm flex-1">
                       <div>
                         <p className="text-[10px] text-gray-400 uppercase tracking-wider font-semibold mb-1">
-                          UNT Subjects
+                          {t("majorsPage.untSubjects")}
                         </p>
                         <div className="flex flex-wrap gap-1">
                           {[sub1, sub2].filter(Boolean).map((s, i) => (
@@ -231,15 +233,15 @@ export default function MajorsPage() {
                       <div className="grid grid-cols-2 gap-2 pt-3 border-t border-gray-100">
                         <div>
                           <p className="text-[10px] text-gray-400 uppercase tracking-wider flex items-center gap-1 font-semibold">
-                            <MdGroups size={12} /> Offered by
+                            <MdGroups size={12} /> {t("majorsPage.offeredBy")}
                           </p>
                           <p className="text-sm font-semibold text-gray-900">
-                            {offerings.length} uni{offerings.length !== 1 ? "s" : ""}
+                            {t("majorsPage.unis", { count: offerings.length })}
                           </p>
                         </div>
                         <div>
                           <p className="text-[10px] text-gray-400 uppercase tracking-wider flex items-center gap-1 font-semibold">
-                            <MdAttachMoney size={12} /> Tuition
+                            <MdAttachMoney size={12} /> {t("majorsPage.tuition")}
                           </p>
                           <p className="text-sm font-semibold text-gray-900">
                             {minCost == null
@@ -257,7 +259,7 @@ export default function MajorsPage() {
                         onClick={() => setExpandedCode(isOpen ? null : program.code)}
                         className="mt-4 text-sm font-medium text-[#3356AA] hover:underline flex items-center gap-1"
                       >
-                        {isOpen ? "Hide offerings" : "View offerings"}
+                        {isOpen ? t("majorsPage.hideOfferings") : t("majorsPage.viewOfferings")}
                         <MdChevronRight
                           size={16}
                           className={`transition-transform ${isOpen ? "rotate-90" : ""}`}
@@ -297,7 +299,7 @@ export default function MajorsPage() {
           {dataReady && paginatedPrograms.length === 0 && (
             <div className="text-center py-12">
               <p className="text-secondary_text text-lg">
-                No majors found. Try adjusting your filters.
+                {t("majorsPage.noResults")}
               </p>
             </div>
           )}

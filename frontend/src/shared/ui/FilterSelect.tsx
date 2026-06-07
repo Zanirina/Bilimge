@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect } from "react";
+import { useTranslation } from "react-i18next";
 import { MdKeyboardArrowDown, MdCheck } from "react-icons/md";
 
 export interface FilterSelectProps {
@@ -14,6 +15,7 @@ export default function FilterSelect({
   onChange,
   values = [],
 }: FilterSelectProps) {
+  const { t } = useTranslation();
   const [open, setOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
 
@@ -35,8 +37,8 @@ export default function FilterSelect({
   };
 
   const displayLabel = values.length > 0
-    ? `${label} (${values.length})`
-    : `All ${label}`;
+    ? t("filters.labelCount", { label, count: values.length })
+    : t("filters.allLabel", { label });
 
   return (
     <div className="relative inline-block" ref={ref}>
@@ -65,12 +67,12 @@ export default function FilterSelect({
             className={`w-full flex items-center justify-between px-4 py-2.5 text-sm hover:bg-gray-50 transition border-b border-[#DFE4EA]
               ${values.length === 0 ? "text-[#3356AA] font-medium" : "text-[#111928]"}`}
           >
-            <span className="text-left">All</span>
+            <span className="text-left">{t("filters.all")}</span>
             {values.length === 0 && <MdCheck size={16} className="text-[#3356AA]" />}
           </button>
 
           {options.length === 0 && (
-            <p className="px-4 py-3 text-sm text-gray-400 text-left">No options</p>
+            <p className="px-4 py-3 text-sm text-gray-400 text-left">{t("filters.noOptions")}</p>
           )}
 
           {options.map((option) => {

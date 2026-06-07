@@ -2,7 +2,7 @@
     "nav": {
         "home": "Home",
         "universities": "Universities",
-        "majors": "Majors",
+        "majors": "Programs",
         "exams": "Exams",
         "aiAssistant": "AI Assistant",
         "admissionGuide": "Admission Guide",
@@ -92,6 +92,12 @@
                 "title": "Official Admission Updates",
                 "description": "Receive the latest updates from the National Testing Center (NTC) and official university sources."
             }
+        },
+        "calltoaction": {
+            "subtitle": "Your Future Starts Here",
+            "title": "Take the First Step Toward\nYour Future University",
+            "description": "Explore universities, prepare for entrance exams, and receive guidance that helps you make confident decisions.",
+            "button": "Start Now"
         }
     },
     "footer": {
@@ -100,5 +106,210 @@
         "resources": "Resources",
         "company": "Company",
         "followUs": "Follow Us On"
+    },
+    "common": {
+        "loading": "Loading…",
+        "saving": "Saving…",
+        "save": "Save",
+        "cancel": "Cancel",
+        "delete": "Delete",
+        "edit": "Edit",
+        "add": "Add",
+        "close": "Close",
+        "search": "Search",
+        "back": "Back",
+        "viewAll": "View all",
+        "noResults": "No results found.",
+        "retry": "Retry",
+        "required": "Required"
+    },
+    "sidebar": {
+        "overview": "My Overview",
+        "announcements": "Announcements",
+        "exploreUniversities": "Explore Universities",
+        "compareUniversities": "Compare Universities",
+        "programsMajors": "Programs & Majors",
+        "examPreparation": "Exam Preparation",
+        "chanceCalculator": "Chance Calculator",
+        "aiAssistant": "AI Assistant"
+    },
+    "dashboard": {
+        "greetingHi": "Hi, {{name}}",
+        "greetingBack": "Welcome back",
+        "subtitle": "Plan your admissions journey. Track deadlines, exams, and your personal events.",
+        "addEvent": "Add personal event",
+        "addEventConfirm": "Add event",
+        "today": "Today",
+        "prevMonth": "Previous month",
+        "nextMonth": "Next month",
+        "selectedDay": "Selected day",
+        "noEvents": "No events on this day.",
+        "moreCount": "+{{count}} more",
+        "legend": "Legend",
+        "modal": {
+            "title": "Add personal event",
+            "subtitle": "Only you will see this entry."
+        },
+        "form": {
+            "title": "Title *",
+            "titlePlaceholder": "e.g. Pick documents from school",
+            "startDate": "Start date *",
+            "time": "Time",
+            "endDate": "End date",
+            "type": "Type",
+            "description": "Description",
+            "descriptionPlaceholder": "Optional details…"
+        },
+        "errors": {
+            "save": "Could not save event.",
+            "delete": "Could not delete event."
+        },
+        "eventTypes": {
+            "deadline": "Deadline",
+            "exam": "Exam",
+            "enrollment": "Enrollment",
+            "open_day": "Open Day",
+            "event": "Event",
+            "announcement": "Announcement"
+        },
+        "visibility": {
+            "public": "Public",
+            "university": "University",
+            "personal": "Personal"
+        }
+    },
+    "university": {
+        "loading": "Loading university…",
+        "founded": "Founded {{year}}",
+        "kazakhstan": "Kazakhstan",
+        "saveUniversity": "Save university",
+        "removeFavorite": "Remove from favorites",
+        "save": "Save",
+        "saved": "Saved",
+        "saveProgram": "Save program",
+        "stats": {
+            "passingScore": "Passing score",
+            "programsOffered": "Programs offered",
+            "avgTuition": "Avg. tuition / year",
+            "languages": "Languages"
+        },
+        "basicInfo": "Basic information",
+        "officialName": "Official name",
+        "shortName": "Short name",
+        "yearFounded": "Year founded",
+        "cityCountry": "City, Country",
+        "address": "Address",
+        "tuitionCost": "Tuition cost (₸/year)",
+        "minPassingScore": "Min. passing score (UNT)",
+        "teachingLanguages": "Teaching languages",
+        "about": "About",
+        "dormitory": "Dormitory",
+        "militaryDept": "Military dept.",
+        "majorsPrograms": "Majors & Programs ({{count}})",
+        "noPrograms": "No programs published yet.",
+        "allFields": "All fields",
+        "tuition": "Tuition",
+        "passing": "Passing",
+        "grant": "Grant",
+        "entranceRequirements": "Entrance Requirements",
+        "entranceExams": "Entrance Exams",
+        "contacts": "Contacts",
+        "accreditations": "Accreditations",
+        "issuedBy": "Issued by: {{name}}",
+        "validUntil": "Valid until: {{date}}",
+        "academicMobility": "Academic Mobility",
+        "compareCta": "Compare with other universities →"
+    },
+    "program": {
+        "loading": "Loading program…",
+        "program": "Program",
+        "offeredBy": "Offered by",
+        "code": "Code {{code}}",
+        "save": "Save",
+        "saved": "Saved",
+        "stats": {
+            "tuition": "Tuition / Year",
+            "passingScore": "Passing score",
+            "grantScore": "Grant score",
+            "teachingLanguage": "Teaching language"
+        },
+        "degree": "Degree",
+        "duration": "Duration",
+        "years": "{{count}} years",
+        "studyMode": "Study mode",
+        "about": "About this program",
+        "noDescription": "No description provided yet.",
+        "futureProfessions": "Future professions",
+        "notSpecified": "Not specified.",
+        "untSubjects": "UNT subjects",
+        "university": "University",
+        "viewUniversity": "View university profile →",
+        "degrees": {
+            "college": "College",
+            "bachelor": "Bachelor",
+            "master": "Master",
+            "phd": "PhD"
+        },
+        "studyTypes": {
+            "full_time": "Full-time",
+            "part_time": "Part-time",
+            "distance": "Distance",
+            "evening": "Evening"
+        }
+    },
+    "universitiesPage": {
+        "bannerSubtitle": "Find the Best University for You",
+        "bannerTitle": "Universities in Kazakhstan",
+        "bannerDescription": "Explore universities, compare programs and admission requirements, and find the best option for your academic goals.",
+        "found_one": "Found {{count}} university",
+        "found_other": "Found {{count}} universities",
+        "loading": "Loading universities…",
+        "noResults": "No universities found. Try adjusting your filters."
+    },
+    "majorsPage": {
+        "bannerSubtitle": "Discover Your Future Field",
+        "bannerTitle": "Educational Programs",
+        "bannerDescription": "Explore different fields of study and discover which universities in Kazakhstan offer programs that match your interests.",
+        "found_one": "Found {{count}} major",
+        "found_other": "Found {{count}} majors",
+        "loading": "Loading…",
+        "noResults": "No majors found. Try adjusting your filters.",
+        "untSubjects": "UNT Subjects",
+        "offeredBy": "Offered by",
+        "unis_one": "{{count}} uni",
+        "unis_other": "{{count}} unis",
+        "tuition": "Tuition",
+        "viewOfferings": "View offerings",
+        "hideOfferings": "Hide offerings"
+    },
+    "universityCard": {
+        "majorsOffered": "Majors offered",
+        "noMajors": "No majors listed.",
+        "more": "+{{count}} more",
+        "unt": "UNT",
+        "tuition": "Tuition",
+        "viewDetails": "View Details"
+    },
+    "filters": {
+        "searchUniPlaceholder": "Search universities...",
+        "searchProgramPlaceholder": "Search programs...",
+        "city": "City",
+        "major": "Major",
+        "field": "Field",
+        "subjectPair": "Subject pair",
+        "degree": "Degree",
+        "tuition": "Tuition",
+        "clearAll": "Clear all ({{count}})",
+        "all": "All",
+        "allLabel": "{{label}}",
+        "labelCount": "{{label}} ({{count}})",
+        "noOptions": "No options",
+        "tuitionLow": "Under 500,000 ₸",
+        "tuitionMedium": "500,000 – 1,000,000 ₸",
+        "tuitionHigh": "Over 1,000,000 ₸",
+        "degreeCollege": "College",
+        "degreeBachelor": "Bachelor",
+        "degreeMaster": "Master",
+        "degreePhd": "PhD"
     }
 }

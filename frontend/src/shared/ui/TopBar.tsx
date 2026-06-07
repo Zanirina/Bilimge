@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useAuthStore } from "../../modules/auth/model/authStore";
-import { IoNotificationsOutline } from "react-icons/io5";
+import NotificationBell from "../../modules/notifications/ui/NotificationBell";
 import { MdKeyboardArrowDown, MdKeyboardArrowUp } from "react-icons/md";
 import { FiUser, FiSettings, FiLogOut } from "react-icons/fi";
 import LanguageSwitcher from "./LanguageSwitcher";
@@ -63,10 +63,7 @@ export default function TopBar({
       <div className="w-px h-6 bg-gray-200" />
 
       {/* Notifications */}
-      <button className="relative p-2 text-gray-500 hover:text-[#3356AA] hover:bg-gray-50 rounded-lg transition-colors">
-        <IoNotificationsOutline size={20} />
-        <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-[#E95C4B] rounded-full" />
-      </button>
+      <NotificationBell />
 
       <div className="w-px h-6 bg-gray-200" />
 

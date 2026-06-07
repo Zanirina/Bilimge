@@ -2,6 +2,7 @@ import SearchInput from "./SearchInput";
 import FilterSelect from "./FilterSelect";
 import { useUniversityStore } from "../../modules/universities/model/universityStore";
 import { useMemo } from "react";
+import { useTranslation } from "react-i18next";
 import { SUBJECT_COMBINATIONS } from "../lib/subjectCombinations";
 
 export interface SearchFilterMajorsProps {
@@ -42,7 +43,27 @@ export default function SearchFilterMajors({
   selectedTuitions = [],
   onClear,
 }: SearchFilterMajorsProps) {
+  const { t } = useTranslation();
   const { fields } = useUniversityStore();
+
+  const degreeOptions = useMemo(
+    () => [
+      { value: "college", label: t("filters.degreeCollege") },
+      { value: "bachelor", label: t("filters.degreeBachelor") },
+      { value: "master", label: t("filters.degreeMaster") },
+      { value: "phd", label: t("filters.degreePhd") },
+    ],
+    [t]
+  );
+
+  const tuitionOptions = useMemo(
+    () => [
+      { value: "low", label: t("filters.tuitionLow") },
+      { value: "medium", label: t("filters.tuitionMedium") },
+      { value: "high", label: t("filters.tuitionHigh") },
+    ],
+    [t]
+  );
 
   const subjectComboOptions = useMemo(
     () => SUBJECT_COMBINATIONS.map((c) => ({ value: c.id, label: c.label })),
@@ -63,30 +84,30 @@ export default function SearchFilterMajors({
   return (
     <div className="mb-8">
       <div className="flex flex-col md:flex-row gap-4 items-center justify-between">
-        <SearchInput onSearch={onSearch} />
+        <SearchInput onSearch={onSearch} placeholder={t("filters.searchProgramPlaceholder")} />
 
         <div className="flex gap-3 items-center flex-wrap">
           <FilterSelect
-            label="Field"
+            label={t("filters.field")}
             options={fieldOptions}
             onChange={onFieldChange}
             values={selectedFields}
           />
           <FilterSelect
-            label="Subject pair"
+            label={t("filters.subjectPair")}
             options={subjectComboOptions}
             onChange={onSubjectComboChange}
             values={selectedSubjectCombos}
           />
           <FilterSelect
-            label="Degree"
-            options={DEGREE_OPTIONS}
+            label={t("filters.degree")}
+            options={degreeOptions}
             onChange={onDegreeChange}
             values={selectedDegrees}
           />
           <FilterSelect
-            label="Tuition"
-            options={TUITION_OPTIONS}
+            label={t("filters.tuition")}
+            options={tuitionOptions}
             onChange={onTuitionChange}
             values={selectedTuitions}
           />
@@ -95,7 +116,7 @@ export default function SearchFilterMajors({
               onClick={onClear}
               className="px-3 h-[50px] text-sm text-[#3356AA] font-medium hover:underline"
             >
-              Clear all ({activeCount})
+              {t("filters.clearAll", { count: activeCount })}
             </button>
           )}
         </div>
