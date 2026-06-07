@@ -11,6 +11,7 @@ import type {
   UpdateNtcProgramRequest,
   Language,
   EntranceRequirement,
+  EntranceRequirementInput,
   EntranceExam,
   AcademicMobility,
   Accreditation,
@@ -112,11 +113,11 @@ export const universityService = {
   getMyRequirements: () =>
     http.get<EntranceRequirement[]>(endpoints.myUniversity.requirements),
 
-  addMyRequirement: (description: string) =>
-    http.post<EntranceRequirement>(endpoints.myUniversity.requirements, { description }),
+  addMyRequirement: (data: EntranceRequirementInput) =>
+    http.post<EntranceRequirement>(endpoints.myUniversity.requirements, data),
 
-  updateMyRequirement: (id: number, description: string) =>
-    http.patch<EntranceRequirement>(endpoints.myUniversity.requirementById(id), { description }),
+  updateMyRequirement: (id: number, data: EntranceRequirementInput) =>
+    http.patch<EntranceRequirement>(endpoints.myUniversity.requirementById(id), data),
 
   deleteMyRequirement: (id: number) =>
     http.delete(endpoints.myUniversity.requirementById(id)),
@@ -147,7 +148,7 @@ export const universityService = {
   deleteMyMobility: (id: number) =>
     http.delete(endpoints.myUniversity.mobilityById(id)),
 
-  // Applicants who favourited this university
+  // Applicants who favourited this university's programs
   getMyApplicants: () =>
     http.get<UniApplicant[]>(endpoints.myUniversity.applicants),
 

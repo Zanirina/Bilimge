@@ -11,6 +11,7 @@ import type {
   NtcProgram,
   Language,
   EntranceRequirement,
+  EntranceRequirementInput,
   EntranceExam,
   AcademicMobility,
   Accreditation,
@@ -67,8 +68,8 @@ type UniversityState = {
   deleteMyLanguage: (id: number) => Promise<void>;
 
   fetchMyRequirements: () => Promise<void>;
-  addMyRequirement: (description: string) => Promise<void>;
-  updateMyRequirement: (id: number, description: string) => Promise<void>;
+  addMyRequirement: (data: EntranceRequirementInput) => Promise<void>;
+  updateMyRequirement: (id: number, data: EntranceRequirementInput) => Promise<void>;
   deleteMyRequirement: (id: number) => Promise<void>;
 
   fetchMyExams: () => Promise<void>;
@@ -201,7 +202,8 @@ export const useUniversityStore = create<UniversityState>((set) => ({
   updateMyUniversityInfo: (data) =>
     withLoading(set, async () => {
       const res = await universityService.updateMyUniversityInfo(data);
-      set({ myUniversity: res.data });
+      // PATCH returns only the editable fields — merge so logo/cover/code stay intact.
+      set((s) => ({ myUniversity: { ...s.myUniversity, ...res.data } as University }));
     }),
 
   fetchMyPrograms: () =>
@@ -254,15 +256,15 @@ export const useUniversityStore = create<UniversityState>((set) => ({
       set({ myRequirements: res.data });
     }),
 
-  addMyRequirement: (description) =>
+  addMyRequirement: (data) =>
     withLoading(set, async () => {
-      const res = await universityService.addMyRequirement(description);
+      const res = await universityService.addMyRequirement(data);
       set((s) => ({ myRequirements: [...s.myRequirements, res.data] }));
     }),
 
-  updateMyRequirement: (id, description) =>
+  updateMyRequirement: (id, data) =>
     withLoading(set, async () => {
-      const res = await universityService.updateMyRequirement(id, description);
+      const res = await universityService.updateMyRequirement(id, data);
       set((s) => ({
         myRequirements: s.myRequirements.map((r) => (r.id === id ? res.data : r)),
       }));

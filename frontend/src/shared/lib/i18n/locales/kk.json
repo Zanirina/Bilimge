@@ -523,6 +523,37 @@
             "scholarship": "Стипендия",
             "programme": "Бағдарлама",
             "update": "Жаңарту"
+        },
+        "manage": {
+            "title": "Жариялаулар",
+            "subtitle": "Мұндағы жариялаулар университет бетіңізде және талапкерлер таспаларында көрінеді.",
+            "newAnnouncement": "Жаңа жариялау",
+            "category": "Санат",
+            "loading": "Жүктелуде…",
+            "postFirst": "Алғашқы жариялауыңызды жасаңыз",
+            "view": "Ашу",
+            "filterAll": "Барлығы",
+            "newModal": {
+                "title": "Жаңа жариялау",
+                "subtitle": "Университетіңіздің ашық бетінде және талапкерлер таспаларында көрінеді.",
+                "tag": "Тег",
+                "titleLabel": "Тақырып",
+                "titlePlaceholder": "Талапкерлер көретін тақырып",
+                "bodyLabel": "Мәтін",
+                "bodyPlaceholder": "Талапкерлерге не болып жатқанын және келесі қадамды айтыңыз...",
+                "bodyHint": "Markdown қолдау табады. 1–3 қысқа абзацқа сыйдырыңыз.",
+                "coverImage": "Мұқаба суреті",
+                "optional": "(міндетті емес)",
+                "dropImage": "Суретті тастаңыз немесе жүктеу үшін басыңыз",
+                "publish": "Жариялау",
+                "publishing": "Жариялануда…"
+            },
+            "editModal": {
+                "title": "Жариялауды өңдеу",
+                "subtitle": "Өзгерістер бірден көрінеді.",
+                "save": "Өзгерістерді сақтау",
+                "saving": "Сақталуда…"
+            }
         }
     },
     "notifications": {
@@ -625,5 +656,258 @@
         "unsavedChanges": "Сақталмаған өзгерістер бар.",
         "upToDate": "Барлық параметрлер жаңартылған.",
         "saveChanges": "Өзгерістерді сақтау"
+    },
+    "uniAdmin": {
+        "sidebar": {
+            "dashboard": "Басқару тақтасы",
+            "profile": "Университет профилі",
+            "programs": "Бағдарламалар",
+            "updates": "Жаңалықтар",
+            "applicants": "Талапкерлер"
+        },
+        "dashboard": {
+            "greeting": "Қайта оралуыңызбен, {{name}}",
+            "subtitleWithUni": "{{uni}} университетінде бүгін, {{date}}, не болып жатқаны.",
+            "subtitle": "Бүгін, {{date}}, не болып жатқаны.",
+            "stats": {
+                "followers": "БАРЛЫҚ ЖАЗЫЛУШЫ",
+                "followersValue": "{{n}} талапкер",
+                "announcements": "ЖАРИЯЛАУЛАР",
+                "announcementsValue": "{{n}} жарияланды",
+                "saved": "САҚТАЛҒАН БАҒДАРЛАМАЛАР",
+                "savedValue": "{{n}} барлығы",
+                "active": "БЕЛСЕНДІ БАҒДАРЛАМАЛАР",
+                "activeValue": "{{n}} жарияланды"
+            },
+            "calendar": {
+                "title": "Күнтізбе",
+                "addEvent": "Оқиға қосу",
+                "eventsOn": "{{date}} оқиғалары",
+                "allEvents": "Барлық оқиғалар — {{month}}",
+                "loading": "Жүктелуде…",
+                "noEvents": "Бұл айда оқиғалар жоқ.",
+                "prevMonth": "Алдыңғы ай",
+                "nextMonth": "Келесі ай"
+            },
+            "modal": {
+                "title": "Күнтізбеге оқиға қосу",
+                "subtitle": "Университетіңіздің жазылушыларына көрінеді.",
+                "titleLabel": "Атауы *",
+                "titlePlaceholder": "мыс. Ашық есік күні",
+                "startDate": "Басталу күні *",
+                "time": "Уақыты",
+                "endDate": "Аяқталу күні",
+                "type": "Түрі",
+                "description": "Сипаттама",
+                "descriptionPlaceholder": "Қосымша мәліметтер…",
+                "cancel": "Бас тарту",
+                "save": "Оқиғаны сақтау",
+                "saving": "Сақталуда…"
+            },
+            "eventTypes": {
+                "deadline": "Мерзім",
+                "exam": "Емтихан",
+                "enrollment": "Қабылдау",
+                "open_day": "Ашық есік күні",
+                "event": "Оқиға",
+                "announcement": "Жариялау"
+            },
+            "popularity": {
+                "title": "Бағдарламалардың танымалдылығы",
+                "subtitle": "Талапкерлер сақтаған сан",
+                "empty": "Әзірге сақталған бағдарлама жоқ."
+            },
+            "funnel": {
+                "title": "Талапкерлер",
+                "subtitle": "Жазылушылардан мықты үміткерлерге дейін",
+                "empty": "Әзірге талапкерлер жоқ.",
+                "followers": "Жазылушылар",
+                "savedProgramme": "Бағдарлама сақтады",
+                "withScore": "ҰБТ баллымен",
+                "highScore": "ҰБТ баллы ≥ 100"
+            }
+        },
+        "profile": {
+            "loading": "Профиль жүктелуде…",
+            "kazakhstan": "Қазақстан",
+            "founded": "{{year}} жылы құрылған",
+            "uploading": "Жүктелуде…",
+            "uploadCover": "Мұқаба суретін жүктеу",
+            "changeCover": "Мұқабаны өзгерту",
+            "editLanguage": "Өңдеу тілі",
+            "tabs": {
+                "overview": "Шолу",
+                "contacts": "Байланыс және әлеуметтік желілер",
+                "accreditations": "Аккредитациялар",
+                "mobility": "Академиялық ұтқырлық"
+            },
+            "common": {
+                "edit": "Өңдеу",
+                "add": "Қосу",
+                "adding": "Қосылуда…",
+                "cancel": "Бас тарту",
+                "save": "Өзгерістерді сақтау",
+                "saving": "Сақталуда…",
+                "saved": "Сақталды"
+            },
+            "basic": {
+                "title": "Негізгі ақпарат",
+                "officialName": "Ресми атауы",
+                "shortName": "Қысқаша атауы",
+                "yearFounded": "Құрылған жылы",
+                "cityCountry": "Қала, ел",
+                "address": "Мекенжай",
+                "tuition": "Оқу ақысы (₸/жыл)",
+                "about": "Университет туралы",
+                "dormitory": "Жатақхана",
+                "militaryDept": "Әскери каф.",
+                "shortNamePlaceholder": "мыс. AITU",
+                "website": "Веб-сайт",
+                "passingScore": "Ең төм. өту балы (ҰБТ)",
+                "aboutHistory": "Университет туралы / Тарихы",
+                "facilities": "Инфрақұрылым",
+                "dormitorySub": "Кампуста тұру мүмкіндігі бар",
+                "militaryLabel": "Әскери кафедра",
+                "militarySub": "Әскери дайындық бар"
+            },
+            "languages": {
+                "title": "Оқыту тілдері",
+                "empty": "Оқыту тілдері әлі қосылмаған.",
+                "select": "Тілді таңдаңыз…"
+            },
+            "requirements": {
+                "title": "Қабылдау талаптары",
+                "empty": "Талаптар әлі қосылмаған.",
+                "placeholder": "Талапты сипаттаңыз…"
+            },
+            "exams": {
+                "title": "Қабылдау емтихандары",
+                "empty": "Қабылдау емтихандары әлі қосылмаған.",
+                "namePlaceholder": "Емтихан атауы",
+                "descPlaceholder": "Сипаттама (міндетті емес)",
+                "addExam": "Емтихан қосу"
+            },
+            "contacts": {
+                "title": "Байланыс деректері",
+                "email": "Қабылдау комиссиясының email-і",
+                "emailPlaceholder": "admissions@university.kz",
+                "phone": "Телефон",
+                "phonePlaceholder": "+7 (000) 000-00-00",
+                "postalAddress": "Пошталық мекенжай",
+                "postalPlaceholder": "Көше, қала, индекс"
+            },
+            "social": {
+                "title": "Әлеуметтік желілер",
+                "instagram": "Instagram сілтемесі",
+                "instagramPlaceholder": "https://instagram.com/university",
+                "telegram": "Telegram сілтемесі",
+                "telegramPlaceholder": "https://t.me/university"
+            },
+            "accreditations": {
+                "title": "Институционалдық аккредитациялар",
+                "empty": "Аккредитациялар әлі қосылмаған.",
+                "namePlaceholder": "Аккредитация атауы",
+                "issuedByPlaceholder": "Кім берген",
+                "issuedByPlaceholderLong": "Кім берген (мыс. Білім министрлігі)",
+                "validUntil": "Жарамдылық мерзімі",
+                "validUntilOptional": "Жарамдылық мерзімі (міндетті емес)",
+                "issuedByLabel": "Кім берген: {{name}}",
+                "validUntilLabel": "Жарамдылық мерзімі: {{date}}",
+                "add": "Аккредитация қосу"
+            },
+            "mobility": {
+                "title": "Серіктес университеттер",
+                "empty": "Серіктес университеттер әлі қосылмаған.",
+                "namePlaceholder": "Серіктес университет атауы",
+                "country": "Ел",
+                "add": "Серіктес қосу"
+            }
+        },
+        "programs": {
+            "title": "Бағдарламалар",
+            "subtitle": "{{total}} бағдарлама · {{open}} қабылдауға ашық",
+            "addProgramme": "Бағдарлама қосу",
+            "search": "Бағдарламаларды іздеу…",
+            "showing": "{{total}} ішінен {{shown}} көрсетілді",
+            "empty": "Бағдарламалар табылмады.",
+            "addFirst": "Алғашқы бағдарламаңызды қосыңыз",
+            "open": "Ашық",
+            "tuitionYear": "Оқу ақысы / жыл",
+            "untMin": "ҰБТ ≥ {{score}}",
+            "subjects": "Пәндер",
+            "savedBy": "Сақтағандар",
+            "edit": "Өңдеу",
+            "years": "{{n}} жыл",
+            "filters": {
+                "all": "Барлығы",
+                "college": "Колледж",
+                "bachelor": "Бакалавриат",
+                "master": "Магистратура",
+                "phd": "Докторантура"
+            },
+            "degrees": {
+                "college": "Колледж",
+                "bachelor": "Бакалавриат",
+                "master": "Магистратура",
+                "phd": "Докторантура"
+            },
+            "studyTypes": {
+                "full_time": "Күндізгі",
+                "part_time": "Сырттай",
+                "distance": "Қашықтан",
+                "evening": "Кешкі"
+            },
+            "modal": {
+                "addTitle": "Бағдарлама қосу",
+                "editTitle": "Бағдарламаны өңдеу",
+                "ntcProgramme": "ҰТО бағдарламасы",
+                "ntcSelect": "ҰТО бағдарламасын таңдаңыз…",
+                "localName": "Бағдарлама атауы",
+                "localNamePlaceholder": "Сіздің бетіңізде көрсетілетін атау",
+                "degree": "Дәреже",
+                "yearsOfStudy": "Оқу мерзімі",
+                "yearsPlaceholder": "мыс. 4",
+                "studyType": "Оқу нысаны",
+                "teachingLanguage": "Оқыту тілі",
+                "languageSelect": "Таңдаңыз…",
+                "tuition": "Оқу ақысы / жыл (₸)",
+                "tuitionPlaceholder": "мыс. 1360000",
+                "passingScore": "Өту балы (ҰБТ)",
+                "passingPlaceholder": "мыс. 90",
+                "grantScore": "Грант балы (ҰБТ)",
+                "grantPlaceholder": "мыс. 110",
+                "description": "Сипаттама",
+                "descriptionPlaceholder": "Бағдарламаның қысқаша сипаттамасы…",
+                "futureProfessions": "Болашақ мамандықтар",
+                "futureProfessionsPlaceholder": "мыс. Бағдарламашы, Дерек талдаушысы…",
+                "cancel": "Бас тарту",
+                "save": "Сақтау",
+                "saving": "Сақталуда…",
+                "editLanguage": "Өңдеу тілі"
+            }
+        },
+        "applicants": {
+            "title": "Талапкерлер",
+            "subtitle": "Бағдарламаларыңызды таңдаулыға сақтаған студенттер",
+            "stats": {
+                "applicants": "Талапкерлер",
+                "applicantsCaption": "бағдарлама сақтады",
+                "saved": "Сақталған бағдарламалар",
+                "savedCaption": "барлық сақтаулар",
+                "highScore": "ҰБТ балы ≥ 100",
+                "highScoreCaption": "жоғары баллмен"
+            },
+            "table": {
+                "search": "Аты, email немесе бағдарлама бойынша іздеу…",
+                "applicant": "Талапкер",
+                "untScore": "ҰБТ балы",
+                "savedProgrammes": "Сақталған бағдарламалар",
+                "savedOn": "Сақталған күні",
+                "loading": "Талапкерлер жүктелуде…",
+                "empty": "Әзірге талапкерлер жоқ.",
+                "noMatch": "Сұранысыңызға сәйкес талапкер жоқ.",
+                "showing": "{{total}} ішінен {{shown}} көрсетілді"
+            }
+        }
     }
 }

@@ -523,6 +523,37 @@
             "scholarship": "Scholarship",
             "programme": "Programme",
             "update": "Update"
+        },
+        "manage": {
+            "title": "Post Updates",
+            "subtitle": "Announcements published here appear on your university page and applicant feeds.",
+            "newAnnouncement": "New announcement",
+            "category": "Category",
+            "loading": "Loading…",
+            "postFirst": "Post your first announcement",
+            "view": "View",
+            "filterAll": "All",
+            "newModal": {
+                "title": "New announcement",
+                "subtitle": "Will appear on your public university page and applicants' feeds.",
+                "tag": "Tag",
+                "titleLabel": "Title",
+                "titlePlaceholder": "Headline applicants will see",
+                "bodyLabel": "Body",
+                "bodyPlaceholder": "Tell applicants what's happening and what to do next...",
+                "bodyHint": "Markdown supported. Aim for 1–3 short paragraphs.",
+                "coverImage": "Cover image",
+                "optional": "(optional)",
+                "dropImage": "Drop image or click to upload",
+                "publish": "Publish",
+                "publishing": "Publishing…"
+            },
+            "editModal": {
+                "title": "Edit announcement",
+                "subtitle": "Changes will be visible immediately.",
+                "save": "Save changes",
+                "saving": "Saving…"
+            }
         }
     },
     "notifications": {
@@ -625,5 +656,258 @@
         "unsavedChanges": "You have unsaved changes.",
         "upToDate": "All settings are up to date.",
         "saveChanges": "Save changes"
+    },
+    "uniAdmin": {
+        "sidebar": {
+            "dashboard": "Dashboard",
+            "profile": "University Profile",
+            "programs": "Programs",
+            "updates": "Post Updates",
+            "applicants": "Applicants"
+        },
+        "dashboard": {
+            "greeting": "Welcome back, {{name}}",
+            "subtitleWithUni": "Here's what's happening at {{uni}} today, {{date}}.",
+            "subtitle": "Here's what's happening today, {{date}}.",
+            "stats": {
+                "followers": "TOTAL FOLLOWERS",
+                "followersValue": "{{n}} applicants",
+                "announcements": "ANNOUNCEMENTS",
+                "announcementsValue": "{{n}} posted",
+                "saved": "PROGRAMMES SAVED",
+                "savedValue": "{{n}} total",
+                "active": "ACTIVE PROGRAMMES",
+                "activeValue": "{{n}} published"
+            },
+            "calendar": {
+                "title": "Calendar",
+                "addEvent": "Add Event",
+                "eventsOn": "Events on {{date}}",
+                "allEvents": "All events — {{month}}",
+                "loading": "Loading…",
+                "noEvents": "No events this month.",
+                "prevMonth": "Previous month",
+                "nextMonth": "Next month"
+            },
+            "modal": {
+                "title": "Add calendar event",
+                "subtitle": "Visible to your university followers.",
+                "titleLabel": "Title *",
+                "titlePlaceholder": "e.g. Open Day – Spring intake",
+                "startDate": "Start date *",
+                "time": "Time",
+                "endDate": "End date",
+                "type": "Type",
+                "description": "Description",
+                "descriptionPlaceholder": "Optional details…",
+                "cancel": "Cancel",
+                "save": "Save event",
+                "saving": "Saving…"
+            },
+            "eventTypes": {
+                "deadline": "Deadline",
+                "exam": "Exam",
+                "enrollment": "Enrollment",
+                "open_day": "Open Day",
+                "event": "Event",
+                "announcement": "Announcement"
+            },
+            "popularity": {
+                "title": "Programme popularity",
+                "subtitle": "Times saved by applicants",
+                "empty": "No programme saves yet."
+            },
+            "funnel": {
+                "title": "Applicant funnel",
+                "subtitle": "From followers to strong candidates",
+                "empty": "No applicants yet.",
+                "followers": "Followers",
+                "savedProgramme": "Saved a programme",
+                "withScore": "With UNT score",
+                "highScore": "UNT score ≥ 100"
+            }
+        },
+        "profile": {
+            "loading": "Loading profile…",
+            "kazakhstan": "Kazakhstan",
+            "founded": "Founded {{year}}",
+            "uploading": "Uploading…",
+            "uploadCover": "Upload cover image",
+            "changeCover": "Change cover",
+            "editLanguage": "Editing language",
+            "tabs": {
+                "overview": "Overview",
+                "contacts": "Contacts & Social",
+                "accreditations": "Accreditations",
+                "mobility": "Academic Mobility"
+            },
+            "common": {
+                "edit": "Edit",
+                "add": "Add",
+                "adding": "Adding…",
+                "cancel": "Cancel",
+                "save": "Save Changes",
+                "saving": "Saving…",
+                "saved": "Saved"
+            },
+            "basic": {
+                "title": "Basic information",
+                "officialName": "Official name",
+                "shortName": "Short name",
+                "yearFounded": "Year founded",
+                "cityCountry": "City, Country",
+                "address": "Address",
+                "tuition": "Tuition cost (₸/year)",
+                "about": "About",
+                "dormitory": "Dormitory",
+                "militaryDept": "Military dept.",
+                "shortNamePlaceholder": "e.g. AITU",
+                "website": "Website",
+                "passingScore": "Min. Passing Score (UNT)",
+                "aboutHistory": "About / History",
+                "facilities": "Facilities",
+                "dormitorySub": "On-campus accommodation available",
+                "militaryLabel": "Military Department",
+                "militarySub": "Military training available"
+            },
+            "languages": {
+                "title": "Teaching Languages",
+                "empty": "No teaching languages added yet.",
+                "select": "Select language…"
+            },
+            "requirements": {
+                "title": "Entrance Requirements",
+                "empty": "No requirements added yet.",
+                "placeholder": "Describe the requirement…"
+            },
+            "exams": {
+                "title": "Entrance Exams",
+                "empty": "No entrance exams added yet.",
+                "namePlaceholder": "Exam name",
+                "descPlaceholder": "Description (optional)",
+                "addExam": "Add Exam"
+            },
+            "contacts": {
+                "title": "Contact details",
+                "email": "Admissions email",
+                "emailPlaceholder": "admissions@university.kz",
+                "phone": "Phone",
+                "phonePlaceholder": "+7 (000) 000-00-00",
+                "postalAddress": "Postal address",
+                "postalPlaceholder": "Street, City, ZIP"
+            },
+            "social": {
+                "title": "Social media",
+                "instagram": "Instagram URL",
+                "instagramPlaceholder": "https://instagram.com/university",
+                "telegram": "Telegram URL",
+                "telegramPlaceholder": "https://t.me/university"
+            },
+            "accreditations": {
+                "title": "Institutional Accreditations",
+                "empty": "No accreditations added yet.",
+                "namePlaceholder": "Accreditation name",
+                "issuedByPlaceholder": "Issued by",
+                "issuedByPlaceholderLong": "Issued by (e.g. Ministry of Education)",
+                "validUntil": "Valid until",
+                "validUntilOptional": "Valid until (optional)",
+                "issuedByLabel": "Issued by: {{name}}",
+                "validUntilLabel": "Valid until: {{date}}",
+                "add": "Add Accreditation"
+            },
+            "mobility": {
+                "title": "Partner Universities",
+                "empty": "No partner universities added yet.",
+                "namePlaceholder": "Partner university name",
+                "country": "Country",
+                "add": "Add Partner"
+            }
+        },
+        "programs": {
+            "title": "Programs",
+            "subtitle": "{{total}} programmes · {{open}} open for applications",
+            "addProgramme": "Add programme",
+            "search": "Search programmes…",
+            "showing": "Showing {{shown}} of {{total}}",
+            "empty": "No programmes found.",
+            "addFirst": "Add your first programme",
+            "open": "Open",
+            "tuitionYear": "Tuition / Year",
+            "untMin": "UNT ≥ {{score}}",
+            "subjects": "Subjects",
+            "savedBy": "Saved by",
+            "edit": "Edit",
+            "years": "{{n}} years",
+            "filters": {
+                "all": "All",
+                "college": "College",
+                "bachelor": "Bachelor",
+                "master": "Master",
+                "phd": "PhD"
+            },
+            "degrees": {
+                "college": "College",
+                "bachelor": "Bachelor",
+                "master": "Master",
+                "phd": "PhD"
+            },
+            "studyTypes": {
+                "full_time": "Full-time",
+                "part_time": "Part-time",
+                "distance": "Distance",
+                "evening": "Evening"
+            },
+            "modal": {
+                "addTitle": "Add programme",
+                "editTitle": "Edit programme",
+                "ntcProgramme": "NTC Programme",
+                "ntcSelect": "Select NTC programme…",
+                "localName": "Local name",
+                "localNamePlaceholder": "Programme name shown on your page",
+                "degree": "Degree",
+                "yearsOfStudy": "Years of study",
+                "yearsPlaceholder": "e.g. 4",
+                "studyType": "Study type",
+                "teachingLanguage": "Teaching language",
+                "languageSelect": "Select…",
+                "tuition": "Tuition / year (₸)",
+                "tuitionPlaceholder": "e.g. 1360000",
+                "passingScore": "Passing score (UNT)",
+                "passingPlaceholder": "e.g. 90",
+                "grantScore": "Grant score (UNT)",
+                "grantPlaceholder": "e.g. 110",
+                "description": "Description",
+                "descriptionPlaceholder": "Brief programme overview…",
+                "futureProfessions": "Future professions",
+                "futureProfessionsPlaceholder": "e.g. Software Engineer, Data Analyst…",
+                "cancel": "Cancel",
+                "save": "Save",
+                "saving": "Saving…",
+                "editLanguage": "Editing language"
+            }
+        },
+        "applicants": {
+            "title": "Applicants",
+            "subtitle": "Students who saved your programmes to favourites",
+            "stats": {
+                "applicants": "Applicants",
+                "applicantsCaption": "saved a programme",
+                "saved": "Programmes saved",
+                "savedCaption": "total saves",
+                "highScore": "UNT score ≥ 100",
+                "highScoreCaption": "high scorers"
+            },
+            "table": {
+                "search": "Search by name, email or programme…",
+                "applicant": "Applicant",
+                "untScore": "UNT Score",
+                "savedProgrammes": "Saved programmes",
+                "savedOn": "Saved on",
+                "loading": "Loading applicants…",
+                "empty": "No applicants yet.",
+                "noMatch": "No applicants match your search.",
+                "showing": "Showing {{shown}} of {{total}} applicants"
+            }
+        }
     }
 }

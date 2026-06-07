@@ -1,5 +1,6 @@
 import { Outlet } from "react-router-dom";
 import { useEffect } from "react";
+import { useTranslation } from "react-i18next";
 import { useUniversityStore } from "../../modules/universities/model/universityStore";
 import {
   MdOutlineDashboard,
@@ -10,16 +11,17 @@ import Sidebar from "../../shared/ui/Sidebar";
 import type { SidebarItem } from "../../shared/ui/Sidebar";
 import TopBar from "../../shared/ui/TopBar";
 
-const sidebarItems: SidebarItem[] = [
-  { label: "Dashboard",          path: "/uni/dashboard",  icon: MdOutlineDashboard },
-  { label: "University Profile", path: "/uni/profile",    icon: TbBuilding },
-  { label: "Programs",           path: "/uni/programs",   icon: TbLayoutList },
-  { label: "Post Updates",       path: "/uni/updates",    icon: TbSpeakerphone },
-  { label: "Applicants",         path: "/uni/applicants", icon: MdOutlinePeople },
-];
-
 export default function UniversityAdminLayout() {
+  const { t } = useTranslation();
   const { myUniversity, fetchMyUniversity } = useUniversityStore();
+
+  const sidebarItems: SidebarItem[] = [
+    { label: t("uniAdmin.sidebar.dashboard"),  path: "/uni/dashboard",  icon: MdOutlineDashboard },
+    { label: t("uniAdmin.sidebar.profile"),    path: "/uni/profile",    icon: TbBuilding },
+    { label: t("uniAdmin.sidebar.programs"),   path: "/uni/programs",   icon: TbLayoutList },
+    { label: t("uniAdmin.sidebar.updates"),    path: "/uni/updates",    icon: TbSpeakerphone },
+    { label: t("uniAdmin.sidebar.applicants"), path: "/uni/applicants", icon: MdOutlinePeople },
+  ];
 
   useEffect(() => {
     fetchMyUniversity();

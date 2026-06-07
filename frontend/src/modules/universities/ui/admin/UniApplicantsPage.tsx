@@ -1,6 +1,10 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
+import { useTranslation } from "react-i18next";
 import { universityService } from "../../api/universityService";
 import type { UniApplicant } from "../../model/types";
+
+const P = "uniAdmin.applicants";
+const DATE_LOCALES: Record<string, string> = { en: "en-GB", ru: "ru-RU", kk: "kk-KZ" };
 
 function getInitials(firstName: string, lastName: string, email: string) {
   if (firstName || lastName) {
@@ -9,18 +13,9 @@ function getInitials(firstName: string, lastName: string, email: string) {
   return email.charAt(0).toUpperCase();
 }
 
-function getDisplayName(applicant: UniApplicant) {
-  const full = `${applicant.first_name} ${applicant.last_name}`.trim();
-  return full || applicant.email;
-}
-
-function formatDate(iso: string) {
-  return new Date(iso).toLocaleDateString("en-GB", {
-    day: "numeric",
-    month: "short",
-    hour: "2-digit",
-    minute: "2-digit",
-  });
+function getDisplayName(p: { first_name: string; last_name: string; email: string }) {
+  const full = `${p.first_name} ${p.last_name}`.trim();
+  return full || p.email;
 }
 
 const AVATAR_COLORS = [
@@ -36,7 +31,34 @@ function avatarColor(id: number) {
   return AVATAR_COLORS[id % AVATAR_COLORS.length];
 }
 
+// ─── Avatar (photo if present, initials fallback) ───────────────────────────────
+function Avatar({
+  person,
+}: {
+  person: { id: number; first_name: string; last_name: string; email: string; avatar_url?: string };
+}) {
+  if (person.avatar_url) {
+    return (
+      <img
+        src={person.avatar_url}
+        alt={getDisplayName(person)}
+        className="w-9 h-9 rounded-full flex-shrink-0 object-cover"
+      />
+    );
+  }
+  return (
+    <div
+      className={`w-9 h-9 rounded-full flex items-center justify-center text-white text-xs font-semibold flex-shrink-0 ${avatarColor(person.id)}`}
+    >
+      {getInitials(person.first_name, person.last_name, person.email)}
+    </div>
+  );
+}
+
 export default function UniApplicantsPage() {
+  const { t, i18n } = useTranslation();
+  const locale = DATE_LOCALES[i18n.language?.split("-")[0]] ?? "en-GB";
+
   const [applicants, setApplicants] = useState<UniApplicant[]>([]);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState("");
@@ -45,8 +67,21 @@ export default function UniApplicantsPage() {
     universityService
       .getMyApplicants()
       .then((res) => setApplicants(res.data))
+      .catch(() => setApplicants([]))
       .finally(() => setLoading(false));
   }, []);
+
+  const formatDate = (iso: string) =>
+    new Date(iso).toLocaleDateString(locale, { day: "numeric", month: "short", hour: "2-digit", minute: "2-digit" });
+
+  const totalSaved = useMemo(
+    () => applicants.reduce((s, a) => s + a.favorited_programs.length, 0),
+    [applicants]
+  );
+  const highScorers = useMemo(
+    () => applicants.filter((a) => (a.unt_score ?? 0) >= 100).length,
+    [applicants]
+  );
 
   const filtered = applicants.filter((a) => {
     const q = search.toLowerCase();
@@ -57,70 +92,42 @@ export default function UniApplicantsPage() {
     );
   });
 
+  const stats = [
+    { n: applicants.length, sq: "bg-blue-100 text-blue-600",      label: t(`${P}.stats.applicants`), caption: t(`${P}.stats.applicantsCaption`) },
+    { n: totalSaved, sq: "bg-emerald-100 text-emerald-600",       label: t(`${P}.stats.saved`),      caption: t(`${P}.stats.savedCaption`) },
+    { n: highScorers, sq: "bg-purple-100 text-purple-600",        label: t(`${P}.stats.highScore`),  caption: t(`${P}.stats.highScoreCaption`) },
+  ];
+
   return (
     <div>
       {/* Header */}
       <div className="mb-6">
-        <h1 className="text-2xl font-bold text-gray-900">Applicants</h1>
-        <p className="text-sm text-gray-500 mt-1">
-          Students who saved your university to favourites
-        </p>
+        <h1 className="text-2xl font-bold text-gray-900">{t(`${P}.title`)}</h1>
+        <p className="text-sm text-gray-500 mt-1">{t(`${P}.subtitle`)}</p>
       </div>
 
       {/* Stats */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
-        <div className="bg-white rounded-2xl p-5 flex items-center gap-4 shadow-sm">
-          <div className="w-12 h-12 rounded-xl bg-blue-100 flex items-center justify-center text-blue-600 text-xl font-bold">
-            {loading ? "—" : applicants.length}
+        {stats.map((s, i) => (
+          <div key={i} className="bg-white rounded-2xl p-5 flex items-center gap-4 shadow-sm">
+            <div className={`w-12 h-12 rounded-xl flex items-center justify-center text-xl font-bold ${s.sq}`}>
+              {loading ? "—" : s.n}
+            </div>
+            <div>
+              <p className="text-xs text-gray-500 uppercase tracking-wide">{s.label}</p>
+              <p className="text-sm font-semibold text-gray-800">{s.caption}</p>
+            </div>
           </div>
-          <div>
-            <p className="text-xs text-gray-500 uppercase tracking-wide">Total applicants</p>
-            <p className="text-lg font-semibold text-gray-800">
-              {loading ? "Loading…" : `${applicants.length} students`}
-            </p>
-          </div>
-        </div>
-
-        <div className="bg-white rounded-2xl p-5 flex items-center gap-4 shadow-sm">
-          <div className="w-12 h-12 rounded-xl bg-purple-100 flex items-center justify-center text-purple-600 text-xl font-bold">
-            {loading
-              ? "—"
-              : applicants.filter((a) => (a.unt_score ?? 0) >= 100).length}
-          </div>
-          <div>
-            <p className="text-xs text-gray-500 uppercase tracking-wide">UNT score ≥ 100</p>
-            <p className="text-lg font-semibold text-gray-800">
-              {loading
-                ? "Loading…"
-                : `${applicants.filter((a) => (a.unt_score ?? 0) >= 100).length} students`}
-            </p>
-          </div>
-        </div>
-
-        <div className="bg-white rounded-2xl p-5 flex items-center gap-4 shadow-sm">
-          <div className="w-12 h-12 rounded-xl bg-emerald-100 flex items-center justify-center text-emerald-600 text-xl font-bold">
-            {loading
-              ? "—"
-              : applicants.reduce((s, a) => s + a.favorited_programs.length, 0)}
-          </div>
-          <div>
-            <p className="text-xs text-gray-500 uppercase tracking-wide">Programmes saved</p>
-            <p className="text-lg font-semibold text-gray-800">
-              {loading
-                ? "Loading…"
-                : `${applicants.reduce((s, a) => s + a.favorited_programs.length, 0)} total`}
-            </p>
-          </div>
-        </div>
+        ))}
       </div>
 
-      {/* Table card */}
+      {/* Applicants table */}
       <div className="bg-white rounded-2xl shadow-sm overflow-hidden">
         {/* Search bar */}
         <div className="px-6 py-4 border-b border-gray-100">
           <input
             type="text"
-            placeholder="Search by name, email or programme…"
+            placeholder={t(`${P}.table.search`)}
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             className="w-full max-w-sm text-sm border border-gray-200 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-300"
@@ -129,23 +136,21 @@ export default function UniApplicantsPage() {
 
         {loading ? (
           <div className="flex items-center justify-center py-20 text-gray-400 text-sm">
-            Loading applicants…
+            {t(`${P}.table.loading`)}
           </div>
         ) : filtered.length === 0 ? (
           <div className="flex flex-col items-center justify-center py-20 text-gray-400 gap-2">
             <span className="text-4xl">👤</span>
-            <p className="text-sm">
-              {search ? "No applicants match your search." : "No applicants yet."}
-            </p>
+            <p className="text-sm">{search ? t(`${P}.table.noMatch`) : t(`${P}.table.empty`)}</p>
           </div>
         ) : (
           <table className="w-full text-sm">
             <thead>
               <tr className="text-left text-xs text-gray-400 uppercase tracking-wide border-b border-gray-100">
-                <th className="px-6 py-3 font-medium">Applicant</th>
-                <th className="px-6 py-3 font-medium">UNT Score</th>
-                <th className="px-6 py-3 font-medium">Saved programmes</th>
-                <th className="px-6 py-3 font-medium">Saved on</th>
+                <th className="px-6 py-3 font-medium">{t(`${P}.table.applicant`)}</th>
+                <th className="px-6 py-3 font-medium">{t(`${P}.table.untScore`)}</th>
+                <th className="px-6 py-3 font-medium">{t(`${P}.table.savedProgrammes`)}</th>
+                <th className="px-6 py-3 font-medium">{t(`${P}.table.savedOn`)}</th>
               </tr>
             </thead>
             <tbody>
@@ -157,11 +162,7 @@ export default function UniApplicantsPage() {
                   {/* Avatar + name */}
                   <td className="px-6 py-4">
                     <div className="flex items-center gap-3">
-                      <div
-                        className={`w-9 h-9 rounded-full flex items-center justify-center text-white text-xs font-semibold flex-shrink-0 ${avatarColor(applicant.id)}`}
-                      >
-                        {getInitials(applicant.first_name, applicant.last_name, applicant.email)}
-                      </div>
+                      <Avatar person={applicant} />
                       <div>
                         <p className="font-medium text-gray-800 leading-tight">
                           {getDisplayName(applicant)}
@@ -217,7 +218,7 @@ export default function UniApplicantsPage() {
         {/* Footer count */}
         {!loading && filtered.length > 0 && (
           <div className="px-6 py-3 border-t border-gray-100 text-xs text-gray-400">
-            Showing {filtered.length} of {applicants.length} applicants
+            {t(`${P}.table.showing`, { shown: filtered.length, total: applicants.length })}
           </div>
         )}
       </div>

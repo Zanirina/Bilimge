@@ -528,6 +528,37 @@
             "scholarship": "Стипендия",
             "programme": "Программа",
             "update": "Обновление"
+        },
+        "manage": {
+            "title": "Публикации",
+            "subtitle": "Объявления, опубликованные здесь, появляются на странице вашего университета и в лентах абитуриентов.",
+            "newAnnouncement": "Новое объявление",
+            "category": "Категория",
+            "loading": "Загрузка…",
+            "postFirst": "Опубликуйте первое объявление",
+            "view": "Открыть",
+            "filterAll": "Все",
+            "newModal": {
+                "title": "Новое объявление",
+                "subtitle": "Появится на публичной странице вашего университета и в лентах абитуриентов.",
+                "tag": "Тег",
+                "titleLabel": "Заголовок",
+                "titlePlaceholder": "Заголовок, который увидят абитуриенты",
+                "bodyLabel": "Текст",
+                "bodyPlaceholder": "Расскажите абитуриентам, что происходит и что делать дальше...",
+                "bodyHint": "Поддерживается Markdown. Старайтесь уместить в 1–3 коротких абзаца.",
+                "coverImage": "Обложка",
+                "optional": "(необязательно)",
+                "dropImage": "Перетащите изображение или нажмите для загрузки",
+                "publish": "Опубликовать",
+                "publishing": "Публикация…"
+            },
+            "editModal": {
+                "title": "Редактировать объявление",
+                "subtitle": "Изменения будут видны сразу.",
+                "save": "Сохранить изменения",
+                "saving": "Сохранение…"
+            }
         }
     },
     "notifications": {
@@ -631,5 +662,258 @@
         "unsavedChanges": "У вас есть несохранённые изменения.",
         "upToDate": "Все настройки актуальны.",
         "saveChanges": "Сохранить изменения"
+    },
+    "uniAdmin": {
+        "sidebar": {
+            "dashboard": "Панель",
+            "profile": "Профиль вуза",
+            "programs": "Программы",
+            "updates": "Публикации",
+            "applicants": "Абитуриенты"
+        },
+        "dashboard": {
+            "greeting": "С возвращением, {{name}}",
+            "subtitleWithUni": "Вот что происходит в {{uni}} сегодня, {{date}}.",
+            "subtitle": "Вот что происходит сегодня, {{date}}.",
+            "stats": {
+                "followers": "ВСЕГО ПОДПИСЧИКОВ",
+                "followersValue": "{{n}} абитуриентов",
+                "announcements": "ОБЪЯВЛЕНИЯ",
+                "announcementsValue": "{{n}} опубликовано",
+                "saved": "СОХРАНЁННЫЕ ПРОГРАММЫ",
+                "savedValue": "{{n}} всего",
+                "active": "АКТИВНЫЕ ПРОГРАММЫ",
+                "activeValue": "{{n}} опубликовано"
+            },
+            "calendar": {
+                "title": "Календарь",
+                "addEvent": "Добавить событие",
+                "eventsOn": "События {{date}}",
+                "allEvents": "Все события — {{month}}",
+                "loading": "Загрузка…",
+                "noEvents": "В этом месяце событий нет.",
+                "prevMonth": "Предыдущий месяц",
+                "nextMonth": "Следующий месяц"
+            },
+            "modal": {
+                "title": "Добавить событие в календарь",
+                "subtitle": "Видно подписчикам вашего вуза.",
+                "titleLabel": "Название *",
+                "titlePlaceholder": "напр. День открытых дверей",
+                "startDate": "Дата начала *",
+                "time": "Время",
+                "endDate": "Дата окончания",
+                "type": "Тип",
+                "description": "Описание",
+                "descriptionPlaceholder": "Дополнительно…",
+                "cancel": "Отмена",
+                "save": "Сохранить событие",
+                "saving": "Сохранение…"
+            },
+            "eventTypes": {
+                "deadline": "Дедлайн",
+                "exam": "Экзамен",
+                "enrollment": "Зачисление",
+                "open_day": "День открытых дверей",
+                "event": "Событие",
+                "announcement": "Объявление"
+            },
+            "popularity": {
+                "title": "Популярность программ",
+                "subtitle": "Сколько раз сохранили абитуриенты",
+                "empty": "Пока нет сохранений программ."
+            },
+            "funnel": {
+                "title": "Воронка абитуриентов",
+                "subtitle": "От подписчиков до сильных кандидатов",
+                "empty": "Пока нет абитуриентов.",
+                "followers": "Подписчики",
+                "savedProgramme": "Сохранили программу",
+                "withScore": "С баллом ЕНТ",
+                "highScore": "Балл ЕНТ ≥ 100"
+            }
+        },
+        "profile": {
+            "loading": "Загрузка профиля…",
+            "kazakhstan": "Казахстан",
+            "founded": "Основан в {{year}}",
+            "uploading": "Загрузка…",
+            "uploadCover": "Загрузить обложку",
+            "changeCover": "Изменить обложку",
+            "editLanguage": "Язык редактирования",
+            "tabs": {
+                "overview": "Обзор",
+                "contacts": "Контакты и соцсети",
+                "accreditations": "Аккредитации",
+                "mobility": "Академическая мобильность"
+            },
+            "common": {
+                "edit": "Редактировать",
+                "add": "Добавить",
+                "adding": "Добавление…",
+                "cancel": "Отмена",
+                "save": "Сохранить изменения",
+                "saving": "Сохранение…",
+                "saved": "Сохранено"
+            },
+            "basic": {
+                "title": "Основная информация",
+                "officialName": "Официальное название",
+                "shortName": "Краткое название",
+                "yearFounded": "Год основания",
+                "cityCountry": "Город, страна",
+                "address": "Адрес",
+                "tuition": "Стоимость обучения (₸/год)",
+                "about": "Об университете",
+                "dormitory": "Общежитие",
+                "militaryDept": "Военная каф.",
+                "shortNamePlaceholder": "напр. AITU",
+                "website": "Веб-сайт",
+                "passingScore": "Мин. проходной балл (ЕНТ)",
+                "aboutHistory": "Об университете / История",
+                "facilities": "Инфраструктура",
+                "dormitorySub": "Доступно проживание в кампусе",
+                "militaryLabel": "Военная кафедра",
+                "militarySub": "Доступна военная подготовка"
+            },
+            "languages": {
+                "title": "Языки обучения",
+                "empty": "Языки обучения ещё не добавлены.",
+                "select": "Выберите язык…"
+            },
+            "requirements": {
+                "title": "Вступительные требования",
+                "empty": "Требования ещё не добавлены.",
+                "placeholder": "Опишите требование…"
+            },
+            "exams": {
+                "title": "Вступительные экзамены",
+                "empty": "Вступительные экзамены ещё не добавлены.",
+                "namePlaceholder": "Название экзамена",
+                "descPlaceholder": "Описание (необязательно)",
+                "addExam": "Добавить экзамен"
+            },
+            "contacts": {
+                "title": "Контактные данные",
+                "email": "Email приёмной комиссии",
+                "emailPlaceholder": "admissions@university.kz",
+                "phone": "Телефон",
+                "phonePlaceholder": "+7 (000) 000-00-00",
+                "postalAddress": "Почтовый адрес",
+                "postalPlaceholder": "Улица, город, индекс"
+            },
+            "social": {
+                "title": "Социальные сети",
+                "instagram": "Ссылка Instagram",
+                "instagramPlaceholder": "https://instagram.com/university",
+                "telegram": "Ссылка Telegram",
+                "telegramPlaceholder": "https://t.me/university"
+            },
+            "accreditations": {
+                "title": "Институциональные аккредитации",
+                "empty": "Аккредитации ещё не добавлены.",
+                "namePlaceholder": "Название аккредитации",
+                "issuedByPlaceholder": "Кем выдана",
+                "issuedByPlaceholderLong": "Кем выдана (напр. Министерство образования)",
+                "validUntil": "Действительна до",
+                "validUntilOptional": "Действительна до (необязательно)",
+                "issuedByLabel": "Кем выдана: {{name}}",
+                "validUntilLabel": "Действительна до: {{date}}",
+                "add": "Добавить аккредитацию"
+            },
+            "mobility": {
+                "title": "Университеты-партнёры",
+                "empty": "Университеты-партнёры ещё не добавлены.",
+                "namePlaceholder": "Название университета-партнёра",
+                "country": "Страна",
+                "add": "Добавить партнёра"
+            }
+        },
+        "programs": {
+            "title": "Программы",
+            "subtitle": "{{total}} программ · {{open}} открыто для подачи",
+            "addProgramme": "Добавить программу",
+            "search": "Поиск программ…",
+            "showing": "Показано {{shown}} из {{total}}",
+            "empty": "Программы не найдены.",
+            "addFirst": "Добавьте первую программу",
+            "open": "Открыта",
+            "tuitionYear": "Оплата / год",
+            "untMin": "ЕНТ ≥ {{score}}",
+            "subjects": "Предметы",
+            "savedBy": "Сохранили",
+            "edit": "Редактировать",
+            "years": "{{n}} лет",
+            "filters": {
+                "all": "Все",
+                "college": "Колледж",
+                "bachelor": "Бакалавриат",
+                "master": "Магистратура",
+                "phd": "Докторантура"
+            },
+            "degrees": {
+                "college": "Колледж",
+                "bachelor": "Бакалавриат",
+                "master": "Магистратура",
+                "phd": "Докторантура"
+            },
+            "studyTypes": {
+                "full_time": "Очно",
+                "part_time": "Заочно",
+                "distance": "Дистанционно",
+                "evening": "Вечернее"
+            },
+            "modal": {
+                "addTitle": "Добавить программу",
+                "editTitle": "Редактировать программу",
+                "ntcProgramme": "Программа НЦТ",
+                "ntcSelect": "Выберите программу НЦТ…",
+                "localName": "Название программы",
+                "localNamePlaceholder": "Название, отображаемое на вашей странице",
+                "degree": "Степень",
+                "yearsOfStudy": "Срок обучения",
+                "yearsPlaceholder": "напр. 4",
+                "studyType": "Форма обучения",
+                "teachingLanguage": "Язык обучения",
+                "languageSelect": "Выберите…",
+                "tuition": "Оплата / год (₸)",
+                "tuitionPlaceholder": "напр. 1360000",
+                "passingScore": "Проходной балл (ЕНТ)",
+                "passingPlaceholder": "напр. 90",
+                "grantScore": "Грантовый балл (ЕНТ)",
+                "grantPlaceholder": "напр. 110",
+                "description": "Описание",
+                "descriptionPlaceholder": "Краткий обзор программы…",
+                "futureProfessions": "Будущие профессии",
+                "futureProfessionsPlaceholder": "напр. Инженер-программист, Аналитик данных…",
+                "cancel": "Отмена",
+                "save": "Сохранить",
+                "saving": "Сохранение…",
+                "editLanguage": "Язык редактирования"
+            }
+        },
+        "applicants": {
+            "title": "Абитуриенты",
+            "subtitle": "Студенты, сохранившие ваши программы в избранное",
+            "stats": {
+                "applicants": "Абитуриенты",
+                "applicantsCaption": "сохранили программу",
+                "saved": "Сохранённые программы",
+                "savedCaption": "всего сохранений",
+                "highScore": "Балл ЕНТ ≥ 100",
+                "highScoreCaption": "с высоким баллом"
+            },
+            "table": {
+                "search": "Поиск по имени, email или программе…",
+                "applicant": "Абитуриент",
+                "untScore": "Балл ЕНТ",
+                "savedProgrammes": "Сохранённые программы",
+                "savedOn": "Сохранено",
+                "loading": "Загрузка абитуриентов…",
+                "empty": "Пока нет абитуриентов.",
+                "noMatch": "Нет абитуриентов по вашему запросу.",
+                "showing": "Показано {{shown}} из {{total}} абитуриентов"
+            }
+        }
     }
 }
