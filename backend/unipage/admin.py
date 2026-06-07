@@ -15,14 +15,15 @@ class EntranceExamInline(admin.TabularInline):
 
 
 class UniversityAdmin(admin.ModelAdmin):
-    list_display = ('code', 'name', 'city', 'passing_score')
+    list_display = ('code', 'name', 'city', 'passing_score', 'updated_at')
     search_fields = ('name', 'city', 'code')
+    readonly_fields = ('code', 'updated_at')
     fieldsets = (
         ('General', {
             'fields': ('code', 'logo_url', 'cover_url', 'short_name', 'year_established',
                        'email', 'phone', 'website', 'passing_score', 'tuition_cost',
                        'has_dormitory', 'has_military_department',
-                       'telegram_url', 'instagram_url')
+                       'telegram_url', 'instagram_url', 'updated_at')
         }),
         ('Name', {
             'fields': ('name', 'name_ru', 'name_kk')
@@ -41,13 +42,15 @@ class UniversityAdmin(admin.ModelAdmin):
 
 
 class UniversityProgramAdmin(admin.ModelAdmin):
-    list_display = ('code', 'university_id', 'ntc_program_id', 'local_name', 'language')
+    list_display = ('code', 'university_id', 'ntc_program_id', 'local_name', 'language', 'updated_at')
     search_fields = ('local_name', 'code')
+    readonly_fields = ('get_subject_1', 'get_subject_2', 'updated_at')
     fieldsets = (
         ('General', {
             'fields': ('code', 'university', 'ntc_program', 'language',
                        'degree', 'years_of_study', 'study_type',
-                       'cost', 'passing_score', 'grant_score')
+                       'cost', 'passing_score', 'grant_score',
+                       'get_subject_1', 'get_subject_2', 'updated_at')
         }),
         ('Local Name', {
             'fields': ('local_name', 'local_name_ru', 'local_name_kk')
@@ -59,8 +62,6 @@ class UniversityProgramAdmin(admin.ModelAdmin):
             'fields': ('future_professions', 'future_professions_ru', 'future_professions_kk')
         }),
     )
-
-    readonly_fields = ('get_subject_1', 'get_subject_2')
 
     def get_subject_1(self, obj):
         return obj.ntc_program.subject_1.name if obj.ntc_program else '-'
@@ -77,13 +78,20 @@ class UniversityProgramAdmin(admin.ModelAdmin):
 class FieldOfStudyAdmin(admin.ModelAdmin):
     list_display = ('code', 'name', 'name_ru', 'name_kk')
     search_fields = ('name', 'code')
+    readonly_fields = ('code',)
     fields = ('code', 'name', 'name_ru', 'name_kk')
 
 
 class NtcProgramAdmin(admin.ModelAdmin):
     list_display = ('code', 'field_of_study', 'name', 'name_ru', 'name_kk', 'subject_1', 'subject_2')
     search_fields = ('name', 'code')
-    fields = ('code', 'field_of_study', 'name', 'name_ru', 'name_kk', 'subject_1', 'subject_2', 'minimum_score')
+    readonly_fields = ('code', 'updated_at')
+    fields = (
+        'code', 'field_of_study',
+        'name', 'name_ru', 'name_kk',
+        'subject_1', 'subject_2',
+        'minimum_score', 'updated_at',
+    )
 
 
 class SubjectAdmin(admin.ModelAdmin):
