@@ -1,5 +1,6 @@
 import { create } from "zustand";
 import { universityService } from "../api/universityService";
+import { localizeData } from "../../../shared/lib/i18n/localizeData";
 import type {
   University,
   UniversityListItem,
@@ -130,55 +131,55 @@ export const useUniversityStore = create<UniversityState>((set) => ({
   fetchUniversities: () =>
     withLoading(set, async () => {
       const res = await universityService.getUniversities();
-      set({ universities: res.data });
+      set({ universities: localizeData(res.data) });
     }),
 
   fetchUniversityDetail: (code) =>
     withLoading(set, async () => {
       const res = await universityService.getUniversityByCode(code);
-      set({ currentUniversity: res.data });
+      set({ currentUniversity: localizeData(res.data) });
     }),
 
   fetchProgramDetailIntoStore: (code) =>
     withLoading(set, async () => {
       const res = await universityService.getUniversityProgramDetail(code);
-      set({ currentProgram: res.data });
+      set({ currentProgram: localizeData(res.data) });
     }),
 
   fetchPrograms: () =>
     withLoading(set, async () => {
       const res = await universityService.getUniversityPrograms();
-      set({ programs: res.data });
+      set({ programs: localizeData(res.data) });
     }),
 
   fetchProgramsByUniversity: (code) =>
     withLoading(set, async () => {
       const res = await universityService.getUniversityProgramsByUniversity(code);
-      set({ programs: res.data });
+      set({ programs: localizeData(res.data) });
     }),
 
   fetchProgramDetail: (code) =>
     withLoading(set, async () => {
       const res = await universityService.getUniversityProgramDetail(code);
-      return res.data;
+      return localizeData(res.data);
     }),
 
   fetchFields: () =>
     withLoading(set, async () => {
       const res = await universityService.getFields();
-      set({ fields: res.data });
+      set({ fields: localizeData(res.data) });
     }),
 
   fetchSubjects: () =>
     withLoading(set, async () => {
       const res = await universityService.getSubjects();
-      set({ subjects: res.data });
+      set({ subjects: localizeData(res.data) });
     }),
 
   fetchNtcPrograms: () =>
     withLoading(set, async () => {
       const res = await universityService.getNtcPrograms();
-      set({ ntcPrograms: res.data });
+      set({ ntcPrograms: localizeData(res.data) });
     }),
 
   // ── NTC Admin ────────────────────────────────────────────────────────────

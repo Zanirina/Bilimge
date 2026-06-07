@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect } from "react";
+import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 import { useAuthStore } from "../../modules/auth/model/authStore";
 import NotificationBell from "../../modules/notifications/ui/NotificationBell";
@@ -23,6 +24,7 @@ export default function TopBar({
   profilePath,
   settingsPath,
 }: TopBarProps) {
+  const { t } = useTranslation();
   const user = useAuthStore((s) => s.user);
   const logout = useAuthStore((s) => s.logout);
 
@@ -103,7 +105,7 @@ export default function TopBar({
               className="flex items-center gap-3 px-4 py-2.5 text-sm text-[#374151] hover:bg-gray-50 transition-colors"
             >
               <FiUser size={15} />
-              My Profile
+              {t("accountMenu.myProfile")}
             </Link>
             <Link
               to={resolvedSettingsPath}
@@ -111,7 +113,7 @@ export default function TopBar({
               className="flex items-center gap-3 px-4 py-2.5 text-sm text-[#374151] hover:bg-gray-50 transition-colors"
             >
               <FiSettings size={15} />
-              Settings
+              {t("accountMenu.settings")}
             </Link>
             <div className="my-1 border-t border-gray-100" />
             <button
@@ -119,7 +121,7 @@ export default function TopBar({
               className="w-full flex items-center gap-3 px-4 py-2.5 text-sm text-[#E95C4B] hover:bg-red-50 transition-colors"
             >
               <FiLogOut size={15} />
-              Log out
+              {t("accountMenu.logout")}
             </button>
           </div>
         )}

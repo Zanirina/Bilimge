@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import {
   MdNotificationsActive,
   MdLanguage,
@@ -8,13 +9,11 @@ import {
 } from "react-icons/md";
 
 type Theme = "light" | "dark";
-type Lang = "en" | "ru" | "kz";
 
 type Prefs = {
   email_announcements: boolean;
   email_grants: boolean;
   push_chat: boolean;
-  language: Lang;
   theme: Theme;
 };
 
@@ -24,9 +23,15 @@ const DEFAULT_PREFS: Prefs = {
   email_announcements: true,
   email_grants: true,
   push_chat: true,
-  language: "en",
   theme: "light",
 };
+
+// Languages shown in the selector — codes match i18n (and the TopBar switcher).
+const LANGUAGES: Array<{ code: string; label: string }> = [
+  { code: "en", label: "English" },
+  { code: "ru", label: "Русский" },
+  { code: "kk", label: "Қазақша" },
+];
 
 function loadPrefs(): Prefs {
   try {
@@ -44,16 +49,11 @@ function applyTheme(theme: Theme) {
   else root.classList.remove("dark");
 }
 
-function applyLanguage(lang: Lang) {
-  document.documentElement.setAttribute("lang", lang);
-}
-
 function prefsEqual(a: Prefs, b: Prefs) {
   return (
     a.email_announcements === b.email_announcements &&
     a.email_grants === b.email_grants &&
     a.push_chat === b.push_chat &&
-    a.language === b.language &&
     a.theme === b.theme
   );
 }
@@ -130,17 +130,27 @@ function SectionCard({
 }
 
 export default function SettingsPage() {
+  const { t, i18n } = useTranslation();
   // Last-saved state (the source of truth in storage).
   const [saved, setSaved] = useState<Prefs>(() => loadPrefs());
   // Draft state shown in the UI; only persisted on Save.
   const [draft, setDraft] = useState<Prefs>(saved);
   const [savedFlash, setSavedFlash] = useState(false);
 
-  // Live-preview theme & language while editing.
+  // Language is shared with the TopBar switcher: it applies instantly via i18n
+  // (persisted by i18n's LanguageDetector) and is NOT part of the draft/save flow.
+  const activeLang =
+    LANGUAGES.find((l) => l.code === i18n.language)?.code ?? "en";
+
+  // Keep the <html lang> attribute in sync with the active language.
+  useEffect(() => {
+    document.documentElement.setAttribute("lang", i18n.language);
+  }, [i18n.language]);
+
+  // Live-preview theme while editing.
   useEffect(() => {
     applyTheme(draft.theme);
-    applyLanguage(draft.language);
-  }, [draft.theme, draft.language]);
+  }, [draft.theme]);
 
   const dirty = !prefsEqual(draft, saved);
 
@@ -153,7 +163,6 @@ export default function SettingsPage() {
       localStorage.setItem(STORAGE_KEY, JSON.stringify(draft));
     } catch {}
     applyTheme(draft.theme);
-    applyLanguage(draft.language);
     setSaved(draft);
     setSavedFlash(true);
     setTimeout(() => setSavedFlash(false), 2000);
@@ -161,29 +170,28 @@ export default function SettingsPage() {
 
   function handleCancel() {
     setDraft(saved);
-    // Revert any live-applied theme/language right away.
+    // Revert any live-applied theme right away.
     applyTheme(saved.theme);
-    applyLanguage(saved.language);
   }
 
   return (
     <div className="max-w-4xl mx-auto space-y-5">
       <header>
-        <h1 className="text-3xl font-bold text-gray-900">Settings</h1>
+        <h1 className="text-3xl font-bold text-gray-900">{t("settings.title")}</h1>
         <p className="text-sm text-gray-500 mt-1">
-          Manage notifications, language and appearance.
+          {t("settings.subtitle")}
         </p>
       </header>
 
       {/* Notifications */}
       <SectionCard
         icon={<MdNotificationsActive size={18} />}
-        title="Notifications"
-        subtitle="Choose what updates you want to receive."
+        title={t("settings.notifications.title")}
+        subtitle={t("settings.notifications.subtitle")}
       >
         <Row
-          title="Announcement emails"
-          description="Get an email when a university or NTC posts an announcement."
+          title={t("settings.announcementEmails.title")}
+          description={t("settings.announcementEmails.desc")}
           control={
             <Toggle
               checked={draft.email_announcements}
@@ -194,8 +202,8 @@ export default function SettingsPage() {
           }
         />
         <Row
-          title="Grants check emails"
-          description="Notify me when new grants are available for my profile."
+          title={t("settings.grantEmails.title")}
+          description={t("settings.grantEmails.desc")}
           control={
             <Toggle
               checked={draft.email_grants}
@@ -204,8 +212,8 @@ export default function SettingsPage() {
           }
         />
         <Row
-          title="Push: AI assistant"
-          description="In-app push when the assistant finishes a long task."
+          title={t("settings.pushChat.title")}
+          description={t("settings.pushChat.desc")}
           control={
             <Toggle
               checked={draft.push_chat}
@@ -218,22 +226,16 @@ export default function SettingsPage() {
       {/* Language */}
       <SectionCard
         icon={<MdLanguage size={18} />}
-        title="Language"
-        subtitle="Pick the language of the interface."
+        title={t("settings.language.title")}
+        subtitle={t("settings.language.subtitle")}
       >
         <div className="grid grid-cols-3 gap-2 pt-2">
-          {(
-            [
-              { value: "en", label: "English" },
-              { value: "ru", label: "Русский" },
-              { value: "kz", label: "Қазақша" },
-            ] as Array<{ value: Lang; label: string }>
-          ).map((opt) => {
-            const active = draft.language === opt.value;
+          {LANGUAGES.map((opt) => {
+            const active = activeLang === opt.code;
             return (
               <button
-                key={opt.value}
-                onClick={() => patch({ language: opt.value })}
+                key={opt.code}
+                onClick={() => i18n.changeLanguage(opt.code)}
                 className={`px-4 py-3 rounded-2xl border text-sm font-medium transition-colors ${
                   active
                     ? "border-[#3356AA] bg-[#EEF2FF] text-[#3356AA]"
@@ -250,14 +252,14 @@ export default function SettingsPage() {
       {/* Theme */}
       <SectionCard
         icon={draft.theme === "dark" ? <MdDarkMode size={18} /> : <MdLightMode size={18} />}
-        title="Theme"
-        subtitle="Switch between light and dark mode."
+        title={t("settings.theme.title")}
+        subtitle={t("settings.theme.subtitle")}
       >
         <div className="grid grid-cols-2 gap-2 pt-2">
           {(
             [
-              { value: "light", label: "Light", icon: <MdLightMode size={16} /> },
-              { value: "dark", label: "Dark", icon: <MdDarkMode size={16} /> },
+              { value: "light", label: t("settings.theme.light"), icon: <MdLightMode size={16} /> },
+              { value: "dark", label: t("settings.theme.dark"), icon: <MdDarkMode size={16} /> },
             ] as Array<{ value: Theme; label: string; icon: React.ReactNode }>
           ).map((opt) => {
             const active = draft.theme === opt.value;
@@ -284,12 +286,12 @@ export default function SettingsPage() {
         <div className="text-sm">
           {savedFlash ? (
             <span className="flex items-center gap-1.5 text-emerald-600 font-medium">
-              <MdCheckCircle size={16} /> Settings saved
+              <MdCheckCircle size={16} /> {t("settings.settingsSaved")}
             </span>
           ) : dirty ? (
-            <span className="text-gray-500">You have unsaved changes.</span>
+            <span className="text-gray-500">{t("settings.unsavedChanges")}</span>
           ) : (
-            <span className="text-gray-400">All settings are up to date.</span>
+            <span className="text-gray-400">{t("settings.upToDate")}</span>
           )}
         </div>
         <div className="flex gap-3">
@@ -298,7 +300,7 @@ export default function SettingsPage() {
             disabled={!dirty}
             className="px-5 py-2 rounded-xl border border-gray-200 text-sm font-medium text-gray-700 hover:bg-gray-50 disabled:opacity-50"
           >
-            Cancel
+            {t("common.cancel")}
           </button>
           <button
             onClick={handleSave}
@@ -306,7 +308,7 @@ export default function SettingsPage() {
             className="flex items-center gap-1.5 px-5 py-2 rounded-xl bg-[#3356AA] text-white text-sm font-semibold hover:bg-[#2c4892] disabled:opacity-50"
           >
             <MdCheckCircle size={16} />
-            Save changes
+            {t("settings.saveChanges")}
           </button>
         </div>
       </div>

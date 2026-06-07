@@ -56,10 +56,14 @@ function startOfDay(ms: number): number {
  * Derive the notification list from raw announcements + events and the set of
  * read ids. Pure function so it's easy to memoize and test.
  */
+// Minimal translator shape so the store stays decoupled from react-i18next.
+export type Translate = (key: string, opts?: Record<string, unknown>) => string;
+
 export function buildNotifications(
   announcements: Announcement[],
   events: CalendarEvent[],
   readIds: string[],
+  t: Translate,
   now: number = Date.now()
 ): NotificationItem[] {
   const read = new Set(readIds);
@@ -67,17 +71,20 @@ export function buildNotifications(
 
   // ── new announcements (within the recent window) ──
   for (const a of announcements) {
-    const t = new Date(a.created_at).getTime();
-    if (Number.isNaN(t)) continue;
-    if (now - t > ANNOUNCEMENT_WINDOW_DAYS * DAY) continue;
+    const ts = new Date(a.created_at).getTime();
+    if (Number.isNaN(ts)) continue;
+    if (now - ts > ANNOUNCEMENT_WINDOW_DAYS * DAY) continue;
     const id = `ann:${a.id}`;
-    const source = a.author_type === "ntc" ? "NTC" : a.university_name || "University";
+    const source =
+      a.author_type === "ntc"
+        ? t("notifications.ntc")
+        : a.university_name || t("notifications.universityFallback");
     items.push({
       id,
       kind: "announcement",
       title: a.title,
-      body: `New announcement · ${source}`,
-      timestamp: t,
+      body: t("notifications.newAnnouncement", { source }),
+      timestamp: ts,
       iso: a.created_at,
       read: read.has(id),
     });
@@ -100,13 +107,17 @@ export function buildNotifications(
     if (!threshold) continue;
 
     const id = `event:${e.id}:d${threshold}`;
-    const when =
-      daysUntil <= 0 ? "today" : daysUntil === 1 ? "tomorrow" : `in ${daysUntil} days`;
+    const body =
+      daysUntil <= 0
+        ? t("notifications.eventToday")
+        : daysUntil === 1
+          ? t("notifications.eventTomorrow")
+          : t("notifications.eventInDays", { count: daysUntil });
     items.push({
       id,
       kind: "reminder",
       title: e.title,
-      body: `Event ${when}`,
+      body,
       timestamp: eventDay - threshold * DAY, // when the reminder became relevant
       iso: e.start_date,
       read: read.has(id),

@@ -28,7 +28,7 @@ export default function MajorsPage() {
     fetchUniversities,
   } = useUniversityStore();
 
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const navigate = useNavigate();
   const location = useLocation();
   const inApplicant = location.pathname.startsWith("/applicant");
@@ -50,7 +50,7 @@ export default function MajorsPage() {
     fetchFields();
     fetchPrograms();
     fetchUniversities();
-  }, []);
+  }, [i18n.language]);
 
   useEffect(() => {
     setCurrentPage(1);

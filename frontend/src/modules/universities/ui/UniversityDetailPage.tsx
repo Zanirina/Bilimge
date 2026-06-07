@@ -122,7 +122,7 @@ function ProgramRow({ field, programCode, name, cost, passing, grant, language, 
 export default function UniversityDetailPage() {
   const { code } = useParams<{ code: string }>();
   const navigate = useNavigate();
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const location = useLocation();
   const inApplicant = location.pathname.startsWith("/applicant");
   const programBase = inApplicant ? "/applicant/programs" : "/programs";
@@ -141,7 +141,7 @@ export default function UniversityDetailPage() {
 
   useEffect(() => {
     if (code) fetchUniversityDetail(code);
-  }, [code]);
+  }, [code, i18n.language]);
 
   useEffect(() => {
     if (pageIsAuth) {

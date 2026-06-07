@@ -32,6 +32,12 @@ export const universityService = {
   getUniversityByCode: (code: string) =>
     http.get<University>(endpoints.universities.byCode(code)),
 
+  compareUniversitiesAI: (codes: string[], language: string) =>
+    http.post<{ ai_analysis: string }>(endpoints.universities.compareAi, {
+      codes,
+      language,
+    }),
+
   /** @deprecated use getUniversityByCode */
   getUniversityById: (id: string) =>
     http.get<University>(endpoints.universities.byCode(id)),

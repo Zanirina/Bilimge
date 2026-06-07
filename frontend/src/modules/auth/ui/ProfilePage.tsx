@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 import { MdCloudUpload, MdCheckCircle, MdClose, MdSchool } from "react-icons/md";
 import { useAuthStore } from "../model/authStore";
@@ -19,15 +20,15 @@ type FavoriteGroup = {
   programs: FavoriteProgram[];
 };
 
-const ROLE_LABELS: Record<string, string> = {
-  APPLICANT: "Applicant",
-  UNI_ADMIN: "University Admin",
-  NTC_ADMIN: "NTC Admin",
-  SUPER_ADMIN: "Super Admin",
-  applicant: "Applicant",
-  uni_admin: "University Admin",
-  ntc_admin: "NTC Admin",
-  super_admin: "Super Admin",
+const ROLE_LABEL_KEYS: Record<string, string> = {
+  APPLICANT: "profile.roles.applicant",
+  UNI_ADMIN: "profile.roles.uniAdmin",
+  NTC_ADMIN: "profile.roles.ntcAdmin",
+  SUPER_ADMIN: "profile.roles.superAdmin",
+  applicant: "profile.roles.applicant",
+  uni_admin: "profile.roles.uniAdmin",
+  ntc_admin: "profile.roles.ntcAdmin",
+  super_admin: "profile.roles.superAdmin",
 };
 
 const inp =
@@ -35,6 +36,7 @@ const inp =
 const lbl = "block text-xs font-medium text-gray-500 mb-1.5";
 
 export default function ProfilePage() {
+  const { t } = useTranslation();
   const {
     user,
     updateMe,
@@ -109,14 +111,14 @@ export default function ProfilePage() {
   if (!user) {
     return (
       <div className="flex items-center justify-center py-20 text-gray-400 text-sm">
-        Loading account…
+        {t("profile.loading")}
       </div>
     );
   }
 
   const initials = `${user.first_name?.[0] ?? ""}${user.last_name?.[0] ?? ""}`
     .toUpperCase() || user.email[0].toUpperCase();
-  const roleLabel = ROLE_LABELS[user.role] ?? user.role;
+  const roleLabel = ROLE_LABEL_KEYS[user.role] ? t(ROLE_LABEL_KEYS[user.role]) : user.role;
   const subtitle = user.university_name
     ? `${roleLabel} · ${user.university_name}`
     : roleLabel;
@@ -156,10 +158,10 @@ export default function ProfilePage() {
       }
       if (wantsPasswordChange) {
         if (pw.new !== pw.confirm) {
-          throw new Error("New passwords do not match.");
+          throw new Error(t("profile.errors.passwordsNoMatch"));
         }
         if (pw.new.length < 8) {
-          throw new Error("New password must be at least 8 characters.");
+          throw new Error(t("profile.errors.passwordTooShort"));
         }
         await changePassword({
           current_password: pw.current,
@@ -178,7 +180,7 @@ export default function ProfilePage() {
         err.response?.data?.error ??
           err.response?.data?.email?.[0] ??
           err.message ??
-          "Could not save changes."
+          t("profile.errors.saveFailed")
       );
     } finally {
       setSaving(false);
@@ -210,7 +212,7 @@ export default function ProfilePage() {
           .filter((g) => g.programs.length > 0)
       );
     } catch {
-      setError("Could not remove favorite.");
+      setError(t("profile.errors.removeFavoriteFailed"));
     }
   }
 
@@ -222,7 +224,7 @@ export default function ProfilePage() {
     try {
       await uploadAvatar(file);
     } catch {
-      setError("Could not upload avatar.");
+      setError(t("profile.errors.uploadFailed"));
     } finally {
       setUploading(false);
       e.target.value = "";
@@ -235,9 +237,9 @@ export default function ProfilePage() {
   return (
     <div className="max-w-4xl mx-auto">
       <header className="mb-6">
-        <h1 className="text-3xl font-bold text-gray-900">My profile</h1>
+        <h1 className="text-3xl font-bold text-gray-900">{t("profile.title")}</h1>
         <p className="text-sm text-gray-500 mt-1">
-          Manage your personal information and password.
+          {t("profile.subtitle")}
         </p>
       </header>
 
@@ -271,7 +273,7 @@ export default function ProfilePage() {
             className="flex items-center gap-2 px-4 py-2 rounded-xl border border-gray-200 text-sm font-medium text-gray-700 hover:bg-white disabled:opacity-60"
           >
             <MdCloudUpload size={16} />
-            {uploading ? "Uploading…" : "Change photo"}
+            {uploading ? t("profile.uploading") : t("profile.changePhoto")}
           </button>
           <input
             ref={fileRef}
@@ -284,10 +286,10 @@ export default function ProfilePage() {
 
         {/* Account info */}
         <section>
-          <h2 className="text-base font-bold text-gray-900 mb-4">Account information</h2>
+          <h2 className="text-base font-bold text-gray-900 mb-4">{t("profile.accountInfo")}</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-              <label className={lbl}>First name</label>
+              <label className={lbl}>{t("profile.firstName")}</label>
               <input
                 className={inp}
                 value={info.first_name}
@@ -295,7 +297,7 @@ export default function ProfilePage() {
               />
             </div>
             <div>
-              <label className={lbl}>Last name</label>
+              <label className={lbl}>{t("profile.lastName")}</label>
               <input
                 className={inp}
                 value={info.last_name}
@@ -303,7 +305,7 @@ export default function ProfilePage() {
               />
             </div>
             <div>
-              <label className={lbl}>Email</label>
+              <label className={lbl}>{t("profile.email")}</label>
               <input
                 className={inp}
                 type="email"
@@ -312,7 +314,7 @@ export default function ProfilePage() {
               />
             </div>
             <div>
-              <label className={lbl}>Phone</label>
+              <label className={lbl}>{t("profile.phone")}</label>
               <input
                 className={inp}
                 value={info.phone}
@@ -328,11 +330,11 @@ export default function ProfilePage() {
           <section className="pt-6 border-t border-gray-100">
             <div className="flex items-center gap-2 mb-4">
               <MdSchool className="text-[#3356AA]" size={18} />
-              <h2 className="text-base font-bold text-gray-900">UNT & subjects</h2>
+              <h2 className="text-base font-bold text-gray-900">{t("profile.untSubjects")}</h2>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               <div>
-                <label className={lbl}>UNT score</label>
+                <label className={lbl}>{t("profile.untScore")}</label>
                 <input
                   className={inp}
                   type="number"
@@ -352,7 +354,7 @@ export default function ProfilePage() {
                 />
               </div>
               <div>
-                <label className={lbl}>Profile subject 1</label>
+                <label className={lbl}>{t("profile.subject1")}</label>
                 <select
                   className={inp}
                   value={applicant.subject_1}
@@ -363,7 +365,7 @@ export default function ProfilePage() {
                     }))
                   }
                 >
-                  <option value="">— not selected —</option>
+                  <option value="">{t("profile.notSelected")}</option>
                   {subjects
                     .filter((s) => s.id !== applicant.subject_2)
                     .map((s) => (
@@ -374,7 +376,7 @@ export default function ProfilePage() {
                 </select>
               </div>
               <div>
-                <label className={lbl}>Profile subject 2</label>
+                <label className={lbl}>{t("profile.subject2")}</label>
                 <select
                   className={inp}
                   value={applicant.subject_2}
@@ -385,7 +387,7 @@ export default function ProfilePage() {
                     }))
                   }
                 >
-                  <option value="">— not selected —</option>
+                  <option value="">{t("profile.notSelected")}</option>
                   {subjects
                     .filter((s) => s.id !== applicant.subject_1)
                     .map((s) => (
@@ -404,7 +406,7 @@ export default function ProfilePage() {
           <section className="pt-6 border-t border-gray-100">
             <div className="flex items-center justify-between mb-4">
               <h2 className="text-base font-bold text-gray-900">
-                Saved universities
+                {t("profile.savedUniversities")}
                 <span className="ml-2 text-xs font-medium text-gray-400">
                   {favoriteUniversities.length}
                 </span>
@@ -413,13 +415,13 @@ export default function ProfilePage() {
                 to="/applicant/universities"
                 className="text-xs font-medium text-[#3356AA] hover:underline"
               >
-                Browse universities →
+                {t("profile.browseUniversities")}
               </Link>
             </div>
             {favoriteUniversities.length === 0 ? (
               <div className="rounded-xl border border-dashed border-gray-200 p-6 text-center">
                 <p className="text-sm text-gray-500">
-                  You haven't saved any universities yet.
+                  {t("profile.noSavedUniversities")}
                 </p>
               </div>
             ) : (
@@ -460,7 +462,7 @@ export default function ProfilePage() {
                       type="button"
                       onClick={() => removeFavoriteUniversity(u.id)}
                       className="shrink-0 inline-flex items-center justify-center w-7 h-7 rounded-full text-gray-400 hover:bg-red-50 hover:text-red-500"
-                      title="Remove from favorites"
+                      title={t("profile.removeFromFavorites")}
                     >
                       <MdClose size={16} />
                     </button>
@@ -476,7 +478,7 @@ export default function ProfilePage() {
           <section className="pt-6 border-t border-gray-100">
             <div className="flex items-center justify-between mb-4">
               <h2 className="text-base font-bold text-gray-900">
-                Saved programs
+                {t("profile.savedPrograms")}
                 <span className="ml-2 text-xs font-medium text-gray-400">
                   {user.favorites_count ?? 0}
                 </span>
@@ -485,21 +487,21 @@ export default function ProfilePage() {
                 to="/applicant/universities"
                 className="text-xs font-medium text-[#3356AA] hover:underline"
               >
-                Browse universities →
+                {t("profile.browseUniversities")}
               </Link>
             </div>
             {favLoading ? (
-              <div className="text-sm text-gray-400 py-6">Loading favorites…</div>
+              <div className="text-sm text-gray-400 py-6">{t("profile.loadingFavorites")}</div>
             ) : favorites.length === 0 ? (
               <div className="rounded-xl border border-dashed border-gray-200 p-6 text-center">
                 <p className="text-sm text-gray-500">
-                  You haven't saved any programs yet.
+                  {t("profile.noSavedPrograms")}
                 </p>
                 <Link
                   to="/programs"
                   className="inline-block mt-2 text-sm font-medium text-[#3356AA] hover:underline"
                 >
-                  Explore programs
+                  {t("profile.explorePrograms")}
                 </Link>
               </div>
             ) : (
@@ -534,7 +536,7 @@ export default function ProfilePage() {
                             type="button"
                             onClick={() => handleRemoveFavorite(p.id)}
                             className="shrink-0 inline-flex items-center justify-center w-7 h-7 rounded-full text-gray-400 hover:bg-red-50 hover:text-red-500"
-                            title="Remove from favorites"
+                            title={t("profile.removeFromFavorites")}
                           >
                             <MdClose size={16} />
                           </button>
@@ -550,10 +552,10 @@ export default function ProfilePage() {
 
         {/* Change password */}
         <section className="pt-6 border-t border-gray-100">
-          <h2 className="text-base font-bold text-gray-900 mb-4">Change password</h2>
+          <h2 className="text-base font-bold text-gray-900 mb-4">{t("profile.changePassword")}</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <div>
-              <label className={lbl}>Current</label>
+              <label className={lbl}>{t("profile.current")}</label>
               <input
                 className={inp}
                 type="password"
@@ -562,7 +564,7 @@ export default function ProfilePage() {
               />
             </div>
             <div>
-              <label className={lbl}>New</label>
+              <label className={lbl}>{t("profile.new")}</label>
               <input
                 className={inp}
                 type="password"
@@ -571,7 +573,7 @@ export default function ProfilePage() {
               />
             </div>
             <div>
-              <label className={lbl}>Confirm new</label>
+              <label className={lbl}>{t("profile.confirmNew")}</label>
               <input
                 className={inp}
                 type="password"
@@ -581,7 +583,7 @@ export default function ProfilePage() {
             </div>
           </div>
           <p className="text-xs text-gray-400 mt-2">
-            Leave blank to keep your current password.
+            {t("profile.passwordHint")}
           </p>
         </section>
 
@@ -591,7 +593,7 @@ export default function ProfilePage() {
             {error && <span className="text-red-500">{error}</span>}
             {savedFlash && !error && (
               <span className="flex items-center gap-1.5 text-emerald-600 font-medium">
-                <MdCheckCircle size={16} /> Changes saved
+                <MdCheckCircle size={16} /> {t("profile.changesSaved")}
               </span>
             )}
           </div>
@@ -601,7 +603,7 @@ export default function ProfilePage() {
               disabled={saving}
               className="px-5 py-2 rounded-xl border border-gray-200 text-sm font-medium text-gray-700 hover:bg-gray-50 disabled:opacity-60"
             >
-              Cancel
+              {t("common.cancel")}
             </button>
             <button
               onClick={handleSave}
@@ -609,7 +611,7 @@ export default function ProfilePage() {
               className="flex items-center gap-1.5 px-5 py-2 rounded-xl bg-[#3356AA] text-white text-sm font-semibold hover:bg-[#2c4892] disabled:opacity-50"
             >
               <MdCheckCircle size={16} />
-              {saving ? "Saving…" : "Save changes"}
+              {saving ? t("common.saving") : t("profile.saveChanges")}
             </button>
           </div>
         </div>

@@ -1,24 +1,26 @@
 import { useState, useRef, useEffect, useMemo } from "react";
+import { useTranslation } from "react-i18next";
 import { IoNotificationsOutline } from "react-icons/io5";
 import { MdCampaign, MdEventNote } from "react-icons/md";
 import {
   useNotificationsStore,
   buildNotifications,
   type NotificationItem,
+  type Translate,
 } from "../model/notificationsStore";
 
-function relativeTime(iso: string): string {
-  const t = new Date(iso).getTime();
-  if (Number.isNaN(t)) return "";
-  const diff = Date.now() - t;
+function relativeTime(iso: string, t: Translate): string {
+  const ms = new Date(iso).getTime();
+  if (Number.isNaN(ms)) return "";
+  const diff = Date.now() - ms;
   const mins = Math.round(diff / 60000);
-  if (mins < 1) return "just now";
-  if (mins < 60) return `${mins}m ago`;
+  if (mins < 1) return t("notifications.justNow");
+  if (mins < 60) return t("notifications.minutesAgo", { count: mins });
   const hrs = Math.round(mins / 60);
-  if (hrs < 24) return `${hrs}h ago`;
+  if (hrs < 24) return t("notifications.hoursAgo", { count: hrs });
   const days = Math.round(hrs / 24);
-  if (days < 7) return `${days}d ago`;
-  return new Date(t).toLocaleDateString();
+  if (days < 7) return t("notifications.daysAgo", { count: days });
+  return new Date(ms).toLocaleDateString();
 }
 
 function Row({
@@ -28,6 +30,7 @@ function Row({
   item: NotificationItem;
   onClick: () => void;
 }) {
+  const { t } = useTranslation();
   const Icon = item.kind === "reminder" ? MdEventNote : MdCampaign;
   const tint = item.kind === "reminder" ? "text-[#E08A00]" : "text-[#3356AA]";
   return (
@@ -46,7 +49,7 @@ function Row({
         </span>
         <span className="block text-xs text-gray-500">{item.body}</span>
         <span className="block text-[11px] text-gray-400 mt-0.5">
-          {relativeTime(item.iso)}
+          {relativeTime(item.iso, t)}
         </span>
       </span>
       {!item.read && (
@@ -57,6 +60,7 @@ function Row({
 }
 
 export default function NotificationBell() {
+  const { t, i18n } = useTranslation();
   const {
     announcements,
     events,
@@ -86,8 +90,9 @@ export default function NotificationBell() {
   }, []);
 
   const notifications = useMemo(
-    () => buildNotifications(announcements, events, readIds),
-    [announcements, events, readIds]
+    () => buildNotifications(announcements, events, readIds, t),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [announcements, events, readIds, i18n.language]
   );
 
   // The bell is an unread-only inbox: read items drop off the list.
@@ -107,7 +112,7 @@ export default function NotificationBell() {
       <button
         onClick={toggleOpen}
         className="relative p-2 text-gray-500 hover:text-[#3356AA] hover:bg-gray-50 rounded-lg transition-colors"
-        aria-label="Notifications"
+        aria-label={t("notifications.aria")}
       >
         <IoNotificationsOutline size={20} />
         {unreadCount > 0 && (
@@ -122,7 +127,7 @@ export default function NotificationBell() {
           {/* header */}
           <div className="flex items-center justify-between px-4 py-3 border-b border-gray-100">
             <p className="text-sm font-bold text-[#111928]">
-              Notifications
+              {t("notifications.title")}
               {unreadCount > 0 && (
                 <span className="ml-1.5 text-xs font-semibold text-[#E95C4B]">
                   {unreadCount}
@@ -134,17 +139,17 @@ export default function NotificationBell() {
               disabled={unreadCount === 0}
               className="text-xs font-medium text-[#3356AA] hover:underline disabled:text-gray-300 disabled:no-underline"
             >
-              Mark all read
+              {t("notifications.markAllRead")}
             </button>
           </div>
 
           {/* list */}
           <div className="max-h-96 overflow-y-auto divide-y divide-gray-50">
             {loading && visible.length === 0 ? (
-              <p className="px-4 py-8 text-center text-sm text-gray-400">Loading…</p>
+              <p className="px-4 py-8 text-center text-sm text-gray-400">{t("common.loading")}</p>
             ) : visible.length === 0 ? (
               <p className="px-4 py-8 text-center text-sm text-gray-400">
-                No new notifications.
+                {t("notifications.empty")}
               </p>
             ) : (
               visible.map((item) => (

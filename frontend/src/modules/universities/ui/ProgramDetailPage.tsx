@@ -44,7 +44,7 @@ function Stat({
 export default function ProgramDetailPage() {
   const { code } = useParams<{ code: string }>();
   const navigate = useNavigate();
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const location = useLocation();
   const inApplicant = location.pathname.startsWith("/applicant");
   const universitiesBase = inApplicant ? "/applicant/universities" : "/universities";
@@ -59,7 +59,7 @@ export default function ProgramDetailPage() {
 
   useEffect(() => {
     if (code) fetchProgramDetailIntoStore(code);
-  }, [code]);
+  }, [code, i18n.language]);
 
   useEffect(() => {
     if (isAuth) fetchFavorites();

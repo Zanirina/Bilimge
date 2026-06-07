@@ -1,4 +1,5 @@
 import { useEffect, useState, useMemo } from "react";
+import { useTranslation } from "react-i18next";
 import { useAnnouncementsStore } from "../model/announcementsStore";
 import { useAuthStore } from "../../auth/model/authStore";
 import type { Announcement } from "../model/types";
@@ -19,6 +20,7 @@ function FullPostModal({
   item: Announcement;
   onClose: () => void;
 }) {
+  const { t } = useTranslation();
   const name = authorLabel(item);
   const role = authorRole(item);
   return (
@@ -48,7 +50,7 @@ function FullPostModal({
           onClick={onClose}
           className="mt-6 px-4 py-2 bg-[#3356AA] text-white text-sm rounded-xl hover:bg-[#2a4590] transition-colors"
         >
-          Close
+          {t("common.close")}
         </button>
       </div>
     </div>
@@ -60,10 +62,10 @@ function FullPostModal({
 // Static filters plus one dynamic `uni:<code>` filter per saved university.
 type FilterKey = "all" | "ntc" | "university" | `uni:${string}`;
 
-const BASE_FILTERS: { key: FilterKey; label: string }[] = [
-  { key: "all", label: "All Announcements" },
-  { key: "university", label: "Universities" },
-  { key: "ntc", label: "NTC" },
+const BASE_FILTERS: { key: FilterKey; labelKey: string }[] = [
+  { key: "all", labelKey: "announcements.filters.all" },
+  { key: "university", labelKey: "announcements.filters.universities" },
+  { key: "ntc", labelKey: "announcements.filters.ntc" },
 ];
 
 function FilterItem({
@@ -99,6 +101,7 @@ function FilterItem({
 }
 
 export default function AnnouncementsPage() {
+  const { t, i18n } = useTranslation();
   const { announcements, isLoading, fetchList } = useAnnouncementsStore();
   const { isAuth, favoriteUniversities, fetchFavoriteUniversities } = useAuthStore();
   const [filter, setFilter] = useState<FilterKey>("all");
@@ -106,7 +109,7 @@ export default function AnnouncementsPage() {
 
   useEffect(() => {
     fetchList();
-  }, [fetchList]);
+  }, [fetchList, i18n.language]);
 
   useEffect(() => {
     if (isAuth) fetchFavoriteUniversities();
@@ -158,7 +161,7 @@ export default function AnnouncementsPage() {
 
       {/* page header */}
       <div className="flex items-center justify-between mb-6">
-        <h1 className="text-2xl font-bold text-[#111928]">Announcements</h1>
+        <h1 className="text-2xl font-bold text-[#111928]">{t("announcements.title")}</h1>
       </div>
 
       {/* 3-column layout */}
@@ -166,10 +169,10 @@ export default function AnnouncementsPage() {
         {/* ── left sidebar ── */}
         <aside className="w-55 flex-shrink-0 bg-white rounded-2xl border border-gray-100 p-4">
           <ul className="space-y-0.5">
-            {BASE_FILTERS.map(({ key, label }) => (
+            {BASE_FILTERS.map(({ key, labelKey }) => (
               <FilterItem
                 key={key}
-                label={label}
+                label={t(labelKey)}
                 count={counts[key] ?? 0}
                 active={filter === key}
                 onClick={() => setFilter(key)}
@@ -180,7 +183,7 @@ export default function AnnouncementsPage() {
           {savedUniFilters.length > 0 && (
             <>
               <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider mt-5 mb-3 px-1">
-                Saved Universities
+                {t("announcements.savedUniversities")}
               </p>
               <ul className="space-y-0.5">
                 {savedUniFilters.map(({ key, label }) => (
@@ -201,11 +204,11 @@ export default function AnnouncementsPage() {
         <div className="flex-1 min-w-0 flex flex-col gap-4">
           {isLoading ? (
             <div className="flex justify-center py-16 text-gray-400 text-sm">
-              Loading…
+              {t("common.loading")}
             </div>
           ) : filtered.length === 0 ? (
             <div className="flex justify-center py-16 text-gray-400 text-sm">
-              No announcements yet.
+              {t("announcements.empty")}
             </div>
           ) : (
             filtered.map((item) => (
@@ -222,10 +225,10 @@ export default function AnnouncementsPage() {
         {/* ── right sidebar ── */}
         <aside className="w-64 flex-shrink-0 bg-white rounded-2xl border border-gray-100 p-4">
           <div className="flex items-center justify-between mb-2">
-            <p className="text-sm font-bold text-[#111928]">Latest</p>
+            <p className="text-sm font-bold text-[#111928]">{t("announcements.latest")}</p>
           </div>
           {pinned.length === 0 ? (
-            <p className="text-xs text-gray-400 py-4 text-center">Nothing yet.</p>
+            <p className="text-xs text-gray-400 py-4 text-center">{t("announcements.nothingYet")}</p>
           ) : (
             pinned.map((item) => (
               <PinnedCard key={item.id} item={item} onView={setSelected} />

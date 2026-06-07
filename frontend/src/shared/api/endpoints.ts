@@ -23,6 +23,7 @@ export const endpoints = {
     /** @deprecated use byCode */
     byId: (id: number | string) => `/unipage/api/universities/${id}/`,
     edit: (code: string) => `/unipage/api/universities/${code}/edit/`,
+    compareAi: "/unipage/api/universities/compare-ai/",
   },
   fields: {
     list: "/unipage/api/fields/",

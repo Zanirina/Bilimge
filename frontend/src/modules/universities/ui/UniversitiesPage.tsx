@@ -25,7 +25,7 @@ export default function UniversitiesPage() {
     fetchFields,
   } = useUniversityStore();
 
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const location = useLocation();
   const inApplicant = location.pathname.startsWith("/applicant");
   const basePath = inApplicant ? "/applicant/universities" : "/universities";
@@ -45,7 +45,7 @@ export default function UniversitiesPage() {
     fetchSubjects();
     fetchFields();
     fetchNtcPrograms();
-  }, []);
+  }, [i18n.language]);
 
   useEffect(() => {
     setCurrentPage(1);
