@@ -233,6 +233,7 @@ class UniversityProgramDetailSerializer(serializers.ModelSerializer):
 
 class UniversityPageSerializer(serializers.ModelSerializer):
     name_localized = serializers.SerializerMethodField()
+    short_name_localized = serializers.SerializerMethodField()
     city_localized = serializers.SerializerMethodField()
     address_localized = serializers.SerializerMethodField()
     history_localized = serializers.SerializerMethodField()
@@ -246,8 +247,9 @@ class UniversityPageSerializer(serializers.ModelSerializer):
     class Meta:
         model = University
         fields = [
-            'code', 'name', 'name_ru', 'name_kk', 'name_localized',
-            'short_name',
+            'code',
+            'name', 'name_ru', 'name_kk', 'name_localized',
+            'short_name', 'short_name_ru', 'short_name_kk', 'short_name_localized',
             'city', 'city_ru', 'city_kk', 'city_localized',
             'address', 'address_ru', 'address_kk', 'address_localized',
             'year_established', 'email', 'phone', 'website',
@@ -269,6 +271,9 @@ class UniversityPageSerializer(serializers.ModelSerializer):
 
     def get_name_localized(self, obj):
         return obj.get_name(self._get_language())
+
+    def get_short_name_localized(self, obj):
+        return obj.get_short_name(self._get_language())
 
     def get_city_localized(self, obj):
         return obj.get_city(self._get_language())
@@ -324,6 +329,7 @@ class UniversityPageSerializer(serializers.ModelSerializer):
 
 class UniversitySerializer(serializers.ModelSerializer):
     name_localized = serializers.SerializerMethodField()
+    short_name_localized = serializers.SerializerMethodField()
     city_localized = serializers.SerializerMethodField()
     address_localized = serializers.SerializerMethodField()
 
@@ -332,7 +338,7 @@ class UniversitySerializer(serializers.ModelSerializer):
         fields = [
             'code', 'logo_url', 'cover_url',
             'name', 'name_ru', 'name_kk', 'name_localized',
-            'short_name',
+            'short_name', 'short_name_ru', 'short_name_kk', 'short_name_localized',
             'city', 'city_ru', 'city_kk', 'city_localized',
             'address', 'address_ru', 'address_kk', 'address_localized',
             'year_established', 'email', 'phone', 'passing_score',
@@ -350,6 +356,9 @@ class UniversitySerializer(serializers.ModelSerializer):
     def get_name_localized(self, obj):
         return obj.get_name(self._get_language())
 
+    def get_short_name_localized(self, obj):
+        return obj.get_short_name(self._get_language())
+
     def get_city_localized(self, obj):
         return obj.get_city(self._get_language())
 
@@ -362,7 +371,7 @@ class UniversityUpdateSerializer(serializers.ModelSerializer):
         model = University
         fields = [
             'name', 'name_ru', 'name_kk',
-            'short_name',
+            'short_name', 'short_name_ru', 'short_name_kk',
             'city', 'city_ru', 'city_kk',
             'address', 'address_ru', 'address_kk',
             'year_established', 'email', 'phone', 'website',
@@ -415,4 +424,7 @@ class UniversityProgramWriteSerializer(serializers.ModelSerializer):
 class UniversityBasicUpdateSerializer(serializers.ModelSerializer):
     class Meta:
         model = University
-        fields = ['name', 'short_name', 'city', 'address', 'phone', 'email', 'website']
+        fields = [
+            'name', 'short_name', 'short_name_ru', 'short_name_kk',
+            'city', 'address', 'phone', 'email', 'website',
+        ]

@@ -6,13 +6,15 @@ class University(models.Model):
         db_table = 'universities'
         managed = False
 
-    code = models.IntegerField(primary_key=True, verbose_name='University Code')
+    code = models.IntegerField(primary_key=True)
     logo_url = models.URLField(max_length=500, blank=True, default='')
     cover_url = models.URLField(max_length=500, blank=True, default='')
     name = models.CharField(max_length=255)
     name_ru = models.CharField(max_length=255, blank=True, default='')
     name_kk = models.CharField(max_length=255, blank=True, default='')
     short_name = models.CharField(max_length=100, blank=True, default='')
+    short_name_ru = models.CharField(max_length=100, blank=True, default='')
+    short_name_kk = models.CharField(max_length=100, blank=True, default='')
     city = models.CharField(max_length=100)
     city_ru = models.CharField(max_length=100, blank=True, default='')
     city_kk = models.CharField(max_length=100, blank=True, default='')
@@ -41,6 +43,13 @@ class University(models.Model):
             return self.name_kk
         return self.name
 
+    def get_short_name(self, language='en'):
+        if language == 'ru' and self.short_name_ru:
+            return self.short_name_ru
+        if language == 'kk' and self.short_name_kk:
+            return self.short_name_kk
+        return self.short_name
+
     def get_city(self, language='en'):
         if language == 'ru' and self.city_ru:
             return self.city_ru
@@ -64,6 +73,7 @@ class University(models.Model):
 
     def __str__(self):
         return f"{self.code} - {self.name}"
+
 
 class Language(models.Model):
     class Meta:
@@ -114,6 +124,9 @@ class FieldOfStudy(models.Model):
             return self.name_kk
         return self.name
 
+    def __str__(self):
+        return f"{self.code} - {self.name}"
+
 
 class NtcProgram(models.Model):
     class Meta:
@@ -136,6 +149,9 @@ class NtcProgram(models.Model):
         if language == 'kk' and self.name_kk:
             return self.name_kk
         return self.name
+
+    def __str__(self):
+        return f"{self.code} - {self.name}"
 
 
 class UniversityProgram(models.Model):
@@ -200,8 +216,8 @@ class UniversityProgram(models.Model):
     def __str__(self):
         return f"{self.code} - {self.local_name}"
 
+
 class UniversityLanguage(models.Model):
-    """Языки обучения в университете"""
     class Meta:
         db_table = 'university_languages'
         managed = False
@@ -221,7 +237,7 @@ class EntranceRequirement(models.Model):
 
     id = models.AutoField(primary_key=True)
     university = models.ForeignKey(University, on_delete=models.CASCADE, related_name='entrance_requirements')
-    description = models.TextField(verbose_name='Requirement Description')
+    description = models.TextField()
     description_ru = models.TextField(blank=True, default='')
     description_kk = models.TextField(blank=True, default='')
 
@@ -231,8 +247,6 @@ class EntranceRequirement(models.Model):
         if language == 'kk' and self.description_kk:
             return self.description_kk
         return self.description
-
-
 
 
 class EntranceExam(models.Model):
@@ -265,18 +279,18 @@ class EntranceExam(models.Model):
 
 
 class AcademicMobility(models.Model):
-    """Академическая мобильность — партнёрские университеты"""
     class Meta:
         db_table = 'academic_mobility'
         managed = False
 
     id = models.AutoField(primary_key=True)
     university = models.ForeignKey(University, on_delete=models.CASCADE, related_name='academic_mobility')
-    partner_university_name = models.CharField(max_length=255, verbose_name='Partner University')
-    country = models.CharField(max_length=100, verbose_name='Country')
+    partner_university_name = models.CharField(max_length=255)
+    country = models.CharField(max_length=100)
 
     def __str__(self):
         return f"{self.university_id} → {self.partner_university_name} ({self.country})"
+
 
 class Accreditation(models.Model):
     class Meta:
@@ -285,9 +299,9 @@ class Accreditation(models.Model):
 
     id = models.AutoField(primary_key=True)
     university = models.ForeignKey(University, on_delete=models.CASCADE, related_name='accreditations')
-    name = models.CharField(max_length=255, verbose_name='Accreditation Name')
-    issued_by = models.CharField(max_length=255, blank=True, default='', verbose_name='Issued By')
-    valid_until = models.DateField(null=True, blank=True, verbose_name='Valid Until')
+    name = models.CharField(max_length=255)
+    issued_by = models.CharField(max_length=255, blank=True, default='')
+    valid_until = models.DateField(null=True, blank=True)
 
     def __str__(self):
         return f"{self.university_id}: {self.name}"
