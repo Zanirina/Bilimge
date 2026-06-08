@@ -425,6 +425,14 @@ class UniversityBasicUpdateSerializer(serializers.ModelSerializer):
     class Meta:
         model = University
         fields = [
-            'name', 'short_name', 'short_name_ru', 'short_name_kk',
-            'city', 'address', 'phone', 'email', 'website',
+            'name', 'name_ru', 'name_kk',
+            'short_name', 'short_name_ru', 'short_name_kk',
+            'city', 'city_ru', 'city_kk',
+            'address', 'address_ru', 'address_kk',
+            'history', 'history_ru', 'history_kk',
+            'phone', 'email', 'website',
+            'telegram_url', 'instagram_url',
+            'tuition_cost', 'passing_score',
+            'has_dormitory', 'has_military_department',
+            'year_established',
         ]
