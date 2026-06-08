@@ -1,9 +1,20 @@
 import { useState, useEffect, useRef } from "react";
+import { useTranslation } from "react-i18next";
 import { useUniversityStore } from "../../model/universityStore";
 import { universityService } from "../../api/universityService";
-import type { Language } from "../../model/types";
+import type { Language, EntranceRequirement, EntranceExam } from "../../model/types";
+import { LangPicker } from "../../../../shared/ui/LangPicker";
+import { fieldKey, mlGet, mlView, resolveLang } from "../../../../shared/lib/i18n/multilang";
+import type { Lang } from "../../../../shared/lib/i18n/multilang";
 
 type Tab = "overview" | "contacts" | "accreditations" | "mobility";
+type MLBase = "name" | "city" | "address" | "history";
+
+type ReqForm = { description: string; description_ru: string; description_kk: string };
+type ExamForm = { name: string; name_ru: string; name_kk: string; description: string; description_ru: string; description_kk: string };
+
+const EMPTY_REQ: ReqForm = { description: "", description_ru: "", description_kk: "" };
+const EMPTY_EXAM: ExamForm = { name: "", name_ru: "", name_kk: "", description: "", description_ru: "", description_kk: "" };
 
 // ─── Icons ────────────────────────────────────────────────────────────────────
 const IPin    = () => <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>;
@@ -63,6 +74,7 @@ function Card({ title, action, children }: { title: string; action?: React.React
 
 // ─── Logo uploader ────────────────────────────────────────────────────────────
 function LogoUploader({ logoUrl, initials, onUpload }: { logoUrl: string; initials: string; onUpload: (f: File) => Promise<void> }) {
+  const { t } = useTranslation();
   const ref = useRef<HTMLInputElement>(null);
   const [uploading, setUploading] = useState(false);
 
@@ -77,7 +89,7 @@ function LogoUploader({ logoUrl, initials, onUpload }: { logoUrl: string; initia
       )}
       <div className="absolute inset-0 rounded-2xl bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
         {uploading ? (
-          <span className="text-white text-xs">Uploading…</span>
+          <span className="text-white text-xs">{t("uniAdmin.profile.uploading")}</span>
         ) : (
           <ICamera />
         )}
@@ -95,6 +107,7 @@ function LogoUploader({ logoUrl, initials, onUpload }: { logoUrl: string; initia
 
 // ─── Cover uploader ───────────────────────────────────────────────────────────
 function CoverUploader({ coverUrl, onUpload }: { coverUrl: string; onUpload: (f: File) => Promise<void> }) {
+  const { t } = useTranslation();
   const ref = useRef<HTMLInputElement>(null);
   const [uploading, setUploading] = useState(false);
 
@@ -108,11 +121,11 @@ function CoverUploader({ coverUrl, onUpload }: { coverUrl: string; onUpload: (f:
         <img src={coverUrl} alt="cover" className="w-full h-full object-cover" />
       ) : (
         <div className="flex items-center justify-center h-full text-gray-400 text-sm gap-2">
-          <ICamera /> <span>Upload cover image</span>
+          <ICamera /> <span>{t("uniAdmin.profile.uploadCover")}</span>
         </div>
       )}
       <div className="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-2 text-white text-sm font-medium">
-        {uploading ? "Uploading…" : <><ICamera /> Change cover</>}
+        {uploading ? t("uniAdmin.profile.uploading") : <><ICamera /> {t("uniAdmin.profile.changeCover")}</>}
       </div>
       <input ref={ref} type="file" accept="image/*" className="hidden" onChange={async e => {
         const file = e.target.files?.[0];
@@ -127,6 +140,9 @@ function CoverUploader({ coverUrl, onUpload }: { coverUrl: string; onUpload: (f:
 
 // ─── Main ─────────────────────────────────────────────────────────────────────
 export default function UniProfilePage() {
+  const { t, i18n } = useTranslation();
+  const P = "uniAdmin.profile";
+
   const {
     myUniversity, myLanguages, myRequirements, myExams, myMobility, myAccreditations,
     fetchMyUniversity, updateMyUniversityInfo,
@@ -143,10 +159,16 @@ export default function UniProfilePage() {
   const [allLanguages, setAllLanguages] = useState<Language[]>([]);
 
   const [editMode, setEditMode] = useState(false);
+  const [editLang, setEditLang] = useState<Lang>("en");
   const [info, setInfo] = useState({
-    name: "", short_name: "", city: "", address: "", year_established: 0,
+    name: "", name_ru: "", name_kk: "",
+    short_name: "",
+    city: "", city_ru: "", city_kk: "",
+    address: "", address_ru: "", address_kk: "",
+    year_established: 0,
     email: "", phone: "", website: "", passing_score: 0,
-    history: "", has_dormitory: false, has_military_department: false,
+    history: "", history_ru: "", history_kk: "",
+    has_dormitory: false, has_military_department: false,
     telegram_url: "", instagram_url: "", tuition_cost: "" as string | number,
   });
   const [saving, setSaving] = useState(false);
@@ -157,14 +179,18 @@ export default function UniProfilePage() {
   const [addingLang, setAddingLang] = useState(false);
 
   const [showAddReq, setShowAddReq] = useState(false);
-  const [newReq, setNewReq] = useState("");
+  const [newReq, setNewReq] = useState<ReqForm>(EMPTY_REQ);
+  const [reqAddLang, setReqAddLang] = useState<Lang>("en");
   const [editReqId, setEditReqId] = useState<number | null>(null);
-  const [editReqDesc, setEditReqDesc] = useState("");
+  const [editReq, setEditReq] = useState<ReqForm>(EMPTY_REQ);
+  const [reqEditLang, setReqEditLang] = useState<Lang>("en");
 
   const [showAddExam, setShowAddExam] = useState(false);
-  const [newExam, setNewExam] = useState({ name: "", description: "" });
+  const [newExam, setNewExam] = useState<ExamForm>(EMPTY_EXAM);
+  const [examAddLang, setExamAddLang] = useState<Lang>("en");
   const [editExamId, setEditExamId] = useState<number | null>(null);
-  const [editExam, setEditExam] = useState({ name: "", description: "" });
+  const [editExam, setEditExam] = useState<ExamForm>(EMPTY_EXAM);
+  const [examEditLang, setExamEditLang] = useState<Lang>("en");
 
   const [showAddMob, setShowAddMob] = useState(false);
   const [newMob, setNewMob] = useState({ partner_university_name: "", country: "" });
@@ -191,24 +217,47 @@ export default function UniProfilePage() {
   useEffect(() => {
     if (myUniversity) {
       setInfo({
-        name:                   myUniversity.name ?? "",
-        short_name:             myUniversity.short_name ?? "",
-        city:                   myUniversity.city ?? "",
-        address:                myUniversity.address ?? "",
-        year_established:       myUniversity.year_established ?? 0,
-        email:                  myUniversity.email ?? "",
-        phone:                  myUniversity.phone ?? "",
-        website:                myUniversity.website ?? "",
-        passing_score:          myUniversity.passing_score ?? 0,
-        history:                myUniversity.history ?? "",
-        has_dormitory:          myUniversity.has_dormitory ?? false,
+        name:                    myUniversity.name ?? "",
+        name_ru:                 myUniversity.name_ru ?? "",
+        name_kk:                 myUniversity.name_kk ?? "",
+        short_name:              myUniversity.short_name ?? "",
+        city:                    myUniversity.city ?? "",
+        city_ru:                 myUniversity.city_ru ?? "",
+        city_kk:                 myUniversity.city_kk ?? "",
+        address:                 myUniversity.address ?? "",
+        address_ru:              myUniversity.address_ru ?? "",
+        address_kk:              myUniversity.address_kk ?? "",
+        year_established:        myUniversity.year_established ?? 0,
+        email:                   myUniversity.email ?? "",
+        phone:                   myUniversity.phone ?? "",
+        website:                 myUniversity.website ?? "",
+        passing_score:           myUniversity.passing_score ?? 0,
+        history:                 myUniversity.history ?? "",
+        history_ru:              myUniversity.history_ru ?? "",
+        history_kk:              myUniversity.history_kk ?? "",
+        has_dormitory:           myUniversity.has_dormitory ?? false,
         has_military_department: myUniversity.has_military_department ?? false,
-        telegram_url:           myUniversity.telegram_url ?? "",
-        instagram_url:          myUniversity.instagram_url ?? "",
-        tuition_cost:           myUniversity.tuition_cost ?? "",
+        telegram_url:            myUniversity.telegram_url ?? "",
+        instagram_url:           myUniversity.instagram_url ?? "",
+        tuition_cost:            myUniversity.tuition_cost ?? "",
       });
     }
   }, [myUniversity]);
+
+  // ── Multilingual helpers ────────────────────────────────────────────────────
+  // Current app language chosen in the topbar — drives what's shown in view mode.
+  const uiLang = resolveLang(i18n.language);
+  const mlKey = (base: MLBase, lang: Lang): keyof typeof info =>
+    (lang === "en" ? base : `${base}_${lang}`) as keyof typeof info;
+  // Edit value: the language selected with the switch next to the Edit button.
+  const editVal = (base: MLBase) => String(info[mlKey(base, editLang)] ?? "");
+  // View value: the topbar language, falling back to English when empty.
+  const viewVal = (base: MLBase) => String(info[mlKey(base, uiLang)] || info[base] || "");
+  const setML = (base: MLBase, value: string) =>
+    setInfo(p => ({ ...p, [mlKey(base, editLang)]: value }));
+
+  // Start editing in the language the admin is currently viewing.
+  const startEdit = () => { setEditLang(uiLang); setEditMode(true); };
 
   const saveInfo = async () => {
     setSaving(true);
@@ -223,18 +272,50 @@ export default function UniProfilePage() {
   };
 
   if (loading) {
-    return <div className="flex items-center justify-center py-24 text-gray-400 text-sm">Loading profile…</div>;
+    return <div className="flex items-center justify-center py-24 text-gray-400 text-sm">{t(`${P}.loading`)}</div>;
   }
+
+  // App-language variant for the page header.
+  const headerField = (base: "name" | "city") => {
+    if (!myUniversity) return "";
+    if (uiLang === "en") return myUniversity[base] || "";
+    const key = `${base}_${uiLang}` as keyof typeof myUniversity;
+    return String(myUniversity[key] || myUniversity[base] || "");
+  };
+  const headerName = headerField("name");
+  const headerCity = headerField("city");
 
   const initials = (myUniversity?.name ?? "U").split(" ").slice(0, 2).map(w => w[0]?.toUpperCase() ?? "").join("");
   const availableLangs = allLanguages.filter(l => !myLanguages.some(ml => ml.id === l.id));
 
   const TABS: { id: Tab; label: string }[] = [
-    { id: "overview",       label: "Overview" },
-    { id: "contacts",       label: "Contacts & Social" },
-    { id: "accreditations", label: "Accreditations" },
-    { id: "mobility",       label: "Academic Mobility" },
+    { id: "overview",       label: t(`${P}.tabs.overview`) },
+    { id: "contacts",       label: t(`${P}.tabs.contacts`) },
+    { id: "accreditations", label: t(`${P}.tabs.accreditations`) },
+    { id: "mobility",       label: t(`${P}.tabs.mobility`) },
   ];
+
+  // ── Language switch (sits next to the Edit button) ───────────────────────────
+  const LangSwitch = <LangPicker value={editLang} onChange={setEditLang} label={t(`${P}.editLanguage`)} />;
+
+  // Open the inline edit form for a requirement, seeded with the topbar language.
+  const startEditReq = (req: EntranceRequirement) => {
+    setReqEditLang(uiLang);
+    setEditReq({ description: req.description, description_ru: req.description_ru, description_kk: req.description_kk });
+    setEditReqId(req.id);
+  };
+  const openAddReq = () => { setReqAddLang(uiLang); setNewReq(EMPTY_REQ); setShowAddReq(true); };
+
+  // Open the inline edit form for an exam, seeded with the topbar language.
+  const startEditExam = (exam: EntranceExam) => {
+    setExamEditLang(uiLang);
+    setEditExam({
+      name: exam.name, name_ru: exam.name_ru, name_kk: exam.name_kk,
+      description: exam.description, description_ru: exam.description_ru, description_kk: exam.description_kk,
+    });
+    setEditExamId(exam.id);
+  };
+  const openAddExam = () => { setExamAddLang(uiLang); setNewExam(EMPTY_EXAM); setShowAddExam(true); };
 
   return (
     <div className="space-y-5">
@@ -249,18 +330,18 @@ export default function UniProfilePage() {
           />
           <div className="flex-1 min-w-0">
             <div className="flex items-center gap-2 flex-wrap">
-              <h1 className="text-2xl font-bold text-gray-900">{myUniversity?.name}</h1>
+              <h1 className="text-2xl font-bold text-gray-900">{headerName}</h1>
 
               {myUniversity?.short_name && (
                 <span className="text-2xl font-bold text-gray-900">({myUniversity.short_name})</span>
               )}
             </div>
             <div className="flex items-center gap-5 mt-2 text-sm text-gray-500 flex-wrap">
-              {myUniversity?.city && (
-                <span className="flex items-center gap-1.5"><IPin />{myUniversity.city}, Kazakhstan</span>
+              {headerCity && (
+                <span className="flex items-center gap-1.5"><IPin />{headerCity}, {t(`${P}.kazakhstan`)}</span>
               )}
               {myUniversity?.year_established && (
-                <span className="flex items-center gap-1.5"><ICal />Founded {myUniversity.year_established}</span>
+                <span className="flex items-center gap-1.5"><ICal />{t(`${P}.founded`, { year: myUniversity.year_established })}</span>
               )}
               {myUniversity?.website && (
                 <a href={myUniversity.website} target="_blank" rel="noopener noreferrer"
@@ -275,14 +356,14 @@ export default function UniProfilePage() {
 
       {/* ── Tab nav ── */}
       <div className="flex items-center gap-1">
-        {TABS.map(t => (
-          <button key={t.id} onClick={() => setActiveTab(t.id)}
+        {TABS.map(tab => (
+          <button key={tab.id} onClick={() => setActiveTab(tab.id)}
             className={`px-4 py-2 text-sm rounded-lg transition-colors ${
-              activeTab === t.id
+              activeTab === tab.id
                 ? "border border-[#3356AA] text-gray-900 font-medium"
                 : "text-gray-500 hover:text-gray-800"
             }`}>
-            {t.label}
+            {tab.label}
           </button>
         ))}
       </div>
@@ -290,61 +371,65 @@ export default function UniProfilePage() {
       {/* ══ OVERVIEW ══════════════════════════════════════════════════════════ */}
       {activeTab === "overview" && (
         <div className="grid grid-cols-[1.6fr_1fr] gap-5 items-start">
-          <Card title="Basic information"
-            action={!editMode ? (
-              <button onClick={() => setEditMode(true)}
-                className="flex items-center gap-1.5 text-sm text-[#3356AA] font-medium hover:text-[#2c4892]">
-                <IPen /> Edit
-              </button>
-            ) : undefined}>
+          <Card title={t(`${P}.basic.title`)}
+            action={
+              <div className="flex items-center gap-3">
+                {editMode ? LangSwitch : (
+                  <button onClick={startEdit}
+                    className="flex items-center gap-1.5 text-sm text-[#3356AA] font-medium hover:text-[#2c4892]">
+                    <IPen /> {t(`${P}.common.edit`)}
+                  </button>
+                )}
+              </div>
+            }>
             {!editMode ? (
               <>
                 <div className="divide-y divide-gray-100">
                   <div className="grid grid-cols-2 divide-x divide-gray-100">
                     <div className="py-4 pr-6">
-                      <p className="text-xs text-gray-400 mb-1">Official name</p>
-                      <p className="text-sm font-medium text-gray-900">{info.name || "—"}</p>
+                      <p className="text-xs text-gray-400 mb-1">{t(`${P}.basic.officialName`)}</p>
+                      <p className="text-sm font-medium text-gray-900">{viewVal("name") || "—"}</p>
                     </div>
                     <div className="py-4 pl-6">
-                      <p className="text-xs text-gray-400 mb-1">Short name</p>
+                      <p className="text-xs text-gray-400 mb-1">{t(`${P}.basic.shortName`)}</p>
                       <p className="text-sm font-medium text-gray-900">{info.short_name || "—"}</p>
                     </div>
                   </div>
                   <div className="grid grid-cols-2 divide-x divide-gray-100">
                     <div className="py-4 pr-6">
-                      <p className="text-xs text-gray-400 mb-1">Year founded</p>
+                      <p className="text-xs text-gray-400 mb-1">{t(`${P}.basic.yearFounded`)}</p>
                       <p className="text-sm font-medium text-gray-900">{info.year_established || "—"}</p>
                     </div>
                     <div className="py-4 pl-6">
-                      <p className="text-xs text-gray-400 mb-1">City, Country</p>
-                      <p className="text-sm font-medium text-gray-900">{info.city ? `${info.city}, Kazakhstan` : "—"}</p>
+                      <p className="text-xs text-gray-400 mb-1">{t(`${P}.basic.cityCountry`)}</p>
+                      <p className="text-sm font-medium text-gray-900">{viewVal("city") ? `${viewVal("city")}, ${t(`${P}.kazakhstan`)}` : "—"}</p>
                     </div>
                   </div>
                   <div className="grid grid-cols-2 divide-x divide-gray-100">
                     <div className="py-4 pr-6">
-                      <p className="text-xs text-gray-400 mb-1">Address</p>
-                      <p className="text-sm font-medium text-gray-900">{info.address || "—"}</p>
+                      <p className="text-xs text-gray-400 mb-1">{t(`${P}.basic.address`)}</p>
+                      <p className="text-sm font-medium text-gray-900">{viewVal("address") || "—"}</p>
                     </div>
                     <div className="py-4 pl-6">
-                      <p className="text-xs text-gray-400 mb-1">Tuition cost (₸/year)</p>
+                      <p className="text-xs text-gray-400 mb-1">{t(`${P}.basic.tuition`)}</p>
                       <p className="text-sm font-medium text-gray-900">
                         {info.tuition_cost ? `${Number(info.tuition_cost).toLocaleString()} ₸` : "—"}
                       </p>
                     </div>
                   </div>
                 </div>
-                {info.history && (
+                {viewVal("history") && (
                   <div className="mt-4 pt-4 border-t border-gray-100">
-                    <p className="text-xs text-gray-400 mb-1.5">About</p>
-                    <p className="text-sm text-gray-600 leading-relaxed line-clamp-4">{info.history}</p>
+                    <p className="text-xs text-gray-400 mb-1.5">{t(`${P}.basic.about`)}</p>
+                    <p className="text-sm text-gray-600 leading-relaxed line-clamp-4">{viewVal("history")}</p>
                   </div>
                 )}
                 <div className="mt-4 pt-4 border-t border-gray-100 flex gap-4">
                   <span className={`flex items-center gap-1.5 text-xs font-medium px-2.5 py-1 rounded-full ${info.has_dormitory ? "bg-blue-50 text-blue-700" : "bg-gray-100 text-gray-400"}`}>
-                    Dormitory {info.has_dormitory ? "✓" : "✗"}
+                    {t(`${P}.basic.dormitory`)} {info.has_dormitory ? "✓" : "✗"}
                   </span>
                   <span className={`flex items-center gap-1.5 text-xs font-medium px-2.5 py-1 rounded-full ${info.has_military_department ? "bg-purple-50 text-purple-700" : "bg-gray-100 text-gray-400"}`}>
-                    Military dept. {info.has_military_department ? "✓" : "✗"}
+                    {t(`${P}.basic.militaryDept`)} {info.has_military_department ? "✓" : "✗"}
                   </span>
                 </div>
               </>
@@ -352,64 +437,64 @@ export default function UniProfilePage() {
               <div className="space-y-3">
                 <div className="grid grid-cols-2 gap-3">
                   <div>
-                    <label className={lbl}>Official Name</label>
-                    <input className={inp} value={info.name} onChange={e => setInfo(p => ({ ...p, name: e.target.value }))} />
+                    <label className={lbl}>{t(`${P}.basic.officialName`)}</label>
+                    <input className={inp} value={editVal("name")} onChange={e => setML("name", e.target.value)} />
                   </div>
                   <div>
-                    <label className={lbl}>Short Name</label>
-                    <input className={inp} value={info.short_name} placeholder="e.g. AITU"
+                    <label className={lbl}>{t(`${P}.basic.shortName`)}</label>
+                    <input className={inp} value={info.short_name} placeholder={t(`${P}.basic.shortNamePlaceholder`)}
                       onChange={e => setInfo(p => ({ ...p, short_name: e.target.value }))} />
                   </div>
                 </div>
                 <div className="grid grid-cols-2 gap-3">
                   <div>
-                    <label className={lbl}>Year Founded</label>
+                    <label className={lbl}>{t(`${P}.basic.yearFounded`)}</label>
                     <input className={inp} type="number" value={info.year_established || ""}
                       onChange={e => setInfo(p => ({ ...p, year_established: +e.target.value }))} />
                   </div>
                   <div>
-                    <label className={lbl}>City</label>
-                    <input className={inp} value={info.city} onChange={e => setInfo(p => ({ ...p, city: e.target.value }))} />
+                    <label className={lbl}>{t(`${P}.basic.cityCountry`)}</label>
+                    <input className={inp} value={editVal("city")} onChange={e => setML("city", e.target.value)} />
                   </div>
                 </div>
                 <div>
-                  <label className={lbl}>Address</label>
-                  <input className={inp} value={info.address} onChange={e => setInfo(p => ({ ...p, address: e.target.value }))} />
+                  <label className={lbl}>{t(`${P}.basic.address`)}</label>
+                  <input className={inp} value={editVal("address")} onChange={e => setML("address", e.target.value)} />
                 </div>
                 <div className="grid grid-cols-2 gap-3">
                   <div>
-                    <label className={lbl}>Website</label>
+                    <label className={lbl}>{t(`${P}.basic.website`)}</label>
                     <input className={inp} type="url" value={info.website} onChange={e => setInfo(p => ({ ...p, website: e.target.value }))} />
                   </div>
                   <div>
-                    <label className={lbl}>Tuition cost (₸/year)</label>
+                    <label className={lbl}>{t(`${P}.basic.tuition`)}</label>
                     <input className={inp} type="number" value={info.tuition_cost}
                       placeholder="e.g. 1500000"
                       onChange={e => setInfo(p => ({ ...p, tuition_cost: e.target.value }))} />
                   </div>
                 </div>
                 <div>
-                  <label className={lbl}>Min. Passing Score (UNT)</label>
+                  <label className={lbl}>{t(`${P}.basic.passingScore`)}</label>
                   <input className={inp} type="number" value={info.passing_score || ""}
                     onChange={e => setInfo(p => ({ ...p, passing_score: +e.target.value }))} />
                 </div>
                 <div>
-                  <label className={lbl}>About / History</label>
-                  <textarea className={inp + " resize-none h-24"} value={info.history}
-                    onChange={e => setInfo(p => ({ ...p, history: e.target.value }))} />
+                  <label className={lbl}>{t(`${P}.basic.aboutHistory`)}</label>
+                  <textarea className={inp + " resize-none h-24"} value={editVal("history")}
+                    onChange={e => setML("history", e.target.value)} />
                 </div>
                 <div className="space-y-3 pt-1">
-                  <p className={lbl}>Facilities</p>
-                  <Toggle checked={info.has_dormitory} onChange={() => setInfo(p => ({ ...p, has_dormitory: !p.has_dormitory }))} label="Dormitory" sub="On-campus accommodation available" />
-                  <Toggle checked={info.has_military_department} onChange={() => setInfo(p => ({ ...p, has_military_department: !p.has_military_department }))} label="Military Department" sub="Military training available" />
+                  <p className={lbl}>{t(`${P}.basic.facilities`)}</p>
+                  <Toggle checked={info.has_dormitory} onChange={() => setInfo(p => ({ ...p, has_dormitory: !p.has_dormitory }))} label={t(`${P}.basic.dormitory`)} sub={t(`${P}.basic.dormitorySub`)} />
+                  <Toggle checked={info.has_military_department} onChange={() => setInfo(p => ({ ...p, has_military_department: !p.has_military_department }))} label={t(`${P}.basic.militaryLabel`)} sub={t(`${P}.basic.militarySub`)} />
                 </div>
                 <div className="flex items-center gap-3 pt-1">
-                  {saved && <span className="flex items-center gap-1.5 text-sm text-emerald-600 font-medium"><ICheck /> Saved</span>}
+                  {saved && <span className="flex items-center gap-1.5 text-sm text-emerald-600 font-medium"><ICheck /> {t(`${P}.common.saved`)}</span>}
                   <button onClick={saveInfo} disabled={saving}
                     className="bg-[#3356AA] text-white rounded-xl px-5 py-2 text-sm font-semibold hover:bg-[#2c4892] disabled:opacity-60">
-                    {saving ? "Saving…" : "Save Changes"}
+                    {saving ? t(`${P}.common.saving`) : t(`${P}.common.save`)}
                   </button>
-                  <button onClick={() => setEditMode(false)} className="text-sm text-gray-400 hover:text-gray-600">Cancel</button>
+                  <button onClick={() => setEditMode(false)} className="text-sm text-gray-400 hover:text-gray-600">{t(`${P}.common.cancel`)}</button>
                 </div>
               </div>
             )}
@@ -418,15 +503,15 @@ export default function UniProfilePage() {
           {/* Right column */}
           <div className="flex flex-col gap-5">
             {/* Teaching Languages */}
-            <Card title="Teaching Languages"
+            <Card title={t(`${P}.languages.title`)}
               action={
                 <button onClick={() => setShowAddLang(p => !p)}
                   className="flex items-center gap-1 text-sm text-[#3356AA] font-medium hover:text-[#2c4892]">
-                  <IPlus /> Add
+                  <IPlus /> {t(`${P}.common.add`)}
                 </button>
               }>
               {myLanguages.length === 0 && !showAddLang && (
-                <p className="text-sm text-gray-400">No teaching languages added yet.</p>
+                <p className="text-sm text-gray-400">{t(`${P}.languages.empty`)}</p>
               )}
               <div className="flex flex-wrap gap-2">
                 {myLanguages.map(lang => (
@@ -440,7 +525,7 @@ export default function UniProfilePage() {
                 <div className="mt-3 flex items-center gap-2">
                   <select className={inp + " max-w-xs"} value={selLangId}
                     onChange={e => setSelLangId(e.target.value ? +e.target.value : "")}>
-                    <option value="">Select language…</option>
+                    <option value="">{t(`${P}.languages.select`)}</option>
                     {availableLangs.map(l => <option key={l.id} value={l.id}>{l.name}</option>)}
                   </select>
                   <button onClick={async () => {
@@ -450,39 +535,44 @@ export default function UniProfilePage() {
                     setSelLangId(""); setShowAddLang(false); setAddingLang(false);
                   }} disabled={!selLangId || addingLang}
                     className="bg-[#3356AA] text-white rounded-lg px-4 py-2 text-sm font-medium hover:bg-[#2c4892] disabled:opacity-50">
-                    {addingLang ? "Adding…" : "Add"}
+                    {addingLang ? t(`${P}.common.adding`) : t(`${P}.common.add`)}
                   </button>
-                  <button onClick={() => setShowAddLang(false)} className="text-sm text-gray-400 hover:text-gray-600">Cancel</button>
+                  <button onClick={() => setShowAddLang(false)} className="text-sm text-gray-400 hover:text-gray-600">{t(`${P}.common.cancel`)}</button>
                 </div>
               )}
             </Card>
 
             {/* Entrance Requirements */}
-            <Card title="Entrance Requirements"
+            <Card title={t(`${P}.requirements.title`)}
               action={
-                <button onClick={() => setShowAddReq(p => !p)}
+                <button onClick={() => showAddReq ? setShowAddReq(false) : openAddReq()}
                   className="flex items-center gap-1 text-sm text-[#3356AA] font-medium hover:text-[#2c4892]">
-                  <IPlus /> Add
+                  <IPlus /> {t(`${P}.common.add`)}
                 </button>
               }>
               {myRequirements.length === 0 && !showAddReq && (
-                <p className="text-sm text-gray-400">No requirements added yet.</p>
+                <p className="text-sm text-gray-400">{t(`${P}.requirements.empty`)}</p>
               )}
               <ul className="space-y-2">
                 {myRequirements.map(req => (
                   <li key={req.id} className="bg-gray-50 rounded-xl px-4 py-3">
                     {editReqId === req.id ? (
-                      <div className="flex items-center gap-2">
-                        <input className={inp} value={editReqDesc} autoFocus onChange={e => setEditReqDesc(e.target.value)} />
-                        <button onClick={async () => { await updateMyRequirement(req.id, editReqDesc); setEditReqId(null); }}
-                          className="text-emerald-600 hover:text-emerald-700 flex-shrink-0"><ICheck /></button>
-                        <button onClick={() => setEditReqId(null)} className="text-gray-400 flex-shrink-0"><IXmark /></button>
+                      <div className="space-y-2">
+                        <LangPicker value={reqEditLang} onChange={setReqEditLang} label={t(`${P}.editLanguage`)} />
+                        <div className="flex items-center gap-2">
+                          <input className={inp} autoFocus placeholder={t(`${P}.requirements.placeholder`)}
+                            value={mlGet(editReq, "description", reqEditLang)}
+                            onChange={e => setEditReq(p => ({ ...p, [fieldKey("description", reqEditLang)]: e.target.value }) as ReqForm)} />
+                          <button onClick={async () => { await updateMyRequirement(req.id, editReq); setEditReqId(null); }}
+                            className="text-emerald-600 hover:text-emerald-700 flex-shrink-0"><ICheck /></button>
+                          <button onClick={() => setEditReqId(null)} className="text-gray-400 flex-shrink-0"><IXmark /></button>
+                        </div>
                       </div>
                     ) : (
                       <div className="flex items-center justify-between gap-3">
-                        <span className="text-sm text-gray-700">{req.description}</span>
+                        <span className="text-sm text-gray-700">{mlView(req, "description", uiLang)}</span>
                         <div className="flex gap-2 flex-shrink-0">
-                          <button onClick={() => { setEditReqId(req.id); setEditReqDesc(req.description); }} className="text-gray-400 hover:text-blue-600"><IPen /></button>
+                          <button onClick={() => startEditReq(req)} className="text-gray-400 hover:text-blue-600"><IPen /></button>
                           <button onClick={() => deleteMyRequirement(req.id)} className="text-gray-400 hover:text-red-500"><ITrash /></button>
                         </div>
                       </div>
@@ -491,52 +581,61 @@ export default function UniProfilePage() {
                 ))}
               </ul>
               {showAddReq && (
-                <div className="mt-3 flex items-center gap-2">
-                  <input className={inp} value={newReq} autoFocus placeholder="Describe the requirement…"
-                    onChange={e => setNewReq(e.target.value)} />
-                  <button onClick={async () => { if (!newReq.trim()) return; await addMyRequirement(newReq.trim()); setNewReq(""); setShowAddReq(false); }}
-                    disabled={!newReq.trim()}
-                    className="flex-shrink-0 bg-[#3356AA] text-white rounded-lg px-4 py-2 text-sm font-medium hover:bg-[#2c4892] disabled:opacity-50">Add</button>
-                  <button onClick={() => { setShowAddReq(false); setNewReq(""); }} className="flex-shrink-0 text-sm text-gray-400 hover:text-gray-600">Cancel</button>
+                <div className="mt-3 space-y-2">
+                  <LangPicker value={reqAddLang} onChange={setReqAddLang} label={t(`${P}.editLanguage`)} />
+                  <div className="flex items-center gap-2">
+                    <input className={inp} autoFocus placeholder={t(`${P}.requirements.placeholder`)}
+                      value={mlGet(newReq, "description", reqAddLang)}
+                      onChange={e => setNewReq(p => ({ ...p, [fieldKey("description", reqAddLang)]: e.target.value }) as ReqForm)} />
+                    <button onClick={async () => {
+                      if (!mlGet(newReq, "description", reqAddLang).trim()) return;
+                      await addMyRequirement(newReq);
+                      setNewReq(EMPTY_REQ); setShowAddReq(false);
+                    }} disabled={!mlGet(newReq, "description", reqAddLang).trim()}
+                      className="flex-shrink-0 bg-[#3356AA] text-white rounded-lg px-4 py-2 text-sm font-medium hover:bg-[#2c4892] disabled:opacity-50">{t(`${P}.common.add`)}</button>
+                    <button onClick={() => { setShowAddReq(false); setNewReq(EMPTY_REQ); }} className="flex-shrink-0 text-sm text-gray-400 hover:text-gray-600">{t(`${P}.common.cancel`)}</button>
+                  </div>
                 </div>
               )}
             </Card>
 
             {/* Entrance Exams */}
-            <Card title="Entrance Exams"
+            <Card title={t(`${P}.exams.title`)}
               action={
-                <button onClick={() => setShowAddExam(p => !p)}
+                <button onClick={() => showAddExam ? setShowAddExam(false) : openAddExam()}
                   className="flex items-center gap-1 text-sm text-[#3356AA] font-medium hover:text-[#2c4892]">
-                  <IPlus /> Add
+                  <IPlus /> {t(`${P}.common.add`)}
                 </button>
               }>
               {myExams.length === 0 && !showAddExam && (
-                <p className="text-sm text-gray-400">No entrance exams added yet.</p>
+                <p className="text-sm text-gray-400">{t(`${P}.exams.empty`)}</p>
               )}
               <ul className="space-y-2">
                 {myExams.map(exam => (
                   <li key={exam.id} className="bg-gray-50 rounded-xl px-4 py-3">
                     {editExamId === exam.id ? (
                       <div className="space-y-2">
-                        <input className={inp} value={editExam.name} autoFocus placeholder="Exam name"
-                          onChange={e => setEditExam(p => ({ ...p, name: e.target.value }))} />
-                        <input className={inp} value={editExam.description} placeholder="Description (optional)"
-                          onChange={e => setEditExam(p => ({ ...p, description: e.target.value }))} />
+                        <LangPicker value={examEditLang} onChange={setExamEditLang} label={t(`${P}.editLanguage`)} />
+                        <input className={inp} autoFocus placeholder={t(`${P}.exams.namePlaceholder`)}
+                          value={mlGet(editExam, "name", examEditLang)}
+                          onChange={e => setEditExam(p => ({ ...p, [fieldKey("name", examEditLang)]: e.target.value }) as ExamForm)} />
+                        <input className={inp} placeholder={t(`${P}.exams.descPlaceholder`)}
+                          value={mlGet(editExam, "description", examEditLang)}
+                          onChange={e => setEditExam(p => ({ ...p, [fieldKey("description", examEditLang)]: e.target.value }) as ExamForm)} />
                         <div className="flex gap-2">
                           <button onClick={async () => { await updateMyExam(exam.id, editExam); setEditExamId(null); }}
-                            className="text-sm text-emerald-600 font-medium">Save</button>
-                          <button onClick={() => setEditExamId(null)} className="text-sm text-gray-400">Cancel</button>
+                            className="text-sm text-emerald-600 font-medium">{t(`${P}.common.save`)}</button>
+                          <button onClick={() => setEditExamId(null)} className="text-sm text-gray-400">{t(`${P}.common.cancel`)}</button>
                         </div>
                       </div>
                     ) : (
                       <div className="flex items-start justify-between gap-3">
                         <div>
-                          <p className="text-sm font-medium text-gray-800">{exam.name}</p>
-                          {exam.description && <p className="text-xs text-gray-500 mt-0.5">{exam.description}</p>}
+                          <p className="text-sm font-medium text-gray-800">{mlView(exam, "name", uiLang)}</p>
+                          {mlView(exam, "description", uiLang) && <p className="text-xs text-gray-500 mt-0.5">{mlView(exam, "description", uiLang)}</p>}
                         </div>
                         <div className="flex gap-2 flex-shrink-0">
-                          <button onClick={() => { setEditExamId(exam.id); setEditExam({ name: exam.name, description: exam.description }); }}
-                            className="text-gray-400 hover:text-blue-600"><IPen /></button>
+                          <button onClick={() => startEditExam(exam)} className="text-gray-400 hover:text-blue-600"><IPen /></button>
                           <button onClick={() => deleteMyExam(exam.id)} className="text-gray-400 hover:text-red-500"><ITrash /></button>
                         </div>
                       </div>
@@ -546,16 +645,22 @@ export default function UniProfilePage() {
               </ul>
               {showAddExam && (
                 <div className="mt-3 space-y-2">
-                  <input className={inp} value={newExam.name} autoFocus placeholder="Exam name"
-                    onChange={e => setNewExam(p => ({ ...p, name: e.target.value }))} />
-                  <input className={inp} value={newExam.description} placeholder="Description (optional)"
-                    onChange={e => setNewExam(p => ({ ...p, description: e.target.value }))} />
+                  <LangPicker value={examAddLang} onChange={setExamAddLang} label={t(`${P}.editLanguage`)} />
+                  <input className={inp} autoFocus placeholder={t(`${P}.exams.namePlaceholder`)}
+                    value={mlGet(newExam, "name", examAddLang)}
+                    onChange={e => setNewExam(p => ({ ...p, [fieldKey("name", examAddLang)]: e.target.value }) as ExamForm)} />
+                  <input className={inp} placeholder={t(`${P}.exams.descPlaceholder`)}
+                    value={mlGet(newExam, "description", examAddLang)}
+                    onChange={e => setNewExam(p => ({ ...p, [fieldKey("description", examAddLang)]: e.target.value }) as ExamForm)} />
                   <div className="flex gap-2">
-                    <button onClick={async () => { if (!newExam.name.trim()) return; await addMyExam(newExam); setNewExam({ name: "", description: "" }); setShowAddExam(false); }}
-                      disabled={!newExam.name.trim()}
-                      className="bg-[#3356AA] text-white rounded-lg px-4 py-2 text-sm font-medium hover:bg-[#2c4892] disabled:opacity-50">Add Exam</button>
-                    <button onClick={() => { setShowAddExam(false); setNewExam({ name: "", description: "" }); }}
-                      className="text-sm text-gray-400 hover:text-gray-600">Cancel</button>
+                    <button onClick={async () => {
+                      if (!mlGet(newExam, "name", examAddLang).trim()) return;
+                      await addMyExam(newExam);
+                      setNewExam(EMPTY_EXAM); setShowAddExam(false);
+                    }} disabled={!mlGet(newExam, "name", examAddLang).trim()}
+                      className="bg-[#3356AA] text-white rounded-lg px-4 py-2 text-sm font-medium hover:bg-[#2c4892] disabled:opacity-50">{t(`${P}.exams.addExam`)}</button>
+                    <button onClick={() => { setShowAddExam(false); setNewExam(EMPTY_EXAM); }}
+                      className="text-sm text-gray-400 hover:text-gray-600">{t(`${P}.common.cancel`)}</button>
                   </div>
                 </div>
               )}
@@ -567,62 +672,62 @@ export default function UniProfilePage() {
       {/* ══ CONTACTS & SOCIAL ═════════════════════════════════════════════════ */}
       {activeTab === "contacts" && (
         <div className="grid grid-cols-2 gap-5 items-start">
-          <Card title="Contact details">
+          <Card title={t(`${P}.contacts.title`)}>
             <div className="space-y-3">
               <div>
-                <label className={lbl}>Admissions email</label>
+                <label className={lbl}>{t(`${P}.contacts.email`)}</label>
                 <IconInput icon={<IMail />} type="email" value={info.email}
-                  onChange={v => setInfo(p => ({ ...p, email: v }))} placeholder="admissions@university.kz" />
+                  onChange={v => setInfo(p => ({ ...p, email: v }))} placeholder={t(`${P}.contacts.emailPlaceholder`)} />
               </div>
               <div>
-                <label className={lbl}>Phone</label>
+                <label className={lbl}>{t(`${P}.contacts.phone`)}</label>
                 <IconInput icon={<IPhone />} type="tel" value={info.phone}
-                  onChange={v => setInfo(p => ({ ...p, phone: v }))} placeholder="+7 (000) 000-00-00" />
+                  onChange={v => setInfo(p => ({ ...p, phone: v }))} placeholder={t(`${P}.contacts.phonePlaceholder`)} />
               </div>
               <div>
-                <label className={lbl}>Postal address</label>
+                <label className={lbl}>{t(`${P}.contacts.postalAddress`)}</label>
                 <IconInput icon={<IPin />} value={info.address}
-                  onChange={v => setInfo(p => ({ ...p, address: v }))} placeholder="Street, City, ZIP" />
+                  onChange={v => setInfo(p => ({ ...p, address: v }))} placeholder={t(`${P}.contacts.postalPlaceholder`)} />
               </div>
               <div className="pt-1 flex items-center gap-3">
-                {saved && <span className="flex items-center gap-1.5 text-sm text-emerald-600 font-medium"><ICheck /> Saved</span>}
+                {saved && <span className="flex items-center gap-1.5 text-sm text-emerald-600 font-medium"><ICheck /> {t(`${P}.common.saved`)}</span>}
                 <button onClick={saveInfo} disabled={saving}
                   className="bg-[#3356AA] text-white rounded-xl px-5 py-2 text-sm font-semibold hover:bg-[#2c4892] disabled:opacity-60">
-                  {saving ? "Saving…" : "Save Changes"}
+                  {saving ? t(`${P}.common.saving`) : t(`${P}.common.save`)}
                 </button>
               </div>
             </div>
           </Card>
 
-          <Card title="Social media">
+          <Card title={t(`${P}.social.title`)}>
             <div className="space-y-3">
               <div>
-                <label className={lbl}>Instagram URL</label>
+                <label className={lbl}>{t(`${P}.social.instagram`)}</label>
                 <div className="flex items-center gap-3">
                   <div className="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0 text-white text-xs font-bold"
                     style={{ background: "linear-gradient(135deg,#f09433,#e6683c,#dc2743,#cc2366,#bc1888)" }}>
                     IG
                   </div>
-                  <input className={inp} value={info.instagram_url} placeholder="https://instagram.com/university"
+                  <input className={inp} value={info.instagram_url} placeholder={t(`${P}.social.instagramPlaceholder`)}
                     onChange={e => setInfo(p => ({ ...p, instagram_url: e.target.value }))} />
                 </div>
               </div>
               <div>
-                <label className={lbl}>Telegram URL</label>
+                <label className={lbl}>{t(`${P}.social.telegram`)}</label>
                 <div className="flex items-center gap-3">
                   <div className="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0 text-white text-xs font-bold"
                     style={{ background: "#229ED9" }}>
                     TG
                   </div>
-                  <input className={inp} value={info.telegram_url} placeholder="https://t.me/university"
+                  <input className={inp} value={info.telegram_url} placeholder={t(`${P}.social.telegramPlaceholder`)}
                     onChange={e => setInfo(p => ({ ...p, telegram_url: e.target.value }))} />
                 </div>
               </div>
               <div className="pt-1 flex items-center gap-3">
-                {saved && <span className="flex items-center gap-1.5 text-sm text-emerald-600 font-medium"><ICheck /> Saved</span>}
+                {saved && <span className="flex items-center gap-1.5 text-sm text-emerald-600 font-medium"><ICheck /> {t(`${P}.common.saved`)}</span>}
                 <button onClick={saveInfo} disabled={saving}
                   className="bg-[#3356AA] text-white rounded-xl px-5 py-2 text-sm font-semibold hover:bg-[#2c4892] disabled:opacity-60">
-                  {saving ? "Saving…" : "Save Changes"}
+                  {saving ? t(`${P}.common.saving`) : t(`${P}.common.save`)}
                 </button>
               </div>
             </div>
@@ -632,27 +737,27 @@ export default function UniProfilePage() {
 
       {/* ══ ACCREDITATIONS ════════════════════════════════════════════════════ */}
       {activeTab === "accreditations" && (
-        <Card title="Institutional Accreditations"
+        <Card title={t(`${P}.accreditations.title`)}
           action={
             <button onClick={() => setShowAddAcc(p => !p)}
               className="flex items-center gap-1 text-sm text-[#3356AA] font-medium hover:text-[#2c4892]">
-              <IPlus /> Add
+              <IPlus /> {t(`${P}.common.add`)}
             </button>
           }>
           {myAccreditations.length === 0 && !showAddAcc && (
-            <p className="text-sm text-gray-400">No accreditations added yet.</p>
+            <p className="text-sm text-gray-400">{t(`${P}.accreditations.empty`)}</p>
           )}
           <ul className="space-y-2">
             {myAccreditations.map(acc => (
               <li key={acc.id} className="bg-gray-50 rounded-xl px-4 py-3">
                 {editAccId === acc.id ? (
                   <div className="space-y-2">
-                    <input className={inp} value={editAcc.name} autoFocus placeholder="Accreditation name"
+                    <input className={inp} value={editAcc.name} autoFocus placeholder={t(`${P}.accreditations.namePlaceholder`)}
                       onChange={e => setEditAcc(p => ({ ...p, name: e.target.value }))} />
-                    <input className={inp} value={editAcc.issued_by} placeholder="Issued by"
+                    <input className={inp} value={editAcc.issued_by} placeholder={t(`${P}.accreditations.issuedByPlaceholder`)}
                       onChange={e => setEditAcc(p => ({ ...p, issued_by: e.target.value }))} />
                     <div>
-                      <label className={lbl}>Valid until</label>
+                      <label className={lbl}>{t(`${P}.accreditations.validUntil`)}</label>
                       <input className={inp} type="date" value={editAcc.valid_until}
                         onChange={e => setEditAcc(p => ({ ...p, valid_until: e.target.value }))} />
                     </div>
@@ -664,16 +769,16 @@ export default function UniProfilePage() {
                           valid_until: editAcc.valid_until || null,
                         });
                         setEditAccId(null);
-                      }} className="text-sm text-emerald-600 font-medium">Save</button>
-                      <button onClick={() => setEditAccId(null)} className="text-sm text-gray-400">Cancel</button>
+                      }} className="text-sm text-emerald-600 font-medium">{t(`${P}.common.save`)}</button>
+                      <button onClick={() => setEditAccId(null)} className="text-sm text-gray-400">{t(`${P}.common.cancel`)}</button>
                     </div>
                   </div>
                 ) : (
                   <div className="flex items-start justify-between gap-3">
                     <div>
                       <p className="text-sm font-medium text-gray-800">{acc.name}</p>
-                      {acc.issued_by && <p className="text-xs text-gray-500 mt-0.5">Issued by: {acc.issued_by}</p>}
-                      {acc.valid_until && <p className="text-xs text-gray-400 mt-0.5">Valid until: {acc.valid_until}</p>}
+                      {acc.issued_by && <p className="text-xs text-gray-500 mt-0.5">{t(`${P}.accreditations.issuedByLabel`, { name: acc.issued_by })}</p>}
+                      {acc.valid_until && <p className="text-xs text-gray-400 mt-0.5">{t(`${P}.accreditations.validUntilLabel`, { date: acc.valid_until })}</p>}
                     </div>
                     <div className="flex gap-2 flex-shrink-0">
                       <button onClick={() => {
@@ -689,12 +794,12 @@ export default function UniProfilePage() {
           </ul>
           {showAddAcc && (
             <div className="mt-3 space-y-2">
-              <input className={inp} value={newAcc.name} autoFocus placeholder="Accreditation name"
+              <input className={inp} value={newAcc.name} autoFocus placeholder={t(`${P}.accreditations.namePlaceholder`)}
                 onChange={e => setNewAcc(p => ({ ...p, name: e.target.value }))} />
-              <input className={inp} value={newAcc.issued_by} placeholder="Issued by (e.g. Ministry of Education)"
+              <input className={inp} value={newAcc.issued_by} placeholder={t(`${P}.accreditations.issuedByPlaceholderLong`)}
                 onChange={e => setNewAcc(p => ({ ...p, issued_by: e.target.value }))} />
               <div>
-                <label className={lbl}>Valid until (optional)</label>
+                <label className={lbl}>{t(`${P}.accreditations.validUntilOptional`)}</label>
                 <input className={inp} type="date" value={newAcc.valid_until}
                   onChange={e => setNewAcc(p => ({ ...p, valid_until: e.target.value }))} />
               </div>
@@ -710,10 +815,10 @@ export default function UniProfilePage() {
                   setShowAddAcc(false);
                 }} disabled={!newAcc.name.trim()}
                   className="bg-[#3356AA] text-white rounded-lg px-4 py-2 text-sm font-medium hover:bg-[#2c4892] disabled:opacity-50">
-                  Add Accreditation
+                  {t(`${P}.accreditations.add`)}
                 </button>
                 <button onClick={() => { setShowAddAcc(false); setNewAcc({ name: "", issued_by: "", valid_until: "" }); }}
-                  className="text-sm text-gray-400 hover:text-gray-600">Cancel</button>
+                  className="text-sm text-gray-400 hover:text-gray-600">{t(`${P}.common.cancel`)}</button>
               </div>
             </div>
           )}
@@ -722,29 +827,29 @@ export default function UniProfilePage() {
 
       {/* ══ ACADEMIC MOBILITY ════════════════════════════════════════════════ */}
       {activeTab === "mobility" && (
-        <Card title="Partner Universities"
+        <Card title={t(`${P}.mobility.title`)}
           action={
             <button onClick={() => setShowAddMob(p => !p)}
               className="flex items-center gap-1 text-sm text-[#3356AA] font-medium hover:text-[#2c4892]">
-              <IPlus /> Add
+              <IPlus /> {t(`${P}.common.add`)}
             </button>
           }>
           {myMobility.length === 0 && !showAddMob && (
-            <p className="text-sm text-gray-400">No partner universities added yet.</p>
+            <p className="text-sm text-gray-400">{t(`${P}.mobility.empty`)}</p>
           )}
           <ul className="space-y-2">
             {myMobility.map(mob => (
               <li key={mob.id} className="bg-gray-50 rounded-xl px-4 py-3">
                 {editMobId === mob.id ? (
                   <div className="space-y-2">
-                    <input className={inp} value={editMob.partner_university_name} autoFocus placeholder="Partner university name"
+                    <input className={inp} value={editMob.partner_university_name} autoFocus placeholder={t(`${P}.mobility.namePlaceholder`)}
                       onChange={e => setEditMob(p => ({ ...p, partner_university_name: e.target.value }))} />
-                    <input className={inp} value={editMob.country} placeholder="Country"
+                    <input className={inp} value={editMob.country} placeholder={t(`${P}.mobility.country`)}
                       onChange={e => setEditMob(p => ({ ...p, country: e.target.value }))} />
                     <div className="flex gap-2">
                       <button onClick={async () => { await updateMyMobility(mob.id, editMob); setEditMobId(null); }}
-                        className="text-sm text-emerald-600 font-medium">Save</button>
-                      <button onClick={() => setEditMobId(null)} className="text-sm text-gray-400">Cancel</button>
+                        className="text-sm text-emerald-600 font-medium">{t(`${P}.common.save`)}</button>
+                      <button onClick={() => setEditMobId(null)} className="text-sm text-gray-400">{t(`${P}.common.cancel`)}</button>
                     </div>
                   </div>
                 ) : (
@@ -765,16 +870,16 @@ export default function UniProfilePage() {
           </ul>
           {showAddMob && (
             <div className="mt-3 space-y-2">
-              <input className={inp} value={newMob.partner_university_name} autoFocus placeholder="Partner university name"
+              <input className={inp} value={newMob.partner_university_name} autoFocus placeholder={t(`${P}.mobility.namePlaceholder`)}
                 onChange={e => setNewMob(p => ({ ...p, partner_university_name: e.target.value }))} />
-              <input className={inp} value={newMob.country} placeholder="Country"
+              <input className={inp} value={newMob.country} placeholder={t(`${P}.mobility.country`)}
                 onChange={e => setNewMob(p => ({ ...p, country: e.target.value }))} />
               <div className="flex gap-2">
                 <button onClick={async () => { if (!newMob.partner_university_name.trim()) return; await addMyMobility(newMob); setNewMob({ partner_university_name: "", country: "" }); setShowAddMob(false); }}
                   disabled={!newMob.partner_university_name.trim()}
-                  className="bg-[#3356AA] text-white rounded-lg px-4 py-2 text-sm font-medium hover:bg-[#2c4892] disabled:opacity-50">Add Partner</button>
+                  className="bg-[#3356AA] text-white rounded-lg px-4 py-2 text-sm font-medium hover:bg-[#2c4892] disabled:opacity-50">{t(`${P}.mobility.add`)}</button>
                 <button onClick={() => { setShowAddMob(false); setNewMob({ partner_university_name: "", country: "" }); }}
-                  className="text-sm text-gray-400 hover:text-gray-600">Cancel</button>
+                  className="text-sm text-gray-400 hover:text-gray-600">{t(`${P}.common.cancel`)}</button>
               </div>
             </div>
           )}

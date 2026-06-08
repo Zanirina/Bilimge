@@ -1,4 +1,5 @@
 import { useEffect, useState, useMemo, useRef } from "react";
+import { useTranslation } from "react-i18next";
 import { useAnnouncementsStore } from "../model/announcementsStore";
 import type { Announcement, AnnouncementTag, CreateAnnouncementRequest } from "../model/types";
 import { HiOutlineChevronRight, HiPlus, HiX } from "react-icons/hi";
@@ -13,17 +14,12 @@ import {
 
 // ─── constants ───────────────────────────────────────────────────────────────
 
-const ALL_FILTERS: { key: AnnouncementTag | "all"; label: string }[] = [
-  { key: "all",         label: "All" },
-  { key: "event",       label: "Event" },
-  { key: "scholarship", label: "Scholarship" },
-  { key: "programme",   label: "Programme" },
-  { key: "update",      label: "Update" },
-];
+const FILTER_KEYS: (AnnouncementTag | "all")[] = ["all", "event", "scholarship", "programme", "update"];
 
 // ─── sub-components ──────────────────────────────────────────────────────────
 
 function LatestCard({ item, onView }: { item: Announcement; onView: (a: Announcement) => void }) {
+  const { t } = useTranslation();
   return (
     <div className="py-3 border-b border-gray-100 last:border-0">
       <TagBadge tag={item.tag} />
@@ -33,7 +29,7 @@ function LatestCard({ item, onView }: { item: Announcement; onView: (a: Announce
         onClick={() => onView(item)}
         className="flex items-center gap-1 mt-1.5 text-xs text-[#3356AA] font-medium hover:underline"
       >
-        View <HiOutlineChevronRight size={12} />
+        {t("announcements.manage.view")} <HiOutlineChevronRight size={12} />
       </button>
     </div>
   );
@@ -69,6 +65,7 @@ function NewAnnouncementModal({
   onClose: () => void;
   onSubmit: (data: CreateAnnouncementRequest) => Promise<void>;
 }) {
+  const { t } = useTranslation();
   const [form, setForm] = useState<CreateAnnouncementRequest>(EMPTY_FORM);
   const [submitting, setSubmitting] = useState(false);
   const [dragOver, setDragOver] = useState(false);
@@ -96,9 +93,9 @@ function NewAnnouncementModal({
         {/* header */}
         <div className="flex items-start justify-between px-6 pt-6 pb-4 border-b border-gray-100">
           <div>
-            <h2 className="text-xl font-bold text-[#111928]">New announcement</h2>
+            <h2 className="text-xl font-bold text-[#111928]">{t("announcements.manage.newModal.title")}</h2>
             <p className="text-sm text-gray-400 mt-0.5">
-              Will appear on your public university page and applicants' feeds.
+              {t("announcements.manage.newModal.subtitle")}
             </p>
           </div>
           <button onClick={onClose} className="text-gray-400 hover:text-gray-600 mt-0.5">
@@ -109,22 +106,22 @@ function NewAnnouncementModal({
         <div className="px-6 py-5 flex flex-col gap-5">
           {/* tag selector */}
           <div>
-            <label className="block text-sm font-semibold text-[#111928] mb-2">Tag</label>
+            <label className="block text-sm font-semibold text-[#111928] mb-2">{t("announcements.manage.newModal.tag")}</label>
             <div className="flex items-center gap-2 flex-wrap">
-              {TAG_OPTIONS.map((t) => {
-                const active = form.tag === t.key;
+              {TAG_OPTIONS.map((opt) => {
+                const active = form.tag === opt.key;
                 return (
                   <button
-                    key={t.key}
-                    onClick={() => setForm((p) => ({ ...p, tag: t.key }))}
+                    key={opt.key}
+                    onClick={() => setForm((p) => ({ ...p, tag: opt.key }))}
                     className="px-4 py-1.5 rounded-full text-sm font-medium border transition-colors"
                     style={
                       active
-                        ? { borderColor: t.color, color: t.color, backgroundColor: t.bg }
+                        ? { borderColor: opt.color, color: opt.color, backgroundColor: opt.bg }
                         : { borderColor: "#E5E7EB", color: "#6B7280", backgroundColor: "white" }
                     }
                   >
-                    {t.label}
+                    {t(`announcements.tags.${opt.key}`)}
                   </button>
                 );
               })}
@@ -134,12 +131,12 @@ function NewAnnouncementModal({
           {/* title */}
           <div>
             <label className="block text-sm font-semibold text-[#111928] mb-1.5">
-              Title <span className="text-[#3356AA]">*</span>
+              {t("announcements.manage.newModal.titleLabel")} <span className="text-[#3356AA]">*</span>
             </label>
             <input
               value={form.title}
               onChange={(e) => setForm((p) => ({ ...p, title: e.target.value }))}
-              placeholder="Headline applicants will see"
+              placeholder={t("announcements.manage.newModal.titlePlaceholder")}
               className="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm text-gray-800 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-[#3356AA]/30 focus:border-[#3356AA]"
             />
           </div>
@@ -147,22 +144,22 @@ function NewAnnouncementModal({
           {/* body */}
           <div>
             <label className="block text-sm font-semibold text-[#111928] mb-1.5">
-              Body <span className="text-[#3356AA]">*</span>
+              {t("announcements.manage.newModal.bodyLabel")} <span className="text-[#3356AA]">*</span>
             </label>
             <textarea
               value={form.body}
               onChange={(e) => setForm((p) => ({ ...p, body: e.target.value }))}
-              placeholder="Tell applicants what's happening and what to do next..."
+              placeholder={t("announcements.manage.newModal.bodyPlaceholder")}
               rows={6}
               className="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm text-gray-800 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-[#3356AA]/30 focus:border-[#3356AA] resize-none"
             />
-            <p className="text-xs text-gray-400 mt-1">Markdown supported. Aim for 1–3 short paragraphs.</p>
+            <p className="text-xs text-gray-400 mt-1">{t("announcements.manage.newModal.bodyHint")}</p>
           </div>
 
           {/* cover image */}
           <div>
             <label className="block text-sm font-semibold text-[#111928] mb-1.5">
-              Cover image <span className="text-gray-400 font-normal">(optional)</span>
+              {t("announcements.manage.newModal.coverImage")} <span className="text-gray-400 font-normal">{t("announcements.manage.newModal.optional")}</span>
             </label>
             <div
               onDragOver={(e) => { e.preventDefault(); setDragOver(true); }}
@@ -174,7 +171,7 @@ function NewAnnouncementModal({
               }`}
             >
               <LuUpload size={24} className="text-gray-400" />
-              <p className="text-sm text-gray-400 font-mono">Drop image or click to upload</p>
+              <p className="text-sm text-gray-400 font-mono">{t("announcements.manage.newModal.dropImage")}</p>
               <input ref={fileRef} type="file" accept="image/*" className="hidden" />
             </div>
           </div>
@@ -186,14 +183,14 @@ function NewAnnouncementModal({
             onClick={onClose}
             className="px-5 py-2.5 rounded-xl border border-gray-200 text-sm font-medium text-gray-600 hover:bg-gray-50"
           >
-            Cancel
+            {t("common.cancel")}
           </button>
           <button
             onClick={handleSubmit}
             disabled={!valid || submitting}
             className="px-5 py-2.5 rounded-xl bg-[#3356AA] text-white text-sm font-semibold hover:bg-[#2c4892] disabled:opacity-50 transition-colors"
           >
-            {submitting ? "Publishing…" : "Publish"}
+            {submitting ? t("announcements.manage.newModal.publishing") : t("announcements.manage.newModal.publish")}
           </button>
         </div>
       </div>
@@ -212,6 +209,7 @@ function EditAnnouncementModal({
   onClose: () => void;
   onSubmit: (data: CreateAnnouncementRequest) => Promise<void>;
 }) {
+  const { t } = useTranslation();
   const [form, setForm] = useState<CreateAnnouncementRequest>({
     title: item.title,
     body: item.body,
@@ -239,8 +237,8 @@ function EditAnnouncementModal({
       >
         <div className="flex items-start justify-between px-6 pt-6 pb-4 border-b border-gray-100">
           <div>
-            <h2 className="text-xl font-bold text-[#111928]">Edit announcement</h2>
-            <p className="text-sm text-gray-400 mt-0.5">Changes will be visible immediately.</p>
+            <h2 className="text-xl font-bold text-[#111928]">{t("announcements.manage.editModal.title")}</h2>
+            <p className="text-sm text-gray-400 mt-0.5">{t("announcements.manage.editModal.subtitle")}</p>
           </div>
           <button onClick={onClose} className="text-gray-400 hover:text-gray-600 mt-0.5">
             <HiX size={20} />
@@ -250,22 +248,22 @@ function EditAnnouncementModal({
         <div className="px-6 py-5 flex flex-col gap-5">
           {/* tag */}
           <div>
-            <label className="block text-sm font-semibold text-[#111928] mb-2">Tag</label>
+            <label className="block text-sm font-semibold text-[#111928] mb-2">{t("announcements.manage.newModal.tag")}</label>
             <div className="flex items-center gap-2 flex-wrap">
-              {TAG_OPTIONS.map((t) => {
-                const active = form.tag === t.key;
+              {TAG_OPTIONS.map((opt) => {
+                const active = form.tag === opt.key;
                 return (
                   <button
-                    key={t.key}
-                    onClick={() => setForm((p) => ({ ...p, tag: t.key }))}
+                    key={opt.key}
+                    onClick={() => setForm((p) => ({ ...p, tag: opt.key }))}
                     className="px-4 py-1.5 rounded-full text-sm font-medium border transition-colors"
                     style={
                       active
-                        ? { borderColor: t.color, color: t.color, backgroundColor: t.bg }
+                        ? { borderColor: opt.color, color: opt.color, backgroundColor: opt.bg }
                         : { borderColor: "#E5E7EB", color: "#6B7280", backgroundColor: "white" }
                     }
                   >
-                    {t.label}
+                    {t(`announcements.tags.${opt.key}`)}
                   </button>
                 );
               })}
@@ -275,12 +273,12 @@ function EditAnnouncementModal({
           {/* title */}
           <div>
             <label className="block text-sm font-semibold text-[#111928] mb-1.5">
-              Title <span className="text-[#3356AA]">*</span>
+              {t("announcements.manage.newModal.titleLabel")} <span className="text-[#3356AA]">*</span>
             </label>
             <input
               value={form.title}
               onChange={(e) => setForm((p) => ({ ...p, title: e.target.value }))}
-              placeholder="Headline applicants will see"
+              placeholder={t("announcements.manage.newModal.titlePlaceholder")}
               className="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm text-gray-800 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-[#3356AA]/30 focus:border-[#3356AA]"
             />
           </div>
@@ -288,7 +286,7 @@ function EditAnnouncementModal({
           {/* body */}
           <div>
             <label className="block text-sm font-semibold text-[#111928] mb-1.5">
-              Body <span className="text-[#3356AA]">*</span>
+              {t("announcements.manage.newModal.bodyLabel")} <span className="text-[#3356AA]">*</span>
             </label>
             <textarea
               value={form.body}
@@ -304,14 +302,14 @@ function EditAnnouncementModal({
             onClick={onClose}
             className="px-5 py-2.5 rounded-xl border border-gray-200 text-sm font-medium text-gray-600 hover:bg-gray-50"
           >
-            Cancel
+            {t("common.cancel")}
           </button>
           <button
             onClick={handleSubmit}
             disabled={!valid || submitting}
             className="px-5 py-2.5 rounded-xl bg-[#3356AA] text-white text-sm font-semibold hover:bg-[#2c4892] disabled:opacity-50 transition-colors"
           >
-            {submitting ? "Saving…" : "Save changes"}
+            {submitting ? t("announcements.manage.editModal.saving") : t("announcements.manage.editModal.save")}
           </button>
         </div>
       </div>
@@ -324,6 +322,7 @@ function EditAnnouncementModal({
 type FilterKey = AnnouncementTag | "all";
 
 export default function UniAnnouncementsPage() {
+  const { t } = useTranslation();
   const { announcements, isLoading, fetchList, createUniversity, deleteUniversity, updateUniversity } =
     useAnnouncementsStore();
   const [filter, setFilter] = useState<FilterKey>("all");
@@ -368,16 +367,16 @@ export default function UniAnnouncementsPage() {
       {/* page header */}
       <div className="flex items-start justify-between mb-6">
         <div>
-          <h1 className="text-2xl font-bold text-[#111928]">Post Updates</h1>
+          <h1 className="text-2xl font-bold text-[#111928]">{t("announcements.manage.title")}</h1>
           <p className="text-sm text-gray-400 mt-0.5">
-            Announcements published here appear on your university page and applicant feeds.
+            {t("announcements.manage.subtitle")}
           </p>
         </div>
         <button
           onClick={() => setShowCreate(true)}
           className="flex items-center gap-2 bg-[#3356AA] text-white px-4 py-2.5 rounded-xl text-sm font-semibold hover:bg-[#2c4892] transition-colors flex-shrink-0"
         >
-          <HiPlus size={18} /> New announcement
+          <HiPlus size={18} /> {t("announcements.manage.newAnnouncement")}
         </button>
       </div>
 
@@ -386,12 +385,13 @@ export default function UniAnnouncementsPage() {
         {/* left sidebar */}
         <aside className="w-52 flex-shrink-0 bg-white rounded-2xl border border-gray-100 p-4">
           <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-3 px-1">
-            Category
+            {t("announcements.manage.category")}
           </p>
           <ul className="space-y-0.5">
-            {ALL_FILTERS.map(({ key, label }) => {
+            {FILTER_KEYS.map((key) => {
               const active = filter === key;
               const meta = key !== "all" ? tagMeta(key as AnnouncementTag) : null;
+              const label = key === "all" ? t("announcements.manage.filterAll") : t(`announcements.tags.${key}`);
               return (
                 <li key={key}>
                   <button
@@ -419,15 +419,15 @@ export default function UniAnnouncementsPage() {
         {/* center feed */}
         <div className="flex-1 min-w-0 flex flex-col gap-4">
           {isLoading ? (
-            <div className="flex justify-center py-16 text-gray-400 text-sm">Loading…</div>
+            <div className="flex justify-center py-16 text-gray-400 text-sm">{t("announcements.manage.loading")}</div>
           ) : filtered.length === 0 ? (
             <div className="flex flex-col items-center justify-center py-16 gap-3">
-              <p className="text-gray-400 text-sm">No announcements yet.</p>
+              <p className="text-gray-400 text-sm">{t("announcements.empty")}</p>
               <button
                 onClick={() => setShowCreate(true)}
                 className="flex items-center gap-1.5 text-sm text-[#3356AA] font-medium hover:underline"
               >
-                <HiPlus size={16} /> Post your first announcement
+                <HiPlus size={16} /> {t("announcements.manage.postFirst")}
               </button>
             </div>
           ) : (
@@ -448,9 +448,9 @@ export default function UniAnnouncementsPage() {
 
         {/* right sidebar */}
         <aside className="w-64 flex-shrink-0 bg-white rounded-2xl border border-gray-100 p-4">
-          <p className="text-sm font-bold text-[#111928] mb-2">Latest</p>
+          <p className="text-sm font-bold text-[#111928] mb-2">{t("announcements.latest")}</p>
           {latest.length === 0 ? (
-            <p className="text-xs text-gray-400 py-4 text-center">Nothing yet.</p>
+            <p className="text-xs text-gray-400 py-4 text-center">{t("announcements.nothingYet")}</p>
           ) : (
             latest.map((item) => (
               <LatestCard key={item.id} item={item} onView={setSelected} />

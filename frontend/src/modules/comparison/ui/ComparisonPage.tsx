@@ -1,6 +1,8 @@
 import { useEffect, useMemo, useRef, useState } from "react";
-import { Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
+import i18n from "../../../shared/lib/i18n/i18n";
 import { universityService } from "../../universities/api/universityService";
+import { localizeData } from "../../../shared/lib/i18n/localizeData";
 import type { University, UniversityListItem } from "../../universities/model/types";
 import { HiOutlinePlus, HiOutlineX } from "react-icons/hi";
 import {
@@ -10,6 +12,7 @@ import {
   MdClose,
   MdArrowForward,
   MdRefresh,
+  MdAutoAwesome,
 } from "react-icons/md";
 import { TbBuildingSkyscraper } from "react-icons/tb";
 
@@ -84,21 +87,21 @@ const I = {
 
 const SECTIONS: SectionDef[] = [
   {
-    name: "Overview",
+    name: "comparison.sections.overview",
     rows: [
       {
-        label: "City",
+        label: "comparison.rows.city",
         value: () => null,
         render: (u) => u.city || "—",
       },
       {
-        label: "Founded",
+        label: "comparison.rows.founded",
         value: (u) => u.year_established ?? null,
         render: (u) => u.year_established || "—",
         direction: "low",
       },
       {
-        label: "Website",
+        label: "comparison.rows.website",
         value: () => null,
         render: (u) =>
           u.website ? (
@@ -117,10 +120,10 @@ const SECTIONS: SectionDef[] = [
     ],
   },
   {
-    name: "Admissions",
+    name: "comparison.sections.admissions",
     rows: [
       {
-        label: "UNT minimum",
+        label: "comparison.rows.untMinimum",
         value: (u) => u.passing_score ?? null,
         render: (u) => (
           <div className="flex items-center gap-3">
@@ -142,19 +145,19 @@ const SECTIONS: SectionDef[] = [
         direction: "low",
       },
       {
-        label: "Entrance requirements",
+        label: "comparison.rows.entranceRequirements",
         value: (u) => u.entrance_requirements?.length ?? null,
         render: (u) => u.entrance_requirements?.length ?? "—",
         direction: "none",
       },
       {
-        label: "Entrance exams",
+        label: "comparison.rows.entranceExams",
         value: (u) => u.entrance_exams?.length ?? null,
         render: (u) => u.entrance_exams?.length ?? "—",
         direction: "none",
       },
       {
-        label: "Languages",
+        label: "comparison.rows.languages",
         value: (u) => u.teaching_languages?.length ?? null,
         render: (u) =>
           u.teaching_languages?.length ? (
@@ -176,10 +179,10 @@ const SECTIONS: SectionDef[] = [
     ],
   },
   {
-    name: "Costs",
+    name: "comparison.sections.costs",
     rows: [
       {
-        label: "Annual tuition",
+        label: "comparison.rows.annualTuition",
         value: (u) => u.tuition_cost ?? null,
         render: (u) => (
           <span className="text-base font-bold text-gray-900">
@@ -189,7 +192,7 @@ const SECTIONS: SectionDef[] = [
         direction: "low",
       },
       {
-        label: "Cheapest program",
+        label: "comparison.rows.cheapestProgram",
         value: (u) => minProgramCost(u),
         render: (u) => {
           const c = minProgramCost(u);
@@ -200,10 +203,10 @@ const SECTIONS: SectionDef[] = [
     ],
   },
   {
-    name: "Academics",
+    name: "comparison.sections.academics",
     rows: [
       {
-        label: "Programmes",
+        label: "comparison.rows.programmes",
         value: (u) => programCount(u),
         render: (u) => (
           <span className="text-base font-bold text-gray-900">{programCount(u)}</span>
@@ -211,13 +214,13 @@ const SECTIONS: SectionDef[] = [
         direction: "high",
       },
       {
-        label: "Fields of study",
+        label: "comparison.rows.fieldsOfStudy",
         value: (u) => u.programs_by_field?.length ?? null,
         render: (u) => u.programs_by_field?.length ?? "—",
         direction: "high",
       },
       {
-        label: "Accreditations",
+        label: "comparison.rows.accreditations",
         value: (u) => u.accreditations?.length ?? null,
         render: (u) =>
           u.accreditations?.length ? (
@@ -240,16 +243,16 @@ const SECTIONS: SectionDef[] = [
     ],
   },
   {
-    name: "International",
+    name: "comparison.sections.international",
     rows: [
       {
-        label: "Partner universities",
+        label: "comparison.rows.partnerUniversities",
         value: (u) => u.academic_mobility?.length ?? null,
         render: (u) => u.academic_mobility?.length ?? "—",
         direction: "high",
       },
       {
-        label: "Countries",
+        label: "comparison.rows.countries",
         value: (u) => partnerCountries(u).length,
         render: (u) => {
           const c = partnerCountries(u);
@@ -260,34 +263,34 @@ const SECTIONS: SectionDef[] = [
     ],
   },
   {
-    name: "Campus life",
+    name: "comparison.sections.campusLife",
     rows: [
       {
-        label: "Dormitory",
+        label: "comparison.rows.dormitory",
         value: (u) => (u.has_dormitory ? 1 : 0),
         render: (u) =>
           u.has_dormitory ? (
             <span className="flex items-center gap-1 text-emerald-600 text-sm font-medium">
-              <MdCheck size={16} /> Yes
+              <MdCheck size={16} /> {i18n.t("comparison.yes")}
             </span>
           ) : (
             <span className="flex items-center gap-1 text-gray-400 text-sm">
-              <MdClose size={16} /> No
+              <MdClose size={16} /> {i18n.t("comparison.no")}
             </span>
           ),
         direction: "high",
       },
       {
-        label: "Military department",
+        label: "comparison.rows.militaryDepartment",
         value: (u) => (u.has_military_department ? 1 : 0),
         render: (u) =>
           u.has_military_department ? (
             <span className="flex items-center gap-1 text-emerald-600 text-sm font-medium">
-              <MdCheck size={16} /> Yes
+              <MdCheck size={16} /> {i18n.t("comparison.yes")}
             </span>
           ) : (
             <span className="flex items-center gap-1 text-gray-400 text-sm">
-              <MdClose size={16} /> No
+              <MdClose size={16} /> {i18n.t("comparison.no")}
             </span>
           ),
         direction: "high",
@@ -308,6 +311,7 @@ function UniPicker({
   onAdd: (code: string) => void;
   variant?: "primary" | "ghost";
 }) {
+  const { t } = useTranslation();
   const [open, setOpen] = useState(false);
   const [query, setQuery] = useState("");
   const ref = useRef<HTMLDivElement>(null);
@@ -336,7 +340,7 @@ function UniPicker({
             : "flex items-center gap-2 px-3 py-2 rounded-xl border border-gray-200 text-gray-600 text-sm font-medium hover:bg-gray-50 transition-colors"
         }
       >
-        <HiOutlinePlus size={16} /> Add university
+        <HiOutlinePlus size={16} /> {t("comparison.addUniversity")}
       </button>
 
       {open && (
@@ -346,13 +350,13 @@ function UniPicker({
               autoFocus
               value={query}
               onChange={(e) => setQuery(e.target.value)}
-              placeholder="Search universities…"
+              placeholder={t("comparison.searchPlaceholder")}
               className="w-full text-sm outline-none text-[#111928] placeholder-gray-400"
             />
           </div>
           <ul className="max-h-64 overflow-y-auto py-1">
             {filtered.length === 0 ? (
-              <li className="px-4 py-3 text-sm text-gray-400 text-center">No results</li>
+              <li className="px-4 py-3 text-sm text-gray-400 text-center">{t("comparison.noResults")}</li>
             ) : (
               filtered.map((u) => (
                 <li key={u.code}>
@@ -387,6 +391,7 @@ function UniHeaderCard({
   index: number;
   onRemove: () => void;
 }) {
+  const { t } = useTranslation();
   const color = UNI_COLORS[index % UNI_COLORS.length];
   return (
     <div className="flex flex-col items-center text-center px-3">
@@ -407,7 +412,7 @@ function UniHeaderCard({
         )}
         <button
           onClick={onRemove}
-          aria-label="Remove"
+          aria-label={t("comparison.remove")}
           className="absolute -top-2 -right-2 w-6 h-6 rounded-full bg-white border border-gray-200 flex items-center justify-center text-gray-400 hover:text-red-500 hover:border-red-200 shadow-sm"
         >
           <HiOutlineX size={12} />
@@ -421,7 +426,7 @@ function UniHeaderCard({
         {university.year_established && (
           <>
             <span className="text-gray-300 mx-1">·</span>
-            {I.cal} Est. {university.year_established}
+            {I.cal} {t("comparison.est", { year: university.year_established })}
           </>
         )}
       </p>
@@ -431,6 +436,7 @@ function UniHeaderCard({
 
 // ─── Programmes overlap card ─────────────────────────────────────────────────
 function ProgrammesOverlap({ universities }: { universities: University[] }) {
+  const { t } = useTranslation();
   const fieldsByUni = universities.map((u) =>
     new Set((u.programs_by_field ?? []).map((f) => f.name))
   );
@@ -446,17 +452,19 @@ function ProgrammesOverlap({ universities }: { universities: University[] }) {
   return (
     <div className="bg-white rounded-2xl shadow-sm p-6">
       <div className="mb-4">
-        <h2 className="text-lg font-bold text-gray-900">Programmes overlap</h2>
+        <h2 className="text-lg font-bold text-gray-900">{t("comparison.overlap.title")}</h2>
         <p className="text-sm text-gray-500 mt-1">
-          {sharedByAll.length} field{sharedByAll.length === 1 ? "" : "s"} offered by all{" "}
-          {universities.length} universities
+          {t("comparison.overlap.summary", {
+            count: sharedByAll.length,
+            unis: universities.length,
+          })}
         </p>
       </div>
 
       {sharedByAll.length > 0 && (
         <div className="mb-5">
           <p className="text-[10px] font-semibold text-gray-400 uppercase tracking-wider mb-2">
-            Offered by all
+            {t("comparison.overlap.offeredByAll")}
           </p>
           <div className="flex flex-wrap gap-1.5">
             {sharedByAll.map((f) => (
@@ -488,12 +496,12 @@ function ProgrammesOverlap({ universities }: { universities: University[] }) {
                   {initialsOf(u.short_name || u.name)}
                 </div>
                 <p className="text-sm font-semibold text-gray-900">
-                  Only at {u.short_name || u.name}
+                  {t("comparison.overlap.onlyAt", { name: u.short_name || u.name })}
                 </p>
               </div>
               {uniq.length === 0 ? (
                 <p className="text-xs text-gray-400">
-                  No fields unique to this university.
+                  {t("comparison.overlap.noUnique")}
                 </p>
               ) : (
                 <ul className="space-y-1">
@@ -515,8 +523,96 @@ function ProgrammesOverlap({ universities }: { universities: University[] }) {
   );
 }
 
+// ─── AI analysis card ────────────────────────────────────────────────────────
+function AiAnalysis({ universities }: { universities: University[] }) {
+  const { t, i18n } = useTranslation();
+  const [analysis, setAnalysis] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(false);
+
+  const codes = universities.map((u) => String(u.code));
+  const key = `${codes.join(",")}|${i18n.language}`;
+
+  // The selection or language changed → previous analysis is stale.
+  useEffect(() => {
+    setAnalysis(null);
+    setError(false);
+  }, [key]);
+
+  async function generate() {
+    setLoading(true);
+    setError(false);
+    try {
+      const res = await universityService.compareUniversitiesAI(codes, i18n.language);
+      const text = res.data?.ai_analysis?.trim();
+      if (text) setAnalysis(text);
+      else setError(true);
+    } catch {
+      setError(true);
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  return (
+    <div className="bg-white rounded-2xl shadow-sm p-6">
+      <div className="flex items-start justify-between gap-3 flex-wrap mb-4">
+        <div className="flex items-start gap-3">
+          <div className="w-10 h-10 rounded-xl bg-[#EEF2FF] flex items-center justify-center flex-shrink-0">
+            <MdAutoAwesome size={20} className="text-[#3356AA]" />
+          </div>
+          <div>
+            <h2 className="text-lg font-bold text-gray-900">{t("comparison.ai.title")}</h2>
+            <p className="text-sm text-gray-500 mt-0.5">{t("comparison.ai.subtitle")}</p>
+          </div>
+        </div>
+        {(analysis || error) && !loading && (
+          <button
+            onClick={generate}
+            className="flex items-center gap-2 px-3 py-2 rounded-xl border border-gray-200 text-gray-700 text-sm font-medium hover:bg-gray-50 transition-colors"
+          >
+            <MdRefresh size={16} /> {t("comparison.ai.regenerate")}
+          </button>
+        )}
+      </div>
+
+      {loading ? (
+        <div className="flex items-center gap-3 text-gray-500 text-sm py-4">
+          <span className="w-4 h-4 border-2 border-[#3356AA]/30 border-t-[#3356AA] rounded-full animate-spin" />
+          {t("comparison.ai.loading")}
+        </div>
+      ) : analysis ? (
+        <>
+          <p className="text-sm text-gray-700 leading-relaxed whitespace-pre-line">
+            {analysis}
+          </p>
+          <p className="text-xs text-gray-400 mt-4">{t("comparison.ai.disclaimer")}</p>
+        </>
+      ) : error ? (
+        <div className="flex flex-col items-start gap-3 py-2">
+          <p className="text-sm text-red-500">{t("comparison.ai.error")}</p>
+          <button
+            onClick={generate}
+            className="flex items-center gap-2 px-4 py-2 rounded-xl bg-[#3356AA] text-white text-sm font-medium hover:bg-[#2c4892] transition-colors"
+          >
+            <MdRefresh size={16} /> {t("comparison.ai.regenerate")}
+          </button>
+        </div>
+      ) : (
+        <button
+          onClick={generate}
+          className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-[#3356AA] text-white text-sm font-medium hover:bg-[#2c4892] transition-colors"
+        >
+          <MdAutoAwesome size={16} /> {t("comparison.ai.generate")}
+        </button>
+      )}
+    </div>
+  );
+}
+
 // ─── Why pick each one card ──────────────────────────────────────────────────
 function WhyPickEach({ universities }: { universities: University[] }) {
+  const { t } = useTranslation();
   type Reason = string;
   const reasons: Reason[][] = universities.map(() => []);
 
@@ -532,49 +628,49 @@ function WhyPickEach({ universities }: { universities: University[] }) {
 
   award(
     (u) => u.tuition_cost ?? null,
-    () => "Lowest annual tuition",
+    () => t("comparison.why.lowestTuition"),
     "low"
   );
   award(
     (u) => programCount(u) || null,
-    (u) => `Largest catalogue (${programCount(u)} programs)`,
+    (u) => t("comparison.why.largestCatalogue", { count: programCount(u) }),
     "high"
   );
   award(
     (u) => u.passing_score ?? null,
-    () => "Most accessible (lowest UNT minimum)",
+    () => t("comparison.why.mostAccessible"),
     "low"
   );
   award(
     (u) => u.teaching_languages?.length || null,
-    () => "Most languages of instruction",
+    () => t("comparison.why.mostLanguages"),
     "high"
   );
   award(
     (u) => u.academic_mobility?.length || null,
-    () => "Most international partners",
+    () => t("comparison.why.mostPartners"),
     "high"
   );
   award(
     (u) => u.accreditations?.length || null,
-    () => "Most accreditations",
+    () => t("comparison.why.mostAccreditations"),
     "high"
   );
   award(
     (u) => u.year_established ?? null,
-    () => "Oldest, most established",
+    () => t("comparison.why.oldest"),
     "low"
   );
 
   // Per-university facility badges
   universities.forEach((u, i) => {
-    if (u.has_dormitory) reasons[i].push("On-campus dormitory");
-    if (u.has_military_department) reasons[i].push("Military department available");
+    if (u.has_dormitory) reasons[i].push(t("comparison.why.dormitory"));
+    if (u.has_military_department) reasons[i].push(t("comparison.why.militaryDept"));
   });
 
   return (
     <div className="bg-white rounded-2xl shadow-sm p-6">
-      <h2 className="text-lg font-bold text-gray-900 mb-4">Why pick each one</h2>
+      <h2 className="text-lg font-bold text-gray-900 mb-4">{t("comparison.why.title")}</h2>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
         {universities.map((u, i) => {
           const color = UNI_COLORS[i % UNI_COLORS.length];
@@ -597,7 +693,7 @@ function WhyPickEach({ universities }: { universities: University[] }) {
               </div>
               {list.length === 0 ? (
                 <p className="text-xs text-gray-400">
-                  No standout metrics yet — add more data.
+                  {t("comparison.why.noStandout")}
                 </p>
               ) : (
                 <ul className="space-y-1.5">
@@ -622,13 +718,33 @@ function WhyPickEach({ universities }: { universities: University[] }) {
 
 // ─── Main page ───────────────────────────────────────────────────────────────
 export default function ComparisonPage() {
+  const { t, i18n } = useTranslation();
   const [allUniversities, setAllUniversities] = useState<UniversityListItem[]>([]);
   const [universities, setUniversities] = useState<University[]>([]);
   const [loading, setLoading] = useState<Set<string>>(new Set());
 
   useEffect(() => {
-    universityService.getUniversities().then((res) => setAllUniversities(res.data));
-  }, []);
+    universityService
+      .getUniversities()
+      .then((res) => setAllUniversities(localizeData(res.data)));
+  }, [i18n.language]);
+
+  // Re-fetch the universities currently in the comparison when the language
+  // changes, so their localized fields update in place.
+  useEffect(() => {
+    setUniversities((prev) => {
+      prev.forEach((u) => {
+        universityService.getUniversityByCode(String(u.code)).then((res) => {
+          const localized = localizeData(res.data);
+          setUniversities((curr) =>
+            curr.map((x) => (String(x.code) === String(u.code) ? localized : x))
+          );
+        });
+      });
+      return prev;
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [i18n.language]);
 
   async function addUniversity(code: string) {
     if (universities.length >= MAX_UNIS) return;
@@ -636,7 +752,7 @@ export default function ComparisonPage() {
     setLoading((prev) => new Set(prev).add(code));
     try {
       const res = await universityService.getUniversityByCode(code);
-      setUniversities((prev) => [...prev, res.data]);
+      setUniversities((prev) => [...prev, localizeData(res.data)]);
     } finally {
       setLoading((prev) => {
         const next = new Set(prev);
@@ -685,23 +801,16 @@ export default function ComparisonPage() {
     <div className="space-y-6">
       {/* Breadcrumb + header */}
       <div>
-        <p className="text-xs text-gray-400 mb-2">
-          <Link to="/applicant/universities" className="hover:text-[#3356AA]">
-            Universities
-          </Link>{" "}
-          <span className="mx-1">›</span>
-          <span className="text-gray-700 font-medium">Compare</span>
-        </p>
         <div className="flex items-end justify-between gap-3 flex-wrap">
           <div>
-            <h1 className="text-3xl font-bold text-gray-900">Compare universities</h1>
+            <h1 className="text-3xl font-bold text-gray-900">{t("comparison.title")}</h1>
             <p className="text-sm text-gray-500 mt-1">
-              Side-by-side breakdown of{" "}
+              {t("comparison.summaryPrefix")}{" "}
               <span className="font-semibold text-gray-700">
-                {universities.length} universit{universities.length === 1 ? "y" : "ies"}
+                {t("comparison.unis", { count: universities.length })}
               </span>{" "}
               <span className="text-gray-300 mx-1">·</span>
-              best result in each row is highlighted
+              {t("comparison.summarySuffix")}
             </p>
           </div>
           <div className="flex items-center gap-2">
@@ -710,7 +819,7 @@ export default function ComparisonPage() {
                 onClick={reorderUniversities}
                 className="flex items-center gap-2 px-3 py-2 rounded-xl border border-gray-200 text-gray-700 text-sm font-medium hover:bg-gray-50 transition-colors"
               >
-                <MdRefresh size={16} /> Reorder
+                <MdRefresh size={16} /> {t("comparison.reorder")}
               </button>
             )}
             {universities.length > 0 && (
@@ -718,7 +827,7 @@ export default function ComparisonPage() {
                 onClick={resetAll}
                 className="flex items-center gap-2 px-4 py-2 rounded-xl bg-[#111928] text-white text-sm font-medium hover:bg-[#2c2c33] transition-colors"
               >
-                Clear all <MdArrowForward size={14} />
+                {t("comparison.clearAll")} <MdArrowForward size={14} />
               </button>
             )}
           </div>
@@ -732,9 +841,9 @@ export default function ComparisonPage() {
             <TbBuildingSkyscraper size={32} className="text-[#3356AA]" />
           </div>
           <div>
-            <p className="font-semibold text-gray-900">No universities selected</p>
+            <p className="font-semibold text-gray-900">{t("comparison.noSelectedTitle")}</p>
             <p className="text-sm text-gray-500 mt-1">
-              Add up to {MAX_UNIS} universities to compare side by side.
+              {t("comparison.noSelectedDesc", { count: MAX_UNIS })}
             </p>
           </div>
           <UniPicker
@@ -753,7 +862,7 @@ export default function ComparisonPage() {
                 <tr className="border-b border-gray-100">
                   <th className="w-44 min-w-[160px] bg-gray-50/50 px-5 py-6 text-left align-bottom">
                     <p className="text-[10px] font-bold text-gray-400 uppercase tracking-wider">
-                      Comparing
+                      {t("comparison.comparing")}
                     </p>
                   </th>
                   {universities.map((u, i) => (
@@ -803,6 +912,7 @@ export default function ComparisonPage() {
           {/* Bottom cards — only useful with 2+ universities */}
           {universities.length >= 2 && (
             <>
+              <AiAnalysis universities={universities} />
               <ProgrammesOverlap universities={universities} />
               <WhyPickEach universities={universities} />
             </>
@@ -826,6 +936,7 @@ function SectionRows({
   canAdd: boolean;
   bestIndexFor: (row: RowDef) => number | null;
 }) {
+  const { t } = useTranslation();
   const totalCols = 1 + universities.length + (canAdd ? empties : 0);
   return (
     <>
@@ -834,7 +945,7 @@ function SectionRows({
           colSpan={totalCols}
           className="px-5 py-2 text-[10px] font-bold text-gray-400 uppercase tracking-wider"
         >
-          {section.name}
+          {t(section.name)}
         </td>
       </tr>
       {section.rows.map((row) => {
@@ -842,7 +953,7 @@ function SectionRows({
         return (
           <tr key={row.label} className="border-t border-gray-50">
             <td className="px-5 py-3.5 text-sm text-gray-500 bg-gray-50/30 whitespace-nowrap align-middle">
-              {row.label}
+              {t(row.label)}
             </td>
             {universities.map((u, i) => {
               const isBest = bestIdx === i;
@@ -857,7 +968,7 @@ function SectionRows({
                     <div className="text-sm text-gray-800">{row.render(u)}</div>
                     {isBest && (
                       <span className="flex items-center gap-0.5 text-[10px] font-semibold text-emerald-600 bg-emerald-100 px-1.5 py-0.5 rounded-full whitespace-nowrap">
-                        <MdCheck size={10} /> Best
+                        <MdCheck size={10} /> {t("comparison.best")}
                       </span>
                     )}
                   </div>

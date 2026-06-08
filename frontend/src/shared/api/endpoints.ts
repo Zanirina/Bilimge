@@ -23,6 +23,7 @@ export const endpoints = {
     /** @deprecated use byCode */
     byId: (id: number | string) => `/unipage/api/universities/${id}/`,
     edit: (code: string) => `/unipage/api/universities/${code}/edit/`,
+    compareAi: "/unipage/api/universities/compare-ai/",
   },
   fields: {
     list: "/unipage/api/fields/",
@@ -88,6 +89,8 @@ export const endpoints = {
     list: "/api/calendar/",
     myUniversity: "/api/calendar/my-university/",
     myUniversityById: (id: number | string) => `/api/calendar/my-university/${id}/`,
+    ntc: "/api/calendar/ntc/",
+    ntcById: (id: number | string) => `/api/calendar/ntc/${id}/`,
     personal: "/api/calendar/personal/",
     personalById: (id: number | string) => `/api/calendar/personal/${id}/`,
   },

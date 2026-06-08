@@ -1,4 +1,5 @@
 import { useEffect, useState, useMemo } from "react";
+import { useTranslation } from "react-i18next";
 import { useUniversityStore } from "../../model/universityStore";
 import { universityService } from "../../api/universityService";
 import type {
@@ -7,27 +8,19 @@ import type {
 } from "../../model/types";
 import { HiPlus, HiX } from "react-icons/hi";
 import { LuPencil, LuTrash2, LuSearch } from "react-icons/lu";
+import { LangPicker } from "../../../../shared/ui/LangPicker";
+import { fieldKey, mlGet, mlView, resolveLang } from "../../../../shared/lib/i18n/multilang";
+import type { Lang } from "../../../../shared/lib/i18n/multilang";
 
-// ─── constants ────────────────────────────────────────────────────────────────
+const P = "uniAdmin.programs";
 
-const DEGREE_LABELS: Record<ProgramDegree, string> = {
-  college:  "College",
-  bachelor: "Bachelor",
-  master:   "Master",
-  phd:      "PhD",
-};
-
-const STUDY_TYPE_LABELS: Record<ProgramStudyType, string> = {
-  full_time: "Full-time",
-  part_time: "Part-time",
-  distance:  "Distance",
-  evening:   "Evening",
-};
+const DEGREE_OPTIONS: ProgramDegree[] = ["college", "bachelor", "master", "phd"];
+const STUDY_TYPE_OPTIONS: ProgramStudyType[] = ["full_time", "part_time", "distance", "evening"];
 
 // ─── helpers ─────────────────────────────────────────────────────────────────
 
 function formatCost(n: number) {
-  return n.toLocaleString("ru-RU").replace(/,/g, " ") + " ₸";
+  return n.toLocaleString("ru-RU").replace(/,/g, " ") + " ₸";
 }
 
 // ─── Program Card ─────────────────────────────────────────────────────────────
@@ -41,6 +34,8 @@ function ProgramCard({
   onEdit: (p: UniversityProgram) => void;
   onDelete: (code: string) => void;
 }) {
+  const { t, i18n } = useTranslation();
+  const uiLang = resolveLang(i18n.language);
   return (
     <div className="bg-white rounded-2xl border border-gray-100 p-5 flex items-center gap-5">
       {/* code square */}
@@ -53,17 +48,17 @@ function ProgramCard({
       {/* name + meta */}
       <div className="flex-1 min-w-0">
         <div className="flex items-center gap-2 flex-wrap">
-          <h3 className="text-[15px] font-bold text-[#111928]">{prog.local_name}</h3>
+          <h3 className="text-[15px] font-bold text-[#111928]">{mlView(prog, "local_name", uiLang)}</h3>
           <span className="inline-flex items-center gap-1 text-xs font-semibold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-full">
             <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 inline-block" />
-            Open
+            {t(`${P}.open`)}
           </span>
         </div>
         <p className="text-sm text-gray-500 mt-0.5">
-          {DEGREE_LABELS[prog.degree]}
-          {prog.years_of_study ? ` · ${prog.years_of_study} years` : ""}
+          {t(`${P}.degrees.${prog.degree}`)}
+          {prog.years_of_study ? ` · ${t(`${P}.years`, { n: prog.years_of_study })}` : ""}
           {" · "}
-          {STUDY_TYPE_LABELS[prog.study_type]}
+          {t(`${P}.studyTypes.${prog.study_type}`)}
         </p>
         {prog.language_name && (
           <p className="text-sm text-gray-400 mt-0.5">· {prog.language_name}</p>
@@ -72,14 +67,14 @@ function ProgramCard({
 
       {/* tuition */}
       <div className="flex-shrink-0 w-40">
-        <p className="text-[10px] font-semibold text-gray-400 uppercase tracking-wider mb-1">Tuition / Year</p>
+        <p className="text-[10px] font-semibold text-gray-400 uppercase tracking-wider mb-1">{t(`${P}.tuitionYear`)}</p>
         <p className="text-lg font-bold text-[#111928]">{formatCost(prog.cost)}</p>
-        <p className="text-xs text-gray-400 mt-0.5">UNT ≥ {prog.passing_score ?? "—"}</p>
+        <p className="text-xs text-gray-400 mt-0.5">{t(`${P}.untMin`, { score: prog.passing_score ?? "—" })}</p>
       </div>
 
       {/* subjects */}
       <div className="flex-shrink-0 w-44">
-        <p className="text-[10px] font-semibold text-gray-400 uppercase tracking-wider mb-1.5">Subjects</p>
+        <p className="text-[10px] font-semibold text-gray-400 uppercase tracking-wider mb-1.5">{t(`${P}.subjects`)}</p>
         <div className="flex flex-col gap-1">
           {prog.subject_1_name && (
             <span className="text-xs bg-blue-50 text-blue-700 font-medium px-2.5 py-1 rounded-lg truncate">
@@ -96,7 +91,7 @@ function ProgramCard({
 
       {/* saved by */}
       <div className="flex-shrink-0 w-28">
-        <p className="text-[10px] font-semibold text-gray-400 uppercase tracking-wider mb-1">Saved by</p>
+        <p className="text-[10px] font-semibold text-gray-400 uppercase tracking-wider mb-1">{t(`${P}.savedBy`)}</p>
         <p className="text-xl font-bold text-[#111928]">—</p>
       </div>
 
@@ -106,7 +101,7 @@ function ProgramCard({
           onClick={() => onEdit(prog)}
           className="flex items-center gap-1.5 px-4 py-2 rounded-xl border border-gray-200 text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors"
         >
-          <LuPencil size={14} /> Edit
+          <LuPencil size={14} /> {t(`${P}.edit`)}
         </button>
         <button
           onClick={() => onDelete(prog.code)}
@@ -145,10 +140,15 @@ function ProgramModal({
   onClose: () => void;
   onSubmit: (data: CreateProgramRequest) => Promise<void>;
 }) {
+  const { t, i18n } = useTranslation();
   const [form, setForm] = useState<CreateProgramRequest>(initial);
+  const [modalLang, setModalLang] = useState<Lang>(resolveLang(i18n.language));
   const [saving, setSaving] = useState(false);
 
   const patch = (p: Partial<CreateProgramRequest>) => setForm((f) => ({ ...f, ...p }));
+  // Update a translatable field in the language currently selected by the picker.
+  const setML = (base: string, value: string) =>
+    patch({ [fieldKey(base, modalLang)]: value } as Partial<CreateProgramRequest>);
   const valid = form.local_name.trim() && form.cost > 0 && form.ntc_program;
 
   async function handleSubmit() {
@@ -171,15 +171,21 @@ function ProgramModal({
 
         <div className="px-6 py-5 flex flex-col gap-4">
 
+          {/* editing language */}
+          <div className="flex items-center justify-between">
+            <span className="text-xs text-gray-400">{t(`${P}.modal.editLanguage`)}</span>
+            <LangPicker value={modalLang} onChange={setModalLang} label={t(`${P}.modal.editLanguage`)} />
+          </div>
+
           {/* NTC programme */}
           <div>
-            <label className={lbl}>NTC Programme <span className="text-[#3356AA]">*</span></label>
+            <label className={lbl}>{t(`${P}.modal.ntcProgramme`)} <span className="text-[#3356AA]">*</span></label>
             <select className={inp} value={form.ntc_program}
               onChange={(e) => {
                 const p = ntcPrograms.find((x) => x.code === e.target.value);
                 patch({ ntc_program: e.target.value, code: e.target.value, local_name: p?.name ?? form.local_name });
               }}>
-              <option value="">Select NTC programme…</option>
+              <option value="">{t(`${P}.modal.ntcSelect`)}</option>
               {ntcPrograms.map((p) => (
                 <option key={p.code} value={p.code}>{p.code} — {p.name}</option>
               ))}
@@ -188,28 +194,27 @@ function ProgramModal({
 
           {/* local name */}
           <div>
-            <label className={lbl}>Local name <span className="text-[#3356AA]">*</span></label>
-            <input className={inp} value={form.local_name} placeholder="Programme name shown on your page"
-              onChange={(e) => patch({ local_name: e.target.value })} />
+            <label className={lbl}>{t(`${P}.modal.localName`)} <span className="text-[#3356AA]">*</span></label>
+            <input className={inp} value={mlGet(form, "local_name", modalLang)} placeholder={t(`${P}.modal.localNamePlaceholder`)}
+              onChange={(e) => setML("local_name", e.target.value)} />
           </div>
 
           {/* degree + years */}
           <div className="grid grid-cols-2 gap-3">
             <div>
-              <label className={lbl}>Degree</label>
+              <label className={lbl}>{t(`${P}.modal.degree`)}</label>
               <select className={inp} value={form.degree}
                 onChange={(e) => patch({ degree: e.target.value as ProgramDegree })}>
-                <option value="college">College</option>
-                <option value="bachelor">Bachelor</option>
-                <option value="master">Master</option>
-                <option value="phd">PhD</option>
+                {DEGREE_OPTIONS.map((d) => (
+                  <option key={d} value={d}>{t(`${P}.degrees.${d}`)}</option>
+                ))}
               </select>
             </div>
             <div>
-              <label className={lbl}>Years of study</label>
+              <label className={lbl}>{t(`${P}.modal.yearsOfStudy`)}</label>
               <input className={inp} type="number" min={1} max={10}
                 value={form.years_of_study ?? ""}
-                placeholder="e.g. 4"
+                placeholder={t(`${P}.modal.yearsPlaceholder`)}
                 onChange={(e) => patch({ years_of_study: e.target.value ? +e.target.value : null })} />
             </div>
           </div>
@@ -217,20 +222,19 @@ function ProgramModal({
           {/* study type + language */}
           <div className="grid grid-cols-2 gap-3">
             <div>
-              <label className={lbl}>Study type</label>
+              <label className={lbl}>{t(`${P}.modal.studyType`)}</label>
               <select className={inp} value={form.study_type}
                 onChange={(e) => patch({ study_type: e.target.value as ProgramStudyType })}>
-                <option value="full_time">Full-time</option>
-                <option value="part_time">Part-time</option>
-                <option value="distance">Distance</option>
-                <option value="evening">Evening</option>
+                {STUDY_TYPE_OPTIONS.map((s) => (
+                  <option key={s} value={s}>{t(`${P}.studyTypes.${s}`)}</option>
+                ))}
               </select>
             </div>
             <div>
-              <label className={lbl}>Teaching language <span className="text-[#3356AA]">*</span></label>
+              <label className={lbl}>{t(`${P}.modal.teachingLanguage`)} <span className="text-[#3356AA]">*</span></label>
               <select className={inp} value={form.language || ""}
                 onChange={(e) => patch({ language: +e.target.value })}>
-                <option value="">Select…</option>
+                <option value="">{t(`${P}.modal.languageSelect`)}</option>
                 {languages.map((l) => (
                   <option key={l.id} value={l.id}>{l.name}</option>
                 ))}
@@ -241,15 +245,15 @@ function ProgramModal({
           {/* cost + passing score */}
           <div className="grid grid-cols-2 gap-3">
             <div>
-              <label className={lbl}>Tuition / year (₸) <span className="text-[#3356AA]">*</span></label>
+              <label className={lbl}>{t(`${P}.modal.tuition`)} <span className="text-[#3356AA]">*</span></label>
               <input className={inp} type="number" min={0}
-                value={form.cost || ""} placeholder="e.g. 1360000"
+                value={form.cost || ""} placeholder={t(`${P}.modal.tuitionPlaceholder`)}
                 onChange={(e) => patch({ cost: +e.target.value })} />
             </div>
             <div>
-              <label className={lbl}>Passing score (UNT)</label>
+              <label className={lbl}>{t(`${P}.modal.passingScore`)}</label>
               <input className={inp} type="number" min={0} max={140}
-                value={form.passing_score || ""} placeholder="e.g. 90"
+                value={form.passing_score || ""} placeholder={t(`${P}.modal.passingPlaceholder`)}
                 onChange={(e) => patch({ passing_score: +e.target.value })} />
             </div>
           </div>
@@ -257,38 +261,38 @@ function ProgramModal({
           {/* grant score */}
           <div className="grid grid-cols-2 gap-3">
             <div>
-              <label className={lbl}>Grant score (UNT)</label>
+              <label className={lbl}>{t(`${P}.modal.grantScore`)}</label>
               <input className={inp} type="number" min={0} max={140}
-                value={form.grant_score || ""} placeholder="e.g. 110"
+                value={form.grant_score || ""} placeholder={t(`${P}.modal.grantPlaceholder`)}
                 onChange={(e) => patch({ grant_score: +e.target.value })} />
             </div>
           </div>
 
           {/* description */}
           <div>
-            <label className={lbl}>Description</label>
+            <label className={lbl}>{t(`${P}.modal.description`)}</label>
             <textarea className={inp + " resize-none"} rows={3}
-              value={form.description} placeholder="Brief programme overview…"
-              onChange={(e) => patch({ description: e.target.value })} />
+              value={mlGet(form, "description", modalLang)} placeholder={t(`${P}.modal.descriptionPlaceholder`)}
+              onChange={(e) => setML("description", e.target.value)} />
           </div>
 
           {/* future professions */}
           <div>
-            <label className={lbl}>Future professions</label>
+            <label className={lbl}>{t(`${P}.modal.futureProfessions`)}</label>
             <textarea className={inp + " resize-none"} rows={2}
-              value={form.future_professions} placeholder="e.g. Software Engineer, Data Analyst…"
-              onChange={(e) => patch({ future_professions: e.target.value })} />
+              value={mlGet(form, "future_professions", modalLang)} placeholder={t(`${P}.modal.futureProfessionsPlaceholder`)}
+              onChange={(e) => setML("future_professions", e.target.value)} />
           </div>
         </div>
 
         <div className="px-6 pb-6 flex justify-end gap-3">
           <button onClick={onClose}
             className="px-5 py-2.5 rounded-xl border border-gray-200 text-sm font-medium text-gray-600 hover:bg-gray-50">
-            Cancel
+            {t(`${P}.modal.cancel`)}
           </button>
           <button onClick={handleSubmit} disabled={!valid || saving}
             className="px-5 py-2.5 rounded-xl bg-[#3356AA] text-white text-sm font-semibold hover:bg-[#2c4892] disabled:opacity-50 transition-colors">
-            {saving ? "Saving…" : "Save"}
+            {saving ? t(`${P}.modal.saving`) : t(`${P}.modal.save`)}
           </button>
         </div>
       </div>
@@ -299,17 +303,12 @@ function ProgramModal({
 // ─── Filter tabs ──────────────────────────────────────────────────────────────
 
 type FilterKey = "all" | ProgramDegree;
-const FILTERS: { key: FilterKey; label: string }[] = [
-  { key: "all",      label: "All" },
-  { key: "college",  label: "College" },
-  { key: "bachelor", label: "Bachelor" },
-  { key: "master",   label: "Master" },
-  { key: "phd",      label: "PhD" },
-];
+const FILTER_KEYS: FilterKey[] = ["all", "college", "bachelor", "master", "phd"];
 
 // ─── Main page ────────────────────────────────────────────────────────────────
 
 export default function UniProgramsPage() {
+  const { t } = useTranslation();
   const { myPrograms, fetchMyPrograms, addMyProgram, updateMyProgram, deleteMyProgram } =
     useUniversityStore();
 
@@ -343,15 +342,21 @@ export default function UniProgramsPage() {
       code: prog.code,
       ntc_program: prog.ntc_program,
       local_name: prog.local_name,
+      local_name_ru: prog.local_name_ru,
+      local_name_kk: prog.local_name_kk,
       cost: prog.cost,
       language: prog.language ?? 0,
       degree: prog.degree,
       years_of_study: prog.years_of_study,
       study_type: prog.study_type,
       description: prog.description,
+      description_ru: prog.description_ru,
+      description_kk: prog.description_kk,
       passing_score: prog.passing_score,
       grant_score: prog.grant_score,
       future_professions: prog.future_professions,
+      future_professions_ru: prog.future_professions_ru,
+      future_professions_kk: prog.future_professions_kk,
     };
   }
 
@@ -359,7 +364,7 @@ export default function UniProgramsPage() {
     <>
       {addOpen && (
         <ProgramModal
-          title="Add programme"
+          title={t(`${P}.modal.addTitle`)}
           initial={EMPTY}
           ntcPrograms={ntcPrograms}
           languages={languages}
@@ -369,7 +374,7 @@ export default function UniProgramsPage() {
       )}
       {editTarget && (
         <ProgramModal
-          title="Edit programme"
+          title={t(`${P}.modal.editTitle`)}
           initial={buildInitial(editTarget)}
           ntcPrograms={ntcPrograms}
           languages={languages}
@@ -381,23 +386,23 @@ export default function UniProgramsPage() {
       {/* header */}
       <div className="flex items-start justify-between mb-1">
         <div>
-          <h1 className="text-2xl font-bold text-[#111928]">Programs</h1>
+          <h1 className="text-2xl font-bold text-[#111928]">{t(`${P}.title`)}</h1>
           <p className="text-sm text-gray-400 mt-0.5">
-            {myPrograms.length} programme{myPrograms.length !== 1 ? "s" : ""} — {myPrograms.length} open for applications
+            {t(`${P}.subtitle`, { total: myPrograms.length, open: myPrograms.length })}
           </p>
         </div>
         <button
           onClick={() => setAddOpen(true)}
           className="flex items-center gap-2 bg-[#3356AA] text-white px-4 py-2.5 rounded-xl text-sm font-semibold hover:bg-[#2c4892] transition-colors"
         >
-          <HiPlus size={18} /> Add programme
+          <HiPlus size={18} /> {t(`${P}.addProgramme`)}
         </button>
       </div>
 
       {/* filter bar + search */}
       <div className="flex items-center gap-3 mt-5 mb-5">
         <div className="flex items-center bg-white border border-gray-100 rounded-full p-1 gap-0.5">
-          {FILTERS.map(({ key, label }) => (
+          {FILTER_KEYS.map((key) => (
             <button
               key={key}
               onClick={() => setFilter(key)}
@@ -407,7 +412,7 @@ export default function UniProgramsPage() {
                   : "text-gray-500 hover:text-gray-700 hover:bg-gray-50"
               }`}
             >
-              {label}
+              {t(`${P}.filters.${key}`)}
             </button>
           ))}
         </div>
@@ -417,13 +422,13 @@ export default function UniProgramsPage() {
           <input
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            placeholder="Search programmes…"
+            placeholder={t(`${P}.search`)}
             className="w-full pl-9 pr-4 py-2 border border-gray-200 rounded-full text-sm text-gray-700 placeholder:text-gray-400 bg-white focus:outline-none focus:ring-2 focus:ring-[#3356AA]/20 focus:border-[#3356AA]"
           />
         </div>
 
         <p className="ml-auto text-sm text-gray-400 flex-shrink-0">
-          Showing {filtered.length} of {myPrograms.length}
+          {t(`${P}.showing`, { shown: filtered.length, total: myPrograms.length })}
         </p>
       </div>
 
@@ -431,13 +436,13 @@ export default function UniProgramsPage() {
       <div className="flex flex-col gap-3">
         {filtered.length === 0 ? (
           <div className="flex flex-col items-center justify-center py-20 gap-3">
-            <p className="text-gray-400 text-sm">No programmes found.</p>
+            <p className="text-gray-400 text-sm">{t(`${P}.empty`)}</p>
             {myPrograms.length === 0 && (
               <button
                 onClick={() => setAddOpen(true)}
                 className="flex items-center gap-1.5 text-sm text-[#3356AA] font-medium hover:underline"
               >
-                <HiPlus size={16} /> Add your first programme
+                <HiPlus size={16} /> {t(`${P}.addFirst`)}
               </button>
             )}
           </div>

@@ -1,8 +1,12 @@
 import { useEffect, useState, useMemo } from "react";
+import { useTranslation } from "react-i18next";
 import { universityService } from "../../universities/api/universityService";
 import type { NtcProgram, FieldOfStudy, Subject } from "../../universities/model/types";
 import { HiX } from "react-icons/hi";
 import { LuSearch, LuPencil, LuTrash2 } from "react-icons/lu";
+import { LangPicker } from "../../../shared/ui/LangPicker";
+import { fieldKey, resolveLang } from "../../../shared/lib/i18n/multilang";
+import type { Lang } from "../../../shared/lib/i18n/multilang";
 
 const inp =
   "w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm text-gray-800 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-[#3356AA]/30 focus:border-[#3356AA]";
@@ -10,6 +14,8 @@ const lbl = "block text-sm font-semibold text-[#111928] mb-1.5";
 
 type EditForm = {
   name: string;
+  name_ru: string;
+  name_kk: string;
   field_of_study: string;
   subject_1: number;
   subject_2: number;
@@ -29,16 +35,21 @@ function EditModal({
   onClose: () => void;
   onSave: (code: string, form: EditForm) => Promise<void>;
 }) {
+  const { t, i18n } = useTranslation();
   const [form, setForm] = useState<EditForm>({
     name: prog.name,
+    name_ru: prog.name_ru ?? "",
+    name_kk: prog.name_kk ?? "",
     field_of_study: prog.field_of_study,
     subject_1: prog.subject_1,
     subject_2: prog.subject_2,
     minimum_score: prog.minimum_score,
   });
+  const [editLang, setEditLang] = useState<Lang>(resolveLang(i18n.language));
   const [saving, setSaving] = useState(false);
 
   const patch = (p: Partial<EditForm>) => setForm((f) => ({ ...f, ...p }));
+  const nameField = fieldKey("name", editLang) as "name" | "name_ru" | "name_kk";
   const valid = form.name.trim() && form.field_of_study && form.subject_1 && form.subject_2;
 
   async function handleSubmit() {
@@ -60,7 +71,7 @@ function EditModal({
       >
         <div className="flex items-center justify-between px-6 pt-6 pb-4 border-b border-gray-100">
           <div>
-            <h2 className="text-xl font-bold text-[#111928]">Edit Programme</h2>
+            <h2 className="text-xl font-bold text-[#111928]">{t("ntcAdmin.programs.editModal.title")}</h2>
             <p className="text-xs text-gray-400 mt-0.5 font-mono">{prog.code}</p>
           </div>
           <button onClick={onClose} className="text-gray-400 hover:text-gray-600">
@@ -70,60 +81,63 @@ function EditModal({
 
         <div className="px-6 py-5 flex flex-col gap-4">
           <div>
-            <label className={lbl}>Name <span className="text-[#3356AA]">*</span></label>
+            <div className="flex items-center justify-between mb-1.5">
+              <label className="block text-sm font-semibold text-[#111928]">{t("ntcAdmin.programs.editModal.name")} <span className="text-[#3356AA]">*</span></label>
+              <LangPicker value={editLang} onChange={setEditLang} label={t("ntcAdmin.programs.editModal.editLanguage")} />
+            </div>
             <input
               className={inp}
-              value={form.name}
-              onChange={(e) => patch({ name: e.target.value })}
-              placeholder="Programme name"
+              value={form[nameField]}
+              onChange={(e) => patch({ [nameField]: e.target.value })}
+              placeholder={t("ntcAdmin.programs.editModal.namePlaceholder")}
             />
           </div>
 
           <div>
-            <label className={lbl}>Field of Study <span className="text-[#3356AA]">*</span></label>
+            <label className={lbl}>{t("ntcAdmin.programs.editModal.fieldOfStudy")} <span className="text-[#3356AA]">*</span></label>
             <select
               className={inp}
               value={form.field_of_study}
               onChange={(e) => patch({ field_of_study: e.target.value })}
             >
-              <option value="">Select field…</option>
+              <option value="">{t("ntcAdmin.programs.editModal.selectField")}</option>
               {fields.map((f) => (
-                <option key={f.code} value={f.code}>{f.code} — {f.name}</option>
+                <option key={f.code} value={f.code}>{f.code} — {f.name_localized || f.name}</option>
               ))}
             </select>
           </div>
 
           <div className="grid grid-cols-2 gap-3">
             <div>
-              <label className={lbl}>Subject 1 <span className="text-[#3356AA]">*</span></label>
+              <label className={lbl}>{t("ntcAdmin.programs.editModal.subject1")} <span className="text-[#3356AA]">*</span></label>
               <select
                 className={inp}
                 value={form.subject_1}
                 onChange={(e) => patch({ subject_1: +e.target.value })}
               >
-                <option value={0}>Select…</option>
+                <option value={0}>{t("ntcAdmin.programs.editModal.select")}</option>
                 {subjects.map((s) => (
-                  <option key={s.id} value={s.id}>{s.name}</option>
+                  <option key={s.id} value={s.id}>{s.name_localized || s.name}</option>
                 ))}
               </select>
             </div>
             <div>
-              <label className={lbl}>Subject 2 <span className="text-[#3356AA]">*</span></label>
+              <label className={lbl}>{t("ntcAdmin.programs.editModal.subject2")} <span className="text-[#3356AA]">*</span></label>
               <select
                 className={inp}
                 value={form.subject_2}
                 onChange={(e) => patch({ subject_2: +e.target.value })}
               >
-                <option value={0}>Select…</option>
+                <option value={0}>{t("ntcAdmin.programs.editModal.select")}</option>
                 {subjects.map((s) => (
-                  <option key={s.id} value={s.id}>{s.name}</option>
+                  <option key={s.id} value={s.id}>{s.name_localized || s.name}</option>
                 ))}
               </select>
             </div>
           </div>
 
           <div>
-            <label className={lbl}>Minimum UNT Score</label>
+            <label className={lbl}>{t("ntcAdmin.programs.editModal.minScore")}</label>
             <input
               className={inp}
               type="number"
@@ -131,7 +145,7 @@ function EditModal({
               max={140}
               value={form.minimum_score}
               onChange={(e) => patch({ minimum_score: +e.target.value })}
-              placeholder="e.g. 50"
+              placeholder={t("ntcAdmin.programs.editModal.minScorePlaceholder")}
             />
           </div>
         </div>
@@ -141,14 +155,14 @@ function EditModal({
             onClick={onClose}
             className="px-5 py-2.5 rounded-xl border border-gray-200 text-sm font-medium text-gray-600 hover:bg-gray-50"
           >
-            Cancel
+            {t("common.cancel")}
           </button>
           <button
             onClick={handleSubmit}
             disabled={!valid || saving}
             className="px-5 py-2.5 rounded-xl bg-[#3356AA] text-white text-sm font-semibold hover:bg-[#2c4892] disabled:opacity-50 transition-colors"
           >
-            {saving ? "Saving…" : "Save"}
+            {saving ? t("common.saving") : t("common.save")}
           </button>
         </div>
       </div>
@@ -157,6 +171,7 @@ function EditModal({
 }
 
 export default function NtcProgramsPage() {
+  const { t } = useTranslation();
   const [programs, setPrograms] = useState<NtcProgram[]>([]);
   const [fields, setFields] = useState<FieldOfStudy[]>([]);
   const [subjects, setSubjects] = useState<Subject[]>([]);
@@ -180,23 +195,8 @@ export default function NtcProgramsPage() {
 
   async function handleSave(code: string, form: EditForm) {
     const res = await universityService.updateNtcProgram(code, form);
-    setPrograms((prev) =>
-      prev.map((p) =>
-        p.code === code
-          ? {
-              ...p,
-              name: res.data.name,
-              field_of_study: res.data.field_of_study,
-              field_of_study_name: res.data.field_of_study_name,
-              subject_1: res.data.subject_1,
-              subject_1_name: res.data.subject_1_name,
-              subject_2: res.data.subject_2,
-              subject_2_name: res.data.subject_2_name,
-              minimum_score: res.data.minimum_score,
-            }
-          : p
-      )
-    );
+    // The update endpoint returns the full localized program representation.
+    setPrograms((prev) => prev.map((p) => (p.code === code ? { ...p, ...res.data } : p)));
   }
 
   async function handleDelete(code: string) {
@@ -216,7 +216,9 @@ export default function NtcProgramsPage() {
       (p) =>
         p.code.toLowerCase().includes(q) ||
         p.name.toLowerCase().includes(q) ||
-        p.field_of_study_name?.toLowerCase().includes(q)
+        p.name_localized?.toLowerCase().includes(q) ||
+        p.field_of_study_name?.toLowerCase().includes(q) ||
+        p.field_of_study_name_localized?.toLowerCase().includes(q)
     );
   }, [programs, search]);
 
@@ -234,9 +236,9 @@ export default function NtcProgramsPage() {
 
       <div className="flex items-start justify-between mb-1">
         <div>
-          <h1 className="text-2xl font-bold text-[#111928]">Programs</h1>
+          <h1 className="text-2xl font-bold text-[#111928]">{t("ntcAdmin.programs.title")}</h1>
           <p className="text-sm text-gray-400 mt-0.5">
-            {programs.length} programme{programs.length !== 1 ? "s" : ""} in the national catalogue
+            {t("ntcAdmin.programs.subtitle", { n: programs.length })}
           </p>
         </div>
       </div>
@@ -247,12 +249,12 @@ export default function NtcProgramsPage() {
           <input
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            placeholder="Search programmes…"
+            placeholder={t("ntcAdmin.programs.searchPlaceholder")}
             className="w-full pl-9 pr-4 py-2 border border-gray-200 rounded-full text-sm text-gray-700 placeholder:text-gray-400 bg-white focus:outline-none focus:ring-2 focus:ring-[#3356AA]/20 focus:border-[#3356AA]"
           />
         </div>
         <p className="ml-auto text-sm text-gray-400 flex-shrink-0">
-          Showing {filtered.length} of {programs.length}
+          {t("ntcAdmin.programs.showing", { shown: filtered.length, total: programs.length })}
         </p>
       </div>
 
@@ -260,22 +262,22 @@ export default function NtcProgramsPage() {
         <table className="w-full text-sm">
           <thead>
             <tr className="border-b border-gray-100">
-              <th className="text-left px-5 py-3.5 text-xs font-semibold text-gray-400 uppercase tracking-wider w-28">Code</th>
-              <th className="text-left px-5 py-3.5 text-xs font-semibold text-gray-400 uppercase tracking-wider">Name</th>
-              <th className="text-left px-5 py-3.5 text-xs font-semibold text-gray-400 uppercase tracking-wider w-36">Subject 1</th>
-              <th className="text-left px-5 py-3.5 text-xs font-semibold text-gray-400 uppercase tracking-wider w-36">Subject 2</th>
-              <th className="text-left px-5 py-3.5 text-xs font-semibold text-gray-400 uppercase tracking-wider w-24">Min. Score</th>
+              <th className="text-left px-5 py-3.5 text-xs font-semibold text-gray-400 uppercase tracking-wider w-28">{t("ntcAdmin.programs.th.code")}</th>
+              <th className="text-left px-5 py-3.5 text-xs font-semibold text-gray-400 uppercase tracking-wider">{t("ntcAdmin.programs.th.name")}</th>
+              <th className="text-left px-5 py-3.5 text-xs font-semibold text-gray-400 uppercase tracking-wider w-36">{t("ntcAdmin.programs.th.subject1")}</th>
+              <th className="text-left px-5 py-3.5 text-xs font-semibold text-gray-400 uppercase tracking-wider w-36">{t("ntcAdmin.programs.th.subject2")}</th>
+              <th className="text-left px-5 py-3.5 text-xs font-semibold text-gray-400 uppercase tracking-wider w-24">{t("ntcAdmin.programs.th.minScore")}</th>
               <th className="px-5 py-3.5 w-24" />
             </tr>
           </thead>
           <tbody>
             {loading ? (
               <tr>
-                <td colSpan={6} className="text-center py-16 text-gray-400 text-sm">Loading…</td>
+                <td colSpan={6} className="text-center py-16 text-gray-400 text-sm">{t("common.loading")}</td>
               </tr>
             ) : filtered.length === 0 ? (
               <tr>
-                <td colSpan={6} className="text-center py-16 text-gray-400 text-sm">No programmes found.</td>
+                <td colSpan={6} className="text-center py-16 text-gray-400 text-sm">{t("ntcAdmin.programs.empty")}</td>
               </tr>
             ) : (
               filtered.map((prog, i) => (
@@ -291,15 +293,15 @@ export default function NtcProgramsPage() {
                     </span>
                   </td>
                   <td className="px-5 py-3.5 max-w-[300px]">
-                    <p className="font-medium text-[#111928]">{prog.name}</p>
+                    <p className="font-medium text-[#111928]">{prog.name_localized || prog.name}</p>
                     <p className="text-xs text-gray-400 mt-0.5 truncate">
-                      {prog.field_of_study_name || prog.field_of_study}
+                      {prog.field_of_study_name_localized || prog.field_of_study_name || prog.field_of_study}
                     </p>
                   </td>
                   <td className="px-5 py-3.5">
                     {prog.subject_1_name ? (
                       <span className="text-xs bg-blue-50 text-blue-700 font-medium px-2.5 py-1 rounded-lg">
-                        {prog.subject_1_name}
+                        {prog.subject_1_name_localized || prog.subject_1_name}
                       </span>
                     ) : (
                       <span className="text-gray-300">—</span>
@@ -308,7 +310,7 @@ export default function NtcProgramsPage() {
                   <td className="px-5 py-3.5">
                     {prog.subject_2_name ? (
                       <span className="text-xs bg-purple-50 text-purple-700 font-medium px-2.5 py-1 rounded-lg">
-                        {prog.subject_2_name}
+                        {prog.subject_2_name_localized || prog.subject_2_name}
                       </span>
                     ) : (
                       <span className="text-gray-300">—</span>
@@ -323,7 +325,7 @@ export default function NtcProgramsPage() {
                         onClick={() => setEditTarget(prog)}
                         className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl border border-gray-200 text-xs font-medium text-gray-700 hover:bg-gray-50 transition-colors"
                       >
-                        <LuPencil size={13} /> Edit
+                        <LuPencil size={13} /> {t("common.edit")}
                       </button>
                       <button
                         onClick={() => handleDelete(prog.code)}

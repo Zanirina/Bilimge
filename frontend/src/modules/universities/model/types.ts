@@ -6,15 +6,23 @@ export type Language = {
 export type Subject = {
   id: number;
   name: string;
+  name_ru?: string;
+  name_kk?: string;
+  name_localized?: string;
 };
 
 export type FieldOfStudy = {
   code: string;
   name: string;
+  name_ru?: string;
+  name_kk?: string;
+  name_localized?: string;
 };
 
 export type UpdateNtcProgramRequest = {
   name?: string;
+  name_ru?: string;
+  name_kk?: string;
   field_of_study?: string;
   subject_1?: number;
   subject_2?: number;
@@ -24,12 +32,18 @@ export type UpdateNtcProgramRequest = {
 export type NtcProgram = {
   code: string;
   name: string;
+  name_ru?: string;
+  name_kk?: string;
+  name_localized?: string;
   field_of_study: string;
   field_of_study_name: string;
+  field_of_study_name_localized?: string;
   subject_1: number;
   subject_1_name: string;
+  subject_1_name_localized?: string;
   subject_2: number;
   subject_2_name: string;
+  subject_2_name_localized?: string;
   minimum_score: number;
 };
 
@@ -76,12 +90,24 @@ export type ProgramsByField = {
 export type EntranceRequirement = {
   id: number;
   description: string;
+  description_ru: string;
+  description_kk: string;
+};
+
+export type EntranceRequirementInput = {
+  description: string;
+  description_ru?: string;
+  description_kk?: string;
 };
 
 export type EntranceExam = {
   id: number;
   name: string;
+  name_ru: string;
+  name_kk: string;
   description: string;
+  description_ru: string;
+  description_kk: string;
 };
 
 export type AcademicMobility = {
@@ -113,15 +139,23 @@ export type UniversityListItem = {
 export type University = {
   code: string;
   name: string;
+  name_ru: string;
+  name_kk: string;
   short_name: string;
   city: string;
+  city_ru: string;
+  city_kk: string;
   address: string;
+  address_ru: string;
+  address_kk: string;
   website: string;
   year_established: number;
   email: string;
   phone: string;
   passing_score: number;
   history: string;
+  history_ru: string;
+  history_kk: string;
   logo_url: string;
   cover_url: string;
   has_dormitory: boolean;
@@ -148,6 +182,8 @@ export type UniversityProgram = {
   ntc_program: string;
   ntc_program_name: string;
   local_name: string;
+  local_name_ru: string;
+  local_name_kk: string;
   cost: number;
   passing_score: number;
   grant_score: number;
@@ -159,33 +195,51 @@ export type UniversityProgram = {
   subject_1_name: string;
   subject_2_name: string;
   description: string;
+  description_ru: string;
+  description_kk: string;
   future_professions: string;
+  future_professions_ru: string;
+  future_professions_kk: string;
 };
 
 export type CreateProgramRequest = {
   code: string;
   ntc_program: string;
   local_name: string;
+  local_name_ru?: string;
+  local_name_kk?: string;
   cost: number;
   language: number;
   degree: ProgramDegree;
   years_of_study: number | null;
   study_type: ProgramStudyType;
   description: string;
+  description_ru?: string;
+  description_kk?: string;
   passing_score: number;
   grant_score: number;
   future_professions: string;
+  future_professions_ru?: string;
+  future_professions_kk?: string;
 };
 
 export type UpdateMyUniversityInfoRequest = {
   name?: string;
+  name_ru?: string;
+  name_kk?: string;
   short_name?: string;
   city?: string;
+  city_ru?: string;
+  city_kk?: string;
   address?: string;
+  address_ru?: string;
+  address_kk?: string;
   year_established?: number;
   email?: string;
   phone?: string;
   history?: string;
+  history_ru?: string;
+  history_kk?: string;
   website?: string;
   telegram_url?: string;
   instagram_url?: string;
@@ -216,6 +270,7 @@ export type UniApplicant = {
   email: string;
   first_name: string;
   last_name: string;
+  avatar_url?: string;
   unt_score: number | null;
   favorited_programs: ApplicantFavoritedProgram[];
   first_favorited_at: string;

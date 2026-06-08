@@ -42,6 +42,8 @@ class NtcProgramSerializer(serializers.ModelSerializer):
     field_of_study_name_localized = serializers.SerializerMethodField()
     subject_1_name = serializers.CharField(source='subject_1.name', read_only=True)
     subject_2_name = serializers.CharField(source='subject_2.name', read_only=True)
+    subject_1_name_localized = serializers.SerializerMethodField()
+    subject_2_name_localized = serializers.SerializerMethodField()
     name_localized = serializers.SerializerMethodField()
 
     class Meta:
@@ -49,8 +51,8 @@ class NtcProgramSerializer(serializers.ModelSerializer):
         fields = [
             'code', 'name', 'name_ru', 'name_kk', 'name_localized',
             'field_of_study', 'field_of_study_name', 'field_of_study_name_localized',
-            'subject_1', 'subject_1_name',
-            'subject_2', 'subject_2_name',
+            'subject_1', 'subject_1_name', 'subject_1_name_localized',
+            'subject_2', 'subject_2_name', 'subject_2_name_localized',
             'minimum_score', 'updated_at',
         ]
 
@@ -63,6 +65,12 @@ class NtcProgramSerializer(serializers.ModelSerializer):
 
     def get_field_of_study_name_localized(self, obj):
         return obj.field_of_study.get_name(self._get_language())
+
+    def get_subject_1_name_localized(self, obj):
+        return obj.subject_1.get_name(self._get_language())
+
+    def get_subject_2_name_localized(self, obj):
+        return obj.subject_2.get_name(self._get_language())
 
 
 class NtcProgramUpdateSerializer(serializers.ModelSerializer):

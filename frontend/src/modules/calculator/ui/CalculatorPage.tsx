@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { calculatorService } from "../api/calculatorService";
 import type {
   CalculatorResponse,
@@ -11,13 +12,13 @@ import type {
 } from "../model/types";
 
 const QUOTAS: { key: QuotaKey; label: string }[] = [
-  { key: "rural", label: "Rural area" },
-  { key: "large_family", label: "Large family" },
-  { key: "incomplete_family", label: "Incomplete family" },
-  { key: "serpin", label: "Serpin" },
-  { key: "disability", label: "Disability" },
-  { key: "family_disability", label: "Family disability" },
-  { key: "orphan", label: "Orphan" },
+  { key: "rural", label: "calculator.quotas.rural" },
+  { key: "large_family", label: "calculator.quotas.large_family" },
+  { key: "incomplete_family", label: "calculator.quotas.incomplete_family" },
+  { key: "serpin", label: "calculator.quotas.serpin" },
+  { key: "disability", label: "calculator.quotas.disability" },
+  { key: "family_disability", label: "calculator.quotas.family_disability" },
+  { key: "orphan", label: "calculator.quotas.orphan" },
 ];
 
 const SCORE_FIELDS: {
@@ -26,11 +27,11 @@ const SCORE_FIELDS: {
   max: number;
   min: number;
 }[] = [
-  { key: "history", label: "History of Kazakhstan", max: 20, min: 5 },
-  { key: "math_literacy", label: "Math literacy", max: 10, min: 5 },
-  { key: "reading_literacy", label: "Reading literacy", max: 10, min: 5 },
-  { key: "subject_1", label: "Subject 1", max: 50, min: 5 },
-  { key: "subject_2", label: "Subject 2", max: 50, min: 5 },
+  { key: "history", label: "calculator.scores.history", max: 20, min: 5 },
+  { key: "math_literacy", label: "calculator.scores.math_literacy", max: 10, min: 5 },
+  { key: "reading_literacy", label: "calculator.scores.reading_literacy", max: 10, min: 5 },
+  { key: "subject_1", label: "calculator.scores.subject_1", max: 50, min: 5 },
+  { key: "subject_2", label: "calculator.scores.subject_2", max: 50, min: 5 },
 ];
 
 const TOTAL_MAX = SCORE_FIELDS.reduce((s, f) => s + f.max, 0);
@@ -56,6 +57,7 @@ function chanceColor(chance: number) {
 }
 
 export default function CalculatorPage() {
+  const { t } = useTranslation();
   const [subjects, setSubjects] = useState<Subject[]>([]);
   const [subject1Id, setSubject1Id] = useState<number | "">("");
   const [subject2Id, setSubject2Id] = useState<number | "">("");
@@ -137,7 +139,7 @@ export default function CalculatorPage() {
       setResult(res);
       if ("error" in res) setError(res.error);
     } catch (e: any) {
-      setError(e?.response?.data?.error ?? "Failed to calculate. Try again.");
+      setError(e?.response?.data?.error ?? t("calculator.calcError"));
     } finally {
       setLoading(false);
     }
@@ -167,16 +169,16 @@ export default function CalculatorPage() {
 
         <div className="grid grid-cols-1 lg:grid-cols-[1fr_1.15fr] gap-6 mt-8">
           <section className="space-y-6">
-            <Card title="Subjects" subtitle="Select your two profile subjects">
+            <Card title={t("calculator.subjectsTitle")} subtitle={t("calculator.subjectsSubtitle")}>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <SelectField
-                  label="Profile subject 1"
+                  label={t("calculator.profileSubject1")}
                   value={subject1Id}
                   onChange={(v) => setSubject1Id(v ? Number(v) : "")}
                   options={subjects.map((s) => ({ value: s.id, label: s.name }))}
                 />
                 <SelectField
-                  label="Profile subject 2"
+                  label={t("calculator.profileSubject2")}
                   value={subject2Id}
                   onChange={(v) => setSubject2Id(v ? Number(v) : "")}
                   options={subjects
@@ -188,19 +190,19 @@ export default function CalculatorPage() {
               {subject1Id && subject2Id && subject1Id !== subject2Id && (
                 <div className="mt-4">
                   <label className="block text-[11px] font-bold uppercase tracking-wider text-[#8A8A95] mb-2">
-                    NTC program
+                    {t("calculator.ntcProgram")}
                   </label>
                   {programsLoading ? (
                     <div className="h-11 rounded-xl bg-[#F2F2F5] animate-pulse" />
                   ) : programs.length === 0 ? (
                     <div className="text-sm text-[#8A8A95] px-3 py-2 rounded-xl bg-[#F2F2F5]">
-                      No programs match this combination.
+                      {t("calculator.noProgramsMatch")}
                     </div>
                   ) : (
                     <select
                       value={programCode}
                       onChange={(e) => setProgramCode(e.target.value)}
-                      className="w-full h-11 px-3 rounded-xl border border-[#E8E8EC] bg-white text-sm focus:outline-none focus:border-[#E85842]"
+                      className="w-full h-11 px-3 rounded-xl border border-[#E8E8EC] bg-white text-sm focus:outline-none focus:border-[#3356AA]"
                     >
                       {programs.map((p) => (
                         <option key={p.code} value={p.code}>
@@ -213,25 +215,25 @@ export default function CalculatorPage() {
               )}
             </Card>
 
-            <Card title="UNT scores" subtitle="Enter your scores for each section">
+            <Card title={t("calculator.scoresTitle")} subtitle={t("calculator.scoresSubtitle")}>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 {SCORE_FIELDS.map((f) => (
                   <ScoreInput
                     key={f.key}
-                    label={f.label}
-                    hint={`min ${f.min} / max ${f.max}`}
+                    label={t(f.label)}
+                    hint={t("calculator.scoreHint", { min: f.min, max: f.max })}
                     value={scores[f.key]}
                     max={f.max}
                     onChange={(v) => setScore(f.key, v)}
                   />
                 ))}
               </div>
-              <div className="mt-4 flex items-center justify-between px-4 py-3 rounded-xl bg-[#FEEFEC]">
-                <span className="text-[11px] font-bold uppercase tracking-wider text-[#E85842]">
-                  Total
+              <div className="mt-4 flex items-center justify-between px-4 py-3 rounded-xl bg-[#EEF2FF]">
+                <span className="text-[11px] font-bold uppercase tracking-wider text-[#3356AA]">
+                  {t("calculator.total")}
                 </span>
                 <span
-                  className="text-2xl font-bold text-[#E85842]"
+                  className="text-2xl font-bold text-[#3356AA]"
                   style={{ fontFamily: "DM Sans, system-ui, sans-serif" }}
                 >
                   {totalScore} / {TOTAL_MAX}
@@ -239,7 +241,7 @@ export default function CalculatorPage() {
               </div>
             </Card>
 
-            <Card title="Quotas" subtitle="Pick all that apply for a chance bonus">
+            <Card title={t("calculator.quotasTitle")} subtitle={t("calculator.quotasSubtitle")}>
               <div className="flex flex-wrap gap-2">
                 {QUOTAS.map((q) => {
                   const active = quotas.includes(q.key);
@@ -250,11 +252,11 @@ export default function CalculatorPage() {
                       onClick={() => toggleQuota(q.key)}
                       className={`px-3 py-1.5 rounded-full text-xs font-semibold border transition ${
                         active
-                          ? "bg-[#E85842] border-[#E85842] text-white"
+                          ? "bg-[#3356AA] border-[#3356AA] text-white"
                           : "bg-white border-[#E8E8EC] text-[#4A4A55] hover:border-[#D7D7DD]"
                       }`}
                     >
-                      {q.label}
+                      {t(q.label)}
                     </button>
                   );
                 })}
@@ -266,16 +268,16 @@ export default function CalculatorPage() {
                 type="button"
                 onClick={onCalculate}
                 disabled={!canSubmit || loading}
-                className="flex-1 h-12 rounded-xl bg-[#E85842] text-white font-semibold text-sm hover:bg-[#d44a35] transition disabled:opacity-40 disabled:cursor-not-allowed"
+                className="flex-1 h-12 rounded-xl bg-[#3356AA] text-white font-semibold text-sm hover:bg-[#2a4699] transition disabled:opacity-40 disabled:cursor-not-allowed"
               >
-                {loading ? "Calculating…" : "Calculate chances"}
+                {loading ? t("calculator.calculating") : t("calculator.calculate")}
               </button>
               <button
                 type="button"
                 onClick={onReset}
                 className="px-5 h-12 rounded-xl border border-[#E8E8EC] bg-white text-sm font-semibold text-[#4A4A55] hover:border-[#D7D7DD]"
               >
-                Reset
+                {t("calculator.reset")}
               </button>
             </div>
           </section>
@@ -306,29 +308,29 @@ export default function CalculatorPage() {
 }
 
 function Header({ totalScore }: { totalScore: number }) {
+  const { t } = useTranslation();
   return (
     <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4">
       <div>
         <span
           className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-bold uppercase tracking-wider"
-          style={{ background: "#FEEFEC", color: "#E85842" }}
+          style={{ background: "#EEF2FF", color: "#3356AA" }}
         >
-          Chance calculator
+          {t("calculator.badge")}
         </span>
         <h1
           className="mt-3 text-4xl font-bold text-[#0D0D12]"
           style={{ fontFamily: "DM Sans, system-ui, sans-serif", letterSpacing: "-0.02em" }}
         >
-          Estimate your grant chance
+          {t("calculator.title")}
         </h1>
         <p className="mt-2 text-[#4A4A55] max-w-2xl">
-          Enter your UNT scores, choose a program, and we’ll compare you against
-          last year’s grant winners and university cut-offs.
+          {t("calculator.description")}
         </p>
       </div>
       <div className="flex flex-col items-start md:items-end">
         <span className="text-[11px] font-bold uppercase tracking-wider text-[#8A8A95]">
-          Current total
+          {t("calculator.currentTotal")}
         </span>
         <span
           className="text-3xl font-bold text-[#0D0D12] tabular-nums"
@@ -378,6 +380,7 @@ function SelectField({
   onChange: (v: string) => void;
   options: { value: number; label: string }[];
 }) {
+  const { t } = useTranslation();
   return (
     <div>
       <label className="block text-[11px] font-bold uppercase tracking-wider text-[#8A8A95] mb-2">
@@ -386,9 +389,9 @@ function SelectField({
       <select
         value={value}
         onChange={(e) => onChange(e.target.value)}
-        className="w-full h-11 px-3 rounded-xl border border-[#E8E8EC] bg-white text-sm focus:outline-none focus:border-[#E85842]"
+        className="w-full h-11 px-3 rounded-xl border border-[#E8E8EC] bg-white text-sm focus:outline-none focus:border-[#3356AA]"
       >
-        <option value="">— select —</option>
+        <option value="">{t("calculator.select")}</option>
         {options.map((o) => (
           <option key={o.value} value={o.value}>
             {o.label}
@@ -427,26 +430,27 @@ function ScoreInput({
         value={value || ""}
         onChange={(e) => onChange(e.target.value)}
         placeholder="0"
-        className="w-full h-11 px-3 rounded-xl border border-[#E8E8EC] bg-white text-sm tabular-nums focus:outline-none focus:border-[#E85842]"
+        className="w-full h-11 px-3 rounded-xl border border-[#E8E8EC] bg-white text-sm tabular-nums focus:outline-none focus:border-[#3356AA]"
       />
     </div>
   );
 }
 
 function EmptyResults() {
+  const { t } = useTranslation();
   return (
     <div className="rounded-2xl bg-white border border-dashed border-[#D7D7DD] p-10 text-center">
-      <div className="mx-auto w-14 h-14 rounded-full bg-[#FEEFEC] flex items-center justify-center text-2xl text-[#E85842]">
+      <div className="mx-auto w-14 h-14 rounded-full bg-[#EEF2FF] flex items-center justify-center text-2xl text-[#3356AA]">
         ✦
       </div>
       <h3
         className="mt-4 text-lg font-bold text-[#0D0D12]"
         style={{ fontFamily: "DM Sans, system-ui, sans-serif" }}
       >
-        Your results will appear here
+        {t("calculator.emptyTitle")}
       </h3>
       <p className="mt-1 text-sm text-[#8A8A95]">
-        Fill in scores and a program, then hit Calculate.
+        {t("calculator.emptySubtitle")}
       </p>
     </div>
   );
@@ -461,6 +465,7 @@ function ErrorPanel({ message }: { message: string }) {
 }
 
 function SummaryCard({ data }: { data: CalculatorSuccess }) {
+  const { t } = useTranslation();
   const best = chanceColor(data.best_grant_chance);
   const avg = chanceColor(data.average_grant_chance);
   return (
@@ -468,7 +473,7 @@ function SummaryCard({ data }: { data: CalculatorSuccess }) {
       <div className="flex items-center justify-between mb-4">
         <div>
           <p className="text-[11px] font-bold uppercase tracking-wider text-[#8A8A95]">
-            Program
+            {t("calculator.program")}
           </p>
           <h2
             className="text-lg font-bold text-[#0D0D12]"
@@ -482,7 +487,7 @@ function SummaryCard({ data }: { data: CalculatorSuccess }) {
         </div>
         <div className="text-right">
           <p className="text-[11px] font-bold uppercase tracking-wider text-[#8A8A95]">
-            Total
+            {t("calculator.total")}
           </p>
           <p
             className="text-2xl font-bold text-[#0D0D12]"
@@ -494,13 +499,13 @@ function SummaryCard({ data }: { data: CalculatorSuccess }) {
       </div>
       <div className="grid grid-cols-2 gap-3">
         <Stat
-          label="Best grant chance"
+          label={t("calculator.bestGrantChance")}
           value={`${data.best_grant_chance}%`}
           bg={best.bg}
           ink={best.ink}
         />
         <Stat
-          label="Average across unis"
+          label={t("calculator.averageAcrossUnis")}
           value={`${data.average_grant_chance}%`}
           bg={avg.bg}
           ink={avg.ink}
@@ -544,6 +549,7 @@ function GrantStatsCard({
 }: {
   stats: NonNullable<CalculatorSuccess["grant_stats_2025"]>;
 }) {
+  const { t } = useTranslation();
   return (
     <div className="rounded-2xl bg-white border border-[#E8E8EC] p-5">
       <div className="flex items-center justify-between mb-4">
@@ -552,21 +558,21 @@ function GrantStatsCard({
             className="text-base font-bold text-[#0D0D12]"
             style={{ fontFamily: "DM Sans, system-ui, sans-serif" }}
           >
-            Grant winners {stats.year}
+            {t("calculator.grantWinners", { year: stats.year })}
           </h3>
-          <p className="text-xs text-[#8A8A95]">Field {stats.field_code}</p>
+          <p className="text-xs text-[#8A8A95]">{t("calculator.fieldCode", { code: stats.field_code })}</p>
         </div>
         <span
           className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-bold"
           style={{ background: "#F1ECFE", color: "#7C5CFF" }}
         >
-          {stats.total_winners} winners
+          {t("calculator.winners", { count: stats.total_winners })}
         </span>
       </div>
       <div className="grid grid-cols-3 gap-3">
-        <MiniStat label="Min" value={stats.min_score} />
-        <MiniStat label="Avg" value={stats.avg_score} />
-        <MiniStat label="Max" value={stats.max_score} />
+        <MiniStat label={t("calculator.min")} value={stats.min_score} />
+        <MiniStat label={t("calculator.avg")} value={stats.avg_score} />
+        <MiniStat label={t("calculator.max")} value={stats.max_score} />
       </div>
     </div>
   );
@@ -589,14 +595,15 @@ function MiniStat({ label, value }: { label: string; value: number }) {
 }
 
 function AIAnalysisCard({ text }: { text: string }) {
+  const { t } = useTranslation();
   return (
-    <div className="rounded-2xl border border-[#E8E8EC] p-5" style={{ background: "linear-gradient(135deg,#FEEFEC 0%,#F1ECFE 100%)" }}>
+    <div className="rounded-2xl border border-[#E8E8EC] p-5" style={{ background: "linear-gradient(135deg,#EEF2FF 0%,#F1ECFE 100%)" }}>
       <div className="flex items-center gap-2 mb-2">
         <span
           className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-bold uppercase tracking-wider"
-          style={{ background: "white", color: "#E85842" }}
+          style={{ background: "white", color: "#3356AA" }}
         >
-          AI insight
+          {t("calculator.aiInsight")}
         </span>
       </div>
       <p className="text-sm leading-relaxed text-[#0D0D12] whitespace-pre-line">
@@ -611,10 +618,11 @@ function UniversitiesCard({
 }: {
   universities: UniversityResult[];
 }) {
+  const { t } = useTranslation();
   if (!universities.length) {
     return (
       <div className="rounded-2xl bg-white border border-[#E8E8EC] p-5 text-sm text-[#8A8A95]">
-        No university programs found for this combination.
+        {t("calculator.noUniversities")}
       </div>
     );
   }
@@ -625,10 +633,10 @@ function UniversitiesCard({
           className="text-base font-bold text-[#0D0D12]"
           style={{ fontFamily: "DM Sans, system-ui, sans-serif" }}
         >
-          Universities
+          {t("calculator.universities")}
         </h3>
         <span className="text-xs text-[#8A8A95]">
-          {universities.length} programs
+          {t("calculator.programsCount", { count: universities.length })}
         </span>
       </div>
       <ul className="space-y-2">
@@ -641,6 +649,7 @@ function UniversitiesCard({
 }
 
 function UniversityRow({ u }: { u: UniversityResult }) {
+  const { t } = useTranslation();
   const c = chanceColor(u.grant_chance);
   return (
     <li className="flex items-center justify-between gap-3 px-4 py-3 rounded-xl border border-[#E8E8EC] hover:border-[#D7D7DD] transition">
@@ -654,25 +663,25 @@ function UniversityRow({ u }: { u: UniversityResult }) {
         <div className="flex flex-wrap gap-1.5 mt-1.5">
           {u.grant_score != null && (
             <span className="inline-flex px-2 py-0.5 rounded-full text-[10px] font-semibold bg-[#F2F2F5] text-[#4A4A55]">
-              grant-score {u.grant_score}
+              {t("calculator.grantScore", { score: u.grant_score })}
             </span>
           )}
           {u.passing_score != null && (
             <span className="inline-flex px-2 py-0.5 rounded-full text-[10px] font-semibold bg-[#F2F2F5] text-[#4A4A55]">
-              pass-score {u.passing_score}
+              {t("calculator.passScore", { score: u.passing_score })}
             </span>
           )}
           <span className="inline-flex px-2 py-0.5 rounded-full text-[10px] font-semibold bg-[#EBF2FE] text-[#3D5AFE]">
-            admission {u.admission_chance}%
+            {t("calculator.admission", { chance: u.admission_chance })}
           </span>
           {u.data_source === "grant_winners_2025_university" && (
             <span className="inline-flex px-2 py-0.5 rounded-full text-[10px] font-semibold bg-[#F1ECFE] text-[#7C5CFF]">
-              from this uni's 2025 winners
+              {t("calculator.fromThisUni")}
             </span>
           )}
           {u.data_source === "grant_winners_2025" && (
             <span className="inline-flex px-2 py-0.5 rounded-full text-[10px] font-semibold bg-[#FFF4E0] text-[#E08900]">
-              field-wide 2025 fallback
+              {t("calculator.fieldWideFallback")}
             </span>
           )}
         </div>
@@ -685,7 +694,7 @@ function UniversityRow({ u }: { u: UniversityResult }) {
           className="text-[10px] font-bold uppercase tracking-wider"
           style={{ color: c.ink, opacity: 0.85 }}
         >
-          Grant
+          {t("calculator.grant")}
         </p>
         <p
           className="text-xl font-bold tabular-nums"

@@ -1,4 +1,6 @@
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
+import i18n from "../../../shared/lib/i18n/i18n";
 import type { Announcement, AnnouncementAuthorType, AnnouncementTag } from "../model/types";
 import { BsPin } from "react-icons/bs";
 import { LuBuilding2, LuCalendar } from "react-icons/lu";
@@ -23,8 +25,14 @@ export function tagMeta(tag: AnnouncementTag) {
 
 export const TAG_OPTIONS = TAGS;
 
+const DATE_LOCALES: Record<string, string> = { en: "en-US", ru: "ru-RU", kk: "kk-KZ" };
+
+function dateLocale() {
+  return DATE_LOCALES[i18n.language?.split("-")[0]] ?? "en-US";
+}
+
 function formatFeedDate(iso: string) {
-  return new Date(iso).toLocaleDateString("en-US", {
+  return new Date(iso).toLocaleDateString(dateLocale(), {
     month: "short",
     day: "numeric",
     hour: "2-digit",
@@ -33,7 +41,7 @@ function formatFeedDate(iso: string) {
 }
 
 function formatManageDate(iso: string) {
-  return new Date(iso).toLocaleDateString("en-US", {
+  return new Date(iso).toLocaleDateString(dateLocale(), {
     month: "short",
     day: "numeric",
     year: "numeric",
@@ -51,11 +59,15 @@ function initials(name: string) {
 }
 
 function authorLabel(a: Announcement) {
-  return a.author_type === "university" && a.university_name ? a.university_name : "NTC";
+  return a.author_type === "university" && a.university_name
+    ? a.university_name
+    : i18n.t("announcements.ntc");
 }
 
 function authorRole(a: Announcement) {
-  return a.author_type === "university" ? "University" : "NTC Admin";
+  return a.author_type === "university"
+    ? i18n.t("announcements.roleUniversity")
+    : i18n.t("announcements.roleNtcAdmin");
 }
 
 export function AuthorAvatar({
@@ -87,21 +99,23 @@ export function AuthorAvatar({
 }
 
 export function TypeBadge({ type }: { type: AnnouncementAuthorType }) {
+  const { t } = useTranslation();
   if (type === "university") {
     return (
       <span className="inline-flex items-center gap-1 text-xs font-medium text-purple-700 bg-purple-50 px-2 py-0.5 rounded-full">
-        <MdOutlineSchool size={12} /> University
+        <MdOutlineSchool size={12} /> {t("announcements.badgeUniversity")}
       </span>
     );
   }
   return (
     <span className="inline-flex items-center gap-1 text-xs font-medium text-blue-700 bg-blue-50 px-2 py-0.5 rounded-full">
-      <LuBuilding2 size={12} /> NTC
+      <LuBuilding2 size={12} /> {t("announcements.ntc")}
     </span>
   );
 }
 
 export function TagBadge({ tag }: { tag: AnnouncementTag }) {
+  const { t } = useTranslation();
   const meta = tagMeta(tag);
   if (!meta) return null;
   return (
@@ -109,7 +123,7 @@ export function TagBadge({ tag }: { tag: AnnouncementTag }) {
       className="inline-block text-xs font-semibold px-3 py-1 rounded-full"
       style={{ color: meta.color, backgroundColor: meta.bg }}
     >
-      {meta.label}
+      {t(`announcements.tags.${meta.key}`)}
     </span>
   );
 }
@@ -137,6 +151,7 @@ export function AnnouncementCard({
   confirmDelete = false,
   previewLength,
 }: AnnouncementCardProps) {
+  const { t } = useTranslation();
   const [confirming, setConfirming] = useState(false);
   const maxLen = previewLength ?? (variant === "feed" ? 200 : 180);
   const preview = item.body.length > maxLen ? item.body.slice(0, maxLen) + "…" : item.body;
@@ -173,7 +188,7 @@ export function AnnouncementCard({
                   <button
                     onClick={() => onShare(item)}
                     className="w-8 h-8 flex items-center justify-center rounded-lg text-gray-400 hover:text-gray-600 hover:bg-gray-50 transition-colors"
-                    title="Share"
+                    title={t("announcements.share")}
                   >
                     <HiOutlineShare size={16} />
                   </button>
@@ -182,7 +197,7 @@ export function AnnouncementCard({
                   <button
                     onClick={() => onEdit(item)}
                     className="w-8 h-8 flex items-center justify-center rounded-lg text-gray-400 hover:text-blue-600 hover:bg-blue-50 transition-colors"
-                    title="Edit"
+                    title={t("common.edit")}
                   >
                     <HiOutlinePencil size={16} />
                   </button>
@@ -197,13 +212,13 @@ export function AnnouncementCard({
                         }}
                         className="px-2.5 py-1 rounded-lg bg-red-500 text-white text-xs font-semibold hover:bg-red-600"
                       >
-                        Delete
+                        {t("common.delete")}
                       </button>
                       <button
                         onClick={() => setConfirming(false)}
                         className="px-2.5 py-1 rounded-lg border border-gray-200 text-xs text-gray-500 hover:bg-gray-50"
                       >
-                        Cancel
+                        {t("common.cancel")}
                       </button>
                     </div>
                   ) : (
@@ -212,7 +227,7 @@ export function AnnouncementCard({
                         confirmDelete ? setConfirming(true) : onDelete(item.id)
                       }
                       className="w-8 h-8 flex items-center justify-center rounded-lg text-gray-400 hover:text-red-500 hover:bg-red-50 transition-colors"
-                      title="Delete"
+                      title={t("common.delete")}
                     >
                       <HiOutlineTrash size={16} />
                     </button>
@@ -237,7 +252,7 @@ export function AnnouncementCard({
             onClick={() => onView(item)}
             className="flex items-center gap-1 text-sm text-[#3356AA] font-medium hover:underline"
           >
-            View Full Post <HiOutlineChevronRight size={15} />
+            {t("announcements.viewFullPost")} <HiOutlineChevronRight size={15} />
           </button>
         </div>
       ) : (
@@ -250,7 +265,7 @@ export function AnnouncementCard({
             onClick={() => onView(item)}
             className="flex items-center gap-1 text-sm text-[#3356AA] font-medium hover:underline"
           >
-            View post <HiOutlineChevronRight size={15} />
+            {t("announcements.viewPost")} <HiOutlineChevronRight size={15} />
           </button>
         </div>
       )}
@@ -267,6 +282,7 @@ export function PinnedCard({
   item: Announcement;
   onView: (a: Announcement) => void;
 }) {
+  const { t } = useTranslation();
   const name = authorLabel(item);
   return (
     <div className="py-4 border-b border-gray-100 last:border-0">
@@ -276,7 +292,7 @@ export function PinnedCard({
           <p className="text-sm font-semibold text-[#111928] truncate">{name}</p>
         </div>
         <span className="flex items-center gap-1 text-xs text-gray-400 font-medium flex-shrink-0">
-          <BsPin size={11} /> Pinned
+          <BsPin size={11} /> {t("announcements.pinned")}
         </span>
       </div>
       <TypeBadge type={item.author_type} />
@@ -285,7 +301,7 @@ export function PinnedCard({
         onClick={() => onView(item)}
         className="flex items-center gap-1 mt-2 text-xs text-[#3356AA] font-medium hover:underline"
       >
-        View post <HiOutlineChevronRight size={13} />
+        {t("announcements.viewPost")} <HiOutlineChevronRight size={13} />
       </button>
     </div>
   );

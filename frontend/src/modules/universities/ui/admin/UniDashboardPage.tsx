@@ -1,8 +1,12 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
+import { useTranslation } from "react-i18next";
 import { useAuthStore } from "../../../auth/model/authStore";
 import { useUniversityStore } from "../../model/universityStore";
+import { universityService } from "../../api/universityService";
+import { announcementsService } from "../../../announcements/api/announcementsService";
 import { http } from "../../../../shared/api/http";
 import { endpoints } from "../../../../shared/api/endpoints";
+import type { UniApplicant } from "../../model/types";
 
 type ApiCalendarEvent = {
   id: number;
@@ -27,15 +31,6 @@ const EVENT_COLOR: Record<string, string> = {
   announcement: "blue",
 };
 
-const EVENT_TYPE_LABELS: Record<string, string> = {
-  deadline: "Deadline",
-  exam: "Exam",
-  enrollment: "Enrollment",
-  open_day: "Open Day",
-  event: "Event",
-  announcement: "Announcement",
-};
-
 const EVENT_TILE_STYLE: Record<string, string> = {
   coral:  "bg-[#EEF2FF] text-[#3356AA]",
   amber:  "bg-[#FFF4E0] text-[#E08900]",
@@ -50,42 +45,13 @@ const EVENT_CHIP_STYLE: Record<string, string> = {
   purple: "bg-[#F1ECFE] text-[#7C5CFF]",
 };
 
-const MONTH_NAMES = [
-  "January","February","March","April","May","June",
-  "July","August","September","October","November","December",
-];
+const EVENT_TYPES = ["event", "deadline", "exam", "enrollment", "open_day", "announcement"] as const;
 
-// ─── Sparkline ────────────────────────────────────────────────────────────────
-function Sparkline({ data, color = "#3D5AFE", height = 32, width = 160 }: {
-  data: number[]; color?: string; height?: number; width?: number;
-}) {
-  if (data.length < 2) return null;
-  const max = Math.max(...data), min = Math.min(...data);
-  const range = max - min || 1;
-  const pts = data.map((v, i) => [
-    (i / (data.length - 1)) * width,
-    height - ((v - min) / range) * (height - 4) - 2,
-  ]);
-  const pathD = pts.map((p, i) => `${i === 0 ? "M" : "L"} ${p[0].toFixed(1)} ${p[1].toFixed(1)}`).join(" ");
-  const areaD = pathD + ` L ${width} ${height} L 0 ${height} Z`;
-  const gradId = `sg-${color.replace(/[^a-z0-9]/gi, "")}`;
-  return (
-    <svg width={width} height={height} viewBox={`0 0 ${width} ${height}`} style={{ display: "block" }}>
-      <defs>
-        <linearGradient id={gradId} x1="0" x2="0" y1="0" y2="1">
-          <stop offset="0%" stopColor={color} stopOpacity="0.2" />
-          <stop offset="100%" stopColor={color} stopOpacity="0" />
-        </linearGradient>
-      </defs>
-      <path d={areaD} fill={`url(#${gradId})`} />
-      <path d={pathD} fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-    </svg>
-  );
-}
+const CHART_COLORS = ["#3D5AFE", "#7C5CFF", "#3356AA", "#10B981", "#E08900"];
 
 // ─── Bar Chart ────────────────────────────────────────────────────────────────
 function BarChart({ data }: { data: { label: string; value: number; color: string }[] }) {
-  const max = Math.max(...data.map((d) => d.value));
+  const max = Math.max(...data.map((d) => d.value), 1);
   return (
     <div className="flex flex-col gap-3">
       {data.map((d, i) => (
@@ -121,12 +87,13 @@ const FUNNEL_BG: Record<string, string> = {
 };
 
 function FunnelChart({ stages }: { stages: { label: string; value: number; color: string }[] }) {
-  const max = stages[0].value;
+  const max = Math.max(stages[0]?.value ?? 0, 1);
   return (
     <div className="flex flex-col gap-3">
       {stages.map((s, i) => {
         const pct = (s.value / max) * 100;
-        const drop = i > 0 ? Math.round((1 - s.value / stages[i - 1].value) * 100) : null;
+        const prev = i > 0 ? stages[i - 1].value : 0;
+        const drop = i > 0 && prev > 0 ? Math.round((1 - s.value / prev) * 100) : null;
         return (
           <div key={i}>
             <div className="flex justify-between items-center mb-1.5">
@@ -207,6 +174,8 @@ function MiniCalendar({ year, month, selectedDay, onSelect, markedDays }: {
 
 // ─── Main Dashboard ───────────────────────────────────────────────────────────
 export default function UniDashboardPage() {
+  const { t, i18n } = useTranslation();
+  const locale = i18n.language || "en";
   const user = useAuthStore((s) => s.user);
   const { myUniversity, myPrograms, fetchMyPrograms } = useUniversityStore();
 
@@ -223,7 +192,28 @@ export default function UniDashboardPage() {
   });
   const [saving, setSaving] = useState(false);
 
+  // ── Stats data ────────────────────────────────────────────────────────────
+  const [applicants, setApplicants] = useState<UniApplicant[]>([]);
+  const [announcementsCount, setAnnouncementsCount] = useState(0);
+  const [statsLoading, setStatsLoading] = useState(true);
+
   useEffect(() => { fetchMyPrograms(); }, []);
+
+  useEffect(() => {
+    setStatsLoading(true);
+    Promise.all([
+      universityService.getMyApplicants().then((r) => setApplicants(r.data)).catch(() => setApplicants([])),
+      announcementsService.getList("university").then((r) => setAnnouncementsCount(r.data.length)).catch(() => setAnnouncementsCount(0)),
+    ]).finally(() => setStatsLoading(false));
+  }, []);
+
+  // ── Localized date helpers ──────────────────────────────────────────────────
+  const monthLongLabel = (y: number, m: number) =>
+    new Intl.DateTimeFormat(locale, { month: "long", year: "numeric" }).format(new Date(y, m, 1));
+  const dayLabel = (y: number, m: number, d: number) =>
+    new Intl.DateTimeFormat(locale, { day: "numeric", month: "long" }).format(new Date(y, m, d));
+  const monthAbbrLabel = (y: number, m: number) =>
+    new Intl.DateTimeFormat(locale, { month: "short" }).format(new Date(y, m, 1)).toUpperCase();
 
   const loadEvents = (year: number, month: number) => {
     setEventsLoading(true);
@@ -281,29 +271,59 @@ export default function UniDashboardPage() {
     setEvents(ev => ev.filter(e => e.id !== id));
   };
 
+  const eventTypeLabel = (type: string) =>
+    t(`uniAdmin.dashboard.eventTypes.${type}`, { defaultValue: type });
+
   const firstName = user?.first_name || "Admin";
   const uniName   = myUniversity?.name ?? "";
 
+  // ── Derived stats ────────────────────────────────────────────────────────────
+  const programmesSaved = useMemo(
+    () => applicants.reduce((s, a) => s + a.favorited_programs.length, 0),
+    [applicants]
+  );
+
   // ── Stat strip ──────────────────────────────────────────────────────────────
+  const stats = [
+    {
+      tile: applicants.length,
+      color: "bg-[#EBF2FE] text-[#3D5AFE]",
+      label: t("uniAdmin.dashboard.stats.followers"),
+      value: t("uniAdmin.dashboard.stats.followersValue", { n: applicants.length }),
+    },
+    {
+      tile: announcementsCount,
+      color: "bg-[#F1ECFE] text-[#7C5CFF]",
+      label: t("uniAdmin.dashboard.stats.announcements"),
+      value: t("uniAdmin.dashboard.stats.announcementsValue", { n: announcementsCount }),
+    },
+    {
+      tile: programmesSaved,
+      color: "bg-[#E6F7EF] text-[#10B981]",
+      label: t("uniAdmin.dashboard.stats.saved"),
+      value: t("uniAdmin.dashboard.stats.savedValue", { n: programmesSaved }),
+    },
+    {
+      tile: myPrograms.length,
+      color: "bg-[#EEF2FF] text-[#3356AA]",
+      label: t("uniAdmin.dashboard.stats.active"),
+      value: t("uniAdmin.dashboard.stats.activeValue", { n: myPrograms.length }),
+    },
+  ];
+
   const StatStrip = (
     <div className="grid grid-cols-4 gap-4">
-      {([
-        { tile: "5",  color: "bg-[#EBF2FE] text-[#3D5AFE]",  label: "TOTAL APPLICANTS",    value: "5 students",  spark: [3,2,4,3,5,4,5] as number[], sc: "#3D5AFE" },
-        { tile: "4",  color: "bg-[#F1ECFE] text-[#7C5CFF]",  label: "UNT SCORE ≥ 100",     value: "4 students",  spark: [1,2,3,2,3,4,4] as number[], sc: "#7C5CFF" },
-        { tile: "10", color: "bg-[#E6F7EF] text-[#10B981]",  label: "PROGRAMMES SAVED",    value: "10 total",    spark: [6,5,8,7,9,10,10] as number[], sc: "#10B981" },
-        { tile: `${myPrograms.length || 4}`, color: "bg-[#EEF2FF] text-[#3356AA]", label: "ACTIVE PROGRAMMES", value: `${myPrograms.length || 4} published`, spark: [4,4,5,5,6,6,myPrograms.length || 6] as number[], sc: "#3356AA" },
-      ]).map((s, i) => (
-        <div key={i} className="bg-white rounded-2xl p-5 border border-gray-100 shadow-sm flex flex-col gap-3">
-          <div className="flex items-center gap-3">
-            <div className={`w-14 h-14 rounded-xl flex items-center justify-center text-xl font-bold flex-shrink-0 ${s.color}`}>
-              {s.tile}
-            </div>
-            <div className="flex-1 min-w-0">
-              <div className="text-[10px] font-bold tracking-widest text-gray-400 uppercase">{s.label}</div>
-              <div className="font-bold text-lg text-gray-900 mt-0.5">{s.value}</div>
+      {stats.map((s, i) => (
+        <div key={i} className="bg-white rounded-2xl p-5 border border-gray-100 shadow-sm flex items-center gap-3">
+          <div className={`w-14 h-14 rounded-xl flex items-center justify-center text-xl font-bold flex-shrink-0 ${s.color}`}>
+            {statsLoading ? "—" : s.tile}
+          </div>
+          <div className="flex-1 min-w-0">
+            <div className="text-[10px] font-bold tracking-widest text-gray-400 uppercase">{s.label}</div>
+            <div className="font-bold text-lg text-gray-900 mt-0.5">
+              {statsLoading ? t("uniAdmin.dashboard.calendar.loading") : s.value}
             </div>
           </div>
-          <Sparkline data={s.spark} color={s.sc} height={32} width={200} />
         </div>
       ))}
     </div>
@@ -313,13 +333,13 @@ export default function UniDashboardPage() {
   const CalendarCard = (
     <div className="bg-white rounded-2xl p-6 border border-gray-100 shadow-sm">
       <div className="flex justify-between items-center mb-5">
-        <h3 className="font-bold text-lg text-gray-900">Calendar</h3>
+        <h3 className="font-bold text-lg text-gray-900">{t("uniAdmin.dashboard.calendar.title")}</h3>
         <button
           onClick={() => setAddEventOpen(true)}
           className="flex items-center gap-1.5 px-3 py-1.5 bg-[#3356AA] text-white text-sm font-semibold rounded-xl hover:bg-[#D24A36] transition-colors"
         >
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M12 5v14M5 12h14"/></svg>
-          Add Event
+          {t("uniAdmin.dashboard.calendar.addEvent")}
         </button>
       </div>
       <div className="grid grid-cols-[280px_1fr] gap-6">
@@ -327,13 +347,13 @@ export default function UniDashboardPage() {
         <div>
           <div className="flex items-center justify-between mb-3">
             <span className="font-bold text-gray-900 text-sm">
-              {MONTH_NAMES[currentMonth]} {currentYear}
+              {monthLongLabel(currentYear, currentMonth)}
             </span>
             <div className="flex gap-1">
-              <button onClick={prevMonth} className="w-7 h-7 flex items-center justify-center rounded-lg hover:bg-gray-100 text-gray-400">
+              <button onClick={prevMonth} title={t("uniAdmin.dashboard.calendar.prevMonth")} className="w-7 h-7 flex items-center justify-center rounded-lg hover:bg-gray-100 text-gray-400">
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M15 18l-6-6 6-6"/></svg>
               </button>
-              <button onClick={nextMonth} className="w-7 h-7 flex items-center justify-center rounded-lg hover:bg-gray-100 text-gray-400">
+              <button onClick={nextMonth} title={t("uniAdmin.dashboard.calendar.nextMonth")} className="w-7 h-7 flex items-center justify-center rounded-lg hover:bg-gray-100 text-gray-400">
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M9 18l6-6-6-6"/></svg>
               </button>
             </div>
@@ -351,21 +371,21 @@ export default function UniDashboardPage() {
         <div>
           <div className="text-xs font-bold text-gray-500 mb-3">
             {eventsForDay.length
-              ? `Events on ${MONTH_NAMES[currentMonth]} ${selectedDay}`
+              ? t("uniAdmin.dashboard.calendar.eventsOn", { date: dayLabel(currentYear, currentMonth, selectedDay!) })
               : events.length
-                ? `All events — ${MONTH_NAMES[currentMonth]} ${currentYear}`
+                ? t("uniAdmin.dashboard.calendar.allEvents", { month: monthLongLabel(currentYear, currentMonth) })
                 : ""}
           </div>
           {eventsLoading ? (
-            <p className="text-sm text-gray-400">Loading…</p>
+            <p className="text-sm text-gray-400">{t("uniAdmin.dashboard.calendar.loading")}</p>
           ) : shownEvents.length === 0 ? (
-            <p className="text-sm text-gray-400">No events this month.</p>
+            <p className="text-sm text-gray-400">{t("uniAdmin.dashboard.calendar.noEvents")}</p>
           ) : (
             <div className="flex flex-col gap-2 max-h-64 overflow-y-auto pr-1">
               {shownEvents.map((e) => {
                 const color = EVENT_COLOR[e.event_type] ?? "blue";
                 const day = parseInt(e.start_date.split("-")[2], 10);
-                const monthAbbr = MONTH_NAMES[parseInt(e.start_date.split("-")[1], 10) - 1]?.slice(0, 3).toUpperCase();
+                const monthAbbr = monthAbbrLabel(currentYear, parseInt(e.start_date.split("-")[1], 10) - 1);
                 return (
                   <div key={e.id} className="flex gap-3 p-3 rounded-xl bg-gray-50 border border-gray-100 group">
                     <div className={`w-11 h-11 rounded-xl flex flex-col items-center justify-center flex-shrink-0 ${EVENT_TILE_STYLE[color]}`}>
@@ -376,7 +396,7 @@ export default function UniDashboardPage() {
                       <div className="text-sm font-semibold text-gray-800 truncate">{e.title}</div>
                       <div className="flex items-center gap-2 mt-1">
                         <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${EVENT_CHIP_STYLE[color]}`}>
-                          {EVENT_TYPE_LABELS[e.event_type] ?? e.event_type}
+                          {eventTypeLabel(e.event_type)}
                         </span>
                         {e.start_time && (
                           <span className="text-xs text-gray-400">{e.start_time.slice(0, 5)}</span>
@@ -403,8 +423,8 @@ export default function UniDashboardPage() {
           <div className="bg-white rounded-2xl w-full max-w-md shadow-2xl" onClick={(e) => e.stopPropagation()}>
             <div className="flex justify-between items-start p-6 pb-4 border-b border-gray-100">
               <div>
-                <h3 className="font-bold text-xl text-gray-900">Add calendar event</h3>
-                <p className="text-sm text-gray-400 mt-1">Visible to your university followers.</p>
+                <h3 className="font-bold text-xl text-gray-900">{t("uniAdmin.dashboard.modal.title")}</h3>
+                <p className="text-sm text-gray-400 mt-1">{t("uniAdmin.dashboard.modal.subtitle")}</p>
               </div>
               <button onClick={() => setAddEventOpen(false)} className="p-1.5 rounded-lg hover:bg-gray-100 text-gray-400">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M18 6 6 18M6 6l12 12"/></svg>
@@ -412,60 +432,60 @@ export default function UniDashboardPage() {
             </div>
             <div className="p-6 flex flex-col gap-4">
               <div className="flex flex-col gap-1.5">
-                <label className="text-xs font-semibold text-gray-600">Title *</label>
+                <label className="text-xs font-semibold text-gray-600">{t("uniAdmin.dashboard.modal.titleLabel")}</label>
                 <input
                   className="border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#3356AA]/30 focus:border-[#3356AA]"
-                  placeholder="e.g. Open Day – Spring intake"
+                  placeholder={t("uniAdmin.dashboard.modal.titlePlaceholder")}
                   value={newEvent.title}
                   onChange={(e) => setNewEvent(p => ({ ...p, title: e.target.value }))}
                 />
               </div>
               <div className="grid grid-cols-2 gap-3">
                 <div className="flex flex-col gap-1.5">
-                  <label className="text-xs font-semibold text-gray-600">Start date *</label>
+                  <label className="text-xs font-semibold text-gray-600">{t("uniAdmin.dashboard.modal.startDate")}</label>
                   <input type="date" className="border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#3356AA]/30 focus:border-[#3356AA]"
                     value={newEvent.start_date} onChange={(e) => setNewEvent(p => ({ ...p, start_date: e.target.value }))} />
                 </div>
                 <div className="flex flex-col gap-1.5">
-                  <label className="text-xs font-semibold text-gray-600">Time</label>
+                  <label className="text-xs font-semibold text-gray-600">{t("uniAdmin.dashboard.modal.time")}</label>
                   <input type="time" className="border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#3356AA]/30 focus:border-[#3356AA]"
                     value={newEvent.start_time} onChange={(e) => setNewEvent(p => ({ ...p, start_time: e.target.value }))} />
                 </div>
               </div>
               <div className="flex flex-col gap-1.5">
-                <label className="text-xs font-semibold text-gray-600">End date</label>
+                <label className="text-xs font-semibold text-gray-600">{t("uniAdmin.dashboard.modal.endDate")}</label>
                 <input type="date" className="border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#3356AA]/30 focus:border-[#3356AA]"
                   value={newEvent.end_date} onChange={(e) => setNewEvent(p => ({ ...p, end_date: e.target.value }))} />
               </div>
               <div className="flex flex-col gap-1.5">
-                <label className="text-xs font-semibold text-gray-600">Type</label>
+                <label className="text-xs font-semibold text-gray-600">{t("uniAdmin.dashboard.modal.type")}</label>
                 <div className="flex flex-wrap gap-2">
-                  {(["event","deadline","exam","enrollment","open_day","announcement"] as const).map((k) => (
+                  {EVENT_TYPES.map((k) => (
                     <button key={k} onClick={() => setNewEvent(p => ({ ...p, event_type: k }))}
                       className={`px-3 py-1.5 rounded-xl text-xs font-semibold border transition-all ${newEvent.event_type === k ? "bg-[#EEF2FF] text-[#3356AA] border-[#3356AA]" : "border-gray-200 text-gray-500 hover:bg-gray-50"}`}>
-                      {EVENT_TYPE_LABELS[k]}
+                      {eventTypeLabel(k)}
                     </button>
                   ))}
                 </div>
               </div>
               <div className="flex flex-col gap-1.5">
-                <label className="text-xs font-semibold text-gray-600">Description</label>
+                <label className="text-xs font-semibold text-gray-600">{t("uniAdmin.dashboard.modal.description")}</label>
                 <textarea
                   className="border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#3356AA]/30 focus:border-[#3356AA] resize-none h-20"
-                  placeholder="Optional details…"
+                  placeholder={t("uniAdmin.dashboard.modal.descriptionPlaceholder")}
                   value={newEvent.description}
                   onChange={(e) => setNewEvent(p => ({ ...p, description: e.target.value }))}
                 />
               </div>
             </div>
             <div className="flex justify-end gap-2 px-6 pb-6 pt-2">
-              <button onClick={() => setAddEventOpen(false)} className="px-4 py-2 text-sm font-semibold border border-gray-200 rounded-xl hover:bg-gray-50">Cancel</button>
+              <button onClick={() => setAddEventOpen(false)} className="px-4 py-2 text-sm font-semibold border border-gray-200 rounded-xl hover:bg-gray-50">{t("uniAdmin.dashboard.modal.cancel")}</button>
               <button
                 onClick={submitAddEvent}
                 disabled={!newEvent.title.trim() || !newEvent.start_date || saving}
                 className="px-4 py-2 text-sm font-semibold bg-[#3356AA] text-white rounded-xl hover:bg-[#D24A36] disabled:opacity-60"
               >
-                {saving ? "Saving…" : "Save event"}
+                {saving ? t("uniAdmin.dashboard.modal.saving") : t("uniAdmin.dashboard.modal.save")}
               </button>
             </div>
           </div>
@@ -474,69 +494,82 @@ export default function UniDashboardPage() {
     </div>
   );
 
-  // ── Programme popularity card ─────────────────────────────────────────────
-  const popularityData = myPrograms.length > 0
-    ? myPrograms.slice(0, 5).map((p, i) => ({
-        label: p.local_name,
-        value: [248, 192, 124, 188, 64][i] ?? 50,
-        color: ["#3D5AFE","#7C5CFF","#3356AA","#10B981","#E08900"][i],
-      }))
-    : [
-        { label: "Software Engineering", value: 248, color: "#3D5AFE" },
-        { label: "Computer Science",     value: 192, color: "#7C5CFF" },
-        { label: "Cybersecurity",        value: 124, color: "#3356AA" },
-        { label: "Data Science",         value: 188, color: "#10B981" },
-        { label: "Big Data Analysis",    value: 64,  color: "#E08900" },
-      ];
+  // ── Programme popularity card (real data: saves per programme) ────────────────
+  const popularityData = useMemo(() => {
+    const counts = new Map<string, { label: string; value: number }>();
+    applicants.forEach((a) =>
+      a.favorited_programs.forEach((p) => {
+        const cur = counts.get(p.code);
+        counts.set(p.code, { label: p.local_name, value: (cur?.value ?? 0) + 1 });
+      })
+    );
+    return [...counts.values()]
+      .sort((a, b) => b.value - a.value)
+      .slice(0, 5)
+      .map((d, i) => ({ ...d, color: CHART_COLORS[i % CHART_COLORS.length] }));
+  }, [applicants]);
 
   const PopularityCard = (
     <div className="bg-white rounded-2xl p-6 border border-gray-100 shadow-sm">
       <div className="flex justify-between items-center mb-5">
         <div>
-          <h3 className="font-bold text-lg text-gray-900">Programme popularity</h3>
-          <p className="text-xs text-gray-400 mt-0.5">Times saved by applicants this month</p>
-        </div>
-        <div className="flex bg-gray-100 rounded-xl p-1 gap-1">
-          {["Saves","Views"].map((t) => (
-            <button key={t} className="px-3 py-1.5 rounded-lg text-xs font-semibold first:bg-white first:shadow-sm text-gray-700 hover:text-gray-900 transition-all">{t}</button>
-          ))}
+          <h3 className="font-bold text-lg text-gray-900">{t("uniAdmin.dashboard.popularity.title")}</h3>
+          <p className="text-xs text-gray-400 mt-0.5">{t("uniAdmin.dashboard.popularity.subtitle")}</p>
         </div>
       </div>
-      <BarChart data={popularityData} />
+      {statsLoading ? (
+        <p className="text-sm text-gray-400">{t("uniAdmin.dashboard.calendar.loading")}</p>
+      ) : popularityData.length === 0 ? (
+        <p className="text-sm text-gray-400">{t("uniAdmin.dashboard.popularity.empty")}</p>
+      ) : (
+        <BarChart data={popularityData} />
+      )}
     </div>
   );
 
-  // ── Application funnel card ───────────────────────────────────────────────
+  // ── Application funnel card (real data: nested engagement stages) ─────────────
+  const funnelStages = useMemo(() => {
+    const savers = applicants.filter((a) => a.favorited_programs.length > 0);
+    return [
+      { label: t("uniAdmin.dashboard.funnel.followers"),      value: applicants.length, color: "blue" },
+      { label: t("uniAdmin.dashboard.funnel.savedProgramme"), value: savers.length, color: "purple" },
+      { label: t("uniAdmin.dashboard.funnel.withScore"),      value: savers.filter((a) => a.unt_score != null).length, color: "amber" },
+      { label: t("uniAdmin.dashboard.funnel.highScore"),      value: savers.filter((a) => (a.unt_score ?? 0) >= 100).length, color: "green" },
+    ];
+  }, [applicants, t]);
+
   const FunnelCard = (
     <div className="bg-white rounded-2xl p-6 border border-gray-100 shadow-sm">
       <div className="flex justify-between items-center mb-5">
         <div>
-          <h3 className="font-bold text-lg text-gray-900">Application funnel</h3>
-          <p className="text-xs text-gray-400 mt-0.5">Spring 2026 intake · 30-day trail</p>
+          <h3 className="font-bold text-lg text-gray-900">{t("uniAdmin.dashboard.funnel.title")}</h3>
+          <p className="text-xs text-gray-400 mt-0.5">{t("uniAdmin.dashboard.funnel.subtitle")}</p>
         </div>
-        <button className="flex items-center gap-1 text-xs font-semibold text-gray-500 border border-gray-200 px-3 py-1.5 rounded-xl hover:bg-gray-50 transition-colors">
-          Last 30 days
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M6 9l6 6 6-6"/></svg>
-        </button>
       </div>
-      <FunnelChart stages={[
-        { label: "Profile views",       value: 4820, color: "blue"   },
-        { label: "Saved university",    value: 1240, color: "purple" },
-        { label: "Saved programme",     value: 892,  color: "coral"  },
-        { label: "Started application", value: 421,  color: "amber"  },
-        { label: "Submitted",           value: 184,  color: "green"  },
-      ]} />
+      {statsLoading ? (
+        <p className="text-sm text-gray-400">{t("uniAdmin.dashboard.calendar.loading")}</p>
+      ) : applicants.length === 0 ? (
+        <p className="text-sm text-gray-400">{t("uniAdmin.dashboard.funnel.empty")}</p>
+      ) : (
+        <FunnelChart stages={funnelStages} />
+      )}
     </div>
   );
 
   // ── Page ──────────────────────────────────────────────────────────────────
+  const todayLabel = new Intl.DateTimeFormat(locale, { day: "numeric", month: "long", year: "numeric" }).format(now);
+
   return (
     <div className="flex flex-col gap-5">
       <div className="flex justify-between items-start gap-6 flex-wrap">
         <div>
-          <h1 className="text-3xl font-bold text-gray-900 tracking-tight">Welcome back, {firstName}</h1>
+          <h1 className="text-3xl font-bold text-gray-900 tracking-tight">
+            {t("uniAdmin.dashboard.greeting", { name: firstName })}
+          </h1>
           <p className="text-sm text-gray-400 mt-1.5">
-            Here's what's happening{uniName ? ` at ${uniName}` : ""} today, {now.toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric" })}.
+            {uniName
+              ? t("uniAdmin.dashboard.subtitleWithUni", { uni: uniName, date: todayLabel })
+              : t("uniAdmin.dashboard.subtitle", { date: todayLabel })}
           </p>
         </div>
       </div>

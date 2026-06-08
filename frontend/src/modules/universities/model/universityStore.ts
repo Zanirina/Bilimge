@@ -1,5 +1,6 @@
 import { create } from "zustand";
 import { universityService } from "../api/universityService";
+import { localizeData } from "../../../shared/lib/i18n/localizeData";
 import type {
   University,
   UniversityListItem,
@@ -10,6 +11,7 @@ import type {
   NtcProgram,
   Language,
   EntranceRequirement,
+  EntranceRequirementInput,
   EntranceExam,
   AcademicMobility,
   Accreditation,
@@ -66,8 +68,8 @@ type UniversityState = {
   deleteMyLanguage: (id: number) => Promise<void>;
 
   fetchMyRequirements: () => Promise<void>;
-  addMyRequirement: (description: string) => Promise<void>;
-  updateMyRequirement: (id: number, description: string) => Promise<void>;
+  addMyRequirement: (data: EntranceRequirementInput) => Promise<void>;
+  updateMyRequirement: (id: number, data: EntranceRequirementInput) => Promise<void>;
   deleteMyRequirement: (id: number) => Promise<void>;
 
   fetchMyExams: () => Promise<void>;
@@ -130,55 +132,55 @@ export const useUniversityStore = create<UniversityState>((set) => ({
   fetchUniversities: () =>
     withLoading(set, async () => {
       const res = await universityService.getUniversities();
-      set({ universities: res.data });
+      set({ universities: localizeData(res.data) });
     }),
 
   fetchUniversityDetail: (code) =>
     withLoading(set, async () => {
       const res = await universityService.getUniversityByCode(code);
-      set({ currentUniversity: res.data });
+      set({ currentUniversity: localizeData(res.data) });
     }),
 
   fetchProgramDetailIntoStore: (code) =>
     withLoading(set, async () => {
       const res = await universityService.getUniversityProgramDetail(code);
-      set({ currentProgram: res.data });
+      set({ currentProgram: localizeData(res.data) });
     }),
 
   fetchPrograms: () =>
     withLoading(set, async () => {
       const res = await universityService.getUniversityPrograms();
-      set({ programs: res.data });
+      set({ programs: localizeData(res.data) });
     }),
 
   fetchProgramsByUniversity: (code) =>
     withLoading(set, async () => {
       const res = await universityService.getUniversityProgramsByUniversity(code);
-      set({ programs: res.data });
+      set({ programs: localizeData(res.data) });
     }),
 
   fetchProgramDetail: (code) =>
     withLoading(set, async () => {
       const res = await universityService.getUniversityProgramDetail(code);
-      return res.data;
+      return localizeData(res.data);
     }),
 
   fetchFields: () =>
     withLoading(set, async () => {
       const res = await universityService.getFields();
-      set({ fields: res.data });
+      set({ fields: localizeData(res.data) });
     }),
 
   fetchSubjects: () =>
     withLoading(set, async () => {
       const res = await universityService.getSubjects();
-      set({ subjects: res.data });
+      set({ subjects: localizeData(res.data) });
     }),
 
   fetchNtcPrograms: () =>
     withLoading(set, async () => {
       const res = await universityService.getNtcPrograms();
-      set({ ntcPrograms: res.data });
+      set({ ntcPrograms: localizeData(res.data) });
     }),
 
   // ── NTC Admin ────────────────────────────────────────────────────────────
@@ -200,7 +202,8 @@ export const useUniversityStore = create<UniversityState>((set) => ({
   updateMyUniversityInfo: (data) =>
     withLoading(set, async () => {
       const res = await universityService.updateMyUniversityInfo(data);
-      set({ myUniversity: res.data });
+      // PATCH returns only the editable fields — merge so logo/cover/code stay intact.
+      set((s) => ({ myUniversity: { ...s.myUniversity, ...res.data } as University }));
     }),
 
   fetchMyPrograms: () =>
@@ -253,15 +256,15 @@ export const useUniversityStore = create<UniversityState>((set) => ({
       set({ myRequirements: res.data });
     }),
 
-  addMyRequirement: (description) =>
+  addMyRequirement: (data) =>
     withLoading(set, async () => {
-      const res = await universityService.addMyRequirement(description);
+      const res = await universityService.addMyRequirement(data);
       set((s) => ({ myRequirements: [...s.myRequirements, res.data] }));
     }),
 
-  updateMyRequirement: (id, description) =>
+  updateMyRequirement: (id, data) =>
     withLoading(set, async () => {
-      const res = await universityService.updateMyRequirement(id, description);
+      const res = await universityService.updateMyRequirement(id, data);
       set((s) => ({
         myRequirements: s.myRequirements.map((r) => (r.id === id ? res.data : r)),
       }));

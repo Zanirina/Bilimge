@@ -1,4 +1,5 @@
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import { MdLocationOn, MdSchool, MdAttachMoney } from "react-icons/md";
 
 export interface UniversityCardProps {
@@ -32,6 +33,7 @@ export default function UniversityCard({
   basePath = "/universities",
 }: UniversityCardProps) {
   const navigate = useNavigate();
+  const { t } = useTranslation();
   const total = programCount ?? programs.length;
   const visible = programs.slice(0, 3);
   const extra = Math.max(0, total - visible.length);
@@ -70,10 +72,10 @@ export default function UniversityCard({
         {/* Majors / Programs */}
         <div className="mb-4 min-h-[3.5rem]">
           <p className="flex items-center gap-1 text-[10px] text-gray-400 uppercase tracking-wider mb-1.5 font-semibold">
-            <MdSchool size={12} /> Majors offered
+            <MdSchool size={12} /> {t("universityCard.majorsOffered")}
           </p>
           {visible.length === 0 ? (
-            <p className="text-xs text-gray-400">No majors listed.</p>
+            <p className="text-xs text-gray-400">{t("universityCard.noMajors")}</p>
           ) : (
             <div className="flex flex-wrap gap-1.5">
               {visible.map((p, i) => (
@@ -87,7 +89,7 @@ export default function UniversityCard({
               ))}
               {extra > 0 && (
                 <span className="text-xs bg-gray-100 text-gray-500 font-medium px-2 py-0.5 rounded-md">
-                  +{extra} more
+                  {t("universityCard.more", { count: extra })}
                 </span>
               )}
             </div>
@@ -97,12 +99,12 @@ export default function UniversityCard({
         {/* Footer info */}
         <div className="flex items-center justify-between mt-auto pt-3 border-t border-gray-100">
           <div>
-            <p className="text-[10px] text-gray-400 uppercase tracking-wider">UNT</p>
+            <p className="text-[10px] text-gray-400 uppercase tracking-wider">{t("universityCard.unt")}</p>
             <p className="text-sm font-semibold text-gray-900">{passingScore || "—"}</p>
           </div>
           <div className="text-right">
             <p className="text-[10px] text-gray-400 uppercase tracking-wider flex items-center justify-end gap-0.5">
-              <MdAttachMoney size={12} /> Tuition
+              <MdAttachMoney size={12} /> {t("universityCard.tuition")}
             </p>
             <p className="text-sm font-semibold text-gray-900">
               {tuitionCost ? fmtMoney(tuitionCost) : "—"}
@@ -118,7 +120,7 @@ export default function UniversityCard({
           }}
           className="mt-4 w-full py-2 text-white font-semibold text-sm bg-[#3356AA] rounded-md hover:bg-[#2c4892] transition"
         >
-          View Details
+          {t("universityCard.viewDetails")}
         </button>
       </div>
     </div>

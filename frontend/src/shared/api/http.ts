@@ -2,17 +2,42 @@ import axios, { type AxiosError } from "axios";
 import { env } from "../lib/env";
 import { storage } from "../lib/storage";
 import { endpoints } from "./endpoints";
+import i18n from "../lib/i18n/i18n";
+
+const SUPPORTED_LANGS = ["en", "ru", "kk"];
+
+/** Current UI language normalized to one the backend understands. */
+function currentLanguage(): string {
+  const raw = (i18n.resolvedLanguage || i18n.language || "en").split("-")[0];
+  return SUPPORTED_LANGS.includes(raw) ? raw : "en";
+}
 
 export const http = axios.create({
   baseURL: env.API_URL,
   headers: { "Content-Type": "application/json" },
 });
 
+// Public endpoints must NOT carry an Authorization header: DRF runs JWT
+// authentication before permissions, so a stale/expired token would make
+// even an AllowAny view (login/register/refresh) reject the request with 401.
+const PUBLIC_ENDPOINTS = [
+  endpoints.auth.login,
+  endpoints.auth.register,
+  endpoints.auth.refresh,
+  endpoints.auth.resetPassword,
+  endpoints.auth.resetPasswordConfirm,
+];
+
 http.interceptors.request.use((config) => {
+  const url = String(config.url ?? "");
+  const isPublic = PUBLIC_ENDPOINTS.some((e) => url.includes(e));
   const token = storage.getAccessToken();
-  if (token) {
+  if (token && !isPublic) {
     config.headers.Authorization = `Bearer ${token}`;
   }
+  // Tell the backend which language to localize data into. Harmless on
+  // endpoints that ignore it; explicit caller params still take precedence.
+  config.params = { language: currentLanguage(), ...(config.params ?? {}) };
   return config;
 });
 

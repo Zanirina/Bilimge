@@ -1,19 +1,18 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 import { useSearchParams } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import { useAuthStore } from "../../auth/model/authStore";
 import { http } from "../../../shared/api/http";
 import { endpoints } from "../../../shared/api/endpoints";
 import {
   TbSend,
   TbSparkles,
-  TbPaperclip,
   TbShieldCheck,
   TbSchool,
   TbChartBar,
   TbBooks,
 } from "react-icons/tb";
 import { FiCheckCircle } from "react-icons/fi";
-import { MdLanguage } from "react-icons/md";
 
 // ── Types ─────────────────────────────────────────────────────────────────────
 interface Message {
@@ -28,67 +27,57 @@ interface UserContext {
   untScore: number;
 }
 
-// ── Quick actions matching screenshot ─────────────────────────────────────────
+// ── Quick actions (i18n keys) ─────────────────────────────────────────────────
 const QUICK_ACTIONS = [
   {
-    category: "UNIVERSITIES",
-    text: "Which universities have the best IT programs?",
+    categoryKey: "chatbot.actions.universitiesCat",
+    textKey: "chatbot.actions.universitiesText",
     icon: TbSchool,
   },
   {
-    category: "GRANTS",
-    text: "Check if I qualify for a state grant by IKT number",
+    categoryKey: "chatbot.actions.grantsCat",
+    textKey: "chatbot.actions.grantsText",
     icon: FiCheckCircle,
   },
   {
-    category: "COMPARE",
-    text: "Compare AITU and KIMEP computer science programs",
+    categoryKey: "chatbot.actions.compareCat",
+    textKey: "chatbot.actions.compareText",
     icon: TbChartBar,
   },
   {
-    category: "UNT",
-    text: "What UNT score do I need for Nazarbayev University?",
+    categoryKey: "chatbot.actions.untCat",
+    textKey: "chatbot.actions.untText",
     icon: TbBooks,
   },
 ];
 
-const QUICK_TOPICS = [
-  "University costs & grants",
-  "Passing score requirements",
-  "Cities with most universities",
-  "IT & tech programs",
-  "Check grant by IKT number",
-  "Dorms & housing",
+const QUICK_TOPIC_KEYS = [
+  "chatbot.topics.costsGrants",
+  "chatbot.topics.passingScore",
+  "chatbot.topics.citiesMost",
+  "chatbot.topics.dorms",
 ];
 
-// ── Suggested questions based on last message ────────────────────────────────
-function getSuggestions(messages: Message[]): string[] {
+const IT_SUGGESTION_KEYS = [
+  "chatbot.suggestions.bestIt",
+  "chatbot.suggestions.subjectsIt",
+  "chatbot.suggestions.tuitionIt",
+];
+
+const GRANT_SUGGESTION_KEYS = [
+  "chatbot.suggestions.grantScore",
+  "chatbot.suggestions.grantSpecialties",
+  "chatbot.suggestions.grantResult",
+];
+
+// ── Suggested questions based on last message (returns i18n keys) ─────────────
+function getSuggestionKeys(messages: Message[]): string[] {
   const lastUser =
     [...messages].reverse().find((m) => m.role === "user")?.content.toLowerCase() ?? "";
 
-  if (lastUser.includes("almaty") || lastUser.includes("алматы"))
-    return [
-      "Which universities have the best IT programs?",
-      "What subjects are required for IT admission?",
-      "What is the tuition cost for IT programs?",
-    ];
   if (lastUser.includes("grant") || lastUser.includes("грант"))
-    return [
-      "What score do I need for a grant?",
-      "Which specialties have the most grants?",
-      "How do I check my grant result?",
-    ];
-  if (lastUser.includes("it") || lastUser.includes("software"))
-    return [
-      "Which universities have the best IT programs?",
-      "What subjects are required for IT admission?",
-      "What is the tuition cost for IT programs?",
-    ];
-  return [
-    "Which universities have the best IT programs?",
-    "What subjects are required for IT admission?",
-    "What is the tuition cost for IT programs?",
-  ];
+    return GRANT_SUGGESTION_KEYS;
+  return IT_SUGGESTION_KEYS;
 }
 
 // ── Markdown renderer ─────────────────────────────────────────────────────────
@@ -199,6 +188,7 @@ function InputBox({
   loading: boolean;
   textareaRef: React.RefObject<HTMLTextAreaElement | null>;
 }) {
+  const { t } = useTranslation();
   function autoResize() {
     const el = textareaRef.current;
     if (!el) return;
@@ -208,7 +198,7 @@ function InputBox({
 
   return (
     <div className="bg-white rounded-2xl border border-gray-200 shadow-md focus-within:border-[#3356AA] focus-within:ring-2 focus-within:ring-[#3356AA]/10 transition-all">
-      <div className="flex items-start gap-2 px-4 pt-3">
+      <div className="flex items-center gap-2 px-4 py-3">
         <TbSparkles size={17} className="text-[#3356AA] flex-shrink-0 mt-0.5" />
         <textarea
           ref={textareaRef}
@@ -224,28 +214,11 @@ function InputBox({
               onSend(value);
             }
           }}
-          placeholder="Ask about universities, programs, the UNT, or grants..."
+          placeholder={t("chatbot.inputPlaceholder")}
           className="flex-1 bg-transparent resize-none outline-none text-sm text-[#111928] placeholder-gray-400 leading-relaxed"
           style={{ maxHeight: 160 }}
         />
-      </div>
-      <div className="flex items-center justify-between px-4 pb-2.5 pt-1">
-        <div className="flex items-center gap-1">
-          <button className="flex items-center gap-1.5 text-xs text-gray-400 hover:text-gray-600 px-2 py-1 rounded-lg hover:bg-gray-50 transition-colors">
-            <TbPaperclip size={14} />
-            <span>Attach</span>
-          </button>
-          <button className="flex items-center gap-1 text-xs text-gray-400 hover:text-gray-600 px-2 py-1 rounded-lg hover:bg-gray-50 transition-colors">
-            <MdLanguage size={14} />
-            <span>EN</span>
-          </button>
-          <button className="flex items-center gap-1 text-xs text-gray-400 hover:text-gray-600 px-2 py-1 rounded-lg hover:bg-gray-50 transition-colors">
-            <span>↑</span>
-            <span>Use my profile</span>
-          </button>
-        </div>
-        <div className="flex items-center gap-2">
-          <span className="text-xs text-gray-300 hidden sm:block">⌘↵ to send</span>
+        <div className="flex items-center">
           <button
             onClick={() => onSend(value)}
             disabled={!value.trim() || loading}
@@ -269,35 +242,36 @@ function RightPanel({
   userCtx: UserContext | null;
   onSelect: (text: string) => void;
 }) {
-  const suggestions = getSuggestions(messages);
+  const { t } = useTranslation();
+  const suggestionKeys = getSuggestionKeys(messages);
   const hasMessages = messages.length > 0;
 
   return (
-    <aside className="w-[260px] flex-shrink-0 flex flex-col gap-3 overflow-y-auto py-5 px-3">
+    <aside className="w-[280px] flex-shrink-0 flex flex-col h-full px-6 py-7 gap-7">
       {/* YOUR CONTEXT */}
       {userCtx && (
-        <div className="bg-white rounded-2xl border border-gray-100 p-4 shadow-sm">
+        <div>
           <p className="text-[10px] font-bold text-gray-400 uppercase tracking-wider mb-3">
-            Your Context
+            {t("chatbot.context.title")}
           </p>
-          <div className="space-y-3">
+          <div className="rounded-2xl bg-[#F5F7FF] border border-[#E6EBFA] p-4 space-y-3">
             <div className="flex items-start justify-between">
               <div>
-                <p className="text-xs text-gray-500">Saved unis</p>
+                <p className="text-xs text-gray-600">{t("chatbot.context.savedUnis")}</p>
                 <p className="text-xs text-gray-400 mt-0.5 leading-snug">
                   {userCtx.favoriteNames.length > 0
                     ? userCtx.favoriteNames.slice(0, 3).join(", ")
-                    : "None saved yet"}
+                    : t("chatbot.context.noneSaved")}
                 </p>
               </div>
               <span className="text-lg font-bold text-[#3356AA]">
                 {userCtx.favoritesCount}
               </span>
             </div>
-            <div className="border-t border-gray-50 pt-3 flex items-start justify-between">
+            <div className="border-t border-[#E6EBFA] pt-3 flex items-start justify-between">
               <div>
-                <p className="text-xs text-gray-500">UNT average</p>
-                <p className="text-xs text-gray-400 mt-0.5">Self-reported score</p>
+                <p className="text-xs text-gray-600">{t("chatbot.context.untAverage")}</p>
+                <p className="text-xs text-gray-400 mt-0.5">{t("chatbot.context.selfReported")}</p>
               </div>
               <span className="text-lg font-bold text-[#3356AA]">
                 {userCtx.untScore > 0 ? userCtx.untScore : "—"}
@@ -308,55 +282,57 @@ function RightPanel({
       )}
 
       {/* SUGGESTED QUESTIONS */}
-      <div className="bg-white rounded-2xl border border-gray-100 p-4 shadow-sm">
-        <p className="text-[10px] font-bold text-gray-400 uppercase tracking-wider mb-3">
-          Suggested Questions
+      <div>
+        <p className="text-[10px] font-bold text-gray-400 uppercase tracking-wider mb-2">
+          {t("chatbot.suggestedTitle")}
         </p>
-        <ul className="space-y-1">
-          {(hasMessages ? suggestions : [
-            "Which universities have the best IT programs?",
-            "What subjects are required for IT admission?",
-            "What is the tuition cost for IT programs?",
-          ]).map((q) => (
-            <li key={q}>
-              <button
-                onClick={() => onSelect(q)}
-                className="w-full text-left text-xs text-gray-600 flex items-start gap-2 px-2 py-2 rounded-xl hover:bg-[#EEF2FF] hover:text-[#3356AA] transition-colors leading-snug group"
-              >
-                <span className="text-[#3356AA] mt-0.5 flex-shrink-0">↗</span>
-                {q}
-              </button>
-            </li>
-          ))}
+        <ul>
+          {(hasMessages ? suggestionKeys : IT_SUGGESTION_KEYS).map((key) => {
+            const q = t(key);
+            return (
+              <li key={key}>
+                <button
+                  onClick={() => onSelect(q)}
+                  className="w-full text-left text-xs text-gray-600 flex items-start gap-2 py-2 hover:text-[#3356AA] transition-colors leading-snug"
+                >
+                  <span className="text-[#3356AA] mt-0.5 flex-shrink-0">↗</span>
+                  {q}
+                </button>
+              </li>
+            );
+          })}
         </ul>
       </div>
 
       {/* QUICK TOPICS */}
-      <div className="bg-white rounded-2xl border border-gray-100 p-4 shadow-sm">
+      <div>
         <p className="text-[10px] font-bold text-gray-400 uppercase tracking-wider mb-3">
-          Quick Topics
+          {t("chatbot.quickTopicsTitle")}
         </p>
         <div className="flex flex-wrap gap-1.5">
-          {QUICK_TOPICS.map((t) => (
-            <button
-              key={t}
-              onClick={() => onSelect(t)}
-              className="text-xs text-gray-600 px-2.5 py-1 bg-gray-50 rounded-full border border-gray-100 hover:border-[#3356AA] hover:text-[#3356AA] hover:bg-[#EEF2FF] transition-colors"
-            >
-              {t}
-            </button>
-          ))}
+          {QUICK_TOPIC_KEYS.map((key) => {
+            const topic = t(key);
+            return (
+              <button
+                key={key}
+                onClick={() => onSelect(topic)}
+                className="text-xs text-gray-600 px-2.5 py-1 bg-gray-50 rounded-full hover:text-[#3356AA] hover:bg-[#EEF2FF] transition-colors"
+              >
+                {topic}
+              </button>
+            );
+          })}
         </div>
       </div>
 
       {/* VERIFIED BADGE */}
-      <div className="bg-[#3356AA] rounded-2xl p-4">
+      <div className="mt-auto rounded-2xl bg-[#EEF2FF] p-4">
         <div className="flex items-center gap-2 mb-1.5">
-          <TbShieldCheck size={16} className="text-white flex-shrink-0" />
-          <span className="text-xs font-semibold text-white">Verified by Bilimge</span>
+          <TbShieldCheck size={16} className="text-[#3356AA] flex-shrink-0" />
+          <span className="text-xs font-semibold text-[#3356AA]">{t("chatbot.verifiedTitle")}</span>
         </div>
-        <p className="text-[11px] text-blue-200 leading-relaxed">
-          All university data comes from 2026 NTC catalogue & official school pages.
+        <p className="text-[11px] text-[#3356AA]/70 leading-relaxed">
+          {t("chatbot.verifiedText")}
         </p>
       </div>
     </aside>
@@ -381,33 +357,35 @@ function WelcomeHero({
   loading: boolean;
   textareaRef: React.RefObject<HTMLTextAreaElement | null>;
 }) {
+  const { t } = useTranslation();
   return (
     <div className="flex-1 flex flex-col items-center justify-center px-6 py-8 gap-6 overflow-y-auto">
       {/* Star icon */}
       <div className="relative">
-        <div
-          className="w-16 h-16 rounded-full flex items-center justify-center"
-          style={{
-            background: "radial-gradient(circle at 35% 35%, #6b8fd4, #3356AA 55%, #1a3070)",
-            boxShadow: "0 8px 32px rgba(51,86,170,0.4)",
-            animation: "orbFloat 4s ease-in-out infinite",
-          }}
-        >
-          <TbSparkles size={28} className="text-white" />
+        <div className="w-16 h-16 rounded-full bg-[#EEF2FF] flex items-center justify-center">
+          <svg
+            width="28"
+            height="28"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="#3356AA"
+            strokeWidth="2"
+            strokeLinejoin="round"
+          >
+            <path d="M12 2.5C12.6 8 16 11.4 21.5 12C16 12.6 12.6 16 12 21.5C11.4 16 8 12.6 2.5 12C8 11.4 11.4 8 12 2.5Z" />
+          </svg>
         </div>
-        <span className="absolute bottom-0 right-0 w-3 h-3 bg-green-400 rounded-full border-2 border-white" />
+        <span className="absolute bottom-0 right-0 w-3.5 h-3.5 bg-emerald-500 rounded-full border-2 border-white" />
       </div>
 
       {/* Headline */}
       <div className="text-center space-y-1 max-w-lg">
         <h1 className="text-3xl font-bold text-[#111928]">
-          Hi {firstName} —{" "}
-          <span className="text-[#3356AA]">I'm Bilimge AI</span>
+          {t("chatbot.welcomeGreeting", { name: firstName })}{" "}
+          <span className="text-[#3356AA]">{t("chatbot.welcomeBrand")}</span>
         </h1>
         <p className="text-sm text-gray-500 leading-relaxed">
-          Ask about Kazakhstani universities, programs, the UNT, scholarships,
-          <br />
-          or your application strategy. I'll cite my sources.
+          {t("chatbot.welcomeSubtitle")}
         </p>
       </div>
 
@@ -424,21 +402,24 @@ function WelcomeHero({
 
       {/* Quick action cards */}
       <div className="w-full max-w-2xl grid grid-cols-2 gap-3">
-        {QUICK_ACTIONS.map(({ category, text, icon: Icon }) => (
-          <button
-            key={text}
-            onClick={() => onSelect(text)}
-            className="flex flex-col justify-between gap-4 text-left p-4 bg-white border border-gray-200 rounded-2xl hover:border-[#3356AA] hover:shadow-md transition-all group"
-          >
-            <div>
-              <p className="text-[10px] font-bold text-[#3356AA] tracking-wider mb-1.5 uppercase">
-                {category}
-              </p>
-              <p className="text-sm text-[#374151] leading-snug">{text}</p>
-            </div>
-            <Icon size={18} className="text-gray-300 group-hover:text-[#3356AA] transition-colors" />
-          </button>
-        ))}
+        {QUICK_ACTIONS.map(({ categoryKey, textKey, icon: Icon }) => {
+          const text = t(textKey);
+          return (
+            <button
+              key={textKey}
+              onClick={() => onSelect(text)}
+              className="flex flex-col justify-between gap-4 text-left p-4 bg-white border border-gray-200 rounded-2xl hover:border-[#3356AA] hover:shadow-md transition-all group"
+            >
+              <div>
+                <p className="text-[10px] font-bold text-[#3356AA] tracking-wider mb-1.5 uppercase">
+                  {t(categoryKey)}
+                </p>
+                <p className="text-sm text-[#374151] leading-snug">{text}</p>
+              </div>
+              <Icon size={18} className="text-gray-300 group-hover:text-[#3356AA] transition-colors" />
+            </button>
+          );
+        })}
       </div>
     </div>
   );
@@ -446,8 +427,9 @@ function WelcomeHero({
 
 // ── Main page ─────────────────────────────────────────────────────────────────
 export default function AIAssistantPage() {
+  const { t } = useTranslation();
   const user = useAuthStore((s) => s.user);
-  const firstName = user?.first_name?.trim() || user?.email?.split("@")[0] || "there";
+  const firstName = user?.first_name?.trim() || user?.email?.split("@")[0] || t("chatbot.defaultName");
 
   const [searchParams, setSearchParams] = useSearchParams();
   const convId = searchParams.get("conv");
@@ -528,42 +510,21 @@ export default function AIAssistantPage() {
           ...prev,
           {
             role: "assistant",
-            content: "Sorry, something went wrong. Please try again.",
+            content: t("chatbot.errorMessage"),
           },
         ]);
       } finally {
         setLoading(false);
       }
     },
-    [convId, loading, setSearchParams]
+    [convId, loading, setSearchParams, t]
   );
 
   const isEmpty = !convId && messages.length === 0;
 
   return (
     <>
-      <style>{`
-        @keyframes orbFloat {
-          0%, 100% { transform: translateY(0px); }
-          50% { transform: translateY(-6px); }
-        }
-      `}</style>
-
       <div className="flex flex-col bg-[#F3F4F6] -m-8" style={{ height: "calc(100% + 4rem)" }}>
-        {/* Inner header */}
-        <div className="flex items-center gap-3 px-6 py-3 bg-white border-b border-gray-100 flex-shrink-0">
-          <div className="flex items-center gap-2">
-            <TbSparkles size={18} className="text-[#3356AA]" />
-            <span className="font-semibold text-[#111928] text-sm">AI Assistant</span>
-          </div>
-          <div className="flex items-center gap-1.5">
-            <span className="w-2 h-2 rounded-full bg-green-400" />
-            <span className="text-xs text-gray-500">
-              Online · Trained on 2026 Kazakhstani admissions data
-            </span>
-          </div>
-        </div>
-
         <div className="flex flex-1 overflow-hidden">
           {/* Main chat area */}
           <div className="flex-1 flex flex-col overflow-hidden">
@@ -598,7 +559,7 @@ export default function AIAssistantPage() {
                     textareaRef={textareaRef}
                   />
                   <p className="text-center text-[11px] text-gray-400 mt-2">
-                    AI may produce inaccurate info — verify on each university's official page.
+                    {t("chatbot.disclaimer")}
                   </p>
                 </div>
               </>
@@ -606,7 +567,7 @@ export default function AIAssistantPage() {
           </div>
 
           {/* Right panel */}
-          <div className="border-l border-gray-100 bg-white overflow-y-auto">
+          <div className="border-l border-gray-100 bg-white h-full">
             <RightPanel
               messages={messages}
               userCtx={userCtx}

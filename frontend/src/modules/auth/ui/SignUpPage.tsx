@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
 import { IoEyeOutline, IoEyeOffOutline, IoWarningOutline } from "react-icons/io5";
 import { useAuthStore } from "../model/authStore";
 
@@ -48,9 +49,24 @@ export default function SignUpPage() {
       });
       navigate("/applicant");
     } catch (err: unknown) {
-      const msg = err instanceof Error ? err.message : "";
-      if (msg.includes("exists") || msg.includes("already")) {
-        setError("Account already exists. Try signing in.");
+      if (axios.isAxiosError(err)) {
+        const data = err.response?.data as Record<string, unknown> | undefined;
+        const firstError = (val: unknown): string =>
+          Array.isArray(val) ? String(val[0]) : typeof val === "string" ? val : "";
+        const emailErr = firstError(data?.email);
+        const passwordErr = firstError(data?.password);
+
+        if (emailErr.includes("exist") || emailErr.includes("already")) {
+          setError("Account already exists. Try signing in.");
+        } else if (emailErr) {
+          setError(emailErr);
+        } else if (passwordErr) {
+          setError(passwordErr);
+        } else if (err.response) {
+          setError("Something went wrong. Please try again.");
+        } else {
+          setError("Network error. Please check your connection.");
+        }
       } else {
         setError("Something went wrong. Please try again.");
       }
