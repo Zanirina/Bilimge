@@ -208,40 +208,52 @@ class PersonalCalendarDetailView(APIView):
         return Response({'status': 'deleted'}, status=204)
 
 def notify_calendar_event(event):
-    from userpage.models import FavoriteUniversity
+    try:
+        from userpage.models import FavoriteUniversity
 
-    if event.visibility == 'public':
-        emails = list(
-            User.objects.filter(email__isnull=False)
-            .exclude(email='')
-            .values_list('email', flat=True)
+        if event.visibility == 'public':
+            emails = list(
+                User.objects.filter(email__isnull=False)
+                .exclude(email='')
+                .values_list('email', flat=True)
+            )
+        elif event.visibility == 'university' and event.university_id:
+            emails = list(
+                FavoriteUniversity.objects.filter(university_id=event.university_id)
+                .exclude(user__email='')
+                .values_list('user__email', flat=True)
+            )
+        else:
+            return
+
+        if not emails:
+            return
+
+        link = "https://bilimge.vercel.app/applicant/dashboard"
+        date_str = event.start_date.strftime('%d.%m.%Y')
+        time_str = f" в {event.start_time.strftime('%H:%M')}" if event.start_time else ""
+
+        messages = tuple(
+            (
+                f'Новое событие: {event.title}',
+                f'{event.title}\n'
+                f'Дата: {date_str}{time_str}\n'
+                f'{event.description[:200] if event.description else ""}\n\n'
+                f'Посмотреть календарь: {link}',
+                None,
+                [email]
+            )
+            for email in emails
         )
-    elif event.visibility == 'university' and event.university_id:
-        emails = list(
-            FavoriteUniversity.objects.filter(university_id=event.university_id)
-            .exclude(user__email='')
-            .values_list('user__email', flat=True)
-        )
-    else:
-        return
 
-    if not emails:
-        return
+        import threading
+        def send():
+            try:
+                send_mass_mail(messages, fail_silently=True)
+            except Exception:
+                pass
 
-    link = f"https://bilimge.kz/calendar/"
-    date_str = event.start_date.strftime('%d.%m.%Y')
-    time_str = f" в {event.start_time.strftime('%H:%M')}" if event.start_time else ""
+        threading.Thread(target=send, daemon=True).start()
 
-    messages = tuple(
-        (
-            f'Новое событие: {event.title}',
-            f'{event.title}\n'
-            f'Дата: {date_str}{time_str}\n'
-            f'{event.description[:200] if event.description else ""}\n\n'
-            f'Посмотреть календарь: {link}',
-            None,
-            [email]
-        )
-        for email in emails
-    )
-    send_mass_mail(messages, fail_silently=True)
+    except Exception:
+        pass
