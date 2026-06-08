@@ -9,6 +9,10 @@ from userpage.permissions import IsNtcAdmin, IsUniAdmin
 from unipage.models import UniversityProgram
 from django.core.mail import send_mass_mail
 from django.contrib.auth import get_user_model
+import threading
+import logging
+
+logger = logging.getLogger(__name__)
 
 User = get_user_model()
 
@@ -247,11 +251,13 @@ def notify_calendar_event(event):
         )
 
         import threading
+
         def send():
             try:
-                send_mass_mail(messages, fail_silently=True)
-            except Exception:
-                pass
+                send_mass_mail(messages, fail_silently=False)
+                logger.info(f"Calendar event emails sent to {len(emails)} users")
+            except Exception as e:
+                logger.error(f"Calendar email error: {e}")
 
         threading.Thread(target=send, daemon=True).start()
 
