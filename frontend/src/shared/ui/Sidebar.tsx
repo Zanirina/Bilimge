@@ -1,6 +1,5 @@
 import { useState, useEffect, useCallback } from "react";
 import { NavLink, useLocation, useNavigate, useSearchParams } from "react-router-dom";
-import { useAuthStore } from "../../modules/auth/model/authStore";
 import { http } from "../api/http";
 import { endpoints } from "../api/endpoints";
 import { MdKeyboardArrowDown, MdKeyboardArrowRight } from "react-icons/md";
@@ -233,9 +232,7 @@ function NavItemComponent({
   );
 }
 
-export default function Sidebar({ items, userSubtitle }: SidebarProps) {
-  const user = useAuthStore((s) => s.user);
-  const fullName = `${user?.first_name ?? "Name"} ${user?.last_name ?? "Surname"}`.trim();
+export default function Sidebar({ items }: SidebarProps) {
   const [collapsed, setCollapsed] = useState(false);
 
   return (

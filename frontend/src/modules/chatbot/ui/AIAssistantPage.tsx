@@ -7,14 +7,12 @@ import { endpoints } from "../../../shared/api/endpoints";
 import {
   TbSend,
   TbSparkles,
-  TbPaperclip,
   TbShieldCheck,
   TbSchool,
   TbChartBar,
   TbBooks,
 } from "react-icons/tb";
 import { FiCheckCircle } from "react-icons/fi";
-import { MdLanguage } from "react-icons/md";
 
 // ── Types ─────────────────────────────────────────────────────────────────────
 interface Message {
@@ -190,7 +188,7 @@ function InputBox({
   loading: boolean;
   textareaRef: React.RefObject<HTMLTextAreaElement | null>;
 }) {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   function autoResize() {
     const el = textareaRef.current;
     if (!el) return;
