@@ -165,6 +165,17 @@ class NtcProgramViewSet(viewsets.ModelViewSet):
         instance.updated_at = timezone.now()
         instance.save()
 
+    def update(self, request, *args, **kwargs):
+        partial = kwargs.pop('partial', False)
+        instance = self.get_object()
+        serializer = self.get_serializer(instance, data=request.data, partial=partial)
+        serializer.is_valid(raise_exception=True)
+        self.perform_update(serializer)
+        # Respond with the full read serializer so the client receives the
+        # localized name/field/subject fields, not just the raw update fields.
+        read = NtcProgramSerializer(instance, context=self.get_serializer_context())
+        return Response(read.data)
+
 class SubjectViewSet(viewsets.ModelViewSet):
     queryset = Subject.objects.all()
     serializer_class = SubjectSerializer

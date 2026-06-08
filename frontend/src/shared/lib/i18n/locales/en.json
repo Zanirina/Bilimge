@@ -909,5 +909,156 @@
                 "showing": "Showing {{shown}} of {{total}} applicants"
             }
         }
+    },
+    "ntcAdmin": {
+        "dashboard": {
+            "title": "National Testing Center · Overview",
+            "subtitle": "System-wide stats for the Bilimge admissions platform. Today: {{date}}.",
+            "stats": {
+                "universities": "UNIVERSITIES",
+                "universitiesValue": "{{n}} registered",
+                "universitiesSub": "{{n}} on Bilimge platform",
+                "programmes": "PROGRAMMES",
+                "programmesValue": "{{n}} in catalogue",
+                "programmesSub": "National programme registry",
+                "announcements": "ANNOUNCEMENTS",
+                "announcementsValue": "{{n}} posted",
+                "announcementsSub": "NTC platform-wide messages",
+                "avgScore": "AVG MIN. SCORE",
+                "avgScoreValue": "{{n}} points avg",
+                "avgScoreSub": "Average minimum UNT threshold"
+            },
+            "calendar": {
+                "title": "UNT Calendar",
+                "subtitle": "National testing milestones and review windows",
+                "eventsOn": "Events on {{date}}",
+                "upcoming": "Upcoming",
+                "addEvent": "Add Event",
+                "loading": "Loading…",
+                "noEvents": "No events this month.",
+                "allEvents": "All events — {{month}}",
+                "prevMonth": "Previous month",
+                "nextMonth": "Next month"
+            },
+            "topUnis": {
+                "title": "Top Universities",
+                "subtitle": "By UNT passing score"
+            },
+            "subjectChart": {
+                "title": "Programmes by subject combination",
+                "subtitle": "Distribution across the {{n}} catalogue entries"
+            },
+            "recent": {
+                "title": "Recent announcements",
+                "subtitle": "Latest NTC platform-wide messages",
+                "empty": "No announcements yet."
+            },
+            "loading": "Loading…",
+            "eventTypes": {
+                "deadline": "Deadline",
+                "exam": "Exam",
+                "enrollment": "Enrollment",
+                "open_day": "Open Day",
+                "event": "Event",
+                "announcement": "Announcement"
+            },
+            "modal": {
+                "title": "Add calendar event",
+                "subtitle": "Published platform-wide to all users.",
+                "titleLabel": "Title *",
+                "titlePlaceholder": "e.g. UNT main session begins",
+                "startDate": "Start date *",
+                "time": "Time",
+                "endDate": "End date",
+                "type": "Type",
+                "description": "Description",
+                "descriptionPlaceholder": "Optional details…",
+                "cancel": "Cancel",
+                "save": "Save event",
+                "saving": "Saving…"
+            }
+        },
+        "subtitle": "National Testing Center",
+        "sidebar": {
+            "dashboard": "Dashboard",
+            "announcements": "Post Announcements",
+            "programs": "Manage Programs",
+            "universities": "Manage Universities"
+        },
+        "announcements": {
+            "title": "Post Announcements",
+            "subtitle": "Announcements published here appear on all university pages and applicant feeds.",
+            "newModalSubtitle": "Will appear on all university pages and applicants' feeds."
+        },
+        "programs": {
+            "title": "Programs",
+            "subtitle": "{{n}} programmes in the national catalogue",
+            "searchPlaceholder": "Search programmes…",
+            "showing": "Showing {{shown}} of {{total}}",
+            "empty": "No programmes found.",
+            "th": {
+                "code": "Code",
+                "name": "Name",
+                "subject1": "Subject 1",
+                "subject2": "Subject 2",
+                "minScore": "Min. Score"
+            },
+            "editModal": {
+                "title": "Edit Programme",
+                "name": "Name",
+                "namePlaceholder": "Programme name",
+                "fieldOfStudy": "Field of Study",
+                "selectField": "Select field…",
+                "subject1": "Subject 1",
+                "subject2": "Subject 2",
+                "select": "Select…",
+                "minScore": "Minimum UNT Score",
+                "minScorePlaceholder": "e.g. 50",
+                "editLanguage": "Editing language"
+            }
+        },
+        "universities": {
+            "title": "Universities",
+            "subtitle": "{{n}} universities registered on the platform",
+            "searchPlaceholder": "Search by name or city…",
+            "cityAll": "All",
+            "showing": "{{shown}} of {{total}}",
+            "empty": "No universities found.",
+            "view": {
+                "grid": "Grid",
+                "table": "Table"
+            },
+            "stats": {
+                "total": "TOTAL",
+                "totalSub": "{{n}} universities",
+                "astana": "ASTANA",
+                "astanaSub": "in Astana",
+                "almaty": "ALMATY",
+                "almatySub": "in Almaty",
+                "other": "OTHER",
+                "otherSub": "in other cities"
+            },
+            "untScore": "UNT ≥ {{score}}",
+            "th": {
+                "university": "University",
+                "city": "City",
+                "untScore": "UNT Min. Score"
+            },
+            "editModal": {
+                "title": "Edit university",
+                "subtitle": "General info shown to applicants and used for compliance.",
+                "name": "Full official name",
+                "namePlaceholder": "University name",
+                "shortName": "Short name",
+                "shortNamePlaceholder": "Abbrev. / short name",
+                "city": "City",
+                "phone": "Phone",
+                "address": "Address",
+                "addressPlaceholder": "Street, City, Postal code",
+                "email": "Email",
+                "website": "Website",
+                "saveChanges": "Save changes"
+            }
+        }
     }
 }

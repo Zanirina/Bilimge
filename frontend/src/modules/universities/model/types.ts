@@ -6,15 +6,23 @@ export type Language = {
 export type Subject = {
   id: number;
   name: string;
+  name_ru?: string;
+  name_kk?: string;
+  name_localized?: string;
 };
 
 export type FieldOfStudy = {
   code: string;
   name: string;
+  name_ru?: string;
+  name_kk?: string;
+  name_localized?: string;
 };
 
 export type UpdateNtcProgramRequest = {
   name?: string;
+  name_ru?: string;
+  name_kk?: string;
   field_of_study?: string;
   subject_1?: number;
   subject_2?: number;
@@ -24,12 +32,18 @@ export type UpdateNtcProgramRequest = {
 export type NtcProgram = {
   code: string;
   name: string;
+  name_ru?: string;
+  name_kk?: string;
+  name_localized?: string;
   field_of_study: string;
   field_of_study_name: string;
+  field_of_study_name_localized?: string;
   subject_1: number;
   subject_1_name: string;
+  subject_1_name_localized?: string;
   subject_2: number;
   subject_2_name: string;
+  subject_2_name_localized?: string;
   minimum_score: number;
 };
 

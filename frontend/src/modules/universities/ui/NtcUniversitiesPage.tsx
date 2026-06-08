@@ -1,4 +1,5 @@
 import { useEffect, useState, useMemo } from "react";
+import { useTranslation } from "react-i18next";
 import { universityService } from "../api/universityService";
 import type { UniversityListItem, University, NtcEditUniversityRequest } from "../model/types";
 import { HiX } from "react-icons/hi";
@@ -39,6 +40,7 @@ function EditModal({
   onClose: () => void;
   onSaved: (code: string, updated: Partial<University>) => void;
 }) {
+  const { t } = useTranslation();
   const [full, setFull] = useState<University | null>(null);
   const [form, setForm] = useState<NtcEditUniversityRequest>({});
   const [saving, setSaving] = useState(false);
@@ -80,51 +82,51 @@ function EditModal({
       >
         <div className="flex items-start justify-between px-6 pt-6 pb-4 border-b border-gray-100">
           <div>
-            <h2 className="text-xl font-bold text-[#111928]">Edit university</h2>
-            <p className="text-sm text-gray-400 mt-0.5">General info shown to applicants and used for compliance.</p>
+            <h2 className="text-xl font-bold text-[#111928]">{t("ntcAdmin.universities.editModal.title")}</h2>
+            <p className="text-sm text-gray-400 mt-0.5">{t("ntcAdmin.universities.editModal.subtitle")}</p>
           </div>
           <button onClick={onClose} className="text-gray-400 hover:text-gray-600"><HiX size={20} /></button>
         </div>
 
         {!full ? (
-          <div className="px-6 py-12 text-center text-sm text-gray-400">Loading…</div>
+          <div className="px-6 py-12 text-center text-sm text-gray-400">{t("common.loading")}</div>
         ) : (
           <>
             <div className="px-6 py-5 flex flex-col gap-4">
               <div>
-                <label className={lbl}>Full official name</label>
-                <input className={inp} value={form.name ?? ""} placeholder="University name"
+                <label className={lbl}>{t("ntcAdmin.universities.editModal.name")}</label>
+                <input className={inp} value={form.name ?? ""} placeholder={t("ntcAdmin.universities.editModal.namePlaceholder")}
                   onChange={(e) => patch({ name: e.target.value })} />
               </div>
               <div>
-                <label className={lbl}>Short name</label>
-                <input className={inp} value={form.short_name ?? ""} placeholder="Abbrev. / short name"
+                <label className={lbl}>{t("ntcAdmin.universities.editModal.shortName")}</label>
+                <input className={inp} value={form.short_name ?? ""} placeholder={t("ntcAdmin.universities.editModal.shortNamePlaceholder")}
                   onChange={(e) => patch({ short_name: e.target.value })} />
               </div>
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <label className={lbl}>City</label>
+                  <label className={lbl}>{t("ntcAdmin.universities.editModal.city")}</label>
                   <input className={inp} value={form.city ?? ""} placeholder="Astana"
                     onChange={(e) => patch({ city: e.target.value })} />
                 </div>
                 <div>
-                  <label className={lbl}>Phone</label>
+                  <label className={lbl}>{t("ntcAdmin.universities.editModal.phone")}</label>
                   <input className={inp} value={form.phone ?? ""} placeholder="+7 xxx xxx xxxx"
                     onChange={(e) => patch({ phone: e.target.value })} />
                 </div>
               </div>
               <div>
-                <label className={lbl}>Address</label>
-                <input className={inp} value={form.address ?? ""} placeholder="Street, City, Postal code"
+                <label className={lbl}>{t("ntcAdmin.universities.editModal.address")}</label>
+                <input className={inp} value={form.address ?? ""} placeholder={t("ntcAdmin.universities.editModal.addressPlaceholder")}
                   onChange={(e) => patch({ address: e.target.value })} />
               </div>
               <div>
-                <label className={lbl}>Email</label>
+                <label className={lbl}>{t("ntcAdmin.universities.editModal.email")}</label>
                 <input className={inp} type="email" value={form.email ?? ""} placeholder="admin@university.kz"
                   onChange={(e) => patch({ email: e.target.value })} />
               </div>
               <div>
-                <label className={lbl}>Website</label>
+                <label className={lbl}>{t("ntcAdmin.universities.editModal.website")}</label>
                 <input className={inp} value={form.website ?? ""} placeholder="https://university.kz"
                   onChange={(e) => patch({ website: e.target.value })} />
               </div>
@@ -132,11 +134,11 @@ function EditModal({
             <div className="px-6 pb-6 flex justify-end gap-3">
               <button onClick={onClose}
                 className="px-5 py-2.5 rounded-xl border border-gray-200 text-sm font-medium text-gray-600 hover:bg-gray-50">
-                Cancel
+                {t("common.cancel")}
               </button>
               <button onClick={handleSave} disabled={saving}
                 className="px-5 py-2.5 rounded-xl bg-[#3356AA] text-white text-sm font-semibold hover:bg-[#2c4892] disabled:opacity-50 transition-colors">
-                {saving ? "Saving…" : "Save changes"}
+                {saving ? t("common.saving") : t("ntcAdmin.universities.editModal.saveChanges")}
               </button>
             </div>
           </>
@@ -149,6 +151,7 @@ function EditModal({
 // ─── University card (grid view) ──────────────────────────────────────────────
 
 function UniCard({ uni, onEdit }: { uni: UniversityListItem; onEdit: () => void }) {
+  const { t } = useTranslation();
   const col = uniColor(String(uni.code));
   return (
     <div className="bg-white rounded-2xl border border-gray-100 p-5 flex flex-col gap-4 hover:border-gray-300 hover:shadow-sm transition-all">
@@ -163,7 +166,7 @@ function UniCard({ uni, onEdit }: { uni: UniversityListItem; onEdit: () => void 
         <div className="flex items-center gap-3 mt-1.5 text-xs text-gray-400">
           <span>{uni.city}</span>
           <span>·</span>
-          <span>UNT ≥ {uni.passing_score}</span>
+          <span>{t("ntcAdmin.universities.untScore", { score: uni.passing_score })}</span>
         </div>
       </div>
       <div className="pt-3 border-t border-gray-100">
@@ -171,7 +174,7 @@ function UniCard({ uni, onEdit }: { uni: UniversityListItem; onEdit: () => void 
           onClick={onEdit}
           className="flex items-center gap-1.5 w-full justify-center px-3 py-2 rounded-xl border border-gray-200 text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors"
         >
-          <LuPencil size={13} /> Edit
+          <LuPencil size={13} /> {t("common.edit")}
         </button>
       </div>
     </div>
@@ -183,6 +186,7 @@ function UniCard({ uni, onEdit }: { uni: UniversityListItem; onEdit: () => void 
 type ViewMode = "grid" | "table";
 
 export default function NtcUniversitiesPage() {
+  const { t } = useTranslation();
   const [universities, setUniversities] = useState<UniversityListItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState("");
@@ -237,9 +241,9 @@ export default function NtcUniversitiesPage() {
       {/* header */}
       <div className="flex items-start justify-between mb-6">
         <div>
-          <h1 className="text-2xl font-bold text-[#111928]">Universities</h1>
+          <h1 className="text-2xl font-bold text-[#111928]">{t("ntcAdmin.universities.title")}</h1>
           <p className="text-sm text-gray-400 mt-0.5">
-            {universities.length} universities registered on the platform
+            {t("ntcAdmin.universities.subtitle", { n: universities.length })}
           </p>
         </div>
       </div>
@@ -247,10 +251,10 @@ export default function NtcUniversitiesPage() {
       {/* stat strip */}
       <div className="grid grid-cols-4 gap-4 mb-6">
         {[
-          { label: "TOTAL",   value: universities.length, sub: `${universities.length} universities`, tileBg: "#EBF2FE", tileText: "#3D5AFE" },
-          { label: "ASTANA",  value: counts["Astana"]  ?? 0, sub: "in Astana",   tileBg: "#F1ECFE", tileText: "#7C5CFF" },
-          { label: "ALMATY",  value: counts["Almaty"]  ?? 0, sub: "in Almaty",   tileBg: "#E6F7EF", tileText: "#10B981" },
-          { label: "OTHER",   value: universities.length - ((counts["Astana"] ?? 0) + (counts["Almaty"] ?? 0)), sub: "in other cities", tileBg: "#FFF4E0", tileText: "#E08900" },
+          { label: t("ntcAdmin.universities.stats.total"),  value: universities.length, sub: t("ntcAdmin.universities.stats.totalSub", { n: universities.length }), tileBg: "#EBF2FE", tileText: "#3D5AFE" },
+          { label: t("ntcAdmin.universities.stats.astana"), value: counts["Astana"]  ?? 0, sub: t("ntcAdmin.universities.stats.astanaSub"),   tileBg: "#F1ECFE", tileText: "#7C5CFF" },
+          { label: t("ntcAdmin.universities.stats.almaty"), value: counts["Almaty"]  ?? 0, sub: t("ntcAdmin.universities.stats.almatySub"),   tileBg: "#E6F7EF", tileText: "#10B981" },
+          { label: t("ntcAdmin.universities.stats.other"),  value: universities.length - ((counts["Astana"] ?? 0) + (counts["Almaty"] ?? 0)), sub: t("ntcAdmin.universities.stats.otherSub"), tileBg: "#FFF4E0", tileText: "#E08900" },
         ].map((s, i) => (
           <div key={i} className="bg-white rounded-2xl p-5 border border-gray-100 flex items-center gap-4">
             <div className="w-14 h-14 rounded-xl flex items-center justify-center text-xl font-bold flex-shrink-0"
@@ -274,7 +278,7 @@ export default function NtcUniversitiesPage() {
             <input
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              placeholder="Search by name or city…"
+              placeholder={t("ntcAdmin.universities.searchPlaceholder")}
               className="w-full pl-9 pr-4 py-2 border border-gray-200 rounded-full text-sm text-gray-700 placeholder:text-gray-400 bg-gray-50 focus:outline-none focus:ring-2 focus:ring-[#3356AA]/20 focus:border-[#3356AA]"
             />
           </div>
@@ -289,7 +293,7 @@ export default function NtcUniversitiesPage() {
                   cityFilter === city ? "bg-[#111928] text-white" : "text-gray-500 hover:text-gray-700"
                 }`}
               >
-                {city}
+                {city === "All" ? t("ntcAdmin.universities.cityAll") : city}
               </button>
             ))}
           </div>
@@ -300,26 +304,26 @@ export default function NtcUniversitiesPage() {
               <button
                 key={v}
                 onClick={() => setView(v)}
-                className={`px-4 py-1.5 rounded-full text-sm font-medium capitalize transition-colors ${
+                className={`px-4 py-1.5 rounded-full text-sm font-medium transition-colors ${
                   view === v ? "bg-white shadow-sm text-gray-900" : "text-gray-500 hover:text-gray-700"
                 }`}
               >
-                {v}
+                {t(`ntcAdmin.universities.view.${v}`)}
               </button>
             ))}
           </div>
 
           <p className="text-sm text-gray-400 flex-shrink-0">
-            {filtered.length} of {universities.length}
+            {t("ntcAdmin.universities.showing", { shown: filtered.length, total: universities.length })}
           </p>
         </div>
       </div>
 
       {/* content */}
       {loading ? (
-        <div className="text-center py-16 text-gray-400 text-sm">Loading…</div>
+        <div className="text-center py-16 text-gray-400 text-sm">{t("common.loading")}</div>
       ) : filtered.length === 0 ? (
-        <div className="text-center py-16 text-gray-400 text-sm">No universities found.</div>
+        <div className="text-center py-16 text-gray-400 text-sm">{t("ntcAdmin.universities.empty")}</div>
       ) : view === "grid" ? (
         <div className="grid grid-cols-3 gap-4">
           {filtered.map((u) => (
@@ -331,9 +335,9 @@ export default function NtcUniversitiesPage() {
           <table className="w-full text-sm">
             <thead>
               <tr className="border-b border-gray-100">
-                <th className="text-left px-5 py-3.5 text-xs font-semibold text-gray-400 uppercase tracking-wider">University</th>
-                <th className="text-left px-5 py-3.5 text-xs font-semibold text-gray-400 uppercase tracking-wider w-32">City</th>
-                <th className="text-left px-5 py-3.5 text-xs font-semibold text-gray-400 uppercase tracking-wider w-32">UNT Min. Score</th>
+                <th className="text-left px-5 py-3.5 text-xs font-semibold text-gray-400 uppercase tracking-wider">{t("ntcAdmin.universities.th.university")}</th>
+                <th className="text-left px-5 py-3.5 text-xs font-semibold text-gray-400 uppercase tracking-wider w-32">{t("ntcAdmin.universities.th.city")}</th>
+                <th className="text-left px-5 py-3.5 text-xs font-semibold text-gray-400 uppercase tracking-wider w-32">{t("ntcAdmin.universities.th.untScore")}</th>
                 <th className="px-5 py-3.5 w-24" />
               </tr>
             </thead>
@@ -359,7 +363,7 @@ export default function NtcUniversitiesPage() {
                           onClick={() => setEditTarget(u)}
                           className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl border border-gray-200 text-xs font-medium text-gray-700 hover:bg-gray-50 transition-colors"
                         >
-                          <LuPencil size={13} /> Edit
+                          <LuPencil size={13} /> {t("common.edit")}
                         </button>
                       </div>
                     </td>
