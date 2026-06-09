@@ -8,7 +8,7 @@ const navItems = [
   { labelKey: "nav.universities", path: "/universities" },
   { labelKey: "nav.majors", path: "/majors" },
   { labelKey: "nav.exams", path: "/exams" },
-  { labelKey: "nav.aiAssistant", path: "/chatbot" },
+  { labelKey: "nav.aiAssistant", path: "/applicant/chatbot" },
 ];
 
 function Avatar({ email, name }: { email: string; name: string }) {

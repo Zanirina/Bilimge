@@ -1,1064 +1,1097 @@
 {
-    "nav": {
-        "home": "Home",
-        "universities": "Universities",
-        "majors": "Programs",
-        "exams": "Exams",
-        "aiAssistant": "AI Assistant",
-        "admissionGuide": "Admission Guide",
-        "examPreparation": "Exam Preparation",
-        "officialUpdates": "Official Updates",
-        "faq": "FAQ",
-        "about": "About",
-        "contacts": "Contacts",
-        "privacyPolicy": "Privacy Policy",
-        "termsOfUse": "Terms of Use"
+  "nav": {
+    "home": "Home",
+    "universities": "Universities",
+    "majors": "Programs",
+    "exams": "Exams",
+    "aiAssistant": "AI Assistant",
+    "admissionGuide": "Admission Guide",
+    "examPreparation": "Exam Preparation",
+    "officialUpdates": "Official Updates",
+    "faq": "FAQ",
+    "about": "About",
+    "contacts": "Contacts",
+    "privacyPolicy": "Privacy Policy",
+    "termsOfUse": "Terms of Use"
+  },
+  "auth": {
+    "signIn": "Sign In",
+    "signingIn": "Signing in...",
+    "email": "Email Address",
+    "password": "Your Password",
+    "forgotPassword": "Forgot Password?",
+    "noAccount": "Don't have an account?",
+    "signUp": "Sign Up",
+    "showPassword": "Show password",
+    "hidePassword": "Hide password",
+    "welcomeBack": "Hey,\nwelcome back to Bilimge!",
+    "firstName": "First Name",
+    "lastName": "Last Name",
+    "signingUp": "Signing up…",
+    "haveAccount": "Already have an account?",
+    "newHere": "New Here?\nJoin Bilimge today!",
+    "checkInbox": "Check your inbox",
+    "resetSentMessage": "If an account exists for {{email}}, you will receive a password reset link shortly.",
+    "backToSignIn": "Back to Sign In",
+    "forgotPasswordSubtitle": "Enter your email and we will send you a reset link.",
+    "sending": "Sending…",
+    "sendResetLink": "Send Reset Link",
+    "rememberedPassword": "Remembered your password?",
+    "invalidResetLink": "Invalid or missing reset link.",
+    "requestNewLink": "Request a new link",
+    "passwordUpdated": "Password updated!",
+    "passwordResetSuccess": "Your password has been successfully reset. You can now sign in with your new password.",
+    "goToSignIn": "Go to Sign In",
+    "setNewPassword": "Set New Password",
+    "newPassword": "New Password",
+    "repeatPassword": "Repeat Password",
+    "resetting": "Resetting…",
+    "resetPassword": "Reset Password"
+  },
+  "errors": {
+    "fillFields": "Please fill in all fields.",
+    "accountNotExist": "Account does not exist.",
+    "invalidCredentials": "Invalid email or password.",
+    "passwordTooShort": "Password must be at least 8 characters.",
+    "accountExists": "Account already exists. Try signing in.",
+    "generic": "Something went wrong. Please try again.",
+    "network": "Network error. Please check your connection.",
+    "passwordsDoNotMatch": "Passwords do not match.",
+    "resetLinkExpired": "Reset link has expired. Please request a new one."
+  },
+  "placeholders": {
+    "email": "you@example.com",
+    "password": "Your password",
+    "firstName": "John",
+    "lastName": "Doe",
+    "createPassword": "Create a password",
+    "newPassword": "New password",
+    "repeatPassword": "Repeat new password"
+  },
+  "home": {
+    "hero": {
+      "title": "Prepare Smarter.\nChoose Better.\nEnter Your University.",
+      "description": "Explore universities in Kazakhstan, prepare for entrance exams, and receive personalized recommendations powered by artificial intelligence to help you choose the right academic path.",
+      "getStarted": "Get Started",
+      "learnMore": "Learn More"
     },
-    "auth": {
-        "signIn": "Sign In",
-        "signingIn": "Signing in...",
-        "email": "Email Address",
-        "password": "Your Password",
-        "forgotPassword": "Forgot Password?",
-        "noAccount": "Don't have an account?",
-        "signUp": "Sign Up",
-        "showPassword": "Show password",
-        "hidePassword": "Hide password",
-        "welcomeBack": "Hey,\nwelcome back to Bilimge!"
+    "features": {
+      "subtitle": "Our Features",
+      "title": "How the Platform Works",
+      "description": "Make smarter decisions about your future with powerful, easy-to-use tools designed to guide you toward success at every step of your academic journey.",
+      "explore": {
+        "title": "Explore Universities",
+        "description": "Search and compare universities and ask the AI Assistant for guidance."
+      },
+      "plan": {
+        "title": "Plan Your Admission",
+        "description": "Track deadlines and estimate your admission chances with the Chance Calculator."
+      },
+      "prepare": {
+        "title": "Prepare for Exams",
+        "description": "Use preparation tools and AI recommendations to improve your results."
+      }
+    },
+    "why": {
+      "title": "Why This Platform Matters",
+      "description": "Applicants often struggle to find reliable information about universities, admission requirements, and important deadlines. Our platform simplifies this process by collecting verified data from official sources and providing tools that help students plan their admission journey with confidence.",
+      "cta": "Start Now"
+    },
+    "services": {
+      "subtitle": "Our Services",
+      "title": "Tools to Support Your Admission Journey",
+      "description": "Everything you need to navigate your admission journey with confidence, clarity, and the right support at every step.",
+      "comparison": {
+        "title": "Program Comparison",
+        "description": "Quickly find universities across Kazakhstan. Compare universities and programs side-by-side."
+      },
+      "ai": {
+        "title": "AI Assistant",
+        "description": "Ask questions and receive guidance about universities, programs, and admission requirements."
+      },
+      "calculator": {
+        "title": "Chance Calculator",
+        "description": "Estimate your chances of admission based on exam scores and selected programs."
+      },
+      "calendar": {
+        "title": "Admission Calendar",
+        "description": "Create a personalized calendar and track admission deadlines and important testing dates in one place."
+      },
+      "courses": {
+        "title": "Exam Preparation Courses",
+        "description": "Access structured preparation courses and learning materials designed to help applicants."
+      },
+      "updates": {
+        "title": "Official Admission Updates",
+        "description": "Receive the latest updates from the National Testing Center (NTC) and official university sources."
+      }
+    },
+    "calltoaction": {
+      "subtitle": "Your Future Starts Here",
+      "title": "Take the First Step Toward\nYour Future University",
+      "description": "Explore universities, prepare for entrance exams, and receive guidance that helps you make confident decisions.",
+      "button": "Start Now"
+    }
+  },
+  "footer": {
+    "description": "Helping applicants explore universities in Kazakhstan, prepare for entrance exams, and make informed admission decisions.",
+    "platform": "Platform",
+    "resources": "Resources",
+    "company": "Company",
+    "followUs": "Follow Us On"
+  },
+  "common": {
+    "loading": "Loading…",
+    "saving": "Saving…",
+    "save": "Save",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "edit": "Edit",
+    "add": "Add",
+    "close": "Close",
+    "search": "Search",
+    "back": "Back",
+    "viewAll": "View all",
+    "noResults": "No results found.",
+    "retry": "Retry",
+    "required": "Required"
+  },
+  "sidebar": {
+    "overview": "My Overview",
+    "announcements": "Announcements",
+    "exploreUniversities": "Explore Universities",
+    "compareUniversities": "Compare Universities",
+    "programsMajors": "Programs & Majors",
+    "examPreparation": "Exam Preparation",
+    "chanceCalculator": "Chance Calculator",
+    "aiAssistant": "AI Assistant"
+  },
+  "dashboard": {
+    "greetingHi": "Hi, {{name}}",
+    "greetingBack": "Welcome back",
+    "subtitle": "Plan your admissions journey. Track deadlines, exams, and your personal events.",
+    "addEvent": "Add personal event",
+    "addEventConfirm": "Add event",
+    "today": "Today",
+    "prevMonth": "Previous month",
+    "nextMonth": "Next month",
+    "selectedDay": "Selected day",
+    "noEvents": "No events on this day.",
+    "moreCount": "+{{count}} more",
+    "legend": "Legend",
+    "modal": {
+      "title": "Add personal event",
+      "subtitle": "Only you will see this entry."
+    },
+    "form": {
+      "title": "Title *",
+      "titlePlaceholder": "e.g. Pick documents from school",
+      "startDate": "Start date *",
+      "time": "Time",
+      "endDate": "End date",
+      "type": "Type",
+      "description": "Description",
+      "descriptionPlaceholder": "Optional details…"
     },
     "errors": {
-        "fillFields": "Please fill in all fields.",
-        "accountNotExist": "Account does not exist.",
-        "invalidCredentials": "Invalid email or password."
+      "save": "Could not save event.",
+      "delete": "Could not delete event."
     },
-    "placeholders": {
-        "email": "you@example.com",
-        "password": "Your password"
+    "eventTypes": {
+      "deadline": "Deadline",
+      "exam": "Exam",
+      "enrollment": "Enrollment",
+      "open_day": "Open Day",
+      "event": "Event",
+      "announcement": "Announcement"
     },
-    "home": {
-        "hero": {
-            "title": "Prepare Smarter.\nChoose Better.\nEnter Your University.",
-            "description": "Explore universities in Kazakhstan, prepare for entrance exams, and receive personalized recommendations powered by artificial intelligence to help you choose the right academic path.",
-            "getStarted": "Get Started",
-            "learnMore": "Learn More"
-        },
-        "features": {
-            "subtitle": "Our Features",
-            "title": "How the Platform Works",
-            "description": "Make smarter decisions about your future with powerful, easy-to-use tools designed to guide you toward success at every step of your academic journey.",
-            "explore": {
-                "title": "Explore Universities",
-                "description": "Search and compare universities and ask the AI Assistant for guidance."
-            },
-            "plan": {
-                "title": "Plan Your Admission",
-                "description": "Track deadlines and estimate your admission chances with the Chance Calculator."
-            },
-            "prepare": {
-                "title": "Prepare for Exams",
-                "description": "Use preparation tools and AI recommendations to improve your results."
-            }
-        },
-        "why": {
-            "title": "Why This Platform Matters",
-            "description": "Applicants often struggle to find reliable information about universities, admission requirements, and important deadlines. Our platform simplifies this process by collecting verified data from official sources and providing tools that help students plan their admission journey with confidence.",
-            "cta": "Start Now"
-        },
-        "services": {
-            "subtitle": "Our Services",
-            "title": "Tools to Support Your Admission Journey",
-            "description": "Everything you need to navigate your admission journey with confidence, clarity, and the right support at every step.",
-            "comparison": {
-                "title": "Program Comparison",
-                "description": "Quickly find universities across Kazakhstan. Compare universities and programs side-by-side."
-            },
-            "ai": {
-                "title": "AI Assistant",
-                "description": "Ask questions and receive guidance about universities, programs, and admission requirements."
-            },
-            "calculator": {
-                "title": "Chance Calculator",
-                "description": "Estimate your chances of admission based on exam scores and selected programs."
-            },
-            "calendar": {
-                "title": "Admission Calendar",
-                "description": "Create a personalized calendar and track admission deadlines and important testing dates in one place."
-            },
-            "courses": {
-                "title": "Exam Preparation Courses",
-                "description": "Access structured preparation courses and learning materials designed to help applicants."
-            },
-            "updates": {
-                "title": "Official Admission Updates",
-                "description": "Receive the latest updates from the National Testing Center (NTC) and official university sources."
-            }
-        },
-        "calltoaction": {
-            "subtitle": "Your Future Starts Here",
-            "title": "Take the First Step Toward\nYour Future University",
-            "description": "Explore universities, prepare for entrance exams, and receive guidance that helps you make confident decisions.",
-            "button": "Start Now"
-        }
+    "visibility": {
+      "public": "Public",
+      "university": "University",
+      "personal": "Personal"
+    }
+  },
+  "university": {
+    "loading": "Loading university…",
+    "founded": "Founded {{year}}",
+    "kazakhstan": "Kazakhstan",
+    "saveUniversity": "Save university",
+    "removeFavorite": "Remove from favorites",
+    "save": "Save",
+    "saved": "Saved",
+    "saveProgram": "Save program",
+    "stats": {
+      "passingScore": "Passing score",
+      "programsOffered": "Programs offered",
+      "avgTuition": "Avg. tuition / year",
+      "languages": "Languages"
     },
-    "footer": {
-        "description": "Helping applicants explore universities in Kazakhstan, prepare for entrance exams, and make informed admission decisions.",
-        "platform": "Platform",
-        "resources": "Resources",
-        "company": "Company",
-        "followUs": "Follow Us On"
+    "basicInfo": "Basic information",
+    "officialName": "Official name",
+    "shortName": "Short name",
+    "yearFounded": "Year founded",
+    "cityCountry": "City, Country",
+    "address": "Address",
+    "tuitionCost": "Tuition cost (₸/year)",
+    "minPassingScore": "Min. passing score (UNT)",
+    "teachingLanguages": "Teaching languages",
+    "about": "About",
+    "dormitory": "Dormitory",
+    "militaryDept": "Military dept.",
+    "majorsPrograms": "Majors & Programs ({{count}})",
+    "noPrograms": "No programs published yet.",
+    "allFields": "All fields",
+    "tuition": "Tuition",
+    "passing": "Passing",
+    "grant": "Grant",
+    "entranceRequirements": "Entrance Requirements",
+    "entranceExams": "Entrance Exams",
+    "contacts": "Contacts",
+    "accreditations": "Accreditations",
+    "issuedBy": "Issued by: {{name}}",
+    "validUntil": "Valid until: {{date}}",
+    "academicMobility": "Academic Mobility",
+    "compareCta": "Compare with other universities →"
+  },
+  "program": {
+    "loading": "Loading program…",
+    "program": "Program",
+    "offeredBy": "Offered by",
+    "code": "Code {{code}}",
+    "save": "Save",
+    "saved": "Saved",
+    "stats": {
+      "tuition": "Tuition / Year",
+      "passingScore": "Passing score",
+      "grantScore": "Grant score",
+      "teachingLanguage": "Teaching language"
     },
-    "common": {
-        "loading": "Loading…",
-        "saving": "Saving…",
-        "save": "Save",
-        "cancel": "Cancel",
-        "delete": "Delete",
-        "edit": "Edit",
-        "add": "Add",
-        "close": "Close",
-        "search": "Search",
-        "back": "Back",
-        "viewAll": "View all",
-        "noResults": "No results found.",
-        "retry": "Retry",
-        "required": "Required"
+    "degree": "Degree",
+    "duration": "Duration",
+    "years": "{{count}} years",
+    "studyMode": "Study mode",
+    "about": "About this program",
+    "noDescription": "No description provided yet.",
+    "futureProfessions": "Future professions",
+    "notSpecified": "Not specified.",
+    "untSubjects": "UNT subjects",
+    "university": "University",
+    "viewUniversity": "View university profile →",
+    "degrees": {
+      "college": "College",
+      "bachelor": "Bachelor",
+      "master": "Master",
+      "phd": "PhD"
     },
+    "studyTypes": {
+      "full_time": "Full-time",
+      "part_time": "Part-time",
+      "distance": "Distance",
+      "evening": "Evening"
+    }
+  },
+  "universitiesPage": {
+    "bannerSubtitle": "Find the Best University for You",
+    "bannerTitle": "Universities in Kazakhstan",
+    "bannerDescription": "Explore universities, compare programs and admission requirements, and find the best option for your academic goals.",
+    "found_one": "Found {{count}} university",
+    "found_other": "Found {{count}} universities",
+    "loading": "Loading universities…",
+    "noResults": "No universities found. Try adjusting your filters."
+  },
+  "majorsPage": {
+    "bannerSubtitle": "Discover Your Future Field",
+    "bannerTitle": "Educational Programs",
+    "bannerDescription": "Explore different fields of study and discover which universities in Kazakhstan offer programs that match your interests.",
+    "found_one": "Found {{count}} major",
+    "found_other": "Found {{count}} majors",
+    "loading": "Loading…",
+    "noResults": "No majors found. Try adjusting your filters.",
+    "untSubjects": "UNT Subjects",
+    "offeredBy": "Offered by",
+    "unis_one": "{{count}} uni",
+    "unis_other": "{{count}} unis",
+    "tuition": "Tuition",
+    "viewOfferings": "View offerings",
+    "hideOfferings": "Hide offerings"
+  },
+  "universityCard": {
+    "majorsOffered": "Majors offered",
+    "noMajors": "No majors listed.",
+    "more": "+{{count}} more",
+    "unt": "UNT",
+    "tuition": "Tuition",
+    "viewDetails": "View Details"
+  },
+  "filters": {
+    "searchUniPlaceholder": "Search universities...",
+    "searchProgramPlaceholder": "Search programs...",
+    "city": "City",
+    "major": "Major",
+    "field": "Field",
+    "subjectPair": "Subject pair",
+    "degree": "Degree",
+    "tuition": "Tuition",
+    "clearAll": "Clear all ({{count}})",
+    "all": "All",
+    "allLabel": "{{label}}",
+    "labelCount": "{{label}} ({{count}})",
+    "noOptions": "No options",
+    "tuitionLow": "Under 500,000 ₸",
+    "tuitionMedium": "500,000 – 1,000,000 ₸",
+    "tuitionHigh": "Over 1,000,000 ₸",
+    "degreeCollege": "College",
+    "degreeBachelor": "Bachelor",
+    "degreeMaster": "Master",
+    "degreePhd": "PhD"
+  },
+  "comparison": {
+    "title": "Compare universities",
+    "summaryPrefix": "Side-by-side breakdown of",
+    "summarySuffix": "best result in each row is highlighted",
+    "unis_one": "{{count}} university",
+    "unis_other": "{{count}} universities",
+    "reorder": "Reorder",
+    "clearAll": "Clear all",
+    "comparing": "Comparing",
+    "best": "Best",
+    "noSelectedTitle": "No universities selected",
+    "noSelectedDesc": "Add up to {{count}} universities to compare side by side.",
+    "addUniversity": "Add university",
+    "searchPlaceholder": "Search universities…",
+    "noResults": "No results",
+    "remove": "Remove",
+    "est": "Est. {{year}}",
+    "yes": "Yes",
+    "no": "No",
+    "sections": {
+      "overview": "Overview",
+      "admissions": "Admissions",
+      "costs": "Costs",
+      "academics": "Academics",
+      "international": "International",
+      "campusLife": "Campus life"
+    },
+    "rows": {
+      "city": "City",
+      "founded": "Founded",
+      "website": "Website",
+      "untMinimum": "UNT minimum",
+      "entranceRequirements": "Entrance requirements",
+      "entranceExams": "Entrance exams",
+      "languages": "Languages",
+      "annualTuition": "Annual tuition",
+      "cheapestProgram": "Cheapest program",
+      "programmes": "Programmes",
+      "fieldsOfStudy": "Fields of study",
+      "accreditations": "Accreditations",
+      "partnerUniversities": "Partner universities",
+      "countries": "Countries",
+      "dormitory": "Dormitory",
+      "militaryDepartment": "Military department"
+    },
+    "overlap": {
+      "title": "Programmes overlap",
+      "summary_one": "{{count}} field offered by all {{unis}} universities",
+      "summary_other": "{{count}} fields offered by all {{unis}} universities",
+      "offeredByAll": "Offered by all",
+      "onlyAt": "Only at {{name}}",
+      "noUnique": "No fields unique to this university."
+    },
+    "why": {
+      "title": "Why pick each one",
+      "noStandout": "No standout metrics yet — add more data.",
+      "lowestTuition": "Lowest annual tuition",
+      "largestCatalogue": "Largest catalogue ({{count}} programs)",
+      "mostAccessible": "Most accessible (lowest UNT minimum)",
+      "mostLanguages": "Most languages of instruction",
+      "mostPartners": "Most international partners",
+      "mostAccreditations": "Most accreditations",
+      "oldest": "Oldest, most established",
+      "dormitory": "On-campus dormitory",
+      "militaryDept": "Military department available"
+    },
+    "ai": {
+      "title": "AI analysis",
+      "subtitle": "An objective summary of these universities for prospective students.",
+      "generate": "Generate AI analysis",
+      "regenerate": "Regenerate",
+      "loading": "Analyzing universities…",
+      "error": "Couldn't generate the analysis. Please try again.",
+      "disclaimer": "Generated by AI — verify important details with official sources."
+    }
+  },
+  "calculator": {
+    "badge": "Chance calculator",
+    "title": "Estimate your grant chance",
+    "description": "Enter your UNT scores, choose a program, and we'll compare you against last year's grant winners and university cut-offs.",
+    "currentTotal": "Current total",
+    "subjectsTitle": "Subjects",
+    "subjectsSubtitle": "Select your two profile subjects",
+    "profileSubject1": "Profile subject 1",
+    "profileSubject2": "Profile subject 2",
+    "select": "— select —",
+    "ntcProgram": "Educational program",
+    "noProgramsMatch": "No programs match this combination.",
+    "scoresTitle": "UNT scores",
+    "scoresSubtitle": "Enter your scores for each section",
+    "scoreHint": "min {{min}} / max {{max}}",
+    "total": "Total",
+    "quotasTitle": "Quotas",
+    "quotasSubtitle": "Pick all that apply for a chance bonus",
+    "calculate": "Calculate chances",
+    "calculating": "Calculating…",
+    "reset": "Reset",
+    "calcError": "Failed to calculate. Try again.",
+    "emptyTitle": "Your results will appear here",
+    "emptySubtitle": "Fill in scores and a program, then hit Calculate.",
+    "program": "Program",
+    "bestGrantChance": "Best grant chance",
+    "averageAcrossUnis": "Average across unis",
+    "grantWinners": "Grant winners {{year}}",
+    "fieldCode": "Field {{code}}",
+    "winners": "{{count}} winners",
+    "min": "Min",
+    "avg": "Avg",
+    "max": "Max",
+    "aiInsight": "AI insight",
+    "universities": "Universities",
+    "programsCount": "{{count}} programs",
+    "noUniversities": "No university programs found for this combination.",
+    "grantScore": "grant-score {{score}}",
+    "passScore": "pass-score {{score}}",
+    "admission": "admission {{chance}}%",
+    "fromThisUni": "from this uni's 2025 winners",
+    "fieldWideFallback": "field-wide 2025 fallback",
+    "grant": "Grant",
+    "scores": {
+      "history": "History of Kazakhstan",
+      "math_literacy": "Math literacy",
+      "reading_literacy": "Reading literacy",
+      "subject_1": "Subject 1",
+      "subject_2": "Subject 2"
+    },
+    "quotas": {
+      "rural": "Rural area",
+      "large_family": "Large family",
+      "incomplete_family": "Incomplete family",
+      "serpin": "Serpin",
+      "disability": "Disability",
+      "family_disability": "Family disability",
+      "orphan": "Orphan"
+    }
+  },
+  "chatbot": {
+    "headerTitle": "AI Assistant",
+    "online": "Online · Trained on 2026 Kazakhstani admissions data",
+    "welcomeGreeting": "Hi {{name}} —",
+    "welcomeBrand": "I'm Bilimge AI",
+    "welcomeSubtitle": "Ask about Kazakhstani universities, programs, the UNT, scholarships, or your application strategy. I'll cite my sources.",
+    "inputPlaceholder": "Ask about universities, programs, the UNT, or grants...",
+    "attach": "Attach",
+    "useProfile": "Use my profile",
+    "sendHint": "⌘↵ to send",
+    "disclaimer": "AI may produce inaccurate info — verify on each university's official page.",
+    "errorMessage": "Sorry, something went wrong. Please try again.",
+    "defaultName": "there",
+    "context": {
+      "title": "Your Context",
+      "savedUnis": "Saved unis",
+      "noneSaved": "None saved yet",
+      "untAverage": "UNT average",
+      "selfReported": "Self-reported score"
+    },
+    "suggestedTitle": "Suggested Questions",
+    "quickTopicsTitle": "Quick Topics",
+    "verifiedTitle": "Verified by Bilimge",
+    "verifiedText": "All university data comes from 2026 NTC catalogue & official school pages.",
+    "actions": {
+      "universitiesCat": "Universities",
+      "universitiesText": "Which universities have the best IT programs?",
+      "grantsCat": "Grants",
+      "grantsText": "Check if I qualify for a state grant by IKT number",
+      "compareCat": "Compare",
+      "compareText": "Compare AITU and KIMEP computer science programs",
+      "untCat": "UNT",
+      "untText": "What UNT score do I need for Nazarbayev University?"
+    },
+    "topics": {
+      "costsGrants": "University costs & grants",
+      "passingScore": "Passing score requirements",
+      "citiesMost": "Cities with most universities",
+      "itTech": "IT & tech programs",
+      "checkGrant": "Check grant by IKT number",
+      "dorms": "Dorms & housing"
+    },
+    "suggestions": {
+      "bestIt": "Which universities have the best IT programs?",
+      "subjectsIt": "What subjects are required for IT admission?",
+      "tuitionIt": "What is the tuition cost for IT programs?",
+      "grantScore": "What score do I need for a grant?",
+      "grantSpecialties": "Which specialties have the most grants?",
+      "grantResult": "How do I check my grant result?"
+    }
+  },
+  "announcements": {
+    "title": "Announcements",
+    "filters": {
+      "all": "All Announcements",
+      "universities": "Universities",
+      "ntc": "NTC"
+    },
+    "savedUniversities": "Saved Universities",
+    "empty": "No announcements yet.",
+    "latest": "Latest",
+    "nothingYet": "Nothing yet.",
+    "viewFullPost": "View Full Post",
+    "viewPost": "View post",
+    "pinned": "Pinned",
+    "roleUniversity": "University",
+    "roleNtcAdmin": "NTC Admin",
+    "badgeUniversity": "University",
+    "ntc": "NTC",
+    "share": "Share",
+    "tags": {
+      "event": "Event",
+      "scholarship": "Scholarship",
+      "programme": "Programme",
+      "update": "Update"
+    },
+    "manage": {
+      "title": "Post Updates",
+      "subtitle": "Announcements published here appear on your university page and applicant feeds.",
+      "newAnnouncement": "New announcement",
+      "category": "Category",
+      "loading": "Loading…",
+      "postFirst": "Post your first announcement",
+      "view": "View",
+      "filterAll": "All",
+      "newModal": {
+        "title": "New announcement",
+        "subtitle": "Will appear on your public university page and applicants' feeds.",
+        "tag": "Tag",
+        "titleLabel": "Title",
+        "titlePlaceholder": "Headline applicants will see",
+        "bodyLabel": "Body",
+        "bodyPlaceholder": "Tell applicants what's happening and what to do next...",
+        "bodyHint": "Markdown supported. Aim for 1–3 short paragraphs.",
+        "coverImage": "Cover image",
+        "optional": "(optional)",
+        "dropImage": "Drop image or click to upload",
+        "publish": "Publish",
+        "publishing": "Publishing…"
+      },
+      "editModal": {
+        "title": "Edit announcement",
+        "subtitle": "Changes will be visible immediately.",
+        "save": "Save changes",
+        "saving": "Saving…"
+      }
+    }
+  },
+  "notifications": {
+    "title": "Notifications",
+    "markAllRead": "Mark all read",
+    "empty": "No new notifications.",
+    "aria": "Notifications",
+    "newAnnouncement": "New announcement · {{source}}",
+    "ntc": "NTC",
+    "universityFallback": "University",
+    "eventToday": "Event today",
+    "eventTomorrow": "Event tomorrow",
+    "eventInDays_one": "Event in {{count}} day",
+    "eventInDays_other": "Event in {{count}} days",
+    "justNow": "just now",
+    "minutesAgo": "{{count}}m ago",
+    "hoursAgo": "{{count}}h ago",
+    "daysAgo": "{{count}}d ago"
+  },
+  "accountMenu": {
+    "myProfile": "My Profile",
+    "settings": "Settings",
+    "logout": "Log out"
+  },
+  "profile": {
+    "title": "My profile",
+    "subtitle": "Manage your personal information and password.",
+    "loading": "Loading account…",
+    "changePhoto": "Change photo",
+    "uploading": "Uploading…",
+    "accountInfo": "Account information",
+    "firstName": "First name",
+    "lastName": "Last name",
+    "email": "Email",
+    "phone": "Phone",
+    "untSubjects": "UNT & subjects",
+    "untScore": "UNT score",
+    "subject1": "Profile subject 1",
+    "subject2": "Profile subject 2",
+    "notSelected": "— not selected —",
+    "savedUniversities": "Saved universities",
+    "browseUniversities": "Browse universities →",
+    "noSavedUniversities": "You haven't saved any universities yet.",
+    "removeFromFavorites": "Remove from favorites",
+    "savedPrograms": "Saved programs",
+    "loadingFavorites": "Loading favorites…",
+    "noSavedPrograms": "You haven't saved any programs yet.",
+    "explorePrograms": "Explore programs",
+    "changePassword": "Change password",
+    "current": "Current",
+    "new": "New",
+    "confirmNew": "Confirm new",
+    "passwordHint": "Leave blank to keep your current password.",
+    "changesSaved": "Changes saved",
+    "saveChanges": "Save changes",
+    "errors": {
+      "passwordsNoMatch": "New passwords do not match.",
+      "passwordTooShort": "New password must be at least 8 characters.",
+      "saveFailed": "Could not save changes.",
+      "removeFavoriteFailed": "Could not remove favorite.",
+      "uploadFailed": "Could not upload avatar."
+    },
+    "roles": {
+      "applicant": "Applicant",
+      "uniAdmin": "University Admin",
+      "ntcAdmin": "NTC Admin",
+      "superAdmin": "Super Admin"
+    }
+  },
+  "settings": {
+    "title": "Settings",
+    "subtitle": "Manage notifications, language and appearance.",
+    "notifications": {
+      "title": "Notifications",
+      "subtitle": "Choose what updates you want to receive."
+    },
+    "announcementEmails": {
+      "title": "Announcement emails",
+      "desc": "Get an email when a university or NTC posts an announcement."
+    },
+    "grantEmails": {
+      "title": "Grants check emails",
+      "desc": "Notify me when new grants are available for my profile."
+    },
+    "pushChat": {
+      "title": "Push: AI assistant",
+      "desc": "In-app push when the assistant finishes a long task."
+    },
+    "language": {
+      "title": "Language",
+      "subtitle": "Pick the language of the interface."
+    },
+    "theme": {
+      "title": "Theme",
+      "subtitle": "Switch between light and dark mode.",
+      "light": "Light",
+      "dark": "Dark"
+    },
+    "settingsSaved": "Settings saved",
+    "unsavedChanges": "You have unsaved changes.",
+    "upToDate": "All settings are up to date.",
+    "saveChanges": "Save changes"
+  },
+  "uniAdmin": {
     "sidebar": {
-        "overview": "My Overview",
-        "announcements": "Announcements",
-        "exploreUniversities": "Explore Universities",
-        "compareUniversities": "Compare Universities",
-        "programsMajors": "Programs & Majors",
-        "examPreparation": "Exam Preparation",
-        "chanceCalculator": "Chance Calculator",
-        "aiAssistant": "AI Assistant"
+      "dashboard": "Dashboard",
+      "profile": "University Profile",
+      "programs": "Programs",
+      "updates": "Post Updates",
+      "applicants": "Applicants"
     },
     "dashboard": {
-        "greetingHi": "Hi, {{name}}",
-        "greetingBack": "Welcome back",
-        "subtitle": "Plan your admissions journey. Track deadlines, exams, and your personal events.",
-        "addEvent": "Add personal event",
-        "addEventConfirm": "Add event",
-        "today": "Today",
+      "greeting": "Welcome back, {{name}}",
+      "subtitleWithUni": "Here's what's happening at {{uni}} today, {{date}}.",
+      "subtitle": "Here's what's happening today, {{date}}.",
+      "stats": {
+        "followers": "TOTAL FOLLOWERS",
+        "followersValue": "{{n}} applicants",
+        "announcements": "ANNOUNCEMENTS",
+        "announcementsValue": "{{n}} posted",
+        "saved": "PROGRAMMES SAVED",
+        "savedValue": "{{n}} total",
+        "active": "ACTIVE PROGRAMMES",
+        "activeValue": "{{n}} published"
+      },
+      "calendar": {
+        "title": "Calendar",
+        "addEvent": "Add Event",
+        "eventsOn": "Events on {{date}}",
+        "allEvents": "All events — {{month}}",
+        "loading": "Loading…",
+        "noEvents": "No events this month.",
         "prevMonth": "Previous month",
-        "nextMonth": "Next month",
-        "selectedDay": "Selected day",
-        "noEvents": "No events on this day.",
-        "moreCount": "+{{count}} more",
-        "legend": "Legend",
-        "modal": {
-            "title": "Add personal event",
-            "subtitle": "Only you will see this entry."
-        },
-        "form": {
-            "title": "Title *",
-            "titlePlaceholder": "e.g. Pick documents from school",
-            "startDate": "Start date *",
-            "time": "Time",
-            "endDate": "End date",
-            "type": "Type",
-            "description": "Description",
-            "descriptionPlaceholder": "Optional details…"
-        },
-        "errors": {
-            "save": "Could not save event.",
-            "delete": "Could not delete event."
-        },
-        "eventTypes": {
-            "deadline": "Deadline",
-            "exam": "Exam",
-            "enrollment": "Enrollment",
-            "open_day": "Open Day",
-            "event": "Event",
-            "announcement": "Announcement"
-        },
-        "visibility": {
-            "public": "Public",
-            "university": "University",
-            "personal": "Personal"
-        }
+        "nextMonth": "Next month"
+      },
+      "modal": {
+        "title": "Add calendar event",
+        "subtitle": "Visible to your university followers.",
+        "titleLabel": "Title *",
+        "titlePlaceholder": "e.g. Open Day – Spring intake",
+        "startDate": "Start date *",
+        "time": "Time",
+        "endDate": "End date",
+        "type": "Type",
+        "description": "Description",
+        "descriptionPlaceholder": "Optional details…",
+        "cancel": "Cancel",
+        "save": "Save event",
+        "saving": "Saving…"
+      },
+      "eventTypes": {
+        "deadline": "Deadline",
+        "exam": "Exam",
+        "enrollment": "Enrollment",
+        "open_day": "Open Day",
+        "event": "Event",
+        "announcement": "Announcement"
+      },
+      "popularity": {
+        "title": "Programme popularity",
+        "subtitle": "Times saved by applicants",
+        "empty": "No programme saves yet."
+      },
+      "funnel": {
+        "title": "Applicant funnel",
+        "subtitle": "From followers to strong candidates",
+        "empty": "No applicants yet.",
+        "followers": "Followers",
+        "savedProgramme": "Saved a programme",
+        "withScore": "With UNT score",
+        "highScore": "UNT score ≥ 100"
+      }
     },
-    "university": {
-        "loading": "Loading university…",
-        "founded": "Founded {{year}}",
-        "kazakhstan": "Kazakhstan",
-        "saveUniversity": "Save university",
-        "removeFavorite": "Remove from favorites",
-        "save": "Save",
-        "saved": "Saved",
-        "saveProgram": "Save program",
-        "stats": {
-            "passingScore": "Passing score",
-            "programsOffered": "Programs offered",
-            "avgTuition": "Avg. tuition / year",
-            "languages": "Languages"
-        },
-        "basicInfo": "Basic information",
+    "profile": {
+      "loading": "Loading profile…",
+      "kazakhstan": "Kazakhstan",
+      "founded": "Founded {{year}}",
+      "uploading": "Uploading…",
+      "uploadCover": "Upload cover image",
+      "changeCover": "Change cover",
+      "editLanguage": "Editing language",
+      "tabs": {
+        "overview": "Overview",
+        "contacts": "Contacts & Social",
+        "accreditations": "Accreditations",
+        "mobility": "Academic Mobility"
+      },
+      "common": {
+        "edit": "Edit",
+        "add": "Add",
+        "adding": "Adding…",
+        "cancel": "Cancel",
+        "save": "Save Changes",
+        "saving": "Saving…",
+        "saved": "Saved"
+      },
+      "basic": {
+        "title": "Basic information",
         "officialName": "Official name",
         "shortName": "Short name",
         "yearFounded": "Year founded",
         "cityCountry": "City, Country",
         "address": "Address",
-        "tuitionCost": "Tuition cost (₸/year)",
-        "minPassingScore": "Min. passing score (UNT)",
-        "teachingLanguages": "Teaching languages",
+        "tuition": "Tuition cost (₸/year)",
         "about": "About",
         "dormitory": "Dormitory",
         "militaryDept": "Military dept.",
-        "majorsPrograms": "Majors & Programs ({{count}})",
-        "noPrograms": "No programs published yet.",
-        "allFields": "All fields",
-        "tuition": "Tuition",
-        "passing": "Passing",
-        "grant": "Grant",
-        "entranceRequirements": "Entrance Requirements",
-        "entranceExams": "Entrance Exams",
-        "contacts": "Contacts",
-        "accreditations": "Accreditations",
-        "issuedBy": "Issued by: {{name}}",
-        "validUntil": "Valid until: {{date}}",
-        "academicMobility": "Academic Mobility",
-        "compareCta": "Compare with other universities →"
+        "shortNamePlaceholder": "e.g. AITU",
+        "website": "Website",
+        "passingScore": "Min. Passing Score (UNT)",
+        "aboutHistory": "About / History",
+        "facilities": "Facilities",
+        "dormitorySub": "On-campus accommodation available",
+        "militaryLabel": "Military Department",
+        "militarySub": "Military training available"
+      },
+      "languages": {
+        "title": "Teaching Languages",
+        "empty": "No teaching languages added yet.",
+        "select": "Select language…"
+      },
+      "requirements": {
+        "title": "Entrance Requirements",
+        "empty": "No requirements added yet.",
+        "placeholder": "Describe the requirement…"
+      },
+      "exams": {
+        "title": "Entrance Exams",
+        "empty": "No entrance exams added yet.",
+        "namePlaceholder": "Exam name",
+        "descPlaceholder": "Description (optional)",
+        "addExam": "Add Exam"
+      },
+      "contacts": {
+        "title": "Contact details",
+        "email": "Admissions email",
+        "emailPlaceholder": "admissions@university.kz",
+        "phone": "Phone",
+        "phonePlaceholder": "+7 (000) 000-00-00",
+        "postalAddress": "Postal address",
+        "postalPlaceholder": "Street, City, ZIP"
+      },
+      "social": {
+        "title": "Social media",
+        "instagram": "Instagram URL",
+        "instagramPlaceholder": "https://instagram.com/university",
+        "telegram": "Telegram URL",
+        "telegramPlaceholder": "https://t.me/university"
+      },
+      "accreditations": {
+        "title": "Institutional Accreditations",
+        "empty": "No accreditations added yet.",
+        "namePlaceholder": "Accreditation name",
+        "issuedByPlaceholder": "Issued by",
+        "issuedByPlaceholderLong": "Issued by (e.g. Ministry of Education)",
+        "validUntil": "Valid until",
+        "validUntilOptional": "Valid until (optional)",
+        "issuedByLabel": "Issued by: {{name}}",
+        "validUntilLabel": "Valid until: {{date}}",
+        "add": "Add Accreditation"
+      },
+      "mobility": {
+        "title": "Partner Universities",
+        "empty": "No partner universities added yet.",
+        "namePlaceholder": "Partner university name",
+        "country": "Country",
+        "add": "Add Partner"
+      }
     },
-    "program": {
-        "loading": "Loading program…",
-        "program": "Program",
-        "offeredBy": "Offered by",
-        "code": "Code {{code}}",
-        "save": "Save",
-        "saved": "Saved",
-        "stats": {
-            "tuition": "Tuition / Year",
-            "passingScore": "Passing score",
-            "grantScore": "Grant score",
-            "teachingLanguage": "Teaching language"
-        },
-        "degree": "Degree",
-        "duration": "Duration",
-        "years": "{{count}} years",
-        "studyMode": "Study mode",
-        "about": "About this program",
-        "noDescription": "No description provided yet.",
-        "futureProfessions": "Future professions",
-        "notSpecified": "Not specified.",
-        "untSubjects": "UNT subjects",
-        "university": "University",
-        "viewUniversity": "View university profile →",
-        "degrees": {
-            "college": "College",
-            "bachelor": "Bachelor",
-            "master": "Master",
-            "phd": "PhD"
-        },
-        "studyTypes": {
-            "full_time": "Full-time",
-            "part_time": "Part-time",
-            "distance": "Distance",
-            "evening": "Evening"
-        }
-    },
-    "universitiesPage": {
-        "bannerSubtitle": "Find the Best University for You",
-        "bannerTitle": "Universities in Kazakhstan",
-        "bannerDescription": "Explore universities, compare programs and admission requirements, and find the best option for your academic goals.",
-        "found_one": "Found {{count}} university",
-        "found_other": "Found {{count}} universities",
-        "loading": "Loading universities…",
-        "noResults": "No universities found. Try adjusting your filters."
-    },
-    "majorsPage": {
-        "bannerSubtitle": "Discover Your Future Field",
-        "bannerTitle": "Educational Programs",
-        "bannerDescription": "Explore different fields of study and discover which universities in Kazakhstan offer programs that match your interests.",
-        "found_one": "Found {{count}} major",
-        "found_other": "Found {{count}} majors",
-        "loading": "Loading…",
-        "noResults": "No majors found. Try adjusting your filters.",
-        "untSubjects": "UNT Subjects",
-        "offeredBy": "Offered by",
-        "unis_one": "{{count}} uni",
-        "unis_other": "{{count}} unis",
-        "tuition": "Tuition",
-        "viewOfferings": "View offerings",
-        "hideOfferings": "Hide offerings"
-    },
-    "universityCard": {
-        "majorsOffered": "Majors offered",
-        "noMajors": "No majors listed.",
-        "more": "+{{count}} more",
-        "unt": "UNT",
-        "tuition": "Tuition",
-        "viewDetails": "View Details"
-    },
-    "filters": {
-        "searchUniPlaceholder": "Search universities...",
-        "searchProgramPlaceholder": "Search programs...",
-        "city": "City",
-        "major": "Major",
-        "field": "Field",
-        "subjectPair": "Subject pair",
-        "degree": "Degree",
-        "tuition": "Tuition",
-        "clearAll": "Clear all ({{count}})",
+    "programs": {
+      "title": "Programs",
+      "subtitle": "{{total}} programmes · {{open}} open for applications",
+      "addProgramme": "Add programme",
+      "search": "Search programmes…",
+      "showing": "Showing {{shown}} of {{total}}",
+      "empty": "No programmes found.",
+      "addFirst": "Add your first programme",
+      "open": "Open",
+      "tuitionYear": "Tuition / Year",
+      "untMin": "UNT ≥ {{score}}",
+      "subjects": "Subjects",
+      "savedBy": "Saved by",
+      "edit": "Edit",
+      "years": "{{n}} years",
+      "filters": {
         "all": "All",
-        "allLabel": "{{label}}",
-        "labelCount": "{{label}} ({{count}})",
-        "noOptions": "No options",
-        "tuitionLow": "Under 500,000 ₸",
-        "tuitionMedium": "500,000 – 1,000,000 ₸",
-        "tuitionHigh": "Over 1,000,000 ₸",
-        "degreeCollege": "College",
-        "degreeBachelor": "Bachelor",
-        "degreeMaster": "Master",
-        "degreePhd": "PhD"
+        "college": "College",
+        "bachelor": "Bachelor",
+        "master": "Master",
+        "phd": "PhD"
+      },
+      "degrees": {
+        "college": "College",
+        "bachelor": "Bachelor",
+        "master": "Master",
+        "phd": "PhD"
+      },
+      "studyTypes": {
+        "full_time": "Full-time",
+        "part_time": "Part-time",
+        "distance": "Distance",
+        "evening": "Evening"
+      },
+      "modal": {
+        "addTitle": "Add programme",
+        "editTitle": "Edit programme",
+        "ntcProgramme": "NTC Programme",
+        "ntcSelect": "Select NTC programme…",
+        "localName": "Local name",
+        "localNamePlaceholder": "Programme name shown on your page",
+        "degree": "Degree",
+        "yearsOfStudy": "Years of study",
+        "yearsPlaceholder": "e.g. 4",
+        "studyType": "Study type",
+        "teachingLanguage": "Teaching language",
+        "languageSelect": "Select…",
+        "tuition": "Tuition / year (₸)",
+        "tuitionPlaceholder": "e.g. 1360000",
+        "passingScore": "Passing score (UNT)",
+        "passingPlaceholder": "e.g. 90",
+        "grantScore": "Grant score (UNT)",
+        "grantPlaceholder": "e.g. 110",
+        "description": "Description",
+        "descriptionPlaceholder": "Brief programme overview…",
+        "futureProfessions": "Future professions",
+        "futureProfessionsPlaceholder": "e.g. Software Engineer, Data Analyst…",
+        "cancel": "Cancel",
+        "save": "Save",
+        "saving": "Saving…",
+        "editLanguage": "Editing language"
+      }
     },
-    "comparison": {
-        "title": "Compare universities",
-        "summaryPrefix": "Side-by-side breakdown of",
-        "summarySuffix": "best result in each row is highlighted",
-        "unis_one": "{{count}} university",
-        "unis_other": "{{count}} universities",
-        "reorder": "Reorder",
-        "clearAll": "Clear all",
-        "comparing": "Comparing",
-        "best": "Best",
-        "noSelectedTitle": "No universities selected",
-        "noSelectedDesc": "Add up to {{count}} universities to compare side by side.",
-        "addUniversity": "Add university",
-        "searchPlaceholder": "Search universities…",
-        "noResults": "No results",
-        "remove": "Remove",
-        "est": "Est. {{year}}",
-        "yes": "Yes",
-        "no": "No",
-        "sections": {
-            "overview": "Overview",
-            "admissions": "Admissions",
-            "costs": "Costs",
-            "academics": "Academics",
-            "international": "International",
-            "campusLife": "Campus life"
-        },
-        "rows": {
-            "city": "City",
-            "founded": "Founded",
-            "website": "Website",
-            "untMinimum": "UNT minimum",
-            "entranceRequirements": "Entrance requirements",
-            "entranceExams": "Entrance exams",
-            "languages": "Languages",
-            "annualTuition": "Annual tuition",
-            "cheapestProgram": "Cheapest program",
-            "programmes": "Programmes",
-            "fieldsOfStudy": "Fields of study",
-            "accreditations": "Accreditations",
-            "partnerUniversities": "Partner universities",
-            "countries": "Countries",
-            "dormitory": "Dormitory",
-            "militaryDepartment": "Military department"
-        },
-        "overlap": {
-            "title": "Programmes overlap",
-            "summary_one": "{{count}} field offered by all {{unis}} universities",
-            "summary_other": "{{count}} fields offered by all {{unis}} universities",
-            "offeredByAll": "Offered by all",
-            "onlyAt": "Only at {{name}}",
-            "noUnique": "No fields unique to this university."
-        },
-        "why": {
-            "title": "Why pick each one",
-            "noStandout": "No standout metrics yet — add more data.",
-            "lowestTuition": "Lowest annual tuition",
-            "largestCatalogue": "Largest catalogue ({{count}} programs)",
-            "mostAccessible": "Most accessible (lowest UNT minimum)",
-            "mostLanguages": "Most languages of instruction",
-            "mostPartners": "Most international partners",
-            "mostAccreditations": "Most accreditations",
-            "oldest": "Oldest, most established",
-            "dormitory": "On-campus dormitory",
-            "militaryDept": "Military department available"
-        },
-        "ai": {
-            "title": "AI analysis",
-            "subtitle": "An objective summary of these universities for prospective students.",
-            "generate": "Generate AI analysis",
-            "regenerate": "Regenerate",
-            "loading": "Analyzing universities…",
-            "error": "Couldn't generate the analysis. Please try again.",
-            "disclaimer": "Generated by AI — verify important details with official sources."
-        }
+    "applicants": {
+      "title": "Applicants",
+      "subtitle": "Students who saved your programmes to favourites",
+      "stats": {
+        "applicants": "Applicants",
+        "applicantsCaption": "saved a programme",
+        "saved": "Programmes saved",
+        "savedCaption": "total saves",
+        "highScore": "UNT score ≥ 100",
+        "highScoreCaption": "high scorers"
+      },
+      "table": {
+        "search": "Search by name, email or programme…",
+        "applicant": "Applicant",
+        "untScore": "UNT Score",
+        "savedProgrammes": "Saved programmes",
+        "savedOn": "Saved on",
+        "loading": "Loading applicants…",
+        "empty": "No applicants yet.",
+        "noMatch": "No applicants match your search.",
+        "showing": "Showing {{shown}} of {{total}} applicants"
+      }
+    }
+  },
+  "ntcAdmin": {
+    "dashboard": {
+      "title": "National Testing Center · Overview",
+      "subtitle": "System-wide stats for the Bilimge admissions platform. Today: {{date}}.",
+      "stats": {
+        "universities": "UNIVERSITIES",
+        "universitiesValue": "{{n}} registered",
+        "universitiesSub": "{{n}} on Bilimge platform",
+        "programmes": "PROGRAMMES",
+        "programmesValue": "{{n}} in catalogue",
+        "programmesSub": "National programme registry",
+        "announcements": "ANNOUNCEMENTS",
+        "announcementsValue": "{{n}} posted",
+        "announcementsSub": "NTC platform-wide messages",
+        "avgScore": "AVG MIN. SCORE",
+        "avgScoreValue": "{{n}} points avg",
+        "avgScoreSub": "Average minimum UNT threshold"
+      },
+      "calendar": {
+        "title": "UNT Calendar",
+        "subtitle": "National testing milestones and review windows",
+        "eventsOn": "Events on {{date}}",
+        "upcoming": "Upcoming",
+        "addEvent": "Add Event",
+        "loading": "Loading…",
+        "noEvents": "No events this month.",
+        "allEvents": "All events — {{month}}",
+        "prevMonth": "Previous month",
+        "nextMonth": "Next month"
+      },
+      "topUnis": {
+        "title": "Top Universities",
+        "subtitle": "By UNT passing score"
+      },
+      "subjectChart": {
+        "title": "Programmes by subject combination",
+        "subtitle": "Distribution across the {{n}} catalogue entries"
+      },
+      "recent": {
+        "title": "Recent announcements",
+        "subtitle": "Latest NTC platform-wide messages",
+        "empty": "No announcements yet."
+      },
+      "loading": "Loading…",
+      "eventTypes": {
+        "deadline": "Deadline",
+        "exam": "Exam",
+        "enrollment": "Enrollment",
+        "open_day": "Open Day",
+        "event": "Event",
+        "announcement": "Announcement"
+      },
+      "modal": {
+        "title": "Add calendar event",
+        "subtitle": "Published platform-wide to all users.",
+        "titleLabel": "Title *",
+        "titlePlaceholder": "e.g. UNT main session begins",
+        "startDate": "Start date *",
+        "time": "Time",
+        "endDate": "End date",
+        "type": "Type",
+        "description": "Description",
+        "descriptionPlaceholder": "Optional details…",
+        "cancel": "Cancel",
+        "save": "Save event",
+        "saving": "Saving…"
+      }
     },
-    "calculator": {
-        "badge": "Chance calculator",
-        "title": "Estimate your grant chance",
-        "description": "Enter your UNT scores, choose a program, and we'll compare you against last year's grant winners and university cut-offs.",
-        "currentTotal": "Current total",
-        "subjectsTitle": "Subjects",
-        "subjectsSubtitle": "Select your two profile subjects",
-        "profileSubject1": "Profile subject 1",
-        "profileSubject2": "Profile subject 2",
-        "select": "— select —",
-        "ntcProgram": "Educational program",
-        "noProgramsMatch": "No programs match this combination.",
-        "scoresTitle": "UNT scores",
-        "scoresSubtitle": "Enter your scores for each section",
-        "scoreHint": "min {{min}} / max {{max}}",
-        "total": "Total",
-        "quotasTitle": "Quotas",
-        "quotasSubtitle": "Pick all that apply for a chance bonus",
-        "calculate": "Calculate chances",
-        "calculating": "Calculating…",
-        "reset": "Reset",
-        "calcError": "Failed to calculate. Try again.",
-        "emptyTitle": "Your results will appear here",
-        "emptySubtitle": "Fill in scores and a program, then hit Calculate.",
-        "program": "Program",
-        "bestGrantChance": "Best grant chance",
-        "averageAcrossUnis": "Average across unis",
-        "grantWinners": "Grant winners {{year}}",
-        "fieldCode": "Field {{code}}",
-        "winners": "{{count}} winners",
-        "min": "Min",
-        "avg": "Avg",
-        "max": "Max",
-        "aiInsight": "AI insight",
-        "universities": "Universities",
-        "programsCount": "{{count}} programs",
-        "noUniversities": "No university programs found for this combination.",
-        "grantScore": "grant-score {{score}}",
-        "passScore": "pass-score {{score}}",
-        "admission": "admission {{chance}}%",
-        "fromThisUni": "from this uni's 2025 winners",
-        "fieldWideFallback": "field-wide 2025 fallback",
-        "grant": "Grant",
-        "scores": {
-            "history": "History of Kazakhstan",
-            "math_literacy": "Math literacy",
-            "reading_literacy": "Reading literacy",
-            "subject_1": "Subject 1",
-            "subject_2": "Subject 2"
-        },
-        "quotas": {
-            "rural": "Rural area",
-            "large_family": "Large family",
-            "incomplete_family": "Incomplete family",
-            "serpin": "Serpin",
-            "disability": "Disability",
-            "family_disability": "Family disability",
-            "orphan": "Orphan"
-        }
-    },
-    "chatbot": {
-        "headerTitle": "AI Assistant",
-        "online": "Online · Trained on 2026 Kazakhstani admissions data",
-        "welcomeGreeting": "Hi {{name}} —",
-        "welcomeBrand": "I'm Bilimge AI",
-        "welcomeSubtitle": "Ask about Kazakhstani universities, programs, the UNT, scholarships, or your application strategy. I'll cite my sources.",
-        "inputPlaceholder": "Ask about universities, programs, the UNT, or grants...",
-        "attach": "Attach",
-        "useProfile": "Use my profile",
-        "sendHint": "⌘↵ to send",
-        "disclaimer": "AI may produce inaccurate info — verify on each university's official page.",
-        "errorMessage": "Sorry, something went wrong. Please try again.",
-        "defaultName": "there",
-        "context": {
-            "title": "Your Context",
-            "savedUnis": "Saved unis",
-            "noneSaved": "None saved yet",
-            "untAverage": "UNT average",
-            "selfReported": "Self-reported score"
-        },
-        "suggestedTitle": "Suggested Questions",
-        "quickTopicsTitle": "Quick Topics",
-        "verifiedTitle": "Verified by Bilimge",
-        "verifiedText": "All university data comes from 2026 NTC catalogue & official school pages.",
-        "actions": {
-            "universitiesCat": "Universities",
-            "universitiesText": "Which universities have the best IT programs?",
-            "grantsCat": "Grants",
-            "grantsText": "Check if I qualify for a state grant by IKT number",
-            "compareCat": "Compare",
-            "compareText": "Compare AITU and KIMEP computer science programs",
-            "untCat": "UNT",
-            "untText": "What UNT score do I need for Nazarbayev University?"
-        },
-        "topics": {
-            "costsGrants": "University costs & grants",
-            "passingScore": "Passing score requirements",
-            "citiesMost": "Cities with most universities",
-            "itTech": "IT & tech programs",
-            "checkGrant": "Check grant by IKT number",
-            "dorms": "Dorms & housing"
-        },
-        "suggestions": {
-            "bestIt": "Which universities have the best IT programs?",
-            "subjectsIt": "What subjects are required for IT admission?",
-            "tuitionIt": "What is the tuition cost for IT programs?",
-            "grantScore": "What score do I need for a grant?",
-            "grantSpecialties": "Which specialties have the most grants?",
-            "grantResult": "How do I check my grant result?"
-        }
+    "subtitle": "National Testing Center",
+    "sidebar": {
+      "dashboard": "Dashboard",
+      "announcements": "Post Announcements",
+      "programs": "Manage Programs",
+      "universities": "Manage Universities"
     },
     "announcements": {
-        "title": "Announcements",
-        "filters": {
-            "all": "All Announcements",
-            "universities": "Universities",
-            "ntc": "NTC"
-        },
-        "savedUniversities": "Saved Universities",
-        "empty": "No announcements yet.",
-        "latest": "Latest",
-        "nothingYet": "Nothing yet.",
-        "viewFullPost": "View Full Post",
-        "viewPost": "View post",
-        "pinned": "Pinned",
-        "roleUniversity": "University",
-        "roleNtcAdmin": "NTC Admin",
-        "badgeUniversity": "University",
-        "ntc": "NTC",
-        "share": "Share",
-        "tags": {
-            "event": "Event",
-            "scholarship": "Scholarship",
-            "programme": "Programme",
-            "update": "Update"
-        },
-        "manage": {
-            "title": "Post Updates",
-            "subtitle": "Announcements published here appear on your university page and applicant feeds.",
-            "newAnnouncement": "New announcement",
-            "category": "Category",
-            "loading": "Loading…",
-            "postFirst": "Post your first announcement",
-            "view": "View",
-            "filterAll": "All",
-            "newModal": {
-                "title": "New announcement",
-                "subtitle": "Will appear on your public university page and applicants' feeds.",
-                "tag": "Tag",
-                "titleLabel": "Title",
-                "titlePlaceholder": "Headline applicants will see",
-                "bodyLabel": "Body",
-                "bodyPlaceholder": "Tell applicants what's happening and what to do next...",
-                "bodyHint": "Markdown supported. Aim for 1–3 short paragraphs.",
-                "coverImage": "Cover image",
-                "optional": "(optional)",
-                "dropImage": "Drop image or click to upload",
-                "publish": "Publish",
-                "publishing": "Publishing…"
-            },
-            "editModal": {
-                "title": "Edit announcement",
-                "subtitle": "Changes will be visible immediately.",
-                "save": "Save changes",
-                "saving": "Saving…"
-            }
-        }
+      "title": "Post Announcements",
+      "subtitle": "Announcements published here appear on all university pages and applicant feeds.",
+      "newModalSubtitle": "Will appear on all university pages and applicants' feeds."
     },
-    "notifications": {
-        "title": "Notifications",
-        "markAllRead": "Mark all read",
-        "empty": "No new notifications.",
-        "aria": "Notifications",
-        "newAnnouncement": "New announcement · {{source}}",
-        "ntc": "NTC",
-        "universityFallback": "University",
-        "eventToday": "Event today",
-        "eventTomorrow": "Event tomorrow",
-        "eventInDays_one": "Event in {{count}} day",
-        "eventInDays_other": "Event in {{count}} days",
-        "justNow": "just now",
-        "minutesAgo": "{{count}}m ago",
-        "hoursAgo": "{{count}}h ago",
-        "daysAgo": "{{count}}d ago"
+    "programs": {
+      "title": "Programs",
+      "subtitle": "{{n}} programmes in the national catalogue",
+      "searchPlaceholder": "Search programmes…",
+      "showing": "Showing {{shown}} of {{total}}",
+      "empty": "No programmes found.",
+      "th": {
+        "code": "Code",
+        "name": "Name",
+        "subject1": "Subject 1",
+        "subject2": "Subject 2",
+        "minScore": "Min. Score"
+      },
+      "editModal": {
+        "title": "Edit Programme",
+        "name": "Name",
+        "namePlaceholder": "Programme name",
+        "fieldOfStudy": "Field of Study",
+        "selectField": "Select field…",
+        "subject1": "Subject 1",
+        "subject2": "Subject 2",
+        "select": "Select…",
+        "minScore": "Minimum UNT Score",
+        "minScorePlaceholder": "e.g. 50",
+        "editLanguage": "Editing language"
+      }
     },
-    "accountMenu": {
-        "myProfile": "My Profile",
-        "settings": "Settings",
-        "logout": "Log out"
-    },
-    "profile": {
-        "title": "My profile",
-        "subtitle": "Manage your personal information and password.",
-        "loading": "Loading account…",
-        "changePhoto": "Change photo",
-        "uploading": "Uploading…",
-        "accountInfo": "Account information",
-        "firstName": "First name",
-        "lastName": "Last name",
-        "email": "Email",
+    "universities": {
+      "title": "Universities",
+      "subtitle": "{{n}} universities registered on the platform",
+      "searchPlaceholder": "Search by name or city…",
+      "cityAll": "All",
+      "showing": "{{shown}} of {{total}}",
+      "empty": "No universities found.",
+      "view": {
+        "grid": "Grid",
+        "table": "Table"
+      },
+      "stats": {
+        "total": "TOTAL",
+        "totalSub": "{{n}} universities",
+        "astana": "ASTANA",
+        "astanaSub": "in Astana",
+        "almaty": "ALMATY",
+        "almatySub": "in Almaty",
+        "other": "OTHER",
+        "otherSub": "in other cities"
+      },
+      "untScore": "UNT ≥ {{score}}",
+      "th": {
+        "university": "University",
+        "city": "City",
+        "untScore": "UNT Min. Score"
+      },
+      "editModal": {
+        "title": "Edit university",
+        "subtitle": "General info shown to applicants and used for compliance.",
+        "name": "Full official name",
+        "namePlaceholder": "University name",
+        "shortName": "Short name",
+        "shortNamePlaceholder": "Abbrev. / short name",
+        "city": "City",
         "phone": "Phone",
-        "untSubjects": "UNT & subjects",
-        "untScore": "UNT score",
-        "subject1": "Profile subject 1",
-        "subject2": "Profile subject 2",
-        "notSelected": "— not selected —",
-        "savedUniversities": "Saved universities",
-        "browseUniversities": "Browse universities →",
-        "noSavedUniversities": "You haven't saved any universities yet.",
-        "removeFromFavorites": "Remove from favorites",
-        "savedPrograms": "Saved programs",
-        "loadingFavorites": "Loading favorites…",
-        "noSavedPrograms": "You haven't saved any programs yet.",
-        "explorePrograms": "Explore programs",
-        "changePassword": "Change password",
-        "current": "Current",
-        "new": "New",
-        "confirmNew": "Confirm new",
-        "passwordHint": "Leave blank to keep your current password.",
-        "changesSaved": "Changes saved",
-        "saveChanges": "Save changes",
-        "errors": {
-            "passwordsNoMatch": "New passwords do not match.",
-            "passwordTooShort": "New password must be at least 8 characters.",
-            "saveFailed": "Could not save changes.",
-            "removeFavoriteFailed": "Could not remove favorite.",
-            "uploadFailed": "Could not upload avatar."
-        },
-        "roles": {
-            "applicant": "Applicant",
-            "uniAdmin": "University Admin",
-            "ntcAdmin": "NTC Admin",
-            "superAdmin": "Super Admin"
-        }
-    },
-    "settings": {
-        "title": "Settings",
-        "subtitle": "Manage notifications, language and appearance.",
-        "notifications": {
-            "title": "Notifications",
-            "subtitle": "Choose what updates you want to receive."
-        },
-        "announcementEmails": {
-            "title": "Announcement emails",
-            "desc": "Get an email when a university or NTC posts an announcement."
-        },
-        "grantEmails": {
-            "title": "Grants check emails",
-            "desc": "Notify me when new grants are available for my profile."
-        },
-        "pushChat": {
-            "title": "Push: AI assistant",
-            "desc": "In-app push when the assistant finishes a long task."
-        },
-        "language": {
-            "title": "Language",
-            "subtitle": "Pick the language of the interface."
-        },
-        "theme": {
-            "title": "Theme",
-            "subtitle": "Switch between light and dark mode.",
-            "light": "Light",
-            "dark": "Dark"
-        },
-        "settingsSaved": "Settings saved",
-        "unsavedChanges": "You have unsaved changes.",
-        "upToDate": "All settings are up to date.",
+        "address": "Address",
+        "addressPlaceholder": "Street, City, Postal code",
+        "email": "Email",
+        "website": "Website",
         "saveChanges": "Save changes"
-    },
-    "uniAdmin": {
-        "sidebar": {
-            "dashboard": "Dashboard",
-            "profile": "University Profile",
-            "programs": "Programs",
-            "updates": "Post Updates",
-            "applicants": "Applicants"
-        },
-        "dashboard": {
-            "greeting": "Welcome back, {{name}}",
-            "subtitleWithUni": "Here's what's happening at {{uni}} today, {{date}}.",
-            "subtitle": "Here's what's happening today, {{date}}.",
-            "stats": {
-                "followers": "TOTAL FOLLOWERS",
-                "followersValue": "{{n}} applicants",
-                "announcements": "ANNOUNCEMENTS",
-                "announcementsValue": "{{n}} posted",
-                "saved": "PROGRAMMES SAVED",
-                "savedValue": "{{n}} total",
-                "active": "ACTIVE PROGRAMMES",
-                "activeValue": "{{n}} published"
-            },
-            "calendar": {
-                "title": "Calendar",
-                "addEvent": "Add Event",
-                "eventsOn": "Events on {{date}}",
-                "allEvents": "All events — {{month}}",
-                "loading": "Loading…",
-                "noEvents": "No events this month.",
-                "prevMonth": "Previous month",
-                "nextMonth": "Next month"
-            },
-            "modal": {
-                "title": "Add calendar event",
-                "subtitle": "Visible to your university followers.",
-                "titleLabel": "Title *",
-                "titlePlaceholder": "e.g. Open Day – Spring intake",
-                "startDate": "Start date *",
-                "time": "Time",
-                "endDate": "End date",
-                "type": "Type",
-                "description": "Description",
-                "descriptionPlaceholder": "Optional details…",
-                "cancel": "Cancel",
-                "save": "Save event",
-                "saving": "Saving…"
-            },
-            "eventTypes": {
-                "deadline": "Deadline",
-                "exam": "Exam",
-                "enrollment": "Enrollment",
-                "open_day": "Open Day",
-                "event": "Event",
-                "announcement": "Announcement"
-            },
-            "popularity": {
-                "title": "Programme popularity",
-                "subtitle": "Times saved by applicants",
-                "empty": "No programme saves yet."
-            },
-            "funnel": {
-                "title": "Applicant funnel",
-                "subtitle": "From followers to strong candidates",
-                "empty": "No applicants yet.",
-                "followers": "Followers",
-                "savedProgramme": "Saved a programme",
-                "withScore": "With UNT score",
-                "highScore": "UNT score ≥ 100"
-            }
-        },
-        "profile": {
-            "loading": "Loading profile…",
-            "kazakhstan": "Kazakhstan",
-            "founded": "Founded {{year}}",
-            "uploading": "Uploading…",
-            "uploadCover": "Upload cover image",
-            "changeCover": "Change cover",
-            "editLanguage": "Editing language",
-            "tabs": {
-                "overview": "Overview",
-                "contacts": "Contacts & Social",
-                "accreditations": "Accreditations",
-                "mobility": "Academic Mobility"
-            },
-            "common": {
-                "edit": "Edit",
-                "add": "Add",
-                "adding": "Adding…",
-                "cancel": "Cancel",
-                "save": "Save Changes",
-                "saving": "Saving…",
-                "saved": "Saved"
-            },
-            "basic": {
-                "title": "Basic information",
-                "officialName": "Official name",
-                "shortName": "Short name",
-                "yearFounded": "Year founded",
-                "cityCountry": "City, Country",
-                "address": "Address",
-                "tuition": "Tuition cost (₸/year)",
-                "about": "About",
-                "dormitory": "Dormitory",
-                "militaryDept": "Military dept.",
-                "shortNamePlaceholder": "e.g. AITU",
-                "website": "Website",
-                "passingScore": "Min. Passing Score (UNT)",
-                "aboutHistory": "About / History",
-                "facilities": "Facilities",
-                "dormitorySub": "On-campus accommodation available",
-                "militaryLabel": "Military Department",
-                "militarySub": "Military training available"
-            },
-            "languages": {
-                "title": "Teaching Languages",
-                "empty": "No teaching languages added yet.",
-                "select": "Select language…"
-            },
-            "requirements": {
-                "title": "Entrance Requirements",
-                "empty": "No requirements added yet.",
-                "placeholder": "Describe the requirement…"
-            },
-            "exams": {
-                "title": "Entrance Exams",
-                "empty": "No entrance exams added yet.",
-                "namePlaceholder": "Exam name",
-                "descPlaceholder": "Description (optional)",
-                "addExam": "Add Exam"
-            },
-            "contacts": {
-                "title": "Contact details",
-                "email": "Admissions email",
-                "emailPlaceholder": "admissions@university.kz",
-                "phone": "Phone",
-                "phonePlaceholder": "+7 (000) 000-00-00",
-                "postalAddress": "Postal address",
-                "postalPlaceholder": "Street, City, ZIP"
-            },
-            "social": {
-                "title": "Social media",
-                "instagram": "Instagram URL",
-                "instagramPlaceholder": "https://instagram.com/university",
-                "telegram": "Telegram URL",
-                "telegramPlaceholder": "https://t.me/university"
-            },
-            "accreditations": {
-                "title": "Institutional Accreditations",
-                "empty": "No accreditations added yet.",
-                "namePlaceholder": "Accreditation name",
-                "issuedByPlaceholder": "Issued by",
-                "issuedByPlaceholderLong": "Issued by (e.g. Ministry of Education)",
-                "validUntil": "Valid until",
-                "validUntilOptional": "Valid until (optional)",
-                "issuedByLabel": "Issued by: {{name}}",
-                "validUntilLabel": "Valid until: {{date}}",
-                "add": "Add Accreditation"
-            },
-            "mobility": {
-                "title": "Partner Universities",
-                "empty": "No partner universities added yet.",
-                "namePlaceholder": "Partner university name",
-                "country": "Country",
-                "add": "Add Partner"
-            }
-        },
-        "programs": {
-            "title": "Programs",
-            "subtitle": "{{total}} programmes · {{open}} open for applications",
-            "addProgramme": "Add programme",
-            "search": "Search programmes…",
-            "showing": "Showing {{shown}} of {{total}}",
-            "empty": "No programmes found.",
-            "addFirst": "Add your first programme",
-            "open": "Open",
-            "tuitionYear": "Tuition / Year",
-            "untMin": "UNT ≥ {{score}}",
-            "subjects": "Subjects",
-            "savedBy": "Saved by",
-            "edit": "Edit",
-            "years": "{{n}} years",
-            "filters": {
-                "all": "All",
-                "college": "College",
-                "bachelor": "Bachelor",
-                "master": "Master",
-                "phd": "PhD"
-            },
-            "degrees": {
-                "college": "College",
-                "bachelor": "Bachelor",
-                "master": "Master",
-                "phd": "PhD"
-            },
-            "studyTypes": {
-                "full_time": "Full-time",
-                "part_time": "Part-time",
-                "distance": "Distance",
-                "evening": "Evening"
-            },
-            "modal": {
-                "addTitle": "Add programme",
-                "editTitle": "Edit programme",
-                "ntcProgramme": "NTC Programme",
-                "ntcSelect": "Select NTC programme…",
-                "localName": "Local name",
-                "localNamePlaceholder": "Programme name shown on your page",
-                "degree": "Degree",
-                "yearsOfStudy": "Years of study",
-                "yearsPlaceholder": "e.g. 4",
-                "studyType": "Study type",
-                "teachingLanguage": "Teaching language",
-                "languageSelect": "Select…",
-                "tuition": "Tuition / year (₸)",
-                "tuitionPlaceholder": "e.g. 1360000",
-                "passingScore": "Passing score (UNT)",
-                "passingPlaceholder": "e.g. 90",
-                "grantScore": "Grant score (UNT)",
-                "grantPlaceholder": "e.g. 110",
-                "description": "Description",
-                "descriptionPlaceholder": "Brief programme overview…",
-                "futureProfessions": "Future professions",
-                "futureProfessionsPlaceholder": "e.g. Software Engineer, Data Analyst…",
-                "cancel": "Cancel",
-                "save": "Save",
-                "saving": "Saving…",
-                "editLanguage": "Editing language"
-            }
-        },
-        "applicants": {
-            "title": "Applicants",
-            "subtitle": "Students who saved your programmes to favourites",
-            "stats": {
-                "applicants": "Applicants",
-                "applicantsCaption": "saved a programme",
-                "saved": "Programmes saved",
-                "savedCaption": "total saves",
-                "highScore": "UNT score ≥ 100",
-                "highScoreCaption": "high scorers"
-            },
-            "table": {
-                "search": "Search by name, email or programme…",
-                "applicant": "Applicant",
-                "untScore": "UNT Score",
-                "savedProgrammes": "Saved programmes",
-                "savedOn": "Saved on",
-                "loading": "Loading applicants…",
-                "empty": "No applicants yet.",
-                "noMatch": "No applicants match your search.",
-                "showing": "Showing {{shown}} of {{total}} applicants"
-            }
-        }
-    },
-    "ntcAdmin": {
-        "dashboard": {
-            "title": "National Testing Center · Overview",
-            "subtitle": "System-wide stats for the Bilimge admissions platform. Today: {{date}}.",
-            "stats": {
-                "universities": "UNIVERSITIES",
-                "universitiesValue": "{{n}} registered",
-                "universitiesSub": "{{n}} on Bilimge platform",
-                "programmes": "PROGRAMMES",
-                "programmesValue": "{{n}} in catalogue",
-                "programmesSub": "National programme registry",
-                "announcements": "ANNOUNCEMENTS",
-                "announcementsValue": "{{n}} posted",
-                "announcementsSub": "NTC platform-wide messages",
-                "avgScore": "AVG MIN. SCORE",
-                "avgScoreValue": "{{n}} points avg",
-                "avgScoreSub": "Average minimum UNT threshold"
-            },
-            "calendar": {
-                "title": "UNT Calendar",
-                "subtitle": "National testing milestones and review windows",
-                "eventsOn": "Events on {{date}}",
-                "upcoming": "Upcoming",
-                "addEvent": "Add Event",
-                "loading": "Loading…",
-                "noEvents": "No events this month.",
-                "allEvents": "All events — {{month}}",
-                "prevMonth": "Previous month",
-                "nextMonth": "Next month"
-            },
-            "topUnis": {
-                "title": "Top Universities",
-                "subtitle": "By UNT passing score"
-            },
-            "subjectChart": {
-                "title": "Programmes by subject combination",
-                "subtitle": "Distribution across the {{n}} catalogue entries"
-            },
-            "recent": {
-                "title": "Recent announcements",
-                "subtitle": "Latest NTC platform-wide messages",
-                "empty": "No announcements yet."
-            },
-            "loading": "Loading…",
-            "eventTypes": {
-                "deadline": "Deadline",
-                "exam": "Exam",
-                "enrollment": "Enrollment",
-                "open_day": "Open Day",
-                "event": "Event",
-                "announcement": "Announcement"
-            },
-            "modal": {
-                "title": "Add calendar event",
-                "subtitle": "Published platform-wide to all users.",
-                "titleLabel": "Title *",
-                "titlePlaceholder": "e.g. UNT main session begins",
-                "startDate": "Start date *",
-                "time": "Time",
-                "endDate": "End date",
-                "type": "Type",
-                "description": "Description",
-                "descriptionPlaceholder": "Optional details…",
-                "cancel": "Cancel",
-                "save": "Save event",
-                "saving": "Saving…"
-            }
-        },
-        "subtitle": "National Testing Center",
-        "sidebar": {
-            "dashboard": "Dashboard",
-            "announcements": "Post Announcements",
-            "programs": "Manage Programs",
-            "universities": "Manage Universities"
-        },
-        "announcements": {
-            "title": "Post Announcements",
-            "subtitle": "Announcements published here appear on all university pages and applicant feeds.",
-            "newModalSubtitle": "Will appear on all university pages and applicants' feeds."
-        },
-        "programs": {
-            "title": "Programs",
-            "subtitle": "{{n}} programmes in the national catalogue",
-            "searchPlaceholder": "Search programmes…",
-            "showing": "Showing {{shown}} of {{total}}",
-            "empty": "No programmes found.",
-            "th": {
-                "code": "Code",
-                "name": "Name",
-                "subject1": "Subject 1",
-                "subject2": "Subject 2",
-                "minScore": "Min. Score"
-            },
-            "editModal": {
-                "title": "Edit Programme",
-                "name": "Name",
-                "namePlaceholder": "Programme name",
-                "fieldOfStudy": "Field of Study",
-                "selectField": "Select field…",
-                "subject1": "Subject 1",
-                "subject2": "Subject 2",
-                "select": "Select…",
-                "minScore": "Minimum UNT Score",
-                "minScorePlaceholder": "e.g. 50",
-                "editLanguage": "Editing language"
-            }
-        },
-        "universities": {
-            "title": "Universities",
-            "subtitle": "{{n}} universities registered on the platform",
-            "searchPlaceholder": "Search by name or city…",
-            "cityAll": "All",
-            "showing": "{{shown}} of {{total}}",
-            "empty": "No universities found.",
-            "view": {
-                "grid": "Grid",
-                "table": "Table"
-            },
-            "stats": {
-                "total": "TOTAL",
-                "totalSub": "{{n}} universities",
-                "astana": "ASTANA",
-                "astanaSub": "in Astana",
-                "almaty": "ALMATY",
-                "almatySub": "in Almaty",
-                "other": "OTHER",
-                "otherSub": "in other cities"
-            },
-            "untScore": "UNT ≥ {{score}}",
-            "th": {
-                "university": "University",
-                "city": "City",
-                "untScore": "UNT Min. Score"
-            },
-            "editModal": {
-                "title": "Edit university",
-                "subtitle": "General info shown to applicants and used for compliance.",
-                "name": "Full official name",
-                "namePlaceholder": "University name",
-                "shortName": "Short name",
-                "shortNamePlaceholder": "Abbrev. / short name",
-                "city": "City",
-                "phone": "Phone",
-                "address": "Address",
-                "addressPlaceholder": "Street, City, Postal code",
-                "email": "Email",
-                "website": "Website",
-                "saveChanges": "Save changes"
-            }
-        }
+      }
     }
+  }
 }

@@ -25,7 +25,7 @@ export default function ResetPasswordPage() {
       await authService.resetPassword({ email });
       setSent(true);
     } catch {
-      setError("Something went wrong. Please try again.");
+      setError(t("errors.generic"));
     } finally {
       setLoading(false);
     }
@@ -43,25 +43,24 @@ export default function ResetPasswordPage() {
             <div className="flex flex-col gap-6">
               <div className="flex items-center gap-3">
                 <IoCheckmarkCircleOutline className="text-4xl text-green-500 flex-shrink-0" />
-                <h1 className="text-3xl font-bold text-gray-900">Check your inbox</h1>
+                <h1 className="text-3xl font-bold text-gray-900">{t("auth.checkInbox")}</h1>
               </div>
               <p className="text-gray-600 text-md leading-relaxed">
-                If an account exists for <span className="font-medium text-[#111928]">{email}</span>,
-                you will receive a password reset link shortly.
+                {t("auth.resetSentMessage", { email })}
               </p>
               <Link
                 to="/auth/login"
                 className="inline-block text-center w-full py-3 px-7 rounded-lg bg-[#3356AA] hover:bg-blue-700 text-white font-medium text-md transition"
               >
-                Back to Sign In
+                {t("auth.backToSignIn")}
               </Link>
             </div>
           ) : (
             <div className="flex flex-col gap-10">
               <div className="flex flex-col gap-2">
-                <h1 className="text-3xl font-bold text-gray-900">Forgot Password?</h1>
+                <h1 className="text-3xl font-bold text-gray-900">{t("auth.forgotPassword")}</h1>
                 <p className="text-gray-500 text-sm">
-                  Enter your email and we'll send you a reset link.
+                  {t("auth.forgotPasswordSubtitle")}
                 </p>
               </div>
 
@@ -102,13 +101,13 @@ export default function ResetPasswordPage() {
                   disabled={loading}
                   className="mt-1 w-full py-3 px-7 rounded-lg bg-[#3356AA] hover:bg-blue-700 active:bg-blue-800 text-white font-medium text-md transition disabled:opacity-60 disabled:cursor-not-allowed"
                 >
-                  {loading ? "Sending…" : "Send Reset Link"}
+                  {loading ? t("auth.sending") : t("auth.sendResetLink")}
                 </button>
 
                 <p className="text-center text-sm text-gray-500">
-                  Remembered your password?{" "}
+                  {t("auth.rememberedPassword")}{" "}
                   <Link to="/auth/login" className="text-[#3356AA] font-medium hover:text-blue-700 transition">
-                    Sign In
+                    {t("auth.signIn")}
                   </Link>
                 </p>
               </form>
@@ -121,8 +120,8 @@ export default function ResetPasswordPage() {
           <div className="absolute -top-35 -left-24 w-[495px] h-[495px] rounded-full" style={{ background: "linear-gradient(180deg, rgba(255,255,255,0.16) 18%, rgba(255,255,255,0) 100%)" }} />
           <div className="absolute top-0 -left-40 w-[354px] h-[354px] rounded-full" style={{ background: "linear-gradient(180deg, rgba(255,255,255,0.2) 18%, rgba(255,255,255,0) 100%)" }} />
           <div className="absolute bottom-12 right-14 w-[85px] h-[85px] rounded-full" style={{ background: "linear-gradient(180deg, rgba(255,255,255,0.16) 18%, rgba(255,255,255,0) 100%)" }} />
-          <p className="relative z-10 text-white text-[28px] font-bold leading-snug">
-            Hey,<br />welcome back to Bilimge!
+          <p className="relative z-10 text-white text-[28px] font-bold leading-snug whitespace-pre-line">
+            {t("auth.welcomeBack")}
           </p>
         </div>
       </div>

@@ -21,7 +21,7 @@ export default function Pagination({
       <button
         onClick={() => onPageChange(currentPage - 1)}
         disabled={currentPage === 1}
-        className="px-3 py-2 border border-stroke rounded-md disabled:opacity-50 hover:bg-gray-100 text-secondary_text"
+        className="px-3 py-2 rounded-md disabled:opacity-50 hover:bg-gray-100 text-secondary_text"
       >
         Previous
       </button>
@@ -33,8 +33,8 @@ export default function Pagination({
           onClick={() => onPageChange(page)}
           className={`px-3 py-2 rounded-md font-semibold ${
             page === currentPage
-              ? "bg-primary text-white"
-              : "border border-stroke text-secondary_text hover:bg-gray-100"
+              ? "bg-primary text-black"
+              : "bg-[#3356AA] text-secondary_text text-white hover:bg-gray-100 hover:text-black"
           }`}
         >
           {page}
@@ -45,7 +45,7 @@ export default function Pagination({
       <button
         onClick={() => onPageChange(currentPage + 1)}
         disabled={currentPage === totalPages}
-        className="px-3 py-2 border border-stroke rounded-md disabled:opacity-50 hover:bg-gray-100 text-secondary_text"
+        className="px-3 py-2 rounded-md disabled:opacity-50 hover:bg-gray-100 text-secondary_text"
       >
         Next
       </button>
